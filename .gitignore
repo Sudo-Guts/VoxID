@@ -1,0 +1,50 @@
+
+# =============================================================================
+#   Proyecto : VoxID
+#   Archivo  : .gitignore
+#   Autor    : Gustavo Ruiz Luis
+# =============================================================================
+#
+#   Define los archivos y directorios que Git debe ignorar para evitar
+#   almacenar resultados de compilacion, respaldos automaticos y archivos
+#   temporales generados por KiCad y los editores de codigo.
+#
+#   Los archivos fuente, esquematicos, diseños de PCB, simulaciones y
+#   documentacion del proyecto se mantienen bajo control de versiones.
+#
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+#   Archivos Generados por la Compilacion
+# -----------------------------------------------------------------------------
+
+/C0DE/out/*
+!/C0DE/out/.gitkeep
+
+# -----------------------------------------------------------------------------
+#   Archivos Locales y Temporales de KiCad
+# -----------------------------------------------------------------------------
+
+*.kicad_prl
+*.lck
+*.kicad_sch-bak
+*.kicad_pcb-bak
+fp-info-cache
+
+# Respaldos y autoguardados
+*-backups/
+_autosave-*
+
+# Historial local de KiCad
+**/.history/
+**/.history_trim/
+
+# -----------------------------------------------------------------------------
+#   Archivos Temporales de Editores
+# -----------------------------------------------------------------------------
+
+*.swp
+*.swo
+*~
+
+

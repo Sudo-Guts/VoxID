@@ -1,0 +1,328 @@
+VoxID | CHECKLIST MAESTRO DEL PROYECTO
+Versión: 1.0 | Fecha base: 2026-10-11
+Ubicación de trabajo: VoxID/DOC/CheckList.txt
+Fuente de recuperación: VoxID_B1 (conservar intacta)
+
+PROPÓSITO
+Desarrollar y validar un sistema embebido de identificación de hablante a partir
+ de voz capturada por micrófono electret, acondicionamiento analógico, ADC,
+procesamiento digital, extracción de MFCC e identificación del hablante.
+Identificación de hablante NO es reconocimiento del contenido de la voz.
+
+ESTADOS
+[x] Hecho y verificado con evidencia disponible.
+[-] En curso; la tarea todavía no cumple su criterio de cierre.
+[ ] Pendiente; no asumir implementación ni validación.
+[?] Por decidir; la decisión debe documentarse antes de implementar.
+
+REGLAS DE SEGUIMIENTO
+- No marcar [x] solo por tener un archivo: comprobar que abre, funciona o cumple
+  el ensayo definido y, cuando corresponda, guardar evidencia.
+- Registrar acuerdos y cambios importantes en README o DOC/CheckList.txt.
+- Mantener C0DE/Makefile, C0DE/{inc,src,out}, DOC, PCB/<placa> y SIM.
+- Conservar .gitkeep en C0DE/out; los binarios no se versionan en Git.
+- Los valores numéricos no decididos se anotarán tras medir, calcular o consultar
+  la documentación del microcontrolador y de los componentes.
+- Revisar este checklist al cerrar cada etapa y antes de empezar otra.
+
+==========================================================================
+ETAPA 00 | RECUPERACIÓN Y ORGANIZACIÓN  [INFRAESTRUCTURA]
+==========================================================================
+[x] Crear VoxID como carpeta de trabajo separada de VoxID_B1.
+[x] Crear README.md y .gitignore en la raíz.
+[x] Crear C0DE/Makefile y las carpetas inc/, src/ y out/ con .gitkeep.
+[x] Crear DOC/CheckList.txt.
+[x] Crear PCB/Microfono/ y copiar los archivos fuente .kicad_pro/.kicad_sch/.kicad_pcb.
+[x] Crear PCB/Microfono/fabrication/ y copiar los dos archivos de perforación.
+[x] Copiar Microfono.csv a DOC/ como lista de materiales preliminar.
+[x] Copiar a SIM/ los nueve archivos de simulación/modelos sin alterar sus nombres.
+[x] Mantener VoxID_B1, su historial y sus respaldos originales sin cambios.
+[ ] Confirmar que todas las copias relevantes son legibles (comparar tamaño/hash
+    cuando se disponga de los archivos locales).
+[ ] Comprobar apertura y enlaces de los archivos de KiCad.
+[ ] Comprobar apertura y ejecución de los archivos de PSIM/SPICE.
+[ ] Crear o vincular repositorio Git de VoxID; realizar primer commit revisado.
+[ ] Verificar que .gitignore excluye temporales/binarios sin excluir las fuentes.
+
+CRITERIO DE CIERRE: estructura reproducible, fuentes recuperadas, apertura
+comprobada y primer commit identificado. Tener archivos copiados no equivale
+por sí mismo a pasar este criterio.
+
+==========================================================================
+ETAPA 01 | ALCANCE, REQUISITOS Y ARQUITECTURA  [DECISIONES]
+==========================================================================
+[ ] Escribir objetivo, entregables y límites del proyecto (prototipo funcional).
+[?] Resolver la plataforma de adquisición/procesamiento:
+    STM32F407, Ophyra o arquitectura combinada.
+[?] Determinar qué significa 'identificar': conjunto cerrado de hablantes,
+    presencia de desconocidos o ambos escenarios.
+[?] Establecer número objetivo de hablantes y proceso de registro.
+[?] Definir si el sistema funcionará en tiempo real, fuera de línea o ambos.
+[?] Establecer interfaz de resultado (serie, pantalla, aplicación, etc.).
+[ ] Definir el diagrama de bloques de hardware y el flujo del firmware.
+[ ] Establecer límites de alimentación, consumo y condiciones de operación.
+[ ] Definir criterios medibles de latencia, exactitud, robustez y memoria,
+    coherentes con el hardware y la aplicación.
+[ ] Decidir el rango útil de voz y justificar el filtro analógico 100 Hz–6 kHz.
+[ ] Definir fs de muestreo, resolución del ADC y margen antialiasing.
+[ ] Definir formato de muestras, duración de ventanas y almacenamiento/buffers.
+[ ] Describir el recorrido completo desde MIC hasta identidad del hablante.
+[ ] Documentar las decisiones técnicas y sus motivos en DOC/ o README.
+
+CRITERIO DE CIERRE: arquitectura aprobada, requisitos cuantificables y
+criterios de aceptación explícitos; sin contradicción de plataforma.
+
+==========================================================================
+ETAPA 02 | ACONDICIONAMIENTO ANALÓGICO  [DISEÑO ELÉCTRICO]
+==========================================================================
+[ ] Identificar especificaciones reales del micrófono electret y su polarización.
+[ ] Revisar circuito de entrada, acoplamiento y nivel de señal del micrófono.
+[ ] Calcular y verificar ganancia total; establecer margen contra saturación.
+[ ] Revisar etapa de preamplificación y su contribución de ruido.
+[ ] Recalcular HPF Butterworth de 4.º orden (fc objetivo: 100 Hz).
+[ ] Recalcular LPF Butterworth de 4.º orden (fc objetivo: 6 kHz).
+[ ] Verificar topología, Q, ganancia y sensibilidad a tolerancias de cada etapa.
+[ ] Contrastar valores reales de R/C del esquemático con los simulados.
+[ ] Verificar modelos TL071/TL072, alimentación, rango de entrada/salida,
+    ancho de banda, slew rate y comportamiento frente a carga del circuito.
+[ ] Definir y validar alimentación analógica y desacoplo (±12 V propuestos).
+[ ] Revisar regulación a 3.3 V, distribución de tierra y retorno de corriente.
+[ ] Diseñar la adaptación de nivel/offset hacia el ADC si corresponde.
+[ ] Validar que todo transitorio y señal de salida cumple el rango eléctrico
+    permitido de la entrada ADC del dispositivo elegido.
+[ ] Revisar el diseño de protección de ADC (no asumir BAT54 instalado).
+[ ] Justificar la impedancia de salida, tiempo de muestreo y carga del ADC.
+[ ] Revisar ruido, interferencias, acoplos y tolerancias de componentes.
+[ ] Revisar cómo se medirán las señales de cada etapa mediante test points.
+
+CRITERIO DE CIERRE: esquemático analógico consistente con cálculos,
+componentes disponibles, alimentación y ADC; sin supuestos eléctricos abiertos.
+
+==========================================================================
+ETAPA 03 | SIMULACIÓN Y VERIFICACIÓN ANALÓGICA  [SIM/]
+==========================================================================
+[ ] Abrir y ejecutar Filtro.psimsch (modelo ideal) sin errores.
+[ ] Abrir y ejecutar Filtro_TL072.psimsch con modelos reales sin errores.
+[ ] Revisar pinout del subcircuito SPICE y conexiones de alimentación de cada etapa.
+[ ] Eliminar referencias absolutas de Windows de Filtro_TL072.cir o
+    documentar una configuración portable reproducible.
+[ ] Reproducir AC Sweep y registrar la respuesta de 1 Hz a 50 kHz.
+[ ] Medir cortes a -3 dB, banda pasante, ganancia y atenuación fuera de banda.
+[ ] Comparar explícitamente el filtro ideal y el filtro con modelos TL072.
+[ ] Comprobar si los dos archivos .fra son resultados independientes,
+    ya que los datos guardados parecen idénticos.
+[ ] Ejecutar simulación transitoria para amplitudes de entrada previstas.
+[ ] Comprobar offset, saturación, arranque y respuesta a cambios bruscos.
+[ ] Evaluar variaciones de R/C, alimentación y temperatura, si el simulador
+    y los modelos ofrecen parámetros adecuados.
+[ ] Comparar los resultados de simulación con cálculos analíticos.
+[ ] Guardar configuración y resultados que permitan reproducir cada ensayo.
+
+CRITERIO DE CIERRE: respuesta medida en simulación y documentada; resultados
+reproducibles con el modelo real, no solo con operacionales ideales.
+
+==========================================================================
+ETAPA 04 | KICAD, BOM Y FABRICACIÓN  [PCB/Microfono/]
+==========================================================================
+[ ] Abrir Microfono.kicad_pro, .kicad_sch y .kicad_pcb sin dependencias rotas.
+[ ] Ejecutar ERC; corregir errores y justificar advertencias restantes.
+[ ] Ejecutar DRC; corregir errores y justificar advertencias restantes.
+[ ] Comparar todas las referencias entre esquema, placa y BOM.
+[ ] Revisar discrepancia R4: BOM preliminar 30 kOhm frente a esquema/PCB
+    anteriormente reportados con 10 kOhm; verificar fuente actual.
+[ ] Revisar J5 presente en esquema y ausente de PCB según revisión previa.
+[ ] Comprobar RV9 y todos los componentes/puntos de prueba faltantes en BOM.
+[ ] Revisar valor, tecnología, polaridad, tensión nominal y huella de capacitores.
+[ ] Revisar huellas, orientaciones, pines y encapsulados reales (TL072 DIP-8,
+    regulador, micrófono, conectores y elementos ajustables).
+[ ] Revisar pistas, anchos, holguras, vías, zonas de tierra y retornos.
+[ ] Revisar separación de señales analógicas y alimentación; desacoplo cercano.
+[ ] Validar la accesibilidad de conectores, ajustes y puntos de prueba.
+[ ] Exportar BOM final y compararla con componentes a comprar/ensamblar.
+[ ] Generar todos los Gerbers necesarios y archivos PTH/NPTH.
+[ ] Inspeccionar las capas y contornos en visor Gerber independiente.
+[ ] Comprobar reglas y requisitos del fabricante antes de enviar a fabricación.
+[ ] Etiquetar versión/revisión de PCB y archivar paquete de fabricación validado.
+
+CRITERIO DE CIERRE: ERC/DRC resueltos, BOM reconciliada, archivos completos
+verificados y PCB lista para fabricar; no basta con tener perforaciones .drl.
+
+==========================================================================
+ETAPA 05 | ENSAMBLE Y CARACTERIZACIÓN FÍSICA  [HARDWARE]
+==========================================================================
+[ ] Definir proceso y secuencia de montaje/inspección.
+[ ] Confirmar disponibilidad y equivalencias de componentes físicos.
+[ ] Inspeccionar la placa antes del ensamble (cortos, continuidad, huellas).
+[ ] Ensamblar y revisar visualmente polaridades, soldaduras y conectores.
+[ ] Verificar continuidad y ausencia de cortos con alimentación desconectada.
+[ ] Encender por primera vez con limitación de corriente adecuada.
+[ ] Medir alimentaciones, consumo y estabilidad; registrar resultados.
+[ ] Validar funcionamiento del micrófono y preamplificador con señal conocida.
+[ ] Medir amplitud y respuesta en frecuencia de las etapas de filtrado.
+[ ] Medir offset, ruido de salida, recorte y comportamiento de transitorios.
+[ ] Comparar respuesta física con la simulación y registrar desviaciones.
+[ ] Medir salida hacia ADC bajo los peores casos razonables de entrada.
+[ ] Corregir defectos y anotar revisión del hardware cuando corresponda.
+
+CRITERIO DE CIERRE: placa operativa y caracterizada, con valores medidos y
+señal compatible con ADC; sin fallas de alimentación o niveles inseguros.
+
+==========================================================================
+ETAPA 06 | TOOLCHAIN, HAL/DRIVERS Y BASE DE FIRMWARE  [C0DE/]
+==========================================================================
+[ ] Seleccionar toolchain, startup, linker script y modo de programación
+    propios del MCU/SoC elegido.
+[ ] Completar C0DE/Makefile con objetivos de compilación, clean y size,
+    y otros objetivos solo si el dispositivo los necesita.
+[ ] Mantener dependencias, objetos y binarios en C0DE/out.
+[ ] Separar módulos y cabeceras entre C0DE/src y C0DE/inc sin añadir carpetas
+    que no estén justificadas por el código real.
+[ ] Implementar inicialización de reloj y verificar frecuencia efectiva.
+[ ] Configurar GPIO y periféricos imprescindibles para el sistema.
+[ ] Implementar base de tiempo y administración de errores/estados.
+[ ] Habilitar mecanismo de depuración y reporte de resultados.
+[ ] Compilar firmware mínimo con advertencias revisadas.
+[ ] Programar hardware y demostrar funcionamiento de prueba reproducible.
+[ ] Documentar cómo compilar, grabar y depurar desde la terminal.
+
+CRITERIO DE CIERRE: firmware mínimo compilable, programable y verificable;
+procedimiento documentado, sin depender de un IDE específico.
+
+==========================================================================
+ETAPA 07 | ADC Y CAPTURA DIGITAL DE AUDIO  [ADQUISICIÓN]
+==========================================================================
+[ ] Configurar referencia, resolución, canal, tiempo de muestreo y disparo ADC.
+[ ] Implementar muestreo a fs definida usando temporizador u otro mecanismo
+    con temporización comprobable.
+[ ] Seleccionar interrupciones/DMA/buffering según capacidad de plataforma.
+[ ] Diseñar buffer circular o doble buffer; comprobar ausencia de pérdidas.
+[ ] Probar ADC inicialmente con una señal conocida antes del micrófono.
+[ ] Medir frecuencia efectiva de muestreo, jitter y continuidad de bloques.
+[ ] Validar conversión ADC->muestras y compensación de offset/escala.
+[ ] Implementar captura y exportación de registros de prueba cuando proceda.
+[ ] Verificar límites del ADC sin saturación y con niveles de ruido aceptables.
+[ ] Comprobar captura de voz real y repetibilidad entre ejecuciones.
+
+CRITERIO DE CIERRE: audio digital capturado a ritmo estable, íntegro y
+reproducible, con evidencia de pruebas de señales y voz.
+
+==========================================================================
+ETAPA 08 | PREPROCESAMIENTO Y EXTRACCIÓN MFCC  [DSP]
+==========================================================================
+[ ] Definir normalización, remoción de DC y eventual preénfasis, justificados.
+[ ] Definir segmentación temporal: tamaño, desplazamiento y traslape de ventana.
+[ ] Implementar función de ventana y transformada FFT.
+[ ] Configurar banco de filtros Mel (frecuencias y número de bancos).
+[ ] Implementar energía/logaritmo y transformada para obtener MFCC.
+[ ] Seleccionar cantidad de coeficientes y tratamiento de energía/c0.
+[ ] Evaluar características adicionales (delta/delta-delta), si mejoran el
+    método seleccionado sin exceder recursos.
+[ ] Validar resultados intermedios con vectores de referencia independientes.
+[ ] Definir representación numérica: flotante o punto fijo según plataforma.
+[ ] Medir RAM, ROM, tiempo de cómputo y estabilidad numérica.
+[ ] Probar MFCC con voz capturada, ruido y silencios.
+[ ] Establecer criterio de detección de actividad de voz (VAD) o mecanismo
+    de recorte/selección de segmentos, según requisitos.
+
+CRITERIO DE CIERRE: MFCC repetibles y contrastados con una referencia,
+calculados dentro de límites de memoria y tiempo de la plataforma.
+
+==========================================================================
+ETAPA 09 | BASE DE VOCES E IDENTIFICACIÓN DE HABLANTE  [ALGORITMO]
+==========================================================================
+[ ] Definir participantes, cantidad de muestras, frases/sesiones y entorno.
+[ ] Obtener consentimiento para grabar, almacenar y procesar voz de pruebas.
+[ ] Definir etiquetado, almacenamiento, acceso y eliminación de muestras.
+[ ] Separar datos de registro/entrenamiento y evaluación evitando filtración
+    de grabaciones de la misma toma entre ambos conjuntos.
+[ ] Definir qué características se guardarán como plantilla por hablante.
+[?] Seleccionar clasificador/comparador: distancias, DTW, GMM u otro método
+    justificado por requisitos y capacidad computacional.
+[ ] Implementar registro de nuevos hablantes y manejo de sus plantillas.
+[ ] Implementar comparación/clasificación de una muestra nueva.
+[ ] Si habrá hablantes desconocidos, definir rechazo y umbral calibrado.
+[ ] Evaluar precisión/top-1, matriz de confusión y errores por hablante.
+[ ] Si hay rechazo, medir falsos positivos y falsos rechazos.
+[ ] Evaluar desempeño entre sesiones, micrófonos/ambientes y ruido relevante.
+[ ] Comparar alternativas y fijar parámetros usando datos de validación;
+    reservar datos independientes para la evaluación final.
+[ ] Definir versión de modelo/plantillas y procedimiento de actualización.
+
+CRITERIO DE CIERRE: identificación reproducible, resultados documentados
+y desempeño contrastado contra metas definidas en Etapa 01.
+
+==========================================================================
+ETAPA 10 | INTEGRACIÓN EMBEBIDA DE EXTREMO A EXTREMO  [SISTEMA]
+==========================================================================
+[ ] Integrar micrófono, filtros, ADC, buffers, DSP y clasificador.
+[ ] Definir estados del sistema: inicialización, captura, proceso,
+    identificación, error y registro si aplica.
+[ ] Comprobar sincronización entre adquisición y procesamiento sin pérdidas.
+[ ] Medir latencia total, consumo, memoria y carga del procesador.
+[ ] Manejar silencio, saturación, entrada desconectada y datos inválidos.
+[ ] Implementar salida comprensible: identidad, desconocido y estado/error.
+[ ] Probar ciclos repetidos de uso, reinicios y recuperación de fallas.
+[ ] Validar que el sistema mantiene su desempeño en hardware real.
+
+CRITERIO DE CIERRE: demostración estable de voz a identidad en la plataforma
+objetivo y bajo las condiciones de uso definidas.
+
+==========================================================================
+ETAPA 11 | VALIDACIÓN FINAL Y CRITERIOS DE ACEPTACIÓN  [PRUEBAS]
+==========================================================================
+[ ] Preparar matriz de pruebas vinculada a los requisitos de Etapa 01.
+[ ] Documentar instrumentos, conexiones, software y procedimiento de prueba.
+[ ] Completar pruebas eléctricas: tensión, consumo, ruido y respuesta de filtro.
+[ ] Completar pruebas de ADC: niveles, muestreo, saturación y continuidad.
+[ ] Completar pruebas DSP con señales/vectores de referencia.
+[ ] Completar pruebas de clasificación con datos de evaluación independientes.
+[ ] Medir reproducibilidad, latencia, estabilidad y manejo de fallas.
+[ ] Registrar defectos pendientes y justificar limitaciones del prototipo.
+[ ] Comparar resultados finales contra todos los criterios de aceptación.
+[ ] Guardar evidencia de resultados y revisión de hardware/firmware utilizada.
+
+CRITERIO DE CIERRE: informe de resultados y evidencia de aceptación o
+no cumplimiento explícito, sin declarar éxito sin mediciones.
+
+==========================================================================
+ETAPA 12 | DOCUMENTACIÓN Y ENTREGA  [CIERRE]
+==========================================================================
+[ ] Actualizar README con alcance, arquitectura REAL y estado del prototipo.
+[ ] Documentar plataforma y periféricos, frecuencias y parámetros definitivos.
+[ ] Documentar cálculos de filtros y análisis de simulación vs. medición.
+[ ] Documentar esquemático/PCB, BOM definitiva y archivos de fabricación.
+[ ] Documentar compilación, grabación y uso del firmware.
+[ ] Documentar parámetros MFCC, clasificador, dataset y protocolo de evaluación.
+[ ] Documentar pruebas, resultados, problemas conocidos y limitaciones.
+[ ] Confirmar licencia/origen de modelos SPICE, librerías y dependencias.
+[ ] Revisar .gitignore, historial Git y ausencia de binarios/datos sensibles.
+[ ] Etiquetar versión de entrega y mantener copia recuperable del repositorio.
+[ ] Demostrar el sistema y archivar el checklist cerrado con evidencias.
+
+CRITERIO DE CIERRE: entrega reproducible, documentación congruente con el
+hardware/software real y trazabilidad entre requisitos, pruebas y resultados.
+
+==========================================================================
+PENDIENTES PRIORITARIOS PARA LA PRÓXIMA SESIÓN
+==========================================================================
+1. Decidir arquitectura digital: STM32F407, Ophyra o integración.
+2. Cerrar objetivos y criterios medibles del sistema de identificación.
+3. Abrir y revisar el esquemático/PCB original de Microfono en KiCad.
+4. Resolver las discrepancias de BOM y verificar protección/compatibilidad ADC.
+5. Reproducir simulación con modelos TL072 y confirmar cortes del filtro.
+6. Solo entonces seleccionar toolchain y construir firmware de adquisición.
+
+RIESGOS / ASUNTOS ABIERTOS
+- README B1 menciona STM32F407; discusiones anteriores contemplaron Ophyra.
+- No asumir un rango ADC de 0 a 3.3 V sin ficha y configuración confirmadas.
+- Se detectaron previamente diferencias R4 (BOM/esquema), J5 (esquema/PCB)
+  y posibles omisiones RV9; deben verificarse en el archivo real.
+- Paquete de fabricación actual contiene solo PTH/NPTH; no es Gerber completo.
+- Modelos y proyectos PSIM se conservaron juntos; rutas SPICE requieren revisión.
+- La migración de archivos no demuestra que el circuito ni el firmware funcionen.
+
+REGISTRO DE AVANCES
+2026-10-11 | Recuperación desde VoxID_B1 y creación de carpeta VoxID.
+2026-10-11 | Checklist maestro ampliado; etapas futuras pendientes de validar.
+
+FIN DEL CHECKLIST MAESTRO VoxID v1.0

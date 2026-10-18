@@ -40,7 +40,7 @@ MAP 	:= $(OUT)/voxid.map
 all: $(TARGET) $(ASM)
 
 # Compilacion
-$(OBJ): $(SRC)/main.c | $(OUT)
+$(OBJ): $(SRC)/voxid.c | $(OUT)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Enlazado

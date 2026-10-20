@@ -1,11 +1,10 @@
-* Netlist C:\Users\Nesti\Documents\GUS\VoxID\SIM\psim\Filtro_Real.psimsch *
+* VoxID - Monte Carlo, exportado del filtro TL072 de PSIM
 
-.include "C:\Altair\Altair_PSIM_2025\SPICElib\PSIM_SPICE.sub"
 
 .ac dec 50 1 100k
 .step param run 1 100 1
 
-.include "C:\Users\Nesti\Documents\GUS\VoxID\SIM\spice\TL072.lib"
+.include "TL072.lib"
 
 * HPF - Primera etapa
 C_C1 1 2 {mc(470n,0.05)}

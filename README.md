@@ -43,49 +43,46 @@ VoxID/
 │   ├── Makefile
 │   ├── inc/
 │   ├── src/
+│   ├── tests/
 │   └── out/
-│       └── .gitkeep
 ├── DOC/
-│   ├── CheckList.txt
-│   └── Microfono.csv
+│   └── CheckList.txt
 ├── PCB/
-│   └── Microfono/
-│       ├── Microfono.kicad_pro
-│       ├── Microfono.kicad_sch
-│       ├── Microfono.kicad_pcb
-│       └── fabrication/
-│           ├── Microfono-PTH.drl
-│           └── Microfono-NPTH.drl
+│   ├── voxid.kicad_pro
+│   ├── voxid.kicad_sch
+│   └── voxid.kicad_pcb
 └── SIM/
-    ├── Filtro.psimsch
-    ├── Filtro.py
-    ├── Filtro(AC-Sweep).fra
-    ├── Filtro_TL072.psimsch
-    ├── Filtro_TL072.py
-    ├── Filtro_TL072.cir
-    ├── Filtro_TL072(AC-Sweep).fra
-    ├── TL071
-    └── TL072
+    ├── README.md
+    ├── psim/
+    │   ├── Filtro_Imaginario.psimsch
+    │   ├── Filtro_Real.psimsch
+    │   └── Filtro_Real_MonteCarlo.psimsch
+    └── spice/
+        ├── Filtro_KiCad_ngspice.cir
+        ├── Filtro_Real_MonteCarlo.cir
+        ├── Filtro_Real_Ruido.cir
+        ├── Filtro_Referencia_Ruido.cir
+        └── TL072.lib
 ```
 
-- `C0DE/`: código embebido (pendiente), cabeceras y sistema de construcción GNU Make.
-- `DOC/`: seguimiento del desarrollo y lista de materiales inicial exportada de KiCad.
-- `PCB/Microfono/`: diseño editable de la placa; una carpeta independiente por PCB.
-- `PCB/Microfono/fabrication/`: por ahora únicamente archivos de perforación. **No constituye un juego completo de Gerbers**.
-- `SIM/`: proyectos y scripts PSIM, modelos y netlist SPICE, resultados AC Sweep. Se mantienen juntos para reducir el riesgo de romper rutas existentes.
+- `C0DE/`: código, cabeceras, pruebas y construcción GNU Make.
+- `DOC/`: seguimiento de tareas y documentación del proyecto.
+- `PCB/`: proyecto KiCad editable; la preparación de archivos de fabricación sigue pendiente de validación.
+- `SIM/psim/`: esquemáticos PSIM de filtros ideales y con TL072.
+- `SIM/spice/`: circuitos de análisis LTspice/ngspice y biblioteca TL072. Consultar [SIM/README.md](SIM/README.md).
 
 ## Estado de los archivos
 
-- **Disponibles:** esquemático y placa KiCad, BOM preliminar, simulaciones y resultados AC Sweep preexistentes.
-- **No verificado en esta migración:** apertura de proyectos KiCad, ERC/DRC, coherencia BOM-esquemático-PCB y ejecución reproducible de PSIM/SPICE.
-- **Pendiente:** toolchain y firmware, interfaz definitiva con el ADC, procesamiento MFCC e identificación del hablante.
-- **Atención:** el netlist SPICE contiene una referencia de ruta absoluta de Windows; se deberá convertir a una ruta portable y probarse en su simulador antes de reorganizar `SIM/`.
+- **Disponibles:** esquemático y PCB de KiCad; proyectos PSIM; netlists LTspice para Monte Carlo y comparación de ruido.
+- **Simulaciones realizadas:** respuesta AC de los filtros, Monte Carlo de 100 iteraciones y ruido de salida integrado de 100 Hz a 6 kHz mediante el macromodelo TL072. Son resultados simulados, no validación física.
+- **No verificado:** ERC/DRC de KiCad, lista de materiales definitiva, fabricación de la PCB, mediciones físicas, ni portabilidad de los proyectos PSIM a otras instalaciones.
+- **Pendiente:** interfaz definitiva con el ADC, integración digital, procesamiento MFCC e identificación del hablante.
 
 ## Convenciones del equipo
 
 1. `Makefile` siempre dentro de `C0DE/`.
 2. `out/` conserva solamente `.gitkeep` en Git; se excluyen los binarios de compilación.
-3. Cada PCB se almacena en una subcarpeta propia y sus salidas de fabricación en `fabrication/`.
+3. Los archivos de KiCad se mantienen bajo `PCB/`; los archivos de fabricación se incorporarán después de su validación.
 4. `DOC/CheckList.txt` registra actividades y comprobaciones con `[ ]` pendiente, `[-]` en progreso y `[x]` verificado.
 5. El respaldo original `VoxID_B1` permanece intacto en Google Drive, incluyendo historial y respaldos automáticos de KiCad.
 

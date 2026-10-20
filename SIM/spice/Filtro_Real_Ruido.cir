@@ -1,10 +1,9 @@
-* Netlist C:\Users\Nesti\Documents\GUS\VoxID\SIM\psim\Filtro_Real.psimsch *
+* VoxID - análisis de ruido, exportado del filtro TL072 de PSIM
 
-.include "C:\Altair\Altair_PSIM_2025\SPICElib\PSIM_SPICE.sub"
 
 .noise V(13) V_Vsweep dec 100 100 6k
 
-.include "C:\Users\Nesti\Documents\GUS\VoxID\SIM\spice\TL072.lib"
+.include "TL072.lib"
 
 
 R_R5 7 9 1650

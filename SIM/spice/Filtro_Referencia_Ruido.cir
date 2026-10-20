@@ -4,7 +4,7 @@
 * LPF: mismos valores comerciales que el diseno low noise
 * Alimentacion TL072: +12 V / -12 V
 
-.include "C:\Users\Nesti\Documents\GUS\VoxID\SIM\spice\TL072.lib"
+.include "TL072.lib"
 
 * Ruido integrado de salida entre 100 Hz y 6 kHz
 .noise V(13) V_Vsweep dec 100 100 6k

@@ -505,7 +505,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "Microfono.kicad_pro",
+    "filename": "voxid.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -691,8 +691,8 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "Microfono.kicad_sch",
-        "name": "Raíz",
+        "filename": "voxid.kicad_sch",
+        "name": "voxid",
         "uuid": "49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
       }
     ],
@@ -702,7 +702,7 @@
   "sheets": [
     [
       "49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1",
-      "Raíz"
+      "voxid"
     ]
   ],
   "text_variables": {},

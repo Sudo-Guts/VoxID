@@ -3,7 +3,7 @@
 	(generator "eeschema")
 	(generator_version "10.0")
 	(uuid "49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1")
-	(paper "A3")
+	(paper "A4")
 	(lib_symbols
 		(symbol "Amplifier_Operational:TL072"
 			(pin_names
@@ -2671,219 +2671,461 @@
 			(embedded_fonts no)
 		)
 	)
+	(rectangle
+		(start 12.7 104.14)
+		(end 127 152.4)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "2b5543fa-ef6a-40aa-a99a-901d3056922d")
+	)
+	(rectangle
+		(start 12.7 52.07)
+		(end 127 102.87)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "34290547-4c96-4ab1-bdd9-62f95ffef154")
+	)
+	(rectangle
+		(start 128.27 12.7)
+		(end 204.47 63.5)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "681eee3e-8d92-4ccf-948d-1608e3de999d")
+	)
+	(rectangle
+		(start 128.27 64.7701)
+		(end 242.57 115.5701)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "79f43161-068d-46d0-91be-daad203b7182")
+	)
+	(rectangle
+		(start 12.7 12.7)
+		(end 127 50.8)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "8bc383df-9920-4af5-96fe-331453736dd0")
+	)
+	(rectangle
+		(start 205.74 12.7)
+		(end 284.48 63.5)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "99405f1e-499d-48fc-a86e-debaa4329bf0")
+	)
+	(text_box "Entrada del voltaje simetrico\n"
+		(exclude_from_sim no)
+		(at 12.7 104.14 0)
+		(size 39.37 4.5202)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width -0.0001)
+			(type solid)
+		)
+		(fill
+			(type color)
+			(color 132 132 132 1)
+		)
+		(effects
+			(font
+				(size 1.6256 1.6256)
+				(color 255 255 255 1)
+			)
+			(justify left)
+		)
+		(uuid "387e67e4-e076-494e-95bf-64084fe7e63e")
+	)
+	(text_box "Preamplificador"
+		(exclude_from_sim no)
+		(at 128.27 12.7 0)
+		(size 21.59 4.5202)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width -0.0001)
+			(type solid)
+		)
+		(fill
+			(type color)
+			(color 132 132 132 1)
+		)
+		(effects
+			(font
+				(size 1.6256 1.6256)
+				(color 255 255 255 1)
+			)
+			(justify left)
+		)
+		(uuid "58929189-8869-4685-808b-524fb550f49a")
+	)
+	(text_box "Adaptación de nivel y salida al ADC"
+		(exclude_from_sim no)
+		(at 205.74 12.7 0)
+		(size 48.26 4.5202)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width -0.0001)
+			(type solid)
+		)
+		(fill
+			(type color)
+			(color 132 132 132 1)
+		)
+		(effects
+			(font
+				(size 1.6256 1.6256)
+				(color 255 255 255 1)
+			)
+			(justify left)
+		)
+		(uuid "5c3eec68-5b9c-45cc-8f3f-57b75d0e95ed")
+	)
+	(text_box "Filtro pasa altas Butterworth de cuarto orden"
+		(exclude_from_sim no)
+		(at 12.7 52.0699 0)
+		(size 59.69 4.5202)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width -0.0001)
+			(type solid)
+		)
+		(fill
+			(type color)
+			(color 132 132 132 1)
+		)
+		(effects
+			(font
+				(size 1.6256 1.6256)
+				(color 255 255 255 1)
+			)
+			(justify left)
+		)
+		(uuid "8b580778-4305-4fce-996c-8c69ed649099")
+	)
+	(text_box "Filtro pasa bajas Butterworth de cuarto orden"
+		(exclude_from_sim no)
+		(at 128.27 64.77 0)
+		(size 59.69 4.5202)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width -0.0001)
+			(type solid)
+		)
+		(fill
+			(type color)
+			(color 132 132 132 1)
+		)
+		(effects
+			(font
+				(size 1.6256 1.6256)
+				(color 255 255 255 1)
+			)
+			(justify left)
+		)
+		(uuid "91c80762-c98a-44db-8114-857b489cfeba")
+	)
+	(text_box "3.3v to 1.65v"
+		(exclude_from_sim no)
+		(at 107.95 46.2798 0)
+		(size 19.05 4.5202)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width -0.0001)
+			(type solid)
+		)
+		(fill
+			(type color)
+			(color 132 132 132 1)
+		)
+		(effects
+			(font
+				(size 1.6256 1.6256)
+				(color 255 255 255 1)
+			)
+			(justify right)
+		)
+		(uuid "9ff81acc-30bc-468d-a84a-c27bac0b9ce9")
+	)
+	(text_box "Alimentacion de los opamps\n"
+		(exclude_from_sim no)
+		(at 63.5 104.14 0)
+		(size 39.37 4.5202)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width -0.0001)
+			(type solid)
+		)
+		(fill
+			(type color)
+			(color 132 132 132 1)
+		)
+		(effects
+			(font
+				(size 1.6256 1.6256)
+				(color 255 255 255 1)
+			)
+			(justify left)
+		)
+		(uuid "ab3749e0-cf96-4bb4-8473-2c4b0cecbd49")
+	)
+	(text_box "12v to 3.3v"
+		(exclude_from_sim no)
+		(at 12.7 46.2798 0)
+		(size 16.51 4.5202)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width -0.0001)
+			(type solid)
+		)
+		(fill
+			(type color)
+			(color 132 132 132 1)
+		)
+		(effects
+			(font
+				(size 1.6256 1.6256)
+				(color 255 255 255 1)
+			)
+			(justify left)
+		)
+		(uuid "f0e24726-ee34-4df0-8b45-eb06b3cfed9b")
+	)
 	(junction
-		(at 257.81 99.06)
+		(at 201.93 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1126f330-2cfd-4c9a-be85-ad016b216035")
 	)
 	(junction
-		(at 180.34 96.52)
+		(at 109.22 82.55)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "139155e5-d372-4cfd-939c-f99906ce8d1f")
 	)
 	(junction
-		(at 124.46 76.2)
+		(at 53.34 62.23)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1d921b8a-0636-46e7-b74f-bee827d2cba0")
 	)
 	(junction
-		(at 194.31 96.52)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "1df801ec-6e55-4df6-91dd-aa51ba2a2714")
-	)
-	(junction
-		(at 237.49 99.06)
+		(at 181.61 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "23b633bd-58bf-4e25-9364-b70f5d1b71bc")
 	)
 	(junction
-		(at 85.09 91.44)
+		(at 182.88 40.64)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "241d398a-2daa-4cac-b8fc-5c81986e1522")
 	)
 	(junction
-		(at 120.65 53.34)
+		(at 95.25 142.24)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "27220b7c-8f47-4dd9-92f5-1ef9004b7049")
 	)
 	(junction
-		(at 307.34 121.92)
+		(at 240.03 46.99)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "2c407282-b8d2-4362-970e-188cf0367d84")
 	)
 	(junction
-		(at 171.45 48.26)
+		(at 50.8 25.4)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "2fd0c26c-1071-4ab6-81e1-cba5eae58b20")
 	)
 	(junction
-		(at 104.14 91.44)
+		(at 33.02 77.47)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4e614b23-cdf9-4f4e-90e1-3d18fcf92d12")
 	)
 	(junction
-		(at 157.48 104.14)
+		(at 86.36 90.17)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "55338132-4c7f-4662-94f4-5a5691bc7a56")
 	)
 	(junction
-		(at 307.34 101.6)
+		(at 240.03 26.67)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "55ab2e01-1185-421b-ab9f-c91b8dda0b19")
 	)
 	(junction
-		(at 247.65 99.06)
+		(at 191.77 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6b648713-fc0c-41c4-b41a-bdb4e6c5d0fa")
 	)
 	(junction
-		(at 43.18 88.9)
+		(at 140.97 38.1)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6da9d72e-f8b9-4b23-b1c7-c1f9bf920db8")
 	)
 	(junction
-		(at 82.55 41.91)
+		(at 34.29 130.81)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7b84d205-698b-49f2-919e-85e47d515902")
 	)
 	(junction
-		(at 167.64 76.2)
+		(at 96.52 62.23)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7d147d92-5bf1-4632-a674-493874ce1cdb")
 	)
 	(junction
-		(at 229.87 49.53)
+		(at 138.43 90.17)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "7f07ffb1-b6ea-42e2-bb34-e1d02554d96e")
+		(uuid "86213c7c-50dc-4995-ab27-7fbd3cc4ccef")
 	)
 	(junction
-		(at 146.05 48.26)
+		(at 25.4 25.4)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9bad77a4-3b1c-4a6d-b30a-47ffa983dd79")
 	)
 	(junction
-		(at 137.16 93.98)
+		(at 66.04 80.01)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a3a6b187-67cf-412f-a320-9e244e407951")
 	)
 	(junction
-		(at 120.65 29.21)
+		(at 95.25 118.11)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a7fd649b-0b31-4e05-89ae-61d3354edcac")
 	)
 	(junction
-		(at 325.12 111.76)
+		(at 257.81 36.83)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a96768c8-5eb8-4c17-998f-c5b531bb4b7d")
 	)
 	(junction
-		(at 238.76 99.06)
+		(at 182.88 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a9be5971-75a0-4533-9692-fe69e8f6e7d8")
 	)
 	(junction
-		(at 114.3 91.44)
+		(at 43.18 77.47)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "afe1dedb-acb7-4b78-9e0f-c0e0c7175f66")
 	)
 	(junction
-		(at 147.32 93.98)
+		(at 76.2 80.01)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b5e63d1e-6427-4f60-a8a5-f8d50e75c8ac")
 	)
 	(junction
-		(at 82.55 36.83)
+		(at 34.29 125.73)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "baeae99b-8222-420b-b2f4-2ec643d4d183")
 	)
 	(junction
-		(at 214.63 96.52)
+		(at 158.75 90.17)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bf8cecd0-4054-4dbd-b0f2-e306498c1cb1")
 	)
 	(junction
-		(at 204.47 96.52)
+		(at 148.59 90.17)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c4e2a97d-bee0-4b7d-adfb-0423771ac12b")
 	)
 	(junction
-		(at 256.54 99.06)
+		(at 200.66 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c65616bb-c5e7-49d1-abe0-50701891448d")
 	)
 	(junction
-		(at 66.04 88.9)
+		(at 162.56 38.1)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "cd373f1e-a535-452d-9022-1475663f2b08")
 	)
 	(junction
-		(at 114.3 101.6)
+		(at 43.18 87.63)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ce6b8c28-e97c-40e9-b790-fe723cabe780")
 	)
 	(junction
-		(at 280.67 101.6)
+		(at 224.79 95.25)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d1dfaeff-221f-4eec-88ef-1c7800e9c056")
 	)
 	(junction
-		(at 158.75 59.69)
+		(at 38.1 36.83)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d2be90ca-1007-4773-a7fb-30dc5ca31d2e")
 	)
 	(junction
-		(at 157.48 93.98)
+		(at 86.36 80.01)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e6d81c85-f8bc-42b3-97c6-751a0e349e85")
 	)
 	(junction
-		(at 74.93 82.55)
+		(at 172.72 26.67)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f32c99ba-cde4-4b4b-a004-894296c4509e")
 	)
 	(junction
-		(at 220.98 49.53)
+		(at 101.6 25.4)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "fc072d92-6150-4982-a4ee-84d0d1b60bf8")
 	)
 	(wire
 		(pts
-			(xy 83.82 82.55) (xy 85.09 82.55)
+			(xy 181.61 26.67) (xy 182.88 26.67)
 		)
 		(stroke
 			(width 0)
@@ -2891,9 +3133,19 @@
 		)
 		(uuid "00ac6225-efec-4ff8-b7b2-0faa6424d522")
 	)
+	(polyline
+		(pts
+			(xy 63.5 12.7) (xy 63.5 50.8)
+		)
+		(stroke
+			(width 0)
+			(type dash)
+		)
+		(uuid "04688f8d-afaf-4434-b061-c117faf83359")
+	)
 	(wire
 		(pts
-			(xy 43.18 88.9) (xy 46.99 88.9)
+			(xy 140.97 38.1) (xy 143.51 38.1)
 		)
 		(stroke
 			(width 0)
@@ -2903,7 +3155,7 @@
 	)
 	(wire
 		(pts
-			(xy 64.77 88.9) (xy 66.04 88.9)
+			(xy 161.29 38.1) (xy 162.56 38.1)
 		)
 		(stroke
 			(width 0)
@@ -2913,7 +3165,7 @@
 	)
 	(wire
 		(pts
-			(xy 283.21 57.15) (xy 283.21 58.42)
+			(xy 149.86 142.24) (xy 149.86 143.51)
 		)
 		(stroke
 			(width 0)
@@ -2923,7 +3175,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 78.74) (xy 74.93 82.55)
+			(xy 172.72 22.86) (xy 172.72 26.67)
 		)
 		(stroke
 			(width 0)
@@ -2933,7 +3185,7 @@
 	)
 	(wire
 		(pts
-			(xy 256.54 99.06) (xy 257.81 99.06)
+			(xy 200.66 92.71) (xy 201.93 92.71)
 		)
 		(stroke
 			(width 0)
@@ -2943,7 +3195,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 72.39) (xy 124.46 72.39)
+			(xy 49.53 58.42) (xy 53.34 58.42)
 		)
 		(stroke
 			(width 0)
@@ -2953,7 +3205,7 @@
 	)
 	(wire
 		(pts
-			(xy 199.39 92.71) (xy 194.31 92.71)
+			(xy 143.51 86.36) (xy 138.43 86.36)
 		)
 		(stroke
 			(width 0)
@@ -2963,7 +3215,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 91.44) (xy 104.14 91.44)
+			(xy 31.75 77.47) (xy 33.02 77.47)
 		)
 		(stroke
 			(width 0)
@@ -2973,7 +3225,7 @@
 	)
 	(wire
 		(pts
-			(xy 204.47 86.36) (xy 204.47 96.52)
+			(xy 148.59 80.01) (xy 148.59 90.17)
 		)
 		(stroke
 			(width 0)
@@ -2983,7 +3235,7 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 76.2) (xy 147.32 93.98)
+			(xy 76.2 62.23) (xy 76.2 80.01)
 		)
 		(stroke
 			(width 0)
@@ -2993,7 +3245,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 29.21) (xy 110.49 33.02)
+			(xy 85.09 118.11) (xy 85.09 121.92)
 		)
 		(stroke
 			(width 0)
@@ -3003,7 +3255,17 @@
 	)
 	(wire
 		(pts
-			(xy 151.13 48.26) (xy 146.05 48.26)
+			(xy 215.9 26.67) (xy 226.06 26.67)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "11122a6e-1aff-44e1-9890-52ecdb2d2897")
+	)
+	(wire
+		(pts
+			(xy 30.48 25.4) (xy 25.4 25.4)
 		)
 		(stroke
 			(width 0)
@@ -3013,7 +3275,7 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 91.44) (xy 105.41 91.44)
+			(xy 33.02 77.47) (xy 34.29 77.47)
 		)
 		(stroke
 			(width 0)
@@ -3023,7 +3285,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 104.14) (xy 161.29 104.14)
+			(xy 86.36 90.17) (xy 90.17 90.17)
 		)
 		(stroke
 			(width 0)
@@ -3033,7 +3295,7 @@
 	)
 	(wire
 		(pts
-			(xy 213.36 96.52) (xy 214.63 96.52)
+			(xy 157.48 90.17) (xy 158.75 90.17)
 		)
 		(stroke
 			(width 0)
@@ -3043,7 +3305,7 @@
 	)
 	(wire
 		(pts
-			(xy 280.67 101.6) (xy 279.4 101.6)
+			(xy 224.79 95.25) (xy 223.52 95.25)
 		)
 		(stroke
 			(width 0)
@@ -3053,7 +3315,17 @@
 	)
 	(wire
 		(pts
-			(xy 214.63 106.68) (xy 214.63 109.22)
+			(xy 115.57 82.55) (xy 119.38 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "174eb77f-39ad-48fc-be2c-1fa423bd45dc")
+	)
+	(wire
+		(pts
+			(xy 158.75 100.33) (xy 158.75 102.87)
 		)
 		(stroke
 			(width 0)
@@ -3063,7 +3335,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 93.98) (xy 66.04 93.98)
+			(xy 163.83 43.18) (xy 162.56 43.18)
 		)
 		(stroke
 			(width 0)
@@ -3073,7 +3345,7 @@
 	)
 	(wire
 		(pts
-			(xy 289.56 121.92) (xy 293.37 121.92)
+			(xy 222.25 46.99) (xy 226.06 46.99)
 		)
 		(stroke
 			(width 0)
@@ -3083,7 +3355,7 @@
 	)
 	(wire
 		(pts
-			(xy 266.7 57.15) (xy 266.7 58.42)
+			(xy 133.35 142.24) (xy 133.35 143.51)
 		)
 		(stroke
 			(width 0)
@@ -3093,7 +3365,7 @@
 	)
 	(wire
 		(pts
-			(xy 189.23 45.72) (xy 189.23 48.26)
+			(xy 190.5 127) (xy 190.5 129.54)
 		)
 		(stroke
 			(width 0)
@@ -3103,7 +3375,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 86.36) (xy 247.65 99.06)
+			(xy 191.77 80.01) (xy 191.77 92.71)
 		)
 		(stroke
 			(width 0)
@@ -3113,7 +3385,7 @@
 	)
 	(wire
 		(pts
-			(xy 220.98 101.6) (xy 219.71 101.6)
+			(xy 165.1 95.25) (xy 163.83 95.25)
 		)
 		(stroke
 			(width 0)
@@ -3123,7 +3395,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 48.26) (xy 146.05 49.53)
+			(xy 25.4 25.4) (xy 25.4 26.67)
 		)
 		(stroke
 			(width 0)
@@ -3133,7 +3405,17 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 57.15) (xy 146.05 59.69)
+			(xy 22.86 77.47) (xy 24.13 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "20f57ed8-e6b6-434a-87dc-2b8235105df1")
+	)
+	(wire
+		(pts
+			(xy 25.4 34.29) (xy 25.4 36.83)
 		)
 		(stroke
 			(width 0)
@@ -3143,7 +3425,7 @@
 	)
 	(wire
 		(pts
-			(xy 237.49 99.06) (xy 236.22 99.06)
+			(xy 181.61 92.71) (xy 180.34 92.71)
 		)
 		(stroke
 			(width 0)
@@ -3153,7 +3435,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 104.14) (xy 180.34 96.52)
+			(xy 109.22 90.17) (xy 109.22 82.55)
 		)
 		(stroke
 			(width 0)
@@ -3163,7 +3445,7 @@
 	)
 	(wire
 		(pts
-			(xy 167.64 76.2) (xy 180.34 76.2)
+			(xy 96.52 62.23) (xy 109.22 62.23)
 		)
 		(stroke
 			(width 0)
@@ -3173,7 +3455,7 @@
 	)
 	(wire
 		(pts
-			(xy 162.56 99.06) (xy 162.56 104.14)
+			(xy 91.44 85.09) (xy 91.44 90.17)
 		)
 		(stroke
 			(width 0)
@@ -3183,7 +3465,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 96.52) (xy 118.11 101.6)
+			(xy 46.99 82.55) (xy 46.99 87.63)
 		)
 		(stroke
 			(width 0)
@@ -3193,7 +3475,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 76.2) (xy 43.18 78.74)
+			(xy 140.97 25.4) (xy 140.97 27.94)
 		)
 		(stroke
 			(width 0)
@@ -3203,7 +3485,7 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 48.26) (xy 171.45 48.26)
+			(xy 45.72 25.4) (xy 50.8 25.4)
 		)
 		(stroke
 			(width 0)
@@ -3213,7 +3495,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 59.69) (xy 158.75 59.69)
+			(xy 25.4 36.83) (xy 38.1 36.83)
 		)
 		(stroke
 			(width 0)
@@ -3223,7 +3505,7 @@
 	)
 	(wire
 		(pts
-			(xy 219.71 101.6) (xy 219.71 105.41)
+			(xy 163.83 95.25) (xy 163.83 99.06)
 		)
 		(stroke
 			(width 0)
@@ -3233,7 +3515,7 @@
 	)
 	(wire
 		(pts
-			(xy 209.55 92.71) (xy 214.63 92.71)
+			(xy 153.67 86.36) (xy 158.75 86.36)
 		)
 		(stroke
 			(width 0)
@@ -3243,7 +3525,7 @@
 	)
 	(wire
 		(pts
-			(xy 280.67 86.36) (xy 280.67 101.6)
+			(xy 224.79 80.01) (xy 224.79 95.25)
 		)
 		(stroke
 			(width 0)
@@ -3253,7 +3535,7 @@
 	)
 	(wire
 		(pts
-			(xy 195.58 96.52) (xy 194.31 96.52)
+			(xy 139.7 90.17) (xy 138.43 90.17)
 		)
 		(stroke
 			(width 0)
@@ -3263,7 +3545,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 53.34) (xy 120.65 55.88)
+			(xy 95.25 142.24) (xy 95.25 144.78)
 		)
 		(stroke
 			(width 0)
@@ -3273,17 +3555,7 @@
 	)
 	(wire
 		(pts
-			(xy 288.29 101.6) (xy 293.37 101.6)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2cf6b9ae-0793-44c3-a2d6-9a58382e77a4")
-	)
-	(wire
-		(pts
-			(xy 260.35 86.36) (xy 247.65 86.36)
+			(xy 204.47 80.01) (xy 191.77 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3293,7 +3565,7 @@
 	)
 	(wire
 		(pts
-			(xy 119.38 96.52) (xy 119.38 101.6)
+			(xy 48.26 82.55) (xy 48.26 87.63)
 		)
 		(stroke
 			(width 0)
@@ -3303,7 +3575,7 @@
 	)
 	(wire
 		(pts
-			(xy 189.23 50.8) (xy 189.23 53.34)
+			(xy 190.5 132.08) (xy 190.5 134.62)
 		)
 		(stroke
 			(width 0)
@@ -3313,7 +3585,7 @@
 	)
 	(wire
 		(pts
-			(xy 116.84 76.2) (xy 104.14 76.2)
+			(xy 45.72 62.23) (xy 33.02 62.23)
 		)
 		(stroke
 			(width 0)
@@ -3323,7 +3595,7 @@
 	)
 	(wire
 		(pts
-			(xy 280.67 101.6) (xy 285.75 101.6)
+			(xy 224.79 95.25) (xy 229.87 95.25)
 		)
 		(stroke
 			(width 0)
@@ -3333,7 +3605,7 @@
 	)
 	(wire
 		(pts
-			(xy 219.71 105.41) (xy 237.49 105.41)
+			(xy 163.83 99.06) (xy 181.61 99.06)
 		)
 		(stroke
 			(width 0)
@@ -3343,7 +3615,17 @@
 	)
 	(wire
 		(pts
-			(xy 161.29 99.06) (xy 161.29 104.14)
+			(xy 232.41 95.25) (xy 234.95 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "395b54c1-7bfc-4749-8ec9-219b27360f17")
+	)
+	(wire
+		(pts
+			(xy 90.17 85.09) (xy 90.17 90.17)
 		)
 		(stroke
 			(width 0)
@@ -3353,7 +3635,7 @@
 	)
 	(wire
 		(pts
-			(xy 298.45 40.64) (xy 298.45 39.37)
+			(xy 165.1 125.73) (xy 165.1 124.46)
 		)
 		(stroke
 			(width 0)
@@ -3363,7 +3645,7 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 45.72) (xy 171.45 48.26)
+			(xy 50.8 22.86) (xy 50.8 25.4)
 		)
 		(stroke
 			(width 0)
@@ -3373,7 +3655,7 @@
 	)
 	(wire
 		(pts
-			(xy 217.17 86.36) (xy 204.47 86.36)
+			(xy 161.29 80.01) (xy 148.59 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3383,17 +3665,7 @@
 	)
 	(wire
 		(pts
-			(xy 76.2 82.55) (xy 74.93 82.55)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "44ca19d4-44cc-40f7-9fd8-d294f45037df")
-	)
-	(wire
-		(pts
-			(xy 189.23 48.26) (xy 190.5 48.26)
+			(xy 190.5 129.54) (xy 191.77 129.54)
 		)
 		(stroke
 			(width 0)
@@ -3403,7 +3675,7 @@
 	)
 	(wire
 		(pts
-			(xy 124.46 72.39) (xy 124.46 76.2)
+			(xy 53.34 58.42) (xy 53.34 62.23)
 		)
 		(stroke
 			(width 0)
@@ -3413,7 +3685,17 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 41.91) (xy 83.82 41.91)
+			(xy 135.89 90.17) (xy 138.43 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4a936c62-446a-4929-a394-353c3b362a1c")
+	)
+	(wire
+		(pts
+			(xy 34.29 130.81) (xy 35.56 130.81)
 		)
 		(stroke
 			(width 0)
@@ -3423,7 +3705,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 93.98) (xy 157.48 95.25)
+			(xy 86.36 80.01) (xy 86.36 81.28)
 		)
 		(stroke
 			(width 0)
@@ -3433,7 +3715,7 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 29.21) (xy 130.81 33.02)
+			(xy 105.41 118.11) (xy 105.41 121.92)
 		)
 		(stroke
 			(width 0)
@@ -3443,7 +3725,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 29.21) (xy 120.65 33.02)
+			(xy 95.25 118.11) (xy 95.25 121.92)
 		)
 		(stroke
 			(width 0)
@@ -3453,7 +3735,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 55.88) (xy 158.75 59.69)
+			(xy 38.1 33.02) (xy 38.1 36.83)
 		)
 		(stroke
 			(width 0)
@@ -3463,7 +3745,7 @@
 	)
 	(wire
 		(pts
-			(xy 113.03 91.44) (xy 114.3 91.44)
+			(xy 41.91 77.47) (xy 43.18 77.47)
 		)
 		(stroke
 			(width 0)
@@ -3473,7 +3755,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 93.98) (xy 163.83 93.98)
+			(xy 86.36 80.01) (xy 92.71 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3483,7 +3765,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 59.69) (xy 158.75 60.96)
+			(xy 38.1 36.83) (xy 38.1 39.37)
 		)
 		(stroke
 			(width 0)
@@ -3493,7 +3775,7 @@
 	)
 	(wire
 		(pts
-			(xy 266.7 40.64) (xy 266.7 39.37)
+			(xy 133.35 125.73) (xy 133.35 124.46)
 		)
 		(stroke
 			(width 0)
@@ -3503,7 +3785,7 @@
 	)
 	(wire
 		(pts
-			(xy 54.61 88.9) (xy 57.15 88.9)
+			(xy 151.13 38.1) (xy 153.67 38.1)
 		)
 		(stroke
 			(width 0)
@@ -3513,7 +3795,7 @@
 	)
 	(wire
 		(pts
-			(xy 334.01 114.3) (xy 334.01 120.65)
+			(xy 266.7 39.37) (xy 266.7 45.72)
 		)
 		(stroke
 			(width 0)
@@ -3523,7 +3805,7 @@
 	)
 	(wire
 		(pts
-			(xy 167.64 72.39) (xy 167.64 76.2)
+			(xy 96.52 58.42) (xy 96.52 62.23)
 		)
 		(stroke
 			(width 0)
@@ -3533,7 +3815,7 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 76.2) (xy 160.02 76.2)
+			(xy 76.2 62.23) (xy 88.9 62.23)
 		)
 		(stroke
 			(width 0)
@@ -3543,7 +3825,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 91.44) (xy 43.18 88.9)
+			(xy 140.97 40.64) (xy 140.97 38.1)
 		)
 		(stroke
 			(width 0)
@@ -3553,7 +3835,7 @@
 	)
 	(wire
 		(pts
-			(xy 300.99 101.6) (xy 307.34 101.6)
+			(xy 233.68 26.67) (xy 240.03 26.67)
 		)
 		(stroke
 			(width 0)
@@ -3563,7 +3845,7 @@
 	)
 	(wire
 		(pts
-			(xy 207.01 33.02) (xy 207.01 35.56)
+			(xy 78.74 17.78) (xy 80.01 17.78)
 		)
 		(stroke
 			(width 0)
@@ -3573,7 +3855,7 @@
 	)
 	(wire
 		(pts
-			(xy 298.45 57.15) (xy 298.45 58.42)
+			(xy 165.1 142.24) (xy 165.1 143.51)
 		)
 		(stroke
 			(width 0)
@@ -3583,7 +3865,7 @@
 	)
 	(wire
 		(pts
-			(xy 323.85 111.76) (xy 325.12 111.76)
+			(xy 256.54 36.83) (xy 257.81 36.83)
 		)
 		(stroke
 			(width 0)
@@ -3593,7 +3875,7 @@
 	)
 	(wire
 		(pts
-			(xy 252.73 95.25) (xy 256.54 95.25)
+			(xy 196.85 88.9) (xy 200.66 88.9)
 		)
 		(stroke
 			(width 0)
@@ -3603,7 +3885,17 @@
 	)
 	(wire
 		(pts
-			(xy 307.34 114.3) (xy 307.34 121.92)
+			(xy 190.5 40.64) (xy 194.31 40.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6837ad9a-b8e6-4aaa-be2d-09f4bc47a369")
+	)
+	(wire
+		(pts
+			(xy 240.03 39.37) (xy 240.03 46.99)
 		)
 		(stroke
 			(width 0)
@@ -3613,7 +3905,7 @@
 	)
 	(wire
 		(pts
-			(xy 267.97 86.36) (xy 280.67 86.36)
+			(xy 212.09 80.01) (xy 224.79 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3623,7 +3915,7 @@
 	)
 	(wire
 		(pts
-			(xy 262.89 107.95) (xy 280.67 107.95)
+			(xy 207.01 101.6) (xy 224.79 101.6)
 		)
 		(stroke
 			(width 0)
@@ -3633,7 +3925,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 99.06) (xy 162.56 99.06)
+			(xy 92.71 85.09) (xy 91.44 85.09)
 		)
 		(stroke
 			(width 0)
@@ -3643,7 +3935,7 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 91.44) (xy 85.09 91.44)
+			(xy 179.07 40.64) (xy 187.96 40.64)
 		)
 		(stroke
 			(width 0)
@@ -3653,7 +3945,7 @@
 	)
 	(wire
 		(pts
-			(xy 77.47 41.91) (xy 82.55 41.91)
+			(xy 29.21 130.81) (xy 34.29 130.81)
 		)
 		(stroke
 			(width 0)
@@ -3663,7 +3955,7 @@
 	)
 	(wire
 		(pts
-			(xy 48.26 38.1) (xy 48.26 40.64)
+			(xy 204.47 130.81) (xy 204.47 133.35)
 		)
 		(stroke
 			(width 0)
@@ -3673,7 +3965,7 @@
 	)
 	(wire
 		(pts
-			(xy 283.21 40.64) (xy 283.21 39.37)
+			(xy 149.86 125.73) (xy 149.86 124.46)
 		)
 		(stroke
 			(width 0)
@@ -3683,17 +3975,7 @@
 	)
 	(wire
 		(pts
-			(xy 229.87 49.53) (xy 232.41 49.53)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7a67de31-3d53-4fd6-86ea-f758351e3ca8")
-	)
-	(wire
-		(pts
-			(xy 77.47 36.83) (xy 82.55 36.83)
+			(xy 29.21 125.73) (xy 34.29 125.73)
 		)
 		(stroke
 			(width 0)
@@ -3703,7 +3985,7 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 93.98) (xy 138.43 93.98)
+			(xy 66.04 80.01) (xy 67.31 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3713,7 +3995,7 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 48.26) (xy 130.81 53.34)
+			(xy 105.41 137.16) (xy 105.41 142.24)
 		)
 		(stroke
 			(width 0)
@@ -3723,17 +4005,7 @@
 	)
 	(wire
 		(pts
-			(xy 85.09 91.44) (xy 90.17 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7c8204b8-b678-4f85-a8ff-b1ea016c7f2d")
-	)
-	(wire
-		(pts
-			(xy 114.3 101.6) (xy 114.3 102.87)
+			(xy 43.18 87.63) (xy 43.18 88.9)
 		)
 		(stroke
 			(width 0)
@@ -3743,7 +4015,7 @@
 	)
 	(wire
 		(pts
-			(xy 224.79 86.36) (xy 237.49 86.36)
+			(xy 168.91 80.01) (xy 181.61 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3753,7 +4025,7 @@
 	)
 	(wire
 		(pts
-			(xy 124.46 76.2) (xy 137.16 76.2)
+			(xy 53.34 62.23) (xy 66.04 62.23)
 		)
 		(stroke
 			(width 0)
@@ -3763,7 +4035,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 72.39) (xy 167.64 72.39)
+			(xy 92.71 58.42) (xy 96.52 58.42)
 		)
 		(stroke
 			(width 0)
@@ -3773,17 +4045,7 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 96.52) (xy 190.5 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "81235e72-9bd8-46a5-b3c7-008fe1970ad4")
-	)
-	(wire
-		(pts
-			(xy 114.3 91.44) (xy 114.3 92.71)
+			(xy 43.18 77.47) (xy 43.18 78.74)
 		)
 		(stroke
 			(width 0)
@@ -3793,7 +4055,7 @@
 	)
 	(wire
 		(pts
-			(xy 257.81 99.06) (xy 264.16 99.06)
+			(xy 201.93 92.71) (xy 208.28 92.71)
 		)
 		(stroke
 			(width 0)
@@ -3803,7 +4065,7 @@
 	)
 	(wire
 		(pts
-			(xy 214.63 96.52) (xy 220.98 96.52)
+			(xy 158.75 90.17) (xy 165.1 90.17)
 		)
 		(stroke
 			(width 0)
@@ -3813,7 +4075,7 @@
 	)
 	(wire
 		(pts
-			(xy 119.38 101.6) (xy 137.16 101.6)
+			(xy 48.26 87.63) (xy 66.04 87.63)
 		)
 		(stroke
 			(width 0)
@@ -3823,7 +4085,7 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 57.15) (xy 171.45 59.69)
+			(xy 50.8 34.29) (xy 50.8 36.83)
 		)
 		(stroke
 			(width 0)
@@ -3833,7 +4095,7 @@
 	)
 	(wire
 		(pts
-			(xy 308.61 114.3) (xy 307.34 114.3)
+			(xy 241.3 39.37) (xy 240.03 39.37)
 		)
 		(stroke
 			(width 0)
@@ -3843,7 +4105,7 @@
 	)
 	(wire
 		(pts
-			(xy 237.49 86.36) (xy 237.49 99.06)
+			(xy 181.61 80.01) (xy 181.61 92.71)
 		)
 		(stroke
 			(width 0)
@@ -3853,7 +4115,7 @@
 	)
 	(wire
 		(pts
-			(xy 220.98 58.42) (xy 220.98 59.69)
+			(xy 101.6 34.29) (xy 101.6 35.56)
 		)
 		(stroke
 			(width 0)
@@ -3863,7 +4125,7 @@
 	)
 	(wire
 		(pts
-			(xy 307.34 109.22) (xy 308.61 109.22)
+			(xy 240.03 34.29) (xy 241.3 34.29)
 		)
 		(stroke
 			(width 0)
@@ -3873,7 +4135,7 @@
 	)
 	(wire
 		(pts
-			(xy 307.34 101.6) (xy 307.34 109.22)
+			(xy 240.03 26.67) (xy 240.03 34.29)
 		)
 		(stroke
 			(width 0)
@@ -3883,7 +4145,7 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 93.98) (xy 148.59 93.98)
+			(xy 76.2 80.01) (xy 77.47 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3893,7 +4155,7 @@
 	)
 	(wire
 		(pts
-			(xy 162.56 104.14) (xy 180.34 104.14)
+			(xy 91.44 90.17) (xy 109.22 90.17)
 		)
 		(stroke
 			(width 0)
@@ -3903,7 +4165,7 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 41.91) (xy 82.55 44.45)
+			(xy 34.29 130.81) (xy 34.29 133.35)
 		)
 		(stroke
 			(width 0)
@@ -3913,7 +4175,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 25.4) (xy 120.65 29.21)
+			(xy 95.25 114.3) (xy 95.25 118.11)
 		)
 		(stroke
 			(width 0)
@@ -3923,7 +4185,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 50.8) (xy 189.23 50.8)
+			(xy 191.77 132.08) (xy 190.5 132.08)
 		)
 		(stroke
 			(width 0)
@@ -3933,7 +4195,7 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 76.2) (xy 137.16 93.98)
+			(xy 66.04 62.23) (xy 66.04 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3943,7 +4205,7 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 59.69) (xy 158.75 59.69)
+			(xy 50.8 36.83) (xy 38.1 36.83)
 		)
 		(stroke
 			(width 0)
@@ -3953,7 +4215,7 @@
 	)
 	(wire
 		(pts
-			(xy 280.67 107.95) (xy 280.67 101.6)
+			(xy 224.79 101.6) (xy 224.79 95.25)
 		)
 		(stroke
 			(width 0)
@@ -3963,7 +4225,7 @@
 	)
 	(wire
 		(pts
-			(xy 237.49 105.41) (xy 237.49 99.06)
+			(xy 181.61 99.06) (xy 181.61 92.71)
 		)
 		(stroke
 			(width 0)
@@ -3973,17 +4235,7 @@
 	)
 	(wire
 		(pts
-			(xy 229.87 49.53) (xy 229.87 46.99)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9db276e8-c8f4-4655-ba41-050d2ca6eb25")
-	)
-	(wire
-		(pts
-			(xy 137.16 101.6) (xy 137.16 93.98)
+			(xy 66.04 87.63) (xy 66.04 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3993,7 +4245,7 @@
 	)
 	(wire
 		(pts
-			(xy 214.63 96.52) (xy 214.63 99.06)
+			(xy 158.75 90.17) (xy 158.75 92.71)
 		)
 		(stroke
 			(width 0)
@@ -4003,7 +4255,7 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 93.98) (xy 66.04 96.52)
+			(xy 162.56 43.18) (xy 162.56 45.72)
 		)
 		(stroke
 			(width 0)
@@ -4013,7 +4265,7 @@
 	)
 	(wire
 		(pts
-			(xy 238.76 95.25) (xy 238.76 99.06)
+			(xy 182.88 88.9) (xy 182.88 92.71)
 		)
 		(stroke
 			(width 0)
@@ -4023,7 +4275,7 @@
 	)
 	(wire
 		(pts
-			(xy 207.01 63.5) (xy 207.01 64.77)
+			(xy 80.01 33.02) (xy 78.74 33.02)
 		)
 		(stroke
 			(width 0)
@@ -4033,7 +4285,17 @@
 	)
 	(wire
 		(pts
-			(xy 257.81 109.22) (xy 257.81 111.76)
+			(xy 87.63 33.02) (xy 88.9 33.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a71d91e7-6348-422e-bfb8-88b84848c3df")
+	)
+	(wire
+		(pts
+			(xy 201.93 102.87) (xy 201.93 105.41)
 		)
 		(stroke
 			(width 0)
@@ -4041,9 +4303,19 @@
 		)
 		(uuid "a7b23327-8c98-4c45-a65f-59364bdfdd5a")
 	)
+	(polyline
+		(pts
+			(xy 63.5 104.14) (xy 63.5 152.4)
+		)
+		(stroke
+			(width 0)
+			(type dash)
+		)
+		(uuid "a7e888dc-95d2-433a-a028-840a6f4a4dbc")
+	)
 	(wire
 		(pts
-			(xy 264.16 104.14) (xy 262.89 104.14)
+			(xy 208.28 97.79) (xy 207.01 97.79)
 		)
 		(stroke
 			(width 0)
@@ -4053,7 +4325,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 86.36) (xy 43.18 88.9)
+			(xy 140.97 35.56) (xy 140.97 38.1)
 		)
 		(stroke
 			(width 0)
@@ -4063,7 +4335,7 @@
 	)
 	(wire
 		(pts
-			(xy 246.38 99.06) (xy 247.65 99.06)
+			(xy 190.5 92.71) (xy 191.77 92.71)
 		)
 		(stroke
 			(width 0)
@@ -4073,7 +4345,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 53.34) (xy 130.81 53.34)
+			(xy 95.25 142.24) (xy 105.41 142.24)
 		)
 		(stroke
 			(width 0)
@@ -4083,7 +4355,7 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 92.71) (xy 194.31 96.52)
+			(xy 138.43 86.36) (xy 138.43 90.17)
 		)
 		(stroke
 			(width 0)
@@ -4093,7 +4365,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 48.26) (xy 110.49 53.34)
+			(xy 85.09 137.16) (xy 85.09 142.24)
 		)
 		(stroke
 			(width 0)
@@ -4103,7 +4375,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 101.6) (xy 114.3 100.33)
+			(xy 43.18 87.63) (xy 43.18 86.36)
 		)
 		(stroke
 			(width 0)
@@ -4113,7 +4385,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 96.52) (xy 179.07 96.52)
+			(xy 109.22 82.55) (xy 107.95 82.55)
 		)
 		(stroke
 			(width 0)
@@ -4123,7 +4395,7 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 48.26) (xy 171.45 49.53)
+			(xy 50.8 25.4) (xy 50.8 26.67)
 		)
 		(stroke
 			(width 0)
@@ -4133,7 +4405,7 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 88.9) (xy 67.31 88.9)
+			(xy 162.56 38.1) (xy 163.83 38.1)
 		)
 		(stroke
 			(width 0)
@@ -4143,7 +4415,7 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 36.83) (xy 82.55 34.29)
+			(xy 34.29 125.73) (xy 34.29 123.19)
 		)
 		(stroke
 			(width 0)
@@ -4153,7 +4425,7 @@
 	)
 	(wire
 		(pts
-			(xy 77.47 39.37) (xy 86.36 39.37)
+			(xy 29.21 128.27) (xy 38.1 128.27)
 		)
 		(stroke
 			(width 0)
@@ -4163,7 +4435,7 @@
 	)
 	(wire
 		(pts
-			(xy 207.01 43.18) (xy 207.01 45.72)
+			(xy 88.9 17.78) (xy 88.9 21.59)
 		)
 		(stroke
 			(width 0)
@@ -4173,7 +4445,7 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 82.55) (xy 67.31 82.55)
+			(xy 162.56 26.67) (xy 163.83 26.67)
 		)
 		(stroke
 			(width 0)
@@ -4183,7 +4455,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 101.6) (xy 114.3 101.6)
+			(xy 46.99 87.63) (xy 43.18 87.63)
 		)
 		(stroke
 			(width 0)
@@ -4193,7 +4465,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 29.21) (xy 130.81 29.21)
+			(xy 95.25 118.11) (xy 105.41 118.11)
 		)
 		(stroke
 			(width 0)
@@ -4203,7 +4475,7 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 76.2) (xy 104.14 91.44)
+			(xy 33.02 62.23) (xy 33.02 77.47)
 		)
 		(stroke
 			(width 0)
@@ -4213,7 +4485,7 @@
 	)
 	(wire
 		(pts
-			(xy 307.34 121.92) (xy 300.99 121.92)
+			(xy 240.03 46.99) (xy 233.68 46.99)
 		)
 		(stroke
 			(width 0)
@@ -4223,7 +4495,7 @@
 	)
 	(wire
 		(pts
-			(xy 307.34 121.92) (xy 313.69 121.92)
+			(xy 240.03 46.99) (xy 246.38 46.99)
 		)
 		(stroke
 			(width 0)
@@ -4233,7 +4505,7 @@
 	)
 	(wire
 		(pts
-			(xy 257.81 99.06) (xy 257.81 101.6)
+			(xy 201.93 92.71) (xy 201.93 95.25)
 		)
 		(stroke
 			(width 0)
@@ -4243,7 +4515,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 91.44) (xy 120.65 91.44)
+			(xy 43.18 77.47) (xy 49.53 77.47)
 		)
 		(stroke
 			(width 0)
@@ -4253,7 +4525,7 @@
 	)
 	(wire
 		(pts
-			(xy 204.47 96.52) (xy 205.74 96.52)
+			(xy 148.59 90.17) (xy 149.86 90.17)
 		)
 		(stroke
 			(width 0)
@@ -4263,7 +4535,7 @@
 	)
 	(wire
 		(pts
-			(xy 313.69 101.6) (xy 307.34 101.6)
+			(xy 246.38 26.67) (xy 240.03 26.67)
 		)
 		(stroke
 			(width 0)
@@ -4273,7 +4545,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 99.06) (xy 248.92 99.06)
+			(xy 191.77 92.71) (xy 193.04 92.71)
 		)
 		(stroke
 			(width 0)
@@ -4283,7 +4555,7 @@
 	)
 	(wire
 		(pts
-			(xy 325.12 111.76) (xy 334.01 111.76)
+			(xy 257.81 36.83) (xy 266.7 36.83)
 		)
 		(stroke
 			(width 0)
@@ -4293,7 +4565,7 @@
 	)
 	(wire
 		(pts
-			(xy 242.57 95.25) (xy 238.76 95.25)
+			(xy 186.69 88.9) (xy 182.88 88.9)
 		)
 		(stroke
 			(width 0)
@@ -4303,7 +4575,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 96.52) (xy 187.96 96.52)
+			(xy 109.22 82.55) (xy 113.03 82.55)
 		)
 		(stroke
 			(width 0)
@@ -4313,7 +4585,7 @@
 	)
 	(wire
 		(pts
-			(xy 325.12 101.6) (xy 325.12 111.76)
+			(xy 257.81 26.67) (xy 257.81 36.83)
 		)
 		(stroke
 			(width 0)
@@ -4323,7 +4595,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 101.6) (xy 43.18 104.14)
+			(xy 140.97 50.8) (xy 140.97 53.34)
 		)
 		(stroke
 			(width 0)
@@ -4333,7 +4605,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 76.2) (xy 180.34 96.52)
+			(xy 109.22 62.23) (xy 109.22 82.55)
 		)
 		(stroke
 			(width 0)
@@ -4343,7 +4615,7 @@
 	)
 	(wire
 		(pts
-			(xy 220.98 50.8) (xy 220.98 49.53)
+			(xy 101.6 26.67) (xy 101.6 25.4)
 		)
 		(stroke
 			(width 0)
@@ -4353,7 +4625,7 @@
 	)
 	(wire
 		(pts
-			(xy 214.63 92.71) (xy 214.63 96.52)
+			(xy 158.75 86.36) (xy 158.75 90.17)
 		)
 		(stroke
 			(width 0)
@@ -4363,7 +4635,7 @@
 	)
 	(wire
 		(pts
-			(xy 262.89 104.14) (xy 262.89 107.95)
+			(xy 207.01 97.79) (xy 207.01 101.6)
 		)
 		(stroke
 			(width 0)
@@ -4373,7 +4645,7 @@
 	)
 	(wire
 		(pts
-			(xy 80.01 78.74) (xy 74.93 78.74)
+			(xy 177.8 22.86) (xy 172.72 22.86)
 		)
 		(stroke
 			(width 0)
@@ -4383,7 +4655,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 45.72) (xy 146.05 48.26)
+			(xy 25.4 22.86) (xy 25.4 25.4)
 		)
 		(stroke
 			(width 0)
@@ -4393,7 +4665,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 104.14) (xy 157.48 105.41)
+			(xy 86.36 90.17) (xy 86.36 91.44)
 		)
 		(stroke
 			(width 0)
@@ -4403,7 +4675,7 @@
 	)
 	(wire
 		(pts
-			(xy 237.49 99.06) (xy 238.76 99.06)
+			(xy 181.61 92.71) (xy 182.88 92.71)
 		)
 		(stroke
 			(width 0)
@@ -4413,17 +4685,7 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 48.26) (xy 172.72 48.26)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d73e87d1-cbe9-4e67-80ed-9ce40a8fd0e0")
-	)
-	(wire
-		(pts
-			(xy 66.04 82.55) (xy 66.04 88.9)
+			(xy 162.56 26.67) (xy 162.56 38.1)
 		)
 		(stroke
 			(width 0)
@@ -4433,7 +4695,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 29.21) (xy 120.65 29.21)
+			(xy 85.09 118.11) (xy 95.25 118.11)
 		)
 		(stroke
 			(width 0)
@@ -4443,7 +4705,7 @@
 	)
 	(wire
 		(pts
-			(xy 321.31 121.92) (xy 323.85 121.92)
+			(xy 254 46.99) (xy 256.54 46.99)
 		)
 		(stroke
 			(width 0)
@@ -4453,7 +4715,7 @@
 	)
 	(wire
 		(pts
-			(xy 323.85 121.92) (xy 323.85 123.19)
+			(xy 256.54 46.99) (xy 256.54 48.26)
 		)
 		(stroke
 			(width 0)
@@ -4463,7 +4725,7 @@
 	)
 	(wire
 		(pts
-			(xy 203.2 96.52) (xy 204.47 96.52)
+			(xy 147.32 90.17) (xy 148.59 90.17)
 		)
 		(stroke
 			(width 0)
@@ -4473,7 +4735,7 @@
 	)
 	(wire
 		(pts
-			(xy 210.82 49.53) (xy 220.98 49.53)
+			(xy 92.71 25.4) (xy 101.6 25.4)
 		)
 		(stroke
 			(width 0)
@@ -4483,17 +4745,7 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 91.44) (xy 93.98 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e2939d7f-2131-467d-91ef-2686603664c5")
-	)
-	(wire
-		(pts
-			(xy 85.09 82.55) (xy 85.09 91.44)
+			(xy 182.88 26.67) (xy 182.88 40.64)
 		)
 		(stroke
 			(width 0)
@@ -4503,7 +4755,7 @@
 	)
 	(wire
 		(pts
-			(xy 207.01 53.34) (xy 207.01 55.88)
+			(xy 88.9 29.21) (xy 88.9 33.02)
 		)
 		(stroke
 			(width 0)
@@ -4513,7 +4765,7 @@
 	)
 	(wire
 		(pts
-			(xy 321.31 101.6) (xy 325.12 101.6)
+			(xy 254 26.67) (xy 257.81 26.67)
 		)
 		(stroke
 			(width 0)
@@ -4523,7 +4775,7 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 93.98) (xy 135.89 93.98)
+			(xy 66.04 80.01) (xy 64.77 80.01)
 		)
 		(stroke
 			(width 0)
@@ -4533,7 +4785,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 48.26) (xy 120.65 53.34)
+			(xy 95.25 137.16) (xy 95.25 142.24)
 		)
 		(stroke
 			(width 0)
@@ -4543,7 +4795,7 @@
 	)
 	(wire
 		(pts
-			(xy 156.21 93.98) (xy 157.48 93.98)
+			(xy 85.09 80.01) (xy 86.36 80.01)
 		)
 		(stroke
 			(width 0)
@@ -4553,7 +4805,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 96.52) (xy 119.38 96.52)
+			(xy 49.53 82.55) (xy 48.26 82.55)
 		)
 		(stroke
 			(width 0)
@@ -4563,7 +4815,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 102.87) (xy 157.48 104.14)
+			(xy 86.36 88.9) (xy 86.36 90.17)
 		)
 		(stroke
 			(width 0)
@@ -4573,7 +4825,17 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 93.98) (xy 147.32 93.98)
+			(xy 171.45 26.67) (xy 173.99 26.67)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ef69951b-c60c-45dd-a153-72c8498cd00d")
+	)
+	(wire
+		(pts
+			(xy 74.93 80.01) (xy 76.2 80.01)
 		)
 		(stroke
 			(width 0)
@@ -4583,7 +4845,7 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 36.83) (xy 83.82 36.83)
+			(xy 34.29 125.73) (xy 35.56 125.73)
 		)
 		(stroke
 			(width 0)
@@ -4593,7 +4855,7 @@
 	)
 	(wire
 		(pts
-			(xy 220.98 49.53) (xy 229.87 49.53)
+			(xy 101.6 25.4) (xy 111.76 25.4)
 		)
 		(stroke
 			(width 0)
@@ -4603,7 +4865,7 @@
 	)
 	(wire
 		(pts
-			(xy 256.54 95.25) (xy 256.54 99.06)
+			(xy 200.66 88.9) (xy 200.66 92.71)
 		)
 		(stroke
 			(width 0)
@@ -4613,7 +4875,17 @@
 	)
 	(wire
 		(pts
-			(xy 280.67 121.92) (xy 287.02 121.92)
+			(xy 87.63 17.78) (xy 88.9 17.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f9ef7e68-a49b-4d31-8453-db8d0326c713")
+	)
+	(wire
+		(pts
+			(xy 213.36 46.99) (xy 219.71 46.99)
 		)
 		(stroke
 			(width 0)
@@ -4623,7 +4895,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 53.34) (xy 120.65 53.34)
+			(xy 85.09 142.24) (xy 95.25 142.24)
 		)
 		(stroke
 			(width 0)
@@ -4633,7 +4905,7 @@
 	)
 	(global_label "-12V"
 		(shape input)
-		(at 266.7 58.42 270)
+		(at 133.35 143.51 270)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4643,7 +4915,55 @@
 		)
 		(uuid "1249f467-7ea7-4d99-81d9-b0f692fe3d3b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 266.7 66.4852 90)
+			(at 133.35 151.5752 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "Sound"
+		(shape input)
+		(at 194.31 40.64 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "176638a7-8f27-4229-afb9-5eb648a70e17")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 203.1007 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(global_label "LPF"
+		(shape input)
+		(at 215.9 26.67 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1a773525-2339-4956-8c4a-31522431b0d4")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 209.5281 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4657,7 +4977,7 @@
 	)
 	(global_label "+12V"
 		(shape input)
-		(at 298.45 39.37 90)
+		(at 165.1 124.46 90)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4667,7 +4987,7 @@
 		)
 		(uuid "2eb77480-073d-4a10-916b-1177a9c35f8f")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 298.45 31.3048 90)
+			(at 165.1 116.3948 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4681,7 +5001,7 @@
 	)
 	(global_label "-12V"
 		(shape input)
-		(at 283.21 58.42 270)
+		(at 149.86 143.51 270)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4691,7 +5011,55 @@
 		)
 		(uuid "34194870-7dc0-44dc-be75-187f284e4c18")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 283.21 66.4852 90)
+			(at 149.86 151.5752 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "HPF"
+		(shape input)
+		(at 119.38 82.55 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4e704ee4-7771-4f10-91eb-0f47998c1bc7")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 126.0543 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(global_label "HPF"
+		(shape input)
+		(at 135.89 90.17 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "5c214bf9-7e54-4ec9-9d52-dac9cbf2fee5")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 129.2157 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4705,7 +5073,7 @@
 	)
 	(global_label "+12V"
 		(shape input)
-		(at 283.21 39.37 90)
+		(at 149.86 124.46 90)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4715,7 +5083,55 @@
 		)
 		(uuid "826b8e67-7c2c-4035-9944-8ef0ae2243b0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 283.21 31.3048 90)
+			(at 149.86 116.3948 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(global_label "Sound"
+		(shape input)
+		(at 22.86 77.47 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "898865cb-ee89-4a3b-aa08-37cabaa9fc12")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 14.0693 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "LPF"
+		(shape input)
+		(at 234.95 95.25 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a527316b-3855-44e4-8cbb-ef4d4ddf82f2")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 241.3219 95.25 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4729,7 +5145,7 @@
 	)
 	(global_label "-12V"
 		(shape input)
-		(at 298.45 58.42 270)
+		(at 165.1 143.51 270)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4739,7 +5155,7 @@
 		)
 		(uuid "a719f45d-0497-489d-84a3-315384c17fcc")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 298.45 66.4852 90)
+			(at 165.1 151.5752 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4753,7 +5169,7 @@
 	)
 	(global_label "+12V"
 		(shape input)
-		(at 266.7 39.37 90)
+		(at 133.35 124.46 90)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4763,7 +5179,7 @@
 		)
 		(uuid "e889022d-c1fe-4612-9e12-7d1e84826636")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 266.7 31.3048 90)
+			(at 133.35 116.3948 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4777,7 +5193,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 109.22 91.44 90)
+		(at 38.1 77.47 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4788,7 +5204,7 @@
 		(fields_autoplaced yes)
 		(uuid "02ff6829-07ea-4e48-ae3a-b63be0a21e33")
 		(property "Reference" "C7"
-			(at 109.22 83.82 90)
+			(at 38.1 69.85 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4798,7 +5214,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 109.22 86.36 90)
+			(at 38.1 72.39 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4808,7 +5224,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 113.03 90.4748 0)
+			(at 41.91 76.5048 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4819,7 +5235,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 109.22 91.44 0)
+			(at 38.1 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4830,7 +5246,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 109.22 91.44 0)
+			(at 38.1 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4847,7 +5263,7 @@
 			(uuid "5c974d74-c927-4854-8c0b-2c6d497fcbd4")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "C7")
 					(unit 1)
@@ -4857,7 +5273,7 @@
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:TL072")
-		(at 123.19 40.64 0)
+		(at 97.79 129.54 0)
 		(unit 3)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4868,7 +5284,7 @@
 		(fields_autoplaced yes)
 		(uuid "085e88b1-2220-4982-a933-287a74b38e29")
 		(property "Reference" "U2"
-			(at 121.92 39.3699 0)
+			(at 96.52 128.2699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4879,7 +5295,7 @@
 			)
 		)
 		(property "Value" "TL072"
-			(at 121.92 41.9099 0)
+			(at 96.52 130.8099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4890,7 +5306,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_Socket"
-			(at 123.19 40.64 0)
+			(at 97.79 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4901,7 +5317,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl071.pdf"
-			(at 123.19 40.64 0)
+			(at 97.79 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4912,7 +5328,7 @@
 			)
 		)
 		(property "Description" "Dual Low-Noise JFET-Input Operational Amplifiers, DIP-8/SOIC-8"
-			(at 123.19 40.64 0)
+			(at 97.79 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4947,7 +5363,7 @@
 			(uuid "77497409-c75c-44d7-bf8f-6e84f912d3d3")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "U2")
 					(unit 3)
@@ -4957,7 +5373,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 283.21 57.15 0)
+		(at 149.86 142.24 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4968,7 +5384,7 @@
 		(fields_autoplaced yes)
 		(uuid "086dae8a-8555-4eed-b20a-26c131d05570")
 		(property "Reference" "TP5"
-			(at 285.75 52.5779 0)
+			(at 152.4 137.6679 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4979,7 +5395,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 285.75 55.1179 0)
+			(at 152.4 140.2079 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4990,7 +5406,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch7.62mm_Drill1.3mm"
-			(at 288.29 57.15 0)
+			(at 154.94 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5001,7 +5417,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 288.29 57.15 0)
+			(at 154.94 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5012,7 +5428,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 283.21 57.15 0)
+			(at 149.86 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5026,7 +5442,7 @@
 			(uuid "8d125dc0-bc3d-48b4-85e3-576812fcdd16")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "TP5")
 					(unit 1)
@@ -5036,7 +5452,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 43.18 104.14 0)
+		(at 140.97 53.34 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5047,7 +5463,7 @@
 		(fields_autoplaced yes)
 		(uuid "0bf88334-7510-4e88-821d-f9a93cd2aa1f")
 		(property "Reference" "#PWR021"
-			(at 43.18 110.49 0)
+			(at 140.97 59.69 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5058,7 +5474,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 43.18 109.22 0)
+			(at 140.97 58.42 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5068,7 +5484,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 43.18 104.14 0)
+			(at 140.97 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5079,7 +5495,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.18 104.14 0)
+			(at 140.97 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5090,7 +5506,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 43.18 104.14 0)
+			(at 140.97 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5104,7 +5520,7 @@
 			(uuid "bfe5b66c-977f-46d7-b3b0-73925db80cd2")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR021")
 					(unit 1)
@@ -5114,7 +5530,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
-		(at 72.39 39.37 180)
+		(at 24.13 128.27 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5124,7 +5540,7 @@
 		(dnp no)
 		(uuid "0daa4b39-00f3-4fda-90df-fb3a8c455a08")
 		(property "Reference" "Vin1"
-			(at 68.58 39.37 0)
+			(at 20.32 128.27 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5134,7 +5550,7 @@
 			)
 		)
 		(property "Value" "Conn_01x03"
-			(at 69.85 38.1001 0)
+			(at 21.59 127.0001 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5146,7 +5562,7 @@
 			)
 		)
 		(property "Footprint" "TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-03P_1x03_P5.00mm"
-			(at 72.39 39.37 0)
+			(at 24.13 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5157,7 +5573,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 72.39 39.37 0)
+			(at 24.13 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5168,7 +5584,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 72.39 39.37 0)
+			(at 24.13 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5188,7 +5604,7 @@
 			(uuid "f152da3e-f979-40bf-89b9-66a8c6100c24")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "Vin1")
 					(unit 1)
@@ -5198,7 +5614,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 283.21 40.64 0)
+		(at 149.86 125.73 0)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -5210,7 +5626,7 @@
 		(fields_autoplaced yes)
 		(uuid "1182bac5-e21b-4e34-afde-a3ea7c216059")
 		(property "Reference" "TP2"
-			(at 285.75 45.2121 0)
+			(at 152.4 130.3021 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5221,7 +5637,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 285.75 42.6721 0)
+			(at 152.4 127.7621 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5232,7 +5648,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch7.62mm_Drill1.3mm"
-			(at 288.29 40.64 0)
+			(at 154.94 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5243,7 +5659,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 288.29 40.64 0)
+			(at 154.94 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5254,7 +5670,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 283.21 40.64 0)
+			(at 149.86 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5268,7 +5684,7 @@
 			(uuid "a14bde03-5008-4667-8045-e871c203374f")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "TP2")
 					(unit 1)
@@ -5278,7 +5694,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 334.01 120.65 0)
+		(at 266.7 45.72 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5289,7 +5705,7 @@
 		(fields_autoplaced yes)
 		(uuid "12a9d1dd-fe3c-4ab5-af2d-8be9dc5b7db6")
 		(property "Reference" "#PWR022"
-			(at 334.01 127 0)
+			(at 266.7 52.07 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5300,7 +5716,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 334.01 125.73 0)
+			(at 266.7 50.8 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5310,7 +5726,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 334.01 120.65 0)
+			(at 266.7 45.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5321,7 +5737,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 334.01 120.65 0)
+			(at 266.7 45.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5332,7 +5748,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 334.01 120.65 0)
+			(at 266.7 45.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5346,7 +5762,7 @@
 			(uuid "c715ebaa-1576-4367-86f8-d8386431d749")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR022")
 					(unit 1)
@@ -5356,7 +5772,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Potentiometer")
-		(at 207.01 49.53 0)
+		(at 88.9 25.4 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5366,29 +5782,29 @@
 		(dnp no)
 		(uuid "136aa705-74b7-4f6d-858c-7a40057001bb")
 		(property "Reference" "RV9"
-			(at 204.978 47.498 90)
+			(at 83.82 25.4 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(property "Value" "100"
-			(at 203.2 46.99 90)
+			(at 88.9 27.432 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 207.01 49.53 0)
+			(at 88.9 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5399,7 +5815,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 207.01 49.53 0)
+			(at 88.9 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5410,7 +5826,7 @@
 			)
 		)
 		(property "Description" "Potentiometer"
-			(at 207.01 49.53 0)
+			(at 88.9 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5421,7 +5837,7 @@
 			)
 		)
 		(property "Sim.Device" "R"
-			(at 207.01 49.53 0)
+			(at 88.9 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5432,7 +5848,7 @@
 			)
 		)
 		(property "Sim.Type" "POT"
-			(at 207.01 49.53 0)
+			(at 88.9 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5443,7 +5859,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 207.01 49.53 0)
+			(at 88.9 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5463,7 +5879,7 @@
 			(uuid "62fd0f4a-8ff1-47ee-8e40-1be502395c36")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "RV9")
 					(unit 1)
@@ -5473,7 +5889,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 50.8 88.9 90)
+		(at 147.32 38.1 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5483,7 +5899,7 @@
 		(dnp no)
 		(uuid "147d2d4a-c0ca-445e-8181-5adecbb9e2ed")
 		(property "Reference" "Cin1"
-			(at 51.054 82.804 90)
+			(at 147.574 32.004 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5493,7 +5909,7 @@
 			)
 		)
 		(property "Value" "1uF"
-			(at 51.054 85.344 90)
+			(at 147.574 34.544 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5503,7 +5919,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 54.61 87.9348 0)
+			(at 151.13 37.1348 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5514,7 +5930,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 50.8 88.9 0)
+			(at 147.32 38.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5525,7 +5941,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 50.8 88.9 0)
+			(at 147.32 38.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5542,7 +5958,7 @@
 			(uuid "6be68edf-1347-4785-ad18-e6ee951cd2a1")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "Cin1")
 					(unit 1)
@@ -5552,7 +5968,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 220.98 59.69 0)
+		(at 101.6 35.56 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5563,7 +5979,7 @@
 		(fields_autoplaced yes)
 		(uuid "1ad428a4-3bd6-4037-abd0-57fa847b1813")
 		(property "Reference" "#PWR027"
-			(at 220.98 66.04 0)
+			(at 101.6 41.91 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5574,7 +5990,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 220.98 64.77 0)
+			(at 101.6 40.64 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5584,7 +6000,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 220.98 59.69 0)
+			(at 101.6 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5595,7 +6011,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 220.98 59.69 0)
+			(at 101.6 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5606,7 +6022,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 220.98 59.69 0)
+			(at 101.6 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5620,7 +6036,7 @@
 			(uuid "f3a4f81a-2684-4207-b68c-0d344291cffb")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR027")
 					(unit 1)
@@ -5630,7 +6046,7 @@
 	)
 	(symbol
 		(lib_id "power:+12V")
-		(at 146.05 45.72 0)
+		(at 25.4 22.86 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5638,10 +6054,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "1c9d1632-ca30-4ad4-bf76-bd80a9adbb74")
 		(property "Reference" "#PWR014"
-			(at 146.05 49.53 0)
+			(at 25.4 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5652,7 +6067,7 @@
 			)
 		)
 		(property "Value" "+12V"
-			(at 146.05 40.64 0)
+			(at 25.4 19.05 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5662,7 +6077,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 146.05 45.72 0)
+			(at 25.4 22.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5673,7 +6088,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 146.05 45.72 0)
+			(at 25.4 22.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5684,7 +6099,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 146.05 45.72 0)
+			(at 25.4 22.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5698,7 +6113,7 @@
 			(uuid "bd5cf719-514c-4b0e-b3b3-8e9528c73536")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR014")
 					(unit 1)
@@ -5708,7 +6123,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 288.29 96.52 270)
+		(at 232.41 90.17 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5718,7 +6133,7 @@
 		(dnp no)
 		(uuid "1e64ab66-4167-47cf-82b9-0ddff09c85b8")
 		(property "Reference" "J1"
-			(at 286.004 95.25 90)
+			(at 230.124 88.9 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5729,7 +6144,7 @@
 			)
 		)
 		(property "Value" "Conn_01x02_Pin"
-			(at 289.56 98.4249 90)
+			(at 233.68 92.0749 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5741,7 +6156,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 288.29 96.52 0)
+			(at 232.41 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5752,7 +6167,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 288.29 96.52 0)
+			(at 232.41 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5763,7 +6178,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 288.29 96.52 0)
+			(at 232.41 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5780,7 +6195,7 @@
 			(uuid "aaf47808-bf9c-4c4f-bed7-776e5ca08618")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "J1")
 					(unit 1)
@@ -5790,7 +6205,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 264.16 86.36 90)
+		(at 208.28 80.01 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5801,7 +6216,7 @@
 		(fields_autoplaced yes)
 		(uuid "213120e6-5655-4982-aae8-a132b12ef77f")
 		(property "Reference" "C4"
-			(at 264.16 78.74 90)
+			(at 208.28 72.39 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5811,7 +6226,7 @@
 			)
 		)
 		(property "Value" "68nF"
-			(at 264.16 81.28 90)
+			(at 208.28 74.93 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5821,7 +6236,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 267.97 85.3948 0)
+			(at 212.09 79.0448 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5832,7 +6247,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 264.16 86.36 0)
+			(at 208.28 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5843,7 +6258,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 264.16 86.36 0)
+			(at 208.28 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5860,7 +6275,7 @@
 			(uuid "40258107-5630-4060-932a-9fdf5bd39f9a")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "C4")
 					(unit 1)
@@ -5870,7 +6285,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 257.81 111.76 0)
+		(at 201.93 105.41 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5881,7 +6296,7 @@
 		(fields_autoplaced yes)
 		(uuid "21a84b8a-7136-4f18-9493-9296f0ee5471")
 		(property "Reference" "#PWR07"
-			(at 257.81 118.11 0)
+			(at 201.93 111.76 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5892,7 +6307,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 257.81 116.84 0)
+			(at 201.93 110.49 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5902,7 +6317,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 257.81 111.76 0)
+			(at 201.93 105.41 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5913,7 +6328,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 257.81 111.76 0)
+			(at 201.93 105.41 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5924,7 +6339,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 257.81 111.76 0)
+			(at 201.93 105.41 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5938,7 +6353,7 @@
 			(uuid "02f146f9-06c4-4559-b1c6-2b34004329ad")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR07")
 					(unit 1)
@@ -5948,7 +6363,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 97.79 91.44 90)
+		(at 27.94 77.47 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5959,7 +6374,7 @@
 		(fields_autoplaced yes)
 		(uuid "24181e57-d34e-4db9-a133-61d0f1095f07")
 		(property "Reference" "C6"
-			(at 97.79 83.82 90)
+			(at 27.94 69.85 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5969,7 +6384,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 97.79 86.36 90)
+			(at 27.94 72.39 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5979,7 +6394,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 101.6 90.4748 0)
+			(at 31.75 76.5048 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5990,7 +6405,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 97.79 91.44 0)
+			(at 27.94 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6001,7 +6416,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 97.79 91.44 0)
+			(at 27.94 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6018,7 +6433,7 @@
 			(uuid "23b8802c-194f-4c40-bf34-74f0dd49a00b")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "C6")
 					(unit 1)
@@ -6028,7 +6443,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 266.7 57.15 0)
+		(at 133.35 142.24 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6039,7 +6454,7 @@
 		(fields_autoplaced yes)
 		(uuid "2ca1e75d-4de8-407b-b807-4008ba0e8799")
 		(property "Reference" "TP4"
-			(at 269.24 52.5779 0)
+			(at 135.89 137.6679 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6050,7 +6465,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 269.24 55.1179 0)
+			(at 135.89 140.2079 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6061,7 +6476,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch7.62mm_Drill1.3mm"
-			(at 271.78 57.15 0)
+			(at 138.43 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6072,7 +6487,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 271.78 57.15 0)
+			(at 138.43 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6083,7 +6498,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 266.7 57.15 0)
+			(at 133.35 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6097,7 +6512,7 @@
 			(uuid "8da845c6-c711-48fb-bb62-a9c2e37997fd")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "TP4")
 					(unit 1)
@@ -6107,7 +6522,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 71.12 82.55 270)
+		(at 167.64 26.67 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6117,7 +6532,7 @@
 		(dnp no)
 		(uuid "328f857c-485c-4450-8319-d1c1e077bf28")
 		(property "Reference" "R13"
-			(at 71.374 78.232 90)
+			(at 167.64 28.956 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6127,7 +6542,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 71.374 80.264 90)
+			(at 167.64 26.67 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6137,7 +6552,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 71.12 80.772 90)
+			(at 167.64 24.892 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6148,7 +6563,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 71.12 82.55 0)
+			(at 167.64 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6159,7 +6574,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 71.12 82.55 0)
+			(at 167.64 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6176,7 +6591,7 @@
 			(uuid "708f76fb-526b-41ab-86fa-a282d4c8ae31")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "R13")
 					(unit 1)
@@ -6185,87 +6600,8 @@
 		)
 	)
 	(symbol
-		(lib_id "power:PWR_FLAG")
-		(at 172.72 48.26 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "352ab9ce-9b4f-4f8a-b7bc-518e072d6066")
-		(property "Reference" "#FLG03"
-			(at 174.625 48.26 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "PWR_FLAG"
-			(at 176.53 48.2599 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 172.72 48.26 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 172.72 48.26 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 172.72 48.26 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "a5775f39-b85c-4ec4-9f31-e75469398f8f")
-		)
-		(instances
-			(project "Microfono"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "#FLG03")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C")
-		(at 142.24 93.98 90)
+		(at 71.12 80.01 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6276,7 +6612,7 @@
 		(fields_autoplaced yes)
 		(uuid "35afbd30-1972-4727-a895-e2b2244dc271")
 		(property "Reference" "C8"
-			(at 142.24 86.36 90)
+			(at 71.12 72.39 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6286,7 +6622,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 142.24 88.9 90)
+			(at 71.12 74.93 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6296,7 +6632,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 146.05 93.0148 0)
+			(at 74.93 79.0448 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6307,7 +6643,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 142.24 93.98 0)
+			(at 71.12 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6318,7 +6654,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 142.24 93.98 0)
+			(at 71.12 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6335,7 +6671,7 @@
 			(uuid "ce6cd45e-a11e-4266-b901-6186750af6c5")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "C8")
 					(unit 1)
@@ -6345,7 +6681,7 @@
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:TL072")
-		(at 228.6 99.06 0)
+		(at 172.72 92.71 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6355,7 +6691,7 @@
 		(dnp no)
 		(uuid "379c6bc9-70aa-4abc-b7fd-b2cd7778dc30")
 		(property "Reference" "U2"
-			(at 228.6 91.186 0)
+			(at 172.72 84.836 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6365,7 +6701,7 @@
 			)
 		)
 		(property "Value" "TL072"
-			(at 228.6 93.726 0)
+			(at 172.72 87.376 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6375,7 +6711,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_Socket"
-			(at 228.6 99.06 0)
+			(at 172.72 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6386,7 +6722,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl071.pdf"
-			(at 228.6 99.06 0)
+			(at 172.72 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6397,7 +6733,7 @@
 			)
 		)
 		(property "Description" "Dual Low-Noise JFET-Input Operational Amplifiers, DIP-8/SOIC-8"
-			(at 228.6 99.06 0)
+			(at 172.72 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6432,7 +6768,7 @@
 			(uuid "1f8070c8-1048-425c-b330-f8f2a5539629")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "U2")
 					(unit 1)
@@ -6442,7 +6778,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 189.23 45.72 0)
+		(at 190.5 127 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6450,10 +6786,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "37dc0747-ac26-4acd-a2bf-2e947fdb2cc1")
 		(property "Reference" "#PWR08"
-			(at 189.23 49.53 0)
+			(at 190.5 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6464,7 +6799,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 189.23 40.64 0)
+			(at 190.5 123.19 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6474,7 +6809,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 189.23 45.72 0)
+			(at 190.5 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6485,7 +6820,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 189.23 45.72 0)
+			(at 190.5 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6496,7 +6831,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 189.23 45.72 0)
+			(at 190.5 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6510,7 +6845,7 @@
 			(uuid "b5b5e0d4-a408-4088-81e6-e10af0525b3e")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR08")
 					(unit 1)
@@ -6520,7 +6855,7 @@
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:TL072")
-		(at 113.03 40.64 0)
+		(at 87.63 129.54 0)
 		(unit 3)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6531,7 +6866,7 @@
 		(fields_autoplaced yes)
 		(uuid "3ff481b6-0532-4bb8-9634-140af005e746")
 		(property "Reference" "U1"
-			(at 111.76 39.3699 0)
+			(at 86.36 128.2699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6542,7 +6877,7 @@
 			)
 		)
 		(property "Value" "TL072"
-			(at 111.76 41.9099 0)
+			(at 86.36 130.8099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6553,7 +6888,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_Socket"
-			(at 113.03 40.64 0)
+			(at 87.63 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6564,7 +6899,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl071.pdf"
-			(at 113.03 40.64 0)
+			(at 87.63 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6575,7 +6910,7 @@
 			)
 		)
 		(property "Description" "Dual Low-Noise JFET-Input Operational Amplifiers, DIP-8/SOIC-8"
-			(at 113.03 40.64 0)
+			(at 87.63 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6610,7 +6945,7 @@
 			(uuid "1f8070c8-1048-425c-b330-f8f2a553962a")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "U1")
 					(unit 3)
@@ -6620,7 +6955,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Potentiometer")
-		(at 80.01 82.55 90)
+		(at 177.8 26.67 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6630,7 +6965,7 @@
 		(dnp no)
 		(uuid "4aff51a0-88d4-457f-b7d7-ef8c0c832417")
 		(property "Reference" "RV10"
-			(at 82.804 75.946 90)
+			(at 180.34 28.956 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6641,7 +6976,7 @@
 			)
 		)
 		(property "Value" "100k"
-			(at 82.804 77.724 90)
+			(at 180.34 26.67 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6652,7 +6987,7 @@
 			)
 		)
 		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 80.01 82.55 0)
+			(at 177.8 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6663,7 +6998,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 80.01 82.55 0)
+			(at 177.8 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6674,7 +7009,7 @@
 			)
 		)
 		(property "Description" "Potentiometer"
-			(at 80.01 82.55 0)
+			(at 177.8 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6685,7 +7020,7 @@
 			)
 		)
 		(property "Sim.Device" "R"
-			(at 80.01 82.55 0)
+			(at 177.8 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6696,7 +7031,7 @@
 			)
 		)
 		(property "Sim.Type" "POT"
-			(at 80.01 82.55 0)
+			(at 177.8 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6707,7 +7042,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 80.01 82.55 0)
+			(at 177.8 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6727,7 +7062,7 @@
 			(uuid "8bff6dd3-7890-43cc-b158-3ffa9e6cbd6a")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "RV10")
 					(unit 1)
@@ -6737,7 +7072,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 266.7 40.64 0)
+		(at 133.35 125.73 0)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -6749,7 +7084,7 @@
 		(fields_autoplaced yes)
 		(uuid "4b9a68b0-24b3-424f-b023-9ba700155076")
 		(property "Reference" "TP01"
-			(at 269.24 45.2121 0)
+			(at 135.89 130.3021 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6760,7 +7095,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 269.24 42.6721 0)
+			(at 135.89 127.7621 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6771,7 +7106,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch7.62mm_Drill1.3mm"
-			(at 271.78 40.64 0)
+			(at 138.43 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6782,7 +7117,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 271.78 40.64 0)
+			(at 138.43 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6793,7 +7128,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 266.7 40.64 0)
+			(at 133.35 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6807,7 +7142,7 @@
 			(uuid "7a25c9ab-0278-4ead-b345-773aae28c09f")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "TP01")
 					(unit 1)
@@ -6816,87 +7151,8 @@
 		)
 	)
 	(symbol
-		(lib_id "power:PWR_FLAG")
-		(at 232.41 49.53 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "4ee60367-59d8-4eea-8e5b-4ae65502e2dc")
-		(property "Reference" "#FLG04"
-			(at 234.315 49.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "PWR_FLAG"
-			(at 236.22 49.5299 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 232.41 49.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 232.41 49.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 232.41 49.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "1ebc643f-a64e-414c-abe4-04cb4debb70e")
-		)
-		(instances
-			(project "Microfono"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "#FLG04")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:VCC")
-		(at 229.87 46.99 0)
+		(at 111.76 25.4 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6906,7 +7162,7 @@
 		(dnp no)
 		(uuid "50a4960a-e09f-42bf-9a93-35ce046dcb0e")
 		(property "Reference" "#PWR017"
-			(at 229.87 50.8 0)
+			(at 107.95 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6917,7 +7173,7 @@
 			)
 		)
 		(property "Value" "Vref"
-			(at 229.87 42.926 0)
+			(at 116.078 25.4 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6927,7 +7183,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 229.87 46.99 0)
+			(at 111.76 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6938,7 +7194,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 229.87 46.99 0)
+			(at 111.76 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6949,7 +7205,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VCC\""
-			(at 229.87 46.99 0)
+			(at 111.76 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6963,7 +7219,7 @@
 			(uuid "e32f35f7-af41-4474-aedf-f85c4d478f5c")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR017")
 					(unit 1)
@@ -6973,7 +7229,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 66.04 96.52 0)
+		(at 162.56 45.72 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6984,7 +7240,7 @@
 		(fields_autoplaced yes)
 		(uuid "50e2ff67-6061-4148-a844-f169b82527cc")
 		(property "Reference" "#PWR020"
-			(at 66.04 102.87 0)
+			(at 162.56 52.07 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6995,7 +7251,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 66.04 101.6 0)
+			(at 162.56 50.8 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7005,7 +7261,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 66.04 96.52 0)
+			(at 162.56 45.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7016,7 +7272,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 66.04 96.52 0)
+			(at 162.56 45.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7027,7 +7283,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 66.04 96.52 0)
+			(at 162.56 45.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7041,7 +7297,7 @@
 			(uuid "6e900c22-08c7-4bb6-a507-34d840d4c957")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR020")
 					(unit 1)
@@ -7051,7 +7307,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 171.45 45.72 0)
+		(at 50.8 22.86 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7059,10 +7315,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "567762fa-1481-408c-b5db-4b3949e2ac79")
 		(property "Reference" "#PWR013"
-			(at 171.45 49.53 0)
+			(at 50.8 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7073,7 +7328,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 171.45 40.64 0)
+			(at 50.8 19.05 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7083,7 +7338,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 171.45 45.72 0)
+			(at 50.8 22.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7094,7 +7349,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 171.45 45.72 0)
+			(at 50.8 22.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7105,7 +7360,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 171.45 45.72 0)
+			(at 50.8 22.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7119,7 +7374,7 @@
 			(uuid "19c0e30b-218d-480e-aad5-09825bdcb8fa")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR013")
 					(unit 1)
@@ -7129,7 +7384,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 287.02 116.84 90)
+		(at 219.71 41.91 90)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -7140,7 +7395,7 @@
 		(dnp no)
 		(uuid "589564f9-2eb3-49e2-b3db-1c961ccb1253")
 		(property "Reference" "J2"
-			(at 289.306 115.57 90)
+			(at 221.996 40.64 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7151,7 +7406,7 @@
 			)
 		)
 		(property "Value" "Conn_01x02_Pin"
-			(at 285.75 118.7449 90)
+			(at 218.44 43.8149 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7163,7 +7418,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 287.02 116.84 0)
+			(at 219.71 41.91 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7174,7 +7429,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 287.02 116.84 0)
+			(at 219.71 41.91 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7185,7 +7440,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 287.02 116.84 0)
+			(at 219.71 41.91 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7202,7 +7457,7 @@
 			(uuid "f9444c63-a65a-43e6-b74f-a5ed9812e152")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "J2")
 					(unit 1)
@@ -7212,7 +7467,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 83.82 41.91 270)
+		(at 35.56 130.81 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7223,7 +7478,7 @@
 		(fields_autoplaced yes)
 		(uuid "5dc5e508-4375-4b9e-920c-3b119e4bd9d4")
 		(property "Reference" "#FLG02"
-			(at 85.725 41.91 0)
+			(at 37.465 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7234,7 +7489,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 87.63 41.9099 90)
+			(at 39.37 130.8099 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7245,7 +7500,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 83.82 41.91 0)
+			(at 35.56 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7256,7 +7511,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 83.82 41.91 0)
+			(at 35.56 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7267,7 +7522,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 83.82 41.91 0)
+			(at 35.56 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7281,7 +7536,7 @@
 			(uuid "07151071-a730-48d7-a2df-479c36e8adce")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#FLG02")
 					(unit 1)
@@ -7291,7 +7546,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 86.36 39.37 90)
+		(at 38.1 128.27 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7302,7 +7557,7 @@
 		(fields_autoplaced yes)
 		(uuid "5dca0dd0-d994-4e96-ad16-3be65b27f1fe")
 		(property "Reference" "#PWR03"
-			(at 92.71 39.37 0)
+			(at 44.45 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7313,7 +7568,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 90.17 39.3699 90)
+			(at 41.91 128.2699 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7324,7 +7579,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 86.36 39.37 0)
+			(at 38.1 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7335,7 +7590,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 86.36 39.37 0)
+			(at 38.1 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7346,7 +7601,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 86.36 39.37 0)
+			(at 38.1 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7360,7 +7615,7 @@
 			(uuid "b64c1cd7-9f48-4a01-a5d9-1172be8b85a7")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR03")
 					(unit 1)
@@ -7370,7 +7625,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 317.5 101.6 270)
+		(at 250.19 26.67 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7380,7 +7635,7 @@
 		(dnp no)
 		(uuid "60798d16-d294-4e11-8629-4a5375c7457a")
 		(property "Reference" "R6"
-			(at 317.5 97.028 90)
+			(at 250.19 22.098 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7390,7 +7645,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 317.5 99.568 90)
+			(at 250.19 24.638 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7400,7 +7655,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 317.5 99.822 90)
+			(at 250.19 24.892 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7411,7 +7666,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 317.5 101.6 0)
+			(at 250.19 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7422,7 +7677,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 317.5 101.6 0)
+			(at 250.19 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7439,7 +7694,7 @@
 			(uuid "9550fd8c-38b8-4aef-a52c-12d3786b33ff")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "R6")
 					(unit 1)
@@ -7449,7 +7704,7 @@
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:TL072")
-		(at 271.78 101.6 0)
+		(at 215.9 95.25 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7459,7 +7714,7 @@
 		(dnp no)
 		(uuid "61f78615-4b80-4f6e-8569-b54a7387a9bc")
 		(property "Reference" "U3"
-			(at 271.78 93.726 0)
+			(at 215.9 87.376 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7469,7 +7724,7 @@
 			)
 		)
 		(property "Value" "TL072"
-			(at 271.78 96.266 0)
+			(at 215.9 89.916 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7479,7 +7734,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_Socket"
-			(at 271.78 101.6 0)
+			(at 215.9 95.25 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7490,7 +7745,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl071.pdf"
-			(at 271.78 101.6 0)
+			(at 215.9 95.25 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7501,7 +7756,7 @@
 			)
 		)
 		(property "Description" "Dual Low-Noise JFET-Input Operational Amplifiers, DIP-8/SOIC-8"
-			(at 271.78 101.6 0)
+			(at 215.9 95.25 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7536,7 +7791,7 @@
 			(uuid "1f8070c8-1048-425c-b330-f8f2a553962b")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "U3")
 					(unit 1)
@@ -7546,7 +7801,7 @@
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:TL072")
-		(at 128.27 93.98 0)
+		(at 57.15 80.01 0)
 		(unit 2)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7556,7 +7811,7 @@
 		(dnp no)
 		(uuid "655d9cf2-4fe2-4bfb-8ef6-4bd1cededffd")
 		(property "Reference" "U1"
-			(at 128.27 85.852 0)
+			(at 57.15 71.882 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7566,7 +7821,7 @@
 			)
 		)
 		(property "Value" "TL072"
-			(at 128.27 88.392 0)
+			(at 57.15 74.422 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7576,7 +7831,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_Socket"
-			(at 128.27 93.98 0)
+			(at 57.15 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7587,7 +7842,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl071.pdf"
-			(at 128.27 93.98 0)
+			(at 57.15 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7598,7 +7853,7 @@
 			)
 		)
 		(property "Description" "Dual Low-Noise JFET-Input Operational Amplifiers, DIP-8/SOIC-8"
-			(at 128.27 93.98 0)
+			(at 57.15 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7633,7 +7888,7 @@
 			(uuid "77497409-c75c-44d7-bf8f-6e84f912d3d4")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "U1")
 					(unit 2)
@@ -7643,7 +7898,7 @@
 	)
 	(symbol
 		(lib_id "power:+12V")
-		(at 120.65 25.4 0)
+		(at 95.25 114.3 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7651,10 +7906,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "6c68ef19-9a3f-4f13-9ea8-46dac7d98931")
 		(property "Reference" "#PWR04"
-			(at 120.65 29.21 0)
+			(at 95.25 118.11 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7665,7 +7919,7 @@
 			)
 		)
 		(property "Value" "+12V"
-			(at 120.65 20.32 0)
+			(at 95.25 110.744 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7675,7 +7929,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 120.65 25.4 0)
+			(at 95.25 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7686,7 +7940,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 120.65 25.4 0)
+			(at 95.25 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7697,7 +7951,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 120.65 25.4 0)
+			(at 95.25 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7711,7 +7965,7 @@
 			(uuid "1e2c9cd2-dd33-4e09-a09f-2ec4b930889b")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR04")
 					(unit 1)
@@ -7721,7 +7975,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 158.75 60.96 0)
+		(at 38.1 39.37 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7732,7 +7986,7 @@
 		(fields_autoplaced yes)
 		(uuid "6dec49f7-e43a-4b67-af98-348246dd0eaf")
 		(property "Reference" "#PWR012"
-			(at 158.75 67.31 0)
+			(at 38.1 45.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7743,7 +7997,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 158.75 66.04 0)
+			(at 38.1 44.45 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7753,7 +8007,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 158.75 60.96 0)
+			(at 38.1 39.37 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7764,7 +8018,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 158.75 60.96 0)
+			(at 38.1 39.37 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7775,7 +8029,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 158.75 60.96 0)
+			(at 38.1 39.37 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7789,7 +8043,7 @@
 			(uuid "7dc696bf-d744-4678-84b0-9f4f82f871aa")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR012")
 					(unit 1)
@@ -7799,7 +8053,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 53.34 38.1 0)
+		(at 209.55 130.81 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -7810,7 +8064,7 @@
 		(dnp no)
 		(uuid "6e4b5416-ef4f-447d-a707-3fc8ff2e274d")
 		(property "Reference" "J5"
-			(at 54.61 40.386 90)
+			(at 210.82 133.096 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7821,7 +8075,7 @@
 			)
 		)
 		(property "Value" "v3.3"
-			(at 51.4351 36.83 90)
+			(at 207.6451 129.54 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7833,7 +8087,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 53.34 38.1 0)
+			(at 209.55 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7844,7 +8098,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 53.34 38.1 0)
+			(at 209.55 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7855,7 +8109,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 53.34 38.1 0)
+			(at 209.55 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7872,7 +8126,7 @@
 			(uuid "37265cd3-7d57-476a-82ab-e63b9368acd5")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "J5")
 					(unit 1)
@@ -7882,7 +8136,7 @@
 	)
 	(symbol
 		(lib_id "power:-12V")
-		(at 120.65 55.88 180)
+		(at 95.25 144.78 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7890,10 +8144,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "73c401f9-95dd-49fb-8260-54381cc74891")
 		(property "Reference" "#PWR05"
-			(at 120.65 52.07 0)
+			(at 95.25 140.97 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7904,7 +8157,7 @@
 			)
 		)
 		(property "Value" "-12V"
-			(at 120.65 60.96 0)
+			(at 95.25 148.336 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7914,7 +8167,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 120.65 55.88 0)
+			(at 95.25 144.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7925,7 +8178,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 120.65 55.88 0)
+			(at 95.25 144.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7936,7 +8189,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"-12V\""
-			(at 120.65 55.88 0)
+			(at 95.25 144.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7950,7 +8203,7 @@
 			(uuid "d16a731c-44b9-4178-857c-2c477f27bc0d")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR05")
 					(unit 1)
@@ -7960,7 +8213,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 317.5 121.92 270)
+		(at 250.19 46.99 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7970,7 +8223,7 @@
 		(dnp no)
 		(uuid "78503cc8-1cd8-4775-b842-89320b0c6e9e")
 		(property "Reference" "R7"
-			(at 317.5 117.348 90)
+			(at 250.19 42.418 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7980,7 +8233,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 317.5 119.888 90)
+			(at 250.19 44.958 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7990,7 +8243,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 317.5 120.142 90)
+			(at 250.19 45.212 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8001,7 +8254,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 317.5 121.92 0)
+			(at 250.19 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8012,7 +8265,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 317.5 121.92 0)
+			(at 250.19 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8029,7 +8282,7 @@
 			(uuid "816a23ee-b731-46d0-be4e-bf44bcad56ec")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "R7")
 					(unit 1)
@@ -8039,7 +8292,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 152.4 93.98 90)
+		(at 81.28 80.01 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8050,7 +8303,7 @@
 		(fields_autoplaced yes)
 		(uuid "787d2d47-edb0-4416-b741-031f36c27bcf")
 		(property "Reference" "C9"
-			(at 152.4 86.36 90)
+			(at 81.28 72.39 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8060,7 +8313,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 152.4 88.9 90)
+			(at 81.28 74.93 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8070,7 +8323,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 156.21 93.0148 0)
+			(at 85.09 79.0448 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8081,7 +8334,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 152.4 93.98 0)
+			(at 81.28 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8092,7 +8345,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 152.4 93.98 0)
+			(at 81.28 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8109,7 +8362,7 @@
 			(uuid "772e7e64-6eae-4075-bba3-aaeefb9969a5")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "C9")
 					(unit 1)
@@ -8119,7 +8372,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 298.45 40.64 0)
+		(at 165.1 125.73 0)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -8131,7 +8384,7 @@
 		(fields_autoplaced yes)
 		(uuid "7a0235c1-ffa2-4692-8706-e816035d1d5d")
 		(property "Reference" "TP3"
-			(at 300.99 45.2121 0)
+			(at 167.64 130.3021 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8142,7 +8395,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 300.99 42.6721 0)
+			(at 167.64 127.7621 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8153,7 +8406,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch7.62mm_Drill1.3mm"
-			(at 303.53 40.64 0)
+			(at 170.18 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8164,7 +8417,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 303.53 40.64 0)
+			(at 170.18 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8175,7 +8428,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 298.45 40.64 0)
+			(at 165.1 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8189,7 +8442,7 @@
 			(uuid "545af1f1-17ca-4cad-a1b6-66460e6da573")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "TP3")
 					(unit 1)
@@ -8199,7 +8452,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 92.71 86.36 270)
+		(at 190.5 35.56 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8209,7 +8462,7 @@
 		(dnp no)
 		(uuid "7fba05fe-4278-4b17-906a-a6624b781a09")
 		(property "Reference" "J7"
-			(at 90.424 85.09 90)
+			(at 188.214 34.29 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8220,7 +8473,7 @@
 			)
 		)
 		(property "Value" "Conn_01x02_Pin"
-			(at 93.98 88.2649 90)
+			(at 191.77 37.4649 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8232,7 +8485,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 92.71 86.36 0)
+			(at 190.5 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8243,7 +8496,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 92.71 86.36 0)
+			(at 190.5 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8254,7 +8507,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 92.71 86.36 0)
+			(at 190.5 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8271,7 +8524,7 @@
 			(uuid "a3acb40e-7026-4e87-9641-8aee38191f09")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "J7")
 					(unit 1)
@@ -8281,7 +8534,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 297.18 101.6 270)
+		(at 229.87 26.67 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8291,7 +8544,7 @@
 		(dnp no)
 		(uuid "8426eca5-6ca2-4536-9cb9-03953c4a3a36")
 		(property "Reference" "R9"
-			(at 297.18 97.028 90)
+			(at 229.87 22.098 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8301,7 +8554,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 297.18 99.568 90)
+			(at 229.87 24.638 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8311,7 +8564,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 297.18 99.822 90)
+			(at 229.87 24.892 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8322,7 +8575,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 297.18 101.6 0)
+			(at 229.87 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8333,7 +8586,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 297.18 101.6 0)
+			(at 229.87 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8350,7 +8603,7 @@
 			(uuid "49d58e7f-77f2-4dc8-b4ca-e3114a8025a0")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "R9")
 					(unit 1)
@@ -8360,7 +8613,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Potentiometer")
-		(at 163.83 76.2 90)
+		(at 92.71 62.23 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8370,7 +8623,7 @@
 		(dnp no)
 		(uuid "846a261f-08d9-41ea-91d6-40c09673e063")
 		(property "Reference" "RV3"
-			(at 161.798 78.232 90)
+			(at 90.678 64.262 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8381,7 +8634,7 @@
 			)
 		)
 		(property "Value" "6.04k"
-			(at 161.29 80.01 90)
+			(at 90.17 66.04 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8392,7 +8645,7 @@
 			)
 		)
 		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 163.83 76.2 0)
+			(at 92.71 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8403,7 +8656,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 163.83 76.2 0)
+			(at 92.71 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8414,7 +8667,7 @@
 			)
 		)
 		(property "Description" "Potentiometer"
-			(at 163.83 76.2 0)
+			(at 92.71 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8425,7 +8678,7 @@
 			)
 		)
 		(property "Sim.Device" "R"
-			(at 163.83 76.2 0)
+			(at 92.71 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8436,7 +8689,7 @@
 			)
 		)
 		(property "Sim.Type" "POT"
-			(at 163.83 76.2 0)
+			(at 92.71 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8447,7 +8700,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 163.83 76.2 0)
+			(at 92.71 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8467,7 +8720,7 @@
 			(uuid "ca534793-b4e9-4133-a2de-70052ec462f6")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "RV3")
 					(unit 1)
@@ -8477,7 +8730,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 157.48 105.41 0)
+		(at 86.36 91.44 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8488,7 +8741,7 @@
 		(fields_autoplaced yes)
 		(uuid "865889b6-f73b-4539-b532-bcee44f3cd4a")
 		(property "Reference" "#PWR011"
-			(at 157.48 111.76 0)
+			(at 86.36 97.79 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8499,7 +8752,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 157.48 110.49 0)
+			(at 86.36 96.52 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8509,7 +8762,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 157.48 105.41 0)
+			(at 86.36 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8520,7 +8773,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 157.48 105.41 0)
+			(at 86.36 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8531,7 +8784,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 157.48 105.41 0)
+			(at 86.36 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8545,7 +8798,7 @@
 			(uuid "9317fb11-18b3-457e-95b6-8fb3cd8b347a")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR011")
 					(unit 1)
@@ -8555,7 +8808,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 207.01 39.37 180)
+		(at 83.82 17.78 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8565,7 +8818,7 @@
 		(dnp no)
 		(uuid "89ade2e3-21b9-4088-8bf1-db58177b01e9")
 		(property "Reference" "R4"
-			(at 209.55 34.2899 0)
+			(at 85.09 20.066 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8576,7 +8829,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 209.55 36.8299 0)
+			(at 85.598 17.78 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8587,7 +8840,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 208.788 39.37 90)
+			(at 83.82 16.002 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8598,7 +8851,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 207.01 39.37 0)
+			(at 83.82 17.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8609,7 +8862,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 207.01 39.37 0)
+			(at 83.82 17.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8626,7 +8879,7 @@
 			(uuid "e771526f-d7c6-4229-9210-5b234241946b")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "R4")
 					(unit 1)
@@ -8636,7 +8889,7 @@
 	)
 	(symbol
 		(lib_id "Device:Microphone")
-		(at 43.18 96.52 0)
+		(at 140.97 45.72 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8644,10 +8897,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "8a712104-0195-4fd8-9f19-3a30f1669ca5")
 		(property "Reference" "MK1"
-			(at 46.99 94.5514 0)
+			(at 138.938 45.72 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8658,7 +8910,7 @@
 			)
 		)
 		(property "Value" "Microphone"
-			(at 46.99 97.0914 0)
+			(at 143.764 45.72 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8669,7 +8921,7 @@
 			)
 		)
 		(property "Footprint" "Sensor_Audio:POM-2244P-C3310-2-R"
-			(at 43.18 93.98 90)
+			(at 140.97 43.18 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8680,7 +8932,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.18 93.98 90)
+			(at 140.97 43.18 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8691,7 +8943,7 @@
 			)
 		)
 		(property "Description" "Microphone"
-			(at 43.18 96.52 0)
+			(at 140.97 45.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8708,7 +8960,7 @@
 			(uuid "df2d6129-2267-4c28-8c5b-7dacf8166154")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "MK1")
 					(unit 1)
@@ -8718,7 +8970,7 @@
 	)
 	(symbol
 		(lib_id "power:VCC")
-		(at 280.67 121.92 90)
+		(at 213.36 46.99 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8728,7 +8980,7 @@
 		(dnp no)
 		(uuid "8cce28d9-77bd-44d4-8d13-e6887de48427")
 		(property "Reference" "#PWR019"
-			(at 284.48 121.92 0)
+			(at 217.17 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8739,7 +8991,7 @@
 			)
 		)
 		(property "Value" "Vref"
-			(at 276.606 121.92 0)
+			(at 209.296 46.99 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8749,7 +9001,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 280.67 121.92 0)
+			(at 213.36 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8760,7 +9012,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 280.67 121.92 0)
+			(at 213.36 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8771,7 +9023,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VCC\""
-			(at 280.67 121.92 0)
+			(at 213.36 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8785,7 +9037,7 @@
 			(uuid "3b9a57e8-2e79-45f2-a69a-e5d55aa11d95")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR019")
 					(unit 1)
@@ -8795,7 +9047,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Potentiometer")
-		(at 252.73 99.06 90)
+		(at 196.85 92.71 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8805,7 +9057,7 @@
 		(dnp no)
 		(uuid "91660069-a063-49c6-a515-1d4f3233c6ee")
 		(property "Reference" "RV8"
-			(at 250.698 101.092 90)
+			(at 194.818 94.742 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8816,7 +9068,7 @@
 			)
 		)
 		(property "Value" "1.02k"
-			(at 250.19 102.87 90)
+			(at 194.31 96.52 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8827,7 +9079,7 @@
 			)
 		)
 		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 252.73 99.06 0)
+			(at 196.85 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8838,7 +9090,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 252.73 99.06 0)
+			(at 196.85 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8849,7 +9101,7 @@
 			)
 		)
 		(property "Description" "Potentiometer"
-			(at 252.73 99.06 0)
+			(at 196.85 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8860,7 +9112,7 @@
 			)
 		)
 		(property "Sim.Device" "R"
-			(at 252.73 99.06 0)
+			(at 196.85 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8871,7 +9123,7 @@
 			)
 		)
 		(property "Sim.Type" "POT"
-			(at 252.73 99.06 0)
+			(at 196.85 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8882,7 +9134,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 252.73 99.06 0)
+			(at 196.85 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8902,7 +9154,7 @@
 			(uuid "9f6261e9-37e5-4e7f-bd37-e3c51b19b9ed")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "RV8")
 					(unit 1)
@@ -8912,7 +9164,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 207.01 33.02 0)
+		(at 78.74 17.78 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8922,7 +9174,7 @@
 		(dnp no)
 		(uuid "94614b54-5b7b-4ede-a1c5-a04de0a55c2f")
 		(property "Reference" "#PWR015"
-			(at 207.01 36.83 0)
+			(at 82.55 17.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8933,7 +9185,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 207.01 29.21 0)
+			(at 73.152 17.78 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8943,7 +9195,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 207.01 33.02 0)
+			(at 78.74 17.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8954,7 +9206,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 207.01 33.02 0)
+			(at 78.74 17.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8965,7 +9217,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 207.01 33.02 0)
+			(at 78.74 17.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8979,7 +9231,7 @@
 			(uuid "29122ba7-77d3-4758-8d7b-b82abdb638ef")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR015")
 					(unit 1)
@@ -8989,7 +9241,7 @@
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:TL072")
-		(at 316.23 111.76 0)
+		(at 248.92 36.83 0)
 		(mirror x)
 		(unit 2)
 		(body_style 1)
@@ -9000,7 +9252,7 @@
 		(dnp no)
 		(uuid "964323d7-4835-4274-b003-24b27d14cf63")
 		(property "Reference" "U3"
-			(at 318.516 107.95 0)
+			(at 251.206 33.02 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9010,7 +9262,7 @@
 			)
 		)
 		(property "Value" "TL072"
-			(at 318.516 105.918 0)
+			(at 251.206 30.988 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9020,7 +9272,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_Socket"
-			(at 316.23 111.76 0)
+			(at 248.92 36.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9031,7 +9283,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl071.pdf"
-			(at 316.23 111.76 0)
+			(at 248.92 36.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9042,7 +9294,7 @@
 			)
 		)
 		(property "Description" "Dual Low-Noise JFET-Input Operational Amplifiers, DIP-8/SOIC-8"
-			(at 316.23 111.76 0)
+			(at 248.92 36.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9077,7 +9329,7 @@
 			(uuid "812d6b42-cb7e-4bd5-a892-3bee1df298f7")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "U3")
 					(unit 2)
@@ -9087,7 +9339,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_US")
-		(at 146.05 53.34 0)
+		(at 25.4 30.48 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9095,10 +9347,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "9aef4ec6-7509-4ae1-827d-9a7b6809b032")
 		(property "Reference" "C1"
-			(at 149.86 52.3239 0)
+			(at 20.32 28.194 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9109,7 +9360,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 149.86 54.8639 0)
+			(at 16.764 30.48 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9120,7 +9371,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 146.05 53.34 0)
+			(at 25.4 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9131,7 +9382,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 146.05 53.34 0)
+			(at 25.4 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9142,7 +9393,7 @@
 			)
 		)
 		(property "Description" "capacitor, US symbol"
-			(at 146.05 53.34 0)
+			(at 25.4 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9159,7 +9410,7 @@
 			(uuid "e6d812b4-c3bc-48ff-afff-59cce633d2ac")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "C1")
 					(unit 1)
@@ -9169,7 +9420,7 @@
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:TL072")
-		(at 171.45 96.52 0)
+		(at 100.33 82.55 0)
 		(unit 2)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9180,7 +9431,7 @@
 		(fields_autoplaced yes)
 		(uuid "9f8c8de0-1025-48eb-9321-cd1725a0e285")
 		(property "Reference" "U2"
-			(at 171.45 86.36 0)
+			(at 100.33 72.39 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9190,7 +9441,7 @@
 			)
 		)
 		(property "Value" "TL072"
-			(at 171.45 88.9 0)
+			(at 100.33 74.93 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9200,7 +9451,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_Socket"
-			(at 171.45 96.52 0)
+			(at 100.33 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9211,7 +9462,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl071.pdf"
-			(at 171.45 96.52 0)
+			(at 100.33 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9222,7 +9473,7 @@
 			)
 		)
 		(property "Description" "Dual Low-Noise JFET-Input Operational Amplifiers, DIP-8/SOIC-8"
-			(at 171.45 96.52 0)
+			(at 100.33 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9257,7 +9508,7 @@
 			(uuid "77497409-c75c-44d7-bf8f-6e84f912d3d5")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "U2")
 					(unit 2)
@@ -9267,7 +9518,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 114.3 102.87 0)
+		(at 43.18 88.9 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9278,7 +9529,7 @@
 		(fields_autoplaced yes)
 		(uuid "a003526f-0300-4ff6-94e9-1f6ed3f0b42e")
 		(property "Reference" "#PWR010"
-			(at 114.3 109.22 0)
+			(at 43.18 95.25 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9289,7 +9540,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 114.3 107.95 0)
+			(at 43.18 93.98 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9299,7 +9550,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 114.3 102.87 0)
+			(at 43.18 88.9 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9310,7 +9561,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 114.3 102.87 0)
+			(at 43.18 88.9 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9321,7 +9572,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 114.3 102.87 0)
+			(at 43.18 88.9 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9335,7 +9586,7 @@
 			(uuid "df32ab47-cfab-4939-8c3d-1ae7d67b1456")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR010")
 					(unit 1)
@@ -9345,7 +9596,7 @@
 	)
 	(symbol
 		(lib_id "Regulator_Linear:LM1117T-3.3")
-		(at 158.75 48.26 0)
+		(at 38.1 25.4 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9356,7 +9607,7 @@
 		(fields_autoplaced yes)
 		(uuid "a085bb4a-9aac-48b6-8d47-a299e8a3ea75")
 		(property "Reference" "U4"
-			(at 158.75 41.91 0)
+			(at 38.1 19.05 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9366,7 +9617,7 @@
 			)
 		)
 		(property "Value" "LM1117T-3.3"
-			(at 158.75 44.45 0)
+			(at 38.1 21.59 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9376,7 +9627,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_THT:TO-220-3_Vertical"
-			(at 158.75 48.26 0)
+			(at 38.1 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9387,7 +9638,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/lm1117.pdf"
-			(at 158.75 48.26 0)
+			(at 38.1 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9398,7 +9649,7 @@
 			)
 		)
 		(property "Description" "800mA Low-Dropout Linear Regulator, 3.3V fixed output, TO-220"
-			(at 158.75 48.26 0)
+			(at 38.1 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9418,7 +9669,7 @@
 			(uuid "6de2176e-2c85-4713-8b55-5054ed59042e")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "U4")
 					(unit 1)
@@ -9428,7 +9679,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 214.63 109.22 0)
+		(at 158.75 102.87 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9439,7 +9690,7 @@
 		(fields_autoplaced yes)
 		(uuid "a19537d0-2ce5-4954-9f62-811605633011")
 		(property "Reference" "#PWR06"
-			(at 214.63 115.57 0)
+			(at 158.75 109.22 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9450,7 +9701,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 214.63 114.3 0)
+			(at 158.75 107.95 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9460,7 +9711,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 214.63 109.22 0)
+			(at 158.75 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9471,7 +9722,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 214.63 109.22 0)
+			(at 158.75 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9482,7 +9733,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 214.63 109.22 0)
+			(at 158.75 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9496,7 +9747,7 @@
 			(uuid "9afcb8a6-588e-4d3a-889d-34d27e327f94")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR06")
 					(unit 1)
@@ -9506,7 +9757,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 195.58 48.26 0)
+		(at 196.85 129.54 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -9517,7 +9768,7 @@
 		(dnp no)
 		(uuid "a40ab2e8-c23f-438d-ad47-60039a58989f")
 		(property "Reference" "J4"
-			(at 196.85 50.546 90)
+			(at 198.12 131.826 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9528,7 +9779,7 @@
 			)
 		)
 		(property "Value" "v3.3"
-			(at 193.6751 46.99 90)
+			(at 194.9451 128.27 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9540,7 +9791,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 195.58 48.26 0)
+			(at 196.85 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9551,7 +9802,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 195.58 48.26 0)
+			(at 196.85 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9562,7 +9813,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 195.58 48.26 0)
+			(at 196.85 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9579,7 +9830,7 @@
 			(uuid "fad77037-7bf1-4120-8136-315ad4c6e1b0")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "J4")
 					(unit 1)
@@ -9589,7 +9840,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 43.18 82.55 0)
+		(at 140.97 31.75 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9599,7 +9850,7 @@
 		(dnp no)
 		(uuid "a550dddd-ad58-493c-8578-f378a110865d")
 		(property "Reference" "R12"
-			(at 39.37 81.026 0)
+			(at 137.668 31.75 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9609,7 +9860,7 @@
 			)
 		)
 		(property "Value" "2.2k"
-			(at 39.624 83.058 0)
+			(at 140.97 31.75 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9619,7 +9870,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 41.402 82.55 90)
+			(at 139.192 31.75 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9630,7 +9881,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.18 82.55 0)
+			(at 140.97 31.75 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9641,7 +9892,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 43.18 82.55 0)
+			(at 140.97 31.75 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9658,7 +9909,7 @@
 			(uuid "aa50a29a-29ff-4285-b8fa-56298ad7db9f")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "R12")
 					(unit 1)
@@ -9668,7 +9919,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Potentiometer")
-		(at 199.39 96.52 90)
+		(at 143.51 90.17 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9678,7 +9929,7 @@
 		(dnp no)
 		(uuid "ab7bebe0-f15b-4197-a712-761a87c27dbf")
 		(property "Reference" "RV5"
-			(at 197.358 98.552 90)
+			(at 141.478 92.202 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9689,7 +9940,7 @@
 			)
 		)
 		(property "Value" "2.43k"
-			(at 196.85 100.33 90)
+			(at 140.97 93.98 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9700,7 +9951,7 @@
 			)
 		)
 		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 199.39 96.52 0)
+			(at 143.51 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9711,7 +9962,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 199.39 96.52 0)
+			(at 143.51 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9722,7 +9973,7 @@
 			)
 		)
 		(property "Description" "Potentiometer"
-			(at 199.39 96.52 0)
+			(at 143.51 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9733,7 +9984,7 @@
 			)
 		)
 		(property "Sim.Device" "R"
-			(at 199.39 96.52 0)
+			(at 143.51 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9744,7 +9995,7 @@
 			)
 		)
 		(property "Sim.Type" "POT"
-			(at 199.39 96.52 0)
+			(at 143.51 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9755,7 +10006,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 199.39 96.52 0)
+			(at 143.51 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9775,7 +10026,7 @@
 			(uuid "095272ce-dcff-4aca-b1eb-c17382285d8a")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "RV5")
 					(unit 1)
@@ -9785,7 +10036,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 83.82 36.83 270)
+		(at 35.56 125.73 270)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -9797,7 +10048,7 @@
 		(fields_autoplaced yes)
 		(uuid "ac4dd4a8-8ea0-4345-b50a-ce2f461296fe")
 		(property "Reference" "#FLG01"
-			(at 85.725 36.83 0)
+			(at 37.465 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9808,7 +10059,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 87.63 36.8299 90)
+			(at 39.37 125.7299 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9819,7 +10070,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 83.82 36.83 0)
+			(at 35.56 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9830,7 +10081,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 83.82 36.83 0)
+			(at 35.56 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9841,7 +10092,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 83.82 36.83 0)
+			(at 35.56 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9855,7 +10106,7 @@
 			(uuid "af470781-7f9d-41bf-a4d4-9d43fa60fe11")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#FLG01")
 					(unit 1)
@@ -9865,7 +10116,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 43.18 76.2 0)
+		(at 140.97 25.4 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9876,7 +10127,7 @@
 		(fields_autoplaced yes)
 		(uuid "b225b679-0766-488c-9ff4-82a4170cef99")
 		(property "Reference" "#PWR024"
-			(at 43.18 80.01 0)
+			(at 140.97 29.21 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9887,7 +10138,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 43.18 71.12 0)
+			(at 140.97 20.32 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9897,7 +10148,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 43.18 76.2 0)
+			(at 140.97 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9908,7 +10159,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.18 76.2 0)
+			(at 140.97 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9919,7 +10170,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 43.18 76.2 0)
+			(at 140.97 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9933,7 +10184,7 @@
 			(uuid "499b0b89-3032-486c-92be-b8002c3bd699")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR024")
 					(unit 1)
@@ -9943,7 +10194,7 @@
 	)
 	(symbol
 		(lib_id "power:+12V")
-		(at 82.55 34.29 0)
+		(at 34.29 123.19 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9954,7 +10205,7 @@
 		(fields_autoplaced yes)
 		(uuid "b3896732-bd9b-4de8-80a8-67605b133966")
 		(property "Reference" "#PWR01"
-			(at 82.55 38.1 0)
+			(at 34.29 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9965,7 +10216,7 @@
 			)
 		)
 		(property "Value" "+12V"
-			(at 82.55 29.21 0)
+			(at 34.29 118.11 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9975,7 +10226,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 82.55 34.29 0)
+			(at 34.29 123.19 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9986,7 +10237,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 82.55 34.29 0)
+			(at 34.29 123.19 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9997,7 +10248,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 82.55 34.29 0)
+			(at 34.29 123.19 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10011,7 +10262,7 @@
 			(uuid "adb3006d-c7fd-4040-a0b4-5ac78d791dca")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR01")
 					(unit 1)
@@ -10021,7 +10272,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Potentiometer")
-		(at 157.48 99.06 0)
+		(at 86.36 85.09 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10031,7 +10282,7 @@
 		(dnp no)
 		(uuid "c16bc4e7-5560-477d-80ba-0cdd7cfac5d0")
 		(property "Reference" "RV2"
-			(at 155.448 98.298 0)
+			(at 84.328 84.328 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10042,7 +10293,7 @@
 			)
 		)
 		(property "Value" "41.2k"
-			(at 155.956 100.33 0)
+			(at 84.836 86.36 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10053,7 +10304,7 @@
 			)
 		)
 		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 157.48 99.06 0)
+			(at 86.36 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10064,7 +10315,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 157.48 99.06 0)
+			(at 86.36 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10075,7 +10326,7 @@
 			)
 		)
 		(property "Description" "Potentiometer"
-			(at 157.48 99.06 0)
+			(at 86.36 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10086,7 +10337,7 @@
 			)
 		)
 		(property "Sim.Device" "R"
-			(at 157.48 99.06 0)
+			(at 86.36 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10097,7 +10348,7 @@
 			)
 		)
 		(property "Sim.Type" "POT"
-			(at 157.48 99.06 0)
+			(at 86.36 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10108,7 +10359,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 157.48 99.06 0)
+			(at 86.36 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10128,7 +10379,7 @@
 			(uuid "a3ee1714-3e44-4612-a260-1fb38ce2d763")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "RV2")
 					(unit 1)
@@ -10138,7 +10389,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
-		(at 339.09 111.76 0)
+		(at 271.78 36.83 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10149,7 +10400,7 @@
 		(fields_autoplaced yes)
 		(uuid "c8adf5ff-c4e9-4038-a437-507ae09f5290")
 		(property "Reference" "J6"
-			(at 341.63 111.7599 0)
+			(at 274.32 36.8299 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10160,7 +10411,7 @@
 			)
 		)
 		(property "Value" "AudioOut"
-			(at 341.63 114.2999 0)
+			(at 274.32 39.3699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10171,7 +10422,7 @@
 			)
 		)
 		(property "Footprint" "TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm"
-			(at 339.09 111.76 0)
+			(at 271.78 36.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10182,7 +10433,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 339.09 111.76 0)
+			(at 271.78 36.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10193,7 +10444,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 339.09 111.76 0)
+			(at 271.78 36.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10210,7 +10461,7 @@
 			(uuid "4cecdbda-2c07-4ab8-af8c-b0aa19fd3024")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "J6")
 					(unit 1)
@@ -10220,7 +10471,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 190.5 91.44 270)
+		(at 115.57 77.47 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10230,7 +10481,7 @@
 		(dnp no)
 		(uuid "d01720a7-e635-4bfc-8fca-cef26756c4a3")
 		(property "Reference" "J3"
-			(at 188.214 90.17 90)
+			(at 113.284 76.2 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10241,7 +10492,7 @@
 			)
 		)
 		(property "Value" "Conn_01x02_Pin"
-			(at 191.77 93.3449 90)
+			(at 116.84 79.3749 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10253,7 +10504,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 190.5 91.44 0)
+			(at 115.57 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10264,7 +10515,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 190.5 91.44 0)
+			(at 115.57 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10275,7 +10526,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 190.5 91.44 0)
+			(at 115.57 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10292,7 +10543,7 @@
 			(uuid "0edbc1b5-b64a-4214-a3d1-31dd517038f1")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "J3")
 					(unit 1)
@@ -10302,7 +10553,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Potentiometer")
-		(at 209.55 96.52 270)
+		(at 153.67 90.17 270)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -10313,7 +10564,7 @@
 		(dnp no)
 		(uuid "d123b900-372d-4f19-b238-96e2d2fb92cf")
 		(property "Reference" "RV6"
-			(at 211.582 98.552 90)
+			(at 155.702 92.202 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10324,7 +10575,7 @@
 			)
 		)
 		(property "Value" "2.43k"
-			(at 212.09 100.33 90)
+			(at 156.21 93.98 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10335,7 +10586,7 @@
 			)
 		)
 		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 209.55 96.52 0)
+			(at 153.67 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10346,7 +10597,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 209.55 96.52 0)
+			(at 153.67 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10357,7 +10608,7 @@
 			)
 		)
 		(property "Description" "Potentiometer"
-			(at 209.55 96.52 0)
+			(at 153.67 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10368,7 +10619,7 @@
 			)
 		)
 		(property "Sim.Device" "R"
-			(at 209.55 96.52 0)
+			(at 153.67 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10379,7 +10630,7 @@
 			)
 		)
 		(property "Sim.Type" "POT"
-			(at 209.55 96.52 0)
+			(at 153.67 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10390,7 +10641,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 209.55 96.52 0)
+			(at 153.67 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10410,7 +10661,7 @@
 			(uuid "3d88ab8d-e3ee-4b8d-bf0f-9779ad7a0efd")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "RV6")
 					(unit 1)
@@ -10420,7 +10671,7 @@
 	)
 	(symbol
 		(lib_id "power:-12V")
-		(at 82.55 44.45 180)
+		(at 34.29 133.35 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10431,7 +10682,7 @@
 		(fields_autoplaced yes)
 		(uuid "d212030d-9ea2-47a4-bad2-e79fb1a7e109")
 		(property "Reference" "#PWR02"
-			(at 82.55 40.64 0)
+			(at 34.29 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10442,7 +10693,7 @@
 			)
 		)
 		(property "Value" "-12V"
-			(at 82.55 49.53 0)
+			(at 34.29 138.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10452,7 +10703,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 82.55 44.45 0)
+			(at 34.29 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10463,7 +10714,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 82.55 44.45 0)
+			(at 34.29 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10474,7 +10725,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"-12V\""
-			(at 82.55 44.45 0)
+			(at 34.29 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10488,7 +10739,7 @@
 			(uuid "11c6c9d3-c7ad-44a8-98fd-858b73df2b8e")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR02")
 					(unit 1)
@@ -10498,7 +10749,7 @@
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:TL072")
-		(at 133.35 40.64 0)
+		(at 107.95 129.54 0)
 		(unit 3)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10509,7 +10760,7 @@
 		(fields_autoplaced yes)
 		(uuid "d736fb27-5fc3-480b-a6bb-080b891b3ef3")
 		(property "Reference" "U3"
-			(at 132.08 39.3699 0)
+			(at 106.68 128.2699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10520,7 +10771,7 @@
 			)
 		)
 		(property "Value" "TL072"
-			(at 132.08 41.9099 0)
+			(at 106.68 130.8099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10531,7 +10782,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_Socket"
-			(at 133.35 40.64 0)
+			(at 107.95 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10542,7 +10793,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl071.pdf"
-			(at 133.35 40.64 0)
+			(at 107.95 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10553,7 +10804,7 @@
 			)
 		)
 		(property "Description" "Dual Low-Noise JFET-Input Operational Amplifiers, DIP-8/SOIC-8"
-			(at 133.35 40.64 0)
+			(at 107.95 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10588,7 +10839,7 @@
 			(uuid "812d6b42-cb7e-4bd5-a892-3bee1df298f8")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "U3")
 					(unit 3)
@@ -10598,7 +10849,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 298.45 57.15 0)
+		(at 165.1 142.24 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10609,7 +10860,7 @@
 		(fields_autoplaced yes)
 		(uuid "d775ebae-241e-4f2e-a696-c5ebe4b8a154")
 		(property "Reference" "TP6"
-			(at 300.99 52.5779 0)
+			(at 167.64 137.6679 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10620,7 +10871,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 300.99 55.1179 0)
+			(at 167.64 140.2079 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10631,7 +10882,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch7.62mm_Drill1.3mm"
-			(at 303.53 57.15 0)
+			(at 170.18 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10642,7 +10893,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 303.53 57.15 0)
+			(at 170.18 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10653,7 +10904,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 298.45 57.15 0)
+			(at 165.1 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10667,7 +10918,7 @@
 			(uuid "3d8cf941-7e5f-4256-b6f1-c9c7f36dff5d")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "TP6")
 					(unit 1)
@@ -10677,7 +10928,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 220.98 54.61 0)
+		(at 101.6 30.48 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -10688,7 +10939,7 @@
 		(dnp no)
 		(uuid "dc820b20-3db3-4cde-93f2-e4e6639adbea")
 		(property "Reference" "C17"
-			(at 224.79 55.8801 0)
+			(at 105.41 31.7501 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10699,7 +10950,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 224.79 53.3401 0)
+			(at 105.41 29.2101 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10710,7 +10961,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 220.0148 58.42 0)
+			(at 100.6348 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10721,7 +10972,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 220.98 54.61 0)
+			(at 101.6 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10732,7 +10983,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 220.98 54.61 0)
+			(at 101.6 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10749,7 +11000,7 @@
 			(uuid "c65e4850-dbf2-40ab-88ef-046aa9503736")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "C17")
 					(unit 1)
@@ -10759,7 +11010,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 60.96 88.9 270)
+		(at 157.48 38.1 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10769,7 +11020,7 @@
 		(dnp no)
 		(uuid "decbe3ab-506b-47a9-bf6d-51119b9eca5f")
 		(property "Reference" "R11"
-			(at 60.96 84.328 90)
+			(at 157.48 36.068 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10779,7 +11030,7 @@
 			)
 		)
 		(property "Value" "1k"
-			(at 60.96 86.868 90)
+			(at 157.48 38.1 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10789,7 +11040,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 60.96 87.122 90)
+			(at 157.48 36.322 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10800,7 +11051,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 60.96 88.9 0)
+			(at 157.48 38.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10811,7 +11062,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 60.96 88.9 0)
+			(at 157.48 38.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10828,7 +11079,7 @@
 			(uuid "4ee5707b-6a5c-4b94-827d-2e71e740493d")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "R11")
 					(unit 1)
@@ -10838,7 +11089,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 207.01 64.77 0)
+		(at 78.74 33.02 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10846,10 +11097,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "dee18ceb-d8e6-44d9-a5e2-132ade4be4da")
 		(property "Reference" "#PWR016"
-			(at 207.01 71.12 0)
+			(at 72.39 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10860,7 +11110,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 207.01 69.85 0)
+			(at 73.914 33.02 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10870,7 +11120,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 207.01 64.77 0)
+			(at 78.74 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10881,7 +11131,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 207.01 64.77 0)
+			(at 78.74 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10892,7 +11142,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 207.01 64.77 0)
+			(at 78.74 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10906,7 +11156,7 @@
 			(uuid "116112b7-f729-466a-8d59-2ca182fce123")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR016")
 					(unit 1)
@@ -10916,7 +11166,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_US")
-		(at 171.45 53.34 0)
+		(at 50.8 30.48 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10924,10 +11174,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "df8d515c-38bd-4918-9fd7-d2c13a5b4e8e")
 		(property "Reference" "C10"
-			(at 175.26 52.3239 0)
+			(at 53.086 28.448 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10938,7 +11187,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 175.26 54.8639 0)
+			(at 53.086 30.48 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10949,7 +11198,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 171.45 53.34 0)
+			(at 50.8 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10960,7 +11209,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 171.45 53.34 0)
+			(at 50.8 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10971,7 +11220,7 @@
 			)
 		)
 		(property "Description" "capacitor, US symbol"
-			(at 171.45 53.34 0)
+			(at 50.8 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10988,7 +11237,7 @@
 			(uuid "a4a4ecfe-770c-4792-a65d-ead461e4f8ce")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "C10")
 					(unit 1)
@@ -10998,7 +11247,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 189.23 53.34 0)
+		(at 190.5 134.62 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11009,7 +11258,7 @@
 		(fields_autoplaced yes)
 		(uuid "dfad946d-0d4f-41f1-b533-1685ce8024d8")
 		(property "Reference" "#PWR09"
-			(at 189.23 59.69 0)
+			(at 190.5 140.97 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11020,7 +11269,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 189.23 58.42 0)
+			(at 190.5 139.7 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11030,7 +11279,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 189.23 53.34 0)
+			(at 190.5 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11041,7 +11290,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 189.23 53.34 0)
+			(at 190.5 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11052,7 +11301,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 189.23 53.34 0)
+			(at 190.5 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11066,7 +11315,7 @@
 			(uuid "082dd34e-98a0-42d5-886a-9f138f15c0b1")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR09")
 					(unit 1)
@@ -11076,7 +11325,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 207.01 59.69 180)
+		(at 83.82 33.02 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11084,10 +11333,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "e0822fbc-30a2-4c34-b521-b82e393eabcd")
 		(property "Reference" "R5"
-			(at 209.55 58.4199 0)
+			(at 82.55 30.734 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11098,7 +11346,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 209.55 60.9599 0)
+			(at 82.042 33.02 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11109,7 +11357,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 208.788 59.69 90)
+			(at 83.82 34.798 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11120,7 +11368,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 207.01 59.69 0)
+			(at 83.82 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11131,7 +11379,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 207.01 59.69 0)
+			(at 83.82 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11148,7 +11396,7 @@
 			(uuid "481bf449-ca50-4067-90ea-9a0375c4e6ea")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "R5")
 					(unit 1)
@@ -11158,7 +11406,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 257.81 105.41 0)
+		(at 201.93 99.06 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11168,7 +11416,7 @@
 		(dnp no)
 		(uuid "e1411ebe-0cf9-49dd-a68e-201849e3cdc7")
 		(property "Reference" "C5"
-			(at 260.096 104.14 0)
+			(at 204.216 97.79 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11179,7 +11427,7 @@
 			)
 		)
 		(property "Value" "10nF"
-			(at 260.096 106.68 0)
+			(at 204.216 100.33 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11190,7 +11438,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 258.7752 109.22 0)
+			(at 202.8952 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11201,7 +11449,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 257.81 105.41 0)
+			(at 201.93 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11212,7 +11460,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 257.81 105.41 0)
+			(at 201.93 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11229,7 +11477,7 @@
 			(uuid "75b2a2eb-f59d-4f41-82ce-2385e221a10d")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "C5")
 					(unit 1)
@@ -11239,7 +11487,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Potentiometer")
-		(at 120.65 76.2 90)
+		(at 49.53 62.23 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11249,7 +11497,7 @@
 		(dnp no)
 		(uuid "e362825d-46ff-4efa-8de1-995fafc9aeed")
 		(property "Reference" "RV4"
-			(at 122.428 78.232 90)
+			(at 51.308 64.262 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11260,7 +11508,7 @@
 			)
 		)
 		(property "Value" "14.7k"
-			(at 123.444 80.01 90)
+			(at 52.324 66.04 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11271,7 +11519,7 @@
 			)
 		)
 		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 120.65 76.2 0)
+			(at 49.53 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11282,7 +11530,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 120.65 76.2 0)
+			(at 49.53 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11293,7 +11541,7 @@
 			)
 		)
 		(property "Description" "Potentiometer"
-			(at 120.65 76.2 0)
+			(at 49.53 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11304,7 +11552,7 @@
 			)
 		)
 		(property "Sim.Device" "R"
-			(at 120.65 76.2 0)
+			(at 49.53 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11315,7 +11563,7 @@
 			)
 		)
 		(property "Sim.Type" "POT"
-			(at 120.65 76.2 0)
+			(at 49.53 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11326,7 +11574,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 120.65 76.2 0)
+			(at 49.53 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11346,7 +11594,7 @@
 			(uuid "95181c56-e10a-4c49-9858-641056e85e16")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "RV4")
 					(unit 1)
@@ -11356,7 +11604,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 214.63 102.87 0)
+		(at 158.75 96.52 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11366,7 +11614,7 @@
 		(dnp no)
 		(uuid "e9d6c3f1-3425-4297-8cc1-e2bde8f8a6fe")
 		(property "Reference" "C3"
-			(at 216.916 101.6 0)
+			(at 161.036 95.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11377,7 +11625,7 @@
 			)
 		)
 		(property "Value" "10nF"
-			(at 216.916 104.14 0)
+			(at 161.036 97.79 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11388,7 +11636,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 215.5952 106.68 0)
+			(at 159.7152 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11399,7 +11647,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 214.63 102.87 0)
+			(at 158.75 96.52 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11410,7 +11658,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 214.63 102.87 0)
+			(at 158.75 96.52 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11427,7 +11675,7 @@
 			(uuid "f6320055-01ad-400d-bb19-1569a59b3dd1")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "C3")
 					(unit 1)
@@ -11437,7 +11685,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 323.85 123.19 0)
+		(at 256.54 48.26 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11448,7 +11696,7 @@
 		(fields_autoplaced yes)
 		(uuid "ea3486ca-d709-433e-8116-3e0c1cda4fc1")
 		(property "Reference" "#PWR018"
-			(at 323.85 129.54 0)
+			(at 256.54 54.61 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11459,7 +11707,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 323.85 128.27 0)
+			(at 256.54 53.34 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11469,7 +11717,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 323.85 123.19 0)
+			(at 256.54 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11480,7 +11728,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 323.85 123.19 0)
+			(at 256.54 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11491,7 +11739,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 323.85 123.19 0)
+			(at 256.54 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11505,7 +11753,7 @@
 			(uuid "e41e4130-f4ff-49ee-bd97-4426b2f5ae3b")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR018")
 					(unit 1)
@@ -11515,7 +11763,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Potentiometer")
-		(at 242.57 99.06 270)
+		(at 186.69 92.71 270)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -11526,7 +11774,7 @@
 		(dnp no)
 		(uuid "edc5bdc8-e24a-4f68-a400-0874d265c374")
 		(property "Reference" "RV7"
-			(at 244.602 101.092 90)
+			(at 188.722 94.742 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11537,7 +11785,7 @@
 			)
 		)
 		(property "Value" "1.02k"
-			(at 245.11 102.87 90)
+			(at 189.23 96.52 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11548,7 +11796,7 @@
 			)
 		)
 		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 242.57 99.06 0)
+			(at 186.69 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11559,7 +11807,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 242.57 99.06 0)
+			(at 186.69 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11570,7 +11818,7 @@
 			)
 		)
 		(property "Description" "Potentiometer"
-			(at 242.57 99.06 0)
+			(at 186.69 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11581,7 +11829,7 @@
 			)
 		)
 		(property "Sim.Device" "R"
-			(at 242.57 99.06 0)
+			(at 186.69 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11592,7 +11840,7 @@
 			)
 		)
 		(property "Sim.Type" "POT"
-			(at 242.57 99.06 0)
+			(at 186.69 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11603,7 +11851,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 242.57 99.06 0)
+			(at 186.69 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11623,7 +11871,7 @@
 			(uuid "4e833e9f-40b4-4da5-9ec0-4665361fda6b")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "RV7")
 					(unit 1)
@@ -11633,7 +11881,7 @@
 	)
 	(symbol
 		(lib_id "Amplifier_Operational:TL072")
-		(at 74.93 91.44 0)
+		(at 171.45 40.64 0)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -11644,7 +11892,7 @@
 		(dnp no)
 		(uuid "f6bcc3b9-ec66-4773-8f3b-01ea18c681dd")
 		(property "Reference" "U1"
-			(at 74.93 87.376 0)
+			(at 171.45 36.576 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11654,7 +11902,7 @@
 			)
 		)
 		(property "Value" "TL072"
-			(at 74.93 85.598 0)
+			(at 171.45 34.798 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11664,7 +11912,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_Socket"
-			(at 74.93 91.44 0)
+			(at 171.45 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11675,7 +11923,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl071.pdf"
-			(at 74.93 91.44 0)
+			(at 171.45 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11686,7 +11934,7 @@
 			)
 		)
 		(property "Description" "Dual Low-Noise JFET-Input Operational Amplifiers, DIP-8/SOIC-8"
-			(at 74.93 91.44 0)
+			(at 171.45 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11721,7 +11969,7 @@
 			(uuid "812d6b42-cb7e-4bd5-a892-3bee1df298f9")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "U1")
 					(unit 1)
@@ -11731,7 +11979,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Potentiometer")
-		(at 114.3 96.52 0)
+		(at 43.18 82.55 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11741,7 +11989,7 @@
 		(dnp no)
 		(uuid "fa2d2153-d978-4125-86f2-cb826d0cb997")
 		(property "Reference" "RV1"
-			(at 112.268 95.758 0)
+			(at 41.148 81.788 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11752,7 +12000,7 @@
 			)
 		)
 		(property "Value" "17.2k"
-			(at 112.776 97.79 0)
+			(at 41.656 83.82 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11763,7 +12011,7 @@
 			)
 		)
 		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 114.3 96.52 0)
+			(at 43.18 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11774,7 +12022,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 114.3 96.52 0)
+			(at 43.18 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11785,7 +12033,7 @@
 			)
 		)
 		(property "Description" "Potentiometer"
-			(at 114.3 96.52 0)
+			(at 43.18 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11796,7 +12044,7 @@
 			)
 		)
 		(property "Sim.Device" "R"
-			(at 114.3 96.52 0)
+			(at 43.18 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11807,7 +12055,7 @@
 			)
 		)
 		(property "Sim.Type" "POT"
-			(at 114.3 96.52 0)
+			(at 43.18 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11818,7 +12066,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 114.3 96.52 0)
+			(at 43.18 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11838,7 +12086,7 @@
 			(uuid "440c76f0-6980-4e43-928a-399acba24aa9")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "RV1")
 					(unit 1)
@@ -11848,7 +12096,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 220.98 86.36 90)
+		(at 165.1 80.01 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11859,7 +12107,7 @@
 		(fields_autoplaced yes)
 		(uuid "fc8e5f43-e207-49d5-8744-39d6add7b059")
 		(property "Reference" "C2"
-			(at 220.98 78.74 90)
+			(at 165.1 72.39 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11869,7 +12117,7 @@
 			)
 		)
 		(property "Value" "12nF"
-			(at 220.98 81.28 90)
+			(at 165.1 74.93 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11879,7 +12127,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 224.79 85.3948 0)
+			(at 168.91 79.0448 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11890,7 +12138,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 220.98 86.36 0)
+			(at 165.1 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11901,7 +12149,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 220.98 86.36 0)
+			(at 165.1 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11918,7 +12166,7 @@
 			(uuid "496d497c-99c4-443b-8087-9bd2b20f4c42")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "C2")
 					(unit 1)
@@ -11928,7 +12176,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 297.18 121.92 270)
+		(at 229.87 46.99 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11938,7 +12186,7 @@
 		(dnp no)
 		(uuid "fe299cc3-00c5-4c6d-be0a-52a8fcf60252")
 		(property "Reference" "R8"
-			(at 297.18 117.348 90)
+			(at 229.87 42.418 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11948,7 +12196,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 297.18 119.888 90)
+			(at 229.87 44.958 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11958,7 +12206,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 297.18 120.142 90)
+			(at 229.87 45.212 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11969,7 +12217,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 297.18 121.92 0)
+			(at 229.87 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11980,7 +12228,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 297.18 121.92 0)
+			(at 229.87 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11997,7 +12245,7 @@
 			(uuid "31f69986-6e51-4a9e-a2ac-f0858ff9af4a")
 		)
 		(instances
-			(project "Microfono"
+			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "R8")
 					(unit 1)

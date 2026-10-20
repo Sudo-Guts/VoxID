@@ -44,6 +44,19 @@ _autosave-*
 **/.history/
 **/.history_trim/
 
+# ============================================================
+# PSIM / LTspice - Generated Files
+# ============================================================
+
+SIM/**/*.raw
+SIM/**/*.log
+SIM/**/*.db
+SIM/**/*.alias.ini
+SIM/**/*.fra
+
+# Netlist generado automáticamente por PSIM
+SIM/psim/Filtro_Real.cir
+
 # -----------------------------------------------------------------------------
 #   Archivos Temporales de Editores
 # -----------------------------------------------------------------------------

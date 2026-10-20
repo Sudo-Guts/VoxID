@@ -1,0 +1,49 @@
+* VoxID - Filtro de referencia, analisis de ruido
+* Comparacion con Filtro_Real_Ruido.cir (HPF low noise)
+* HPF de referencia: 160 nF y resistencias originales
+* LPF: mismos valores comerciales que el diseno low noise
+* Alimentacion TL072: +12 V / -12 V
+
+.include "C:\Users\Nesti\Documents\GUS\VoxID\SIM\spice\TL072.lib"
+
+* Ruido integrado de salida entre 100 Hz y 6 kHz
+.noise V(13) V_Vsweep dec 100 100 6k
+
+* Entrada: fuente de referencia AC de 1 V
+V_Vsweep 1 0 DC 0 AC 1
+
+* HPF 1 - Referencia original (160 nF)
+C_C1 1 2 160n
+C_C2 2 3 160n
+R_R1 2 4 3.81k
+R_R2 3 0 26k
+
+* HPF 2 - Referencia original (160 nF)
+C_C3 4 5 160n
+C_C4 5 6 160n
+R_R3 5 7 9.2k
+R_R4 6 0 10.8k
+
+* LPF 1 - Igual que en el diseno low noise
+C_C5 8 0 2.7n
+C_C6 9 10 27n
+R_R5 7 9 1.65k
+R_R6 9 8 5.90k
+
+* LPF 2 - Igual que en el diseno low noise
+C_C7 11 0 20n
+C_C8 12 13 27n
+R_R7 10 12 787
+R_R8 12 11 1.65k
+
+* Cuatro etapas Sallen-Key en seguidor (dos TL072 fisicos)
+XU1 3 4 14 15 4 TL072
+XU2 6 7 14 15 7 TL072
+XU3 8 10 14 15 10 TL072
+XU4 11 13 14 15 13 TL072
+
+* Fuentes simetricas: nodo 14 = +12 V, nodo 15 = -12 V
+V_VDC1 0 15 DC 12
+V_VDC2 14 0 DC 12
+
+.end

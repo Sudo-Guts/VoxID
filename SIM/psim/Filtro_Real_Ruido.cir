@@ -1,0 +1,39 @@
+* Netlist C:\Users\Nesti\Documents\GUS\VoxID\SIM\psim\Filtro_Real.psimsch *
+
+.include "C:\Altair\Altair_PSIM_2025\SPICElib\PSIM_SPICE.sub"
+
+.noise V(13) V_Vsweep dec 100 100 6k
+
+.include "C:\Users\Nesti\Documents\GUS\VoxID\SIM\spice\TL072.lib"
+
+
+R_R5 7 9 1650
+R_R6 9 8 5900
+R_R7 10 12 787
+R_R8 12 11 1650
+C_C1 1 2 4.700000000000001E-07
+C_C2 2 3 4.700000000000001E-07
+R_R1 2 4 1300
+R_R2 3 0 8870
+C_C3 4 5 4.700000000000001E-07
+C_C4 5 6 4.700000000000001E-07
+R_R3 5 7 3090
+R_R4 6 0 3650
+C_C5 8 0 2.7E-09
+C_C6 9 10 2.7E-08
+C_C7 11 0 2E-08
+C_C8 12 13 2.7E-08
+V_Vsweep 1 0 ac 1
+
+XU1 3 4 14 15 4 TL072
+V_VDC1 0 15 DC 12
+V_VDC2 14 0 DC 12
+XU2 6 7 14 15 7 TL072
+XU3 8 10 14 15 10 TL072
+XU4 11 13 14 15 13 TL072
+
+
+* Matching PSIM probes to SPICE probes *
+* V(V1) 	V(13) *
+
+.end

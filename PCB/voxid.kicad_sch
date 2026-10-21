@@ -2709,7 +2709,7 @@
 	)
 	(rectangle
 		(start 128.27 64.7701)
-		(end 242.57 115.5701)
+		(end 241.3 115.5701)
 		(stroke
 			(width 0)
 			(type default)
@@ -2742,6 +2742,39 @@
 			(type none)
 		)
 		(uuid "99405f1e-499d-48fc-a86e-debaa4329bf0")
+	)
+	(rectangle
+		(start 128.27 116.84)
+		(end 190.5 152.4)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "e7c4337e-166b-4459-bab3-3b82c3b608e6")
+	)
+	(text_box "Wires\n"
+		(exclude_from_sim no)
+		(at 180.34 147.8798 0)
+		(size 10.16 4.5202)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width -0.0001)
+			(type solid)
+		)
+		(fill
+			(type color)
+			(color 132 132 132 1)
+		)
+		(effects
+			(font
+				(size 1.6256 1.6256)
+				(color 255 255 255 1)
+			)
+		)
+		(uuid "2b3aa932-1a2f-42b3-ba2a-797721b7e99a")
 	)
 	(text_box "Entrada del voltaje simetrico\n"
 		(exclude_from_sim no)
@@ -2920,7 +2953,7 @@
 		(uuid "f0e24726-ee34-4df0-8b45-eb06b3cfed9b")
 	)
 	(junction
-		(at 201.93 92.71)
+		(at 199.39 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1126f330-2cfd-4c9a-be85-ad016b216035")
@@ -2932,13 +2965,7 @@
 		(uuid "139155e5-d372-4cfd-939c-f99906ce8d1f")
 	)
 	(junction
-		(at 53.34 62.23)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "1d921b8a-0636-46e7-b74f-bee827d2cba0")
-	)
-	(junction
-		(at 181.61 92.71)
+		(at 179.07 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "23b633bd-58bf-4e25-9364-b70f5d1b71bc")
@@ -2974,19 +3001,13 @@
 		(uuid "4e614b23-cdf9-4f4e-90e1-3d18fcf92d12")
 	)
 	(junction
-		(at 86.36 90.17)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "55338132-4c7f-4662-94f4-5a5691bc7a56")
-	)
-	(junction
 		(at 240.03 26.67)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "55ab2e01-1185-421b-ab9f-c91b8dda0b19")
 	)
 	(junction
-		(at 191.77 92.71)
+		(at 189.23 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6b648713-fc0c-41c4-b41a-bdb4e6c5d0fa")
@@ -3002,18 +3023,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7b84d205-698b-49f2-919e-85e47d515902")
-	)
-	(junction
-		(at 96.52 62.23)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "7d147d92-5bf1-4632-a674-493874ce1cdb")
-	)
-	(junction
-		(at 138.43 90.17)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "86213c7c-50dc-4995-ab27-7fbd3cc4ccef")
 	)
 	(junction
 		(at 25.4 25.4)
@@ -3040,12 +3049,6 @@
 		(uuid "a96768c8-5eb8-4c17-998f-c5b531bb4b7d")
 	)
 	(junction
-		(at 182.88 92.71)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "a9be5971-75a0-4533-9692-fe69e8f6e7d8")
-	)
-	(junction
 		(at 43.18 77.47)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3064,22 +3067,22 @@
 		(uuid "baeae99b-8222-420b-b2f4-2ec643d4d183")
 	)
 	(junction
-		(at 158.75 90.17)
+		(at 156.21 90.17)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bf8cecd0-4054-4dbd-b0f2-e306498c1cb1")
 	)
 	(junction
-		(at 148.59 90.17)
+		(at 146.05 90.17)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c4e2a97d-bee0-4b7d-adfb-0423771ac12b")
 	)
 	(junction
-		(at 200.66 92.71)
+		(at 88.9 25.4)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "c65616bb-c5e7-49d1-abe0-50701891448d")
+		(uuid "c84a7dd2-41ab-4287-beab-0b6a3f835f27")
 	)
 	(junction
 		(at 162.56 38.1)
@@ -3088,13 +3091,7 @@
 		(uuid "cd373f1e-a535-452d-9022-1475663f2b08")
 	)
 	(junction
-		(at 43.18 87.63)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ce6b8c28-e97c-40e9-b790-fe723cabe780")
-	)
-	(junction
-		(at 224.79 95.25)
+		(at 222.25 95.25)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d1dfaeff-221f-4eec-88ef-1c7800e9c056")
@@ -3185,33 +3182,13 @@
 	)
 	(wire
 		(pts
-			(xy 200.66 92.71) (xy 201.93 92.71)
+			(xy 198.12 92.71) (xy 199.39 92.71)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "0adefb95-4dc2-4708-a5f5-e29a53677b99")
-	)
-	(wire
-		(pts
-			(xy 49.53 58.42) (xy 53.34 58.42)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0af64966-f7be-495e-8627-c76c8180ff79")
-	)
-	(wire
-		(pts
-			(xy 143.51 86.36) (xy 138.43 86.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0afc6f90-b1b0-48e8-9a99-6045b9714a9a")
 	)
 	(wire
 		(pts
@@ -3225,7 +3202,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 80.01) (xy 148.59 90.17)
+			(xy 146.05 80.01) (xy 146.05 90.17)
 		)
 		(stroke
 			(width 0)
@@ -3285,17 +3262,7 @@
 	)
 	(wire
 		(pts
-			(xy 86.36 90.17) (xy 90.17 90.17)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "139dd943-bda8-4612-957d-519e12393757")
-	)
-	(wire
-		(pts
-			(xy 157.48 90.17) (xy 158.75 90.17)
+			(xy 154.94 90.17) (xy 156.21 90.17)
 		)
 		(stroke
 			(width 0)
@@ -3305,7 +3272,7 @@
 	)
 	(wire
 		(pts
-			(xy 224.79 95.25) (xy 223.52 95.25)
+			(xy 222.25 95.25) (xy 220.98 95.25)
 		)
 		(stroke
 			(width 0)
@@ -3325,7 +3292,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 100.33) (xy 158.75 102.87)
+			(xy 156.21 99.06) (xy 156.21 101.6)
 		)
 		(stroke
 			(width 0)
@@ -3365,7 +3332,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 127) (xy 190.5 129.54)
+			(xy 184.15 130.81) (xy 184.15 133.35)
 		)
 		(stroke
 			(width 0)
@@ -3375,7 +3342,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 80.01) (xy 191.77 92.71)
+			(xy 189.23 80.01) (xy 189.23 92.71)
 		)
 		(stroke
 			(width 0)
@@ -3385,7 +3352,7 @@
 	)
 	(wire
 		(pts
-			(xy 165.1 95.25) (xy 163.83 95.25)
+			(xy 162.56 95.25) (xy 161.29 95.25)
 		)
 		(stroke
 			(width 0)
@@ -3425,7 +3392,7 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 92.71) (xy 180.34 92.71)
+			(xy 179.07 92.71) (xy 177.8 92.71)
 		)
 		(stroke
 			(width 0)
@@ -3465,16 +3432,6 @@
 	)
 	(wire
 		(pts
-			(xy 46.99 82.55) (xy 46.99 87.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2900d46e-e3b8-41fd-82f6-e7cf421e1569")
-	)
-	(wire
-		(pts
 			(xy 140.97 25.4) (xy 140.97 27.94)
 		)
 		(stroke
@@ -3505,7 +3462,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 95.25) (xy 163.83 99.06)
+			(xy 161.29 95.25) (xy 161.29 99.06)
 		)
 		(stroke
 			(width 0)
@@ -3515,33 +3472,13 @@
 	)
 	(wire
 		(pts
-			(xy 153.67 86.36) (xy 158.75 86.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2b446e1c-8167-488b-b516-dc27de30c32c")
-	)
-	(wire
-		(pts
-			(xy 224.79 80.01) (xy 224.79 95.25)
+			(xy 222.25 80.01) (xy 222.25 95.25)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "2bcfbd35-b097-4c9a-9591-ae8fd65d7dc6")
-	)
-	(wire
-		(pts
-			(xy 139.7 90.17) (xy 138.43 90.17)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2c6670ef-da94-4dbf-894a-3993d5fe11d7")
 	)
 	(wire
 		(pts
@@ -3555,7 +3492,7 @@
 	)
 	(wire
 		(pts
-			(xy 204.47 80.01) (xy 191.77 80.01)
+			(xy 201.93 80.01) (xy 189.23 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3575,7 +3512,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 132.08) (xy 190.5 134.62)
+			(xy 184.15 135.89) (xy 184.15 138.43)
 		)
 		(stroke
 			(width 0)
@@ -3595,7 +3532,7 @@
 	)
 	(wire
 		(pts
-			(xy 224.79 95.25) (xy 229.87 95.25)
+			(xy 222.25 95.25) (xy 226.06 95.25)
 		)
 		(stroke
 			(width 0)
@@ -3605,7 +3542,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 99.06) (xy 181.61 99.06)
+			(xy 161.29 99.06) (xy 179.07 99.06)
 		)
 		(stroke
 			(width 0)
@@ -3615,7 +3552,7 @@
 	)
 	(wire
 		(pts
-			(xy 232.41 95.25) (xy 234.95 95.25)
+			(xy 228.6 95.25) (xy 232.41 95.25)
 		)
 		(stroke
 			(width 0)
@@ -3625,17 +3562,7 @@
 	)
 	(wire
 		(pts
-			(xy 90.17 85.09) (xy 90.17 90.17)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "398dcea0-0853-4185-93aa-c20186c86de3")
-	)
-	(wire
-		(pts
-			(xy 165.1 125.73) (xy 165.1 124.46)
+			(xy 165.1 127) (xy 165.1 125.73)
 		)
 		(stroke
 			(width 0)
@@ -3655,7 +3582,7 @@
 	)
 	(wire
 		(pts
-			(xy 161.29 80.01) (xy 148.59 80.01)
+			(xy 158.75 80.01) (xy 146.05 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3665,7 +3592,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 129.54) (xy 191.77 129.54)
+			(xy 184.15 133.35) (xy 182.88 133.35)
 		)
 		(stroke
 			(width 0)
@@ -3675,17 +3602,7 @@
 	)
 	(wire
 		(pts
-			(xy 53.34 58.42) (xy 53.34 62.23)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "486f638d-949b-46e8-afb8-9adb4fb4dbbb")
-	)
-	(wire
-		(pts
-			(xy 135.89 90.17) (xy 138.43 90.17)
+			(xy 135.89 90.17) (xy 137.16 90.17)
 		)
 		(stroke
 			(width 0)
@@ -3775,7 +3692,7 @@
 	)
 	(wire
 		(pts
-			(xy 133.35 125.73) (xy 133.35 124.46)
+			(xy 133.35 127) (xy 133.35 125.73)
 		)
 		(stroke
 			(width 0)
@@ -3802,16 +3719,6 @@
 			(type default)
 		)
 		(uuid "5c4a1acd-6baa-44bf-b40e-ca48c5101363")
-	)
-	(wire
-		(pts
-			(xy 96.52 58.42) (xy 96.52 62.23)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5e6f5cd4-4729-4265-a20e-af518fc07bd1")
 	)
 	(wire
 		(pts
@@ -3875,16 +3782,6 @@
 	)
 	(wire
 		(pts
-			(xy 196.85 88.9) (xy 200.66 88.9)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "67c4a561-cb22-4ca1-92d4-894b5a865fe5")
-	)
-	(wire
-		(pts
 			(xy 190.5 40.64) (xy 194.31 40.64)
 		)
 		(stroke
@@ -3905,7 +3802,7 @@
 	)
 	(wire
 		(pts
-			(xy 212.09 80.01) (xy 224.79 80.01)
+			(xy 209.55 80.01) (xy 222.25 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3915,7 +3812,7 @@
 	)
 	(wire
 		(pts
-			(xy 207.01 101.6) (xy 224.79 101.6)
+			(xy 204.47 101.6) (xy 222.25 101.6)
 		)
 		(stroke
 			(width 0)
@@ -3955,17 +3852,7 @@
 	)
 	(wire
 		(pts
-			(xy 204.47 130.81) (xy 204.47 133.35)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "745be846-c677-4e01-9fb2-a49db623c696")
-	)
-	(wire
-		(pts
-			(xy 149.86 125.73) (xy 149.86 124.46)
+			(xy 149.86 127) (xy 149.86 125.73)
 		)
 		(stroke
 			(width 0)
@@ -4005,7 +3892,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 87.63) (xy 43.18 88.9)
+			(xy 43.18 86.36) (xy 43.18 88.9)
 		)
 		(stroke
 			(width 0)
@@ -4015,7 +3902,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 80.01) (xy 181.61 80.01)
+			(xy 166.37 80.01) (xy 179.07 80.01)
 		)
 		(stroke
 			(width 0)
@@ -4035,16 +3922,6 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 58.42) (xy 96.52 58.42)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7fb39947-1668-4fc0-8c95-5a472a3a0e04")
-	)
-	(wire
-		(pts
 			(xy 43.18 77.47) (xy 43.18 78.74)
 		)
 		(stroke
@@ -4055,7 +3932,7 @@
 	)
 	(wire
 		(pts
-			(xy 201.93 92.71) (xy 208.28 92.71)
+			(xy 199.39 92.71) (xy 205.74 92.71)
 		)
 		(stroke
 			(width 0)
@@ -4065,7 +3942,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 90.17) (xy 165.1 90.17)
+			(xy 156.21 90.17) (xy 162.56 90.17)
 		)
 		(stroke
 			(width 0)
@@ -4105,7 +3982,7 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 80.01) (xy 181.61 92.71)
+			(xy 179.07 80.01) (xy 179.07 92.71)
 		)
 		(stroke
 			(width 0)
@@ -4185,7 +4062,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 132.08) (xy 190.5 132.08)
+			(xy 182.88 135.89) (xy 184.15 135.89)
 		)
 		(stroke
 			(width 0)
@@ -4215,7 +4092,7 @@
 	)
 	(wire
 		(pts
-			(xy 224.79 101.6) (xy 224.79 95.25)
+			(xy 222.25 101.6) (xy 222.25 95.25)
 		)
 		(stroke
 			(width 0)
@@ -4225,7 +4102,7 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 99.06) (xy 181.61 92.71)
+			(xy 179.07 99.06) (xy 179.07 92.71)
 		)
 		(stroke
 			(width 0)
@@ -4245,7 +4122,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 90.17) (xy 158.75 92.71)
+			(xy 156.21 90.17) (xy 156.21 91.44)
 		)
 		(stroke
 			(width 0)
@@ -4262,16 +4139,6 @@
 			(type default)
 		)
 		(uuid "a42f804b-354d-4112-90d3-b314415b6704")
-	)
-	(wire
-		(pts
-			(xy 182.88 88.9) (xy 182.88 92.71)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a5775b2f-503a-4cd9-ae3c-d88e18e6ddac")
 	)
 	(wire
 		(pts
@@ -4295,7 +4162,7 @@
 	)
 	(wire
 		(pts
-			(xy 201.93 102.87) (xy 201.93 105.41)
+			(xy 199.39 101.6) (xy 199.39 104.14)
 		)
 		(stroke
 			(width 0)
@@ -4315,7 +4182,7 @@
 	)
 	(wire
 		(pts
-			(xy 208.28 97.79) (xy 207.01 97.79)
+			(xy 205.74 97.79) (xy 204.47 97.79)
 		)
 		(stroke
 			(width 0)
@@ -4335,7 +4202,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 92.71) (xy 191.77 92.71)
+			(xy 187.96 92.71) (xy 189.23 92.71)
 		)
 		(stroke
 			(width 0)
@@ -4355,16 +4222,6 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 86.36) (xy 138.43 90.17)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "af66518f-05fc-4a69-b5b2-1471442ad402")
-	)
-	(wire
-		(pts
 			(xy 85.09 137.16) (xy 85.09 142.24)
 		)
 		(stroke
@@ -4372,16 +4229,6 @@
 			(type default)
 		)
 		(uuid "af864103-940c-4a90-847f-c044ce6bbec1")
-	)
-	(wire
-		(pts
-			(xy 43.18 87.63) (xy 43.18 86.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b1c86a3a-25b1-4427-937c-d029d81b913e")
 	)
 	(wire
 		(pts
@@ -4435,7 +4282,7 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 17.78) (xy 88.9 21.59)
+			(xy 88.9 17.78) (xy 88.9 25.4)
 		)
 		(stroke
 			(width 0)
@@ -4452,16 +4299,6 @@
 			(type default)
 		)
 		(uuid "bc58d269-cb0a-4fd3-b50f-d1467843fc5f")
-	)
-	(wire
-		(pts
-			(xy 46.99 87.63) (xy 43.18 87.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bf1df162-4710-4c28-95b5-858583362228")
 	)
 	(wire
 		(pts
@@ -4505,7 +4342,7 @@
 	)
 	(wire
 		(pts
-			(xy 201.93 92.71) (xy 201.93 95.25)
+			(xy 199.39 92.71) (xy 199.39 93.98)
 		)
 		(stroke
 			(width 0)
@@ -4525,7 +4362,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 90.17) (xy 149.86 90.17)
+			(xy 146.05 90.17) (xy 147.32 90.17)
 		)
 		(stroke
 			(width 0)
@@ -4545,7 +4382,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 92.71) (xy 193.04 92.71)
+			(xy 189.23 92.71) (xy 190.5 92.71)
 		)
 		(stroke
 			(width 0)
@@ -4562,16 +4399,6 @@
 			(type default)
 		)
 		(uuid "cbaee540-afa4-46ff-a11a-4f77b3c7a1f0")
-	)
-	(wire
-		(pts
-			(xy 186.69 88.9) (xy 182.88 88.9)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cce09522-7293-4675-a8e2-278724bd5c5e")
 	)
 	(wire
 		(pts
@@ -4625,17 +4452,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 86.36) (xy 158.75 90.17)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d31fefb1-11dd-40af-b701-85741b69dec0")
-	)
-	(wire
-		(pts
-			(xy 207.01 97.79) (xy 207.01 101.6)
+			(xy 204.47 97.79) (xy 204.47 101.6)
 		)
 		(stroke
 			(width 0)
@@ -4665,17 +4482,7 @@
 	)
 	(wire
 		(pts
-			(xy 86.36 90.17) (xy 86.36 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d65637a9-9085-4729-9062-f033d0dc82fd")
-	)
-	(wire
-		(pts
-			(xy 181.61 92.71) (xy 182.88 92.71)
+			(xy 179.07 92.71) (xy 180.34 92.71)
 		)
 		(stroke
 			(width 0)
@@ -4725,23 +4532,13 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 90.17) (xy 148.59 90.17)
+			(xy 144.78 90.17) (xy 146.05 90.17)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "de4144d4-6d7d-4f80-a67e-0cd00392262c")
-	)
-	(wire
-		(pts
-			(xy 92.71 25.4) (xy 101.6 25.4)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e10116d1-9af5-46cf-9548-09f10e4d88b3")
 	)
 	(wire
 		(pts
@@ -4755,7 +4552,17 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 29.21) (xy 88.9 33.02)
+			(xy 88.9 25.4) (xy 101.6 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e3d91a9c-c5be-43f0-8c71-00cae48e6d34")
+	)
+	(wire
+		(pts
+			(xy 88.9 25.4) (xy 88.9 33.02)
 		)
 		(stroke
 			(width 0)
@@ -4815,7 +4622,7 @@
 	)
 	(wire
 		(pts
-			(xy 86.36 88.9) (xy 86.36 90.17)
+			(xy 86.36 88.9) (xy 86.36 91.44)
 		)
 		(stroke
 			(width 0)
@@ -4862,16 +4669,6 @@
 			(type default)
 		)
 		(uuid "f8156c71-0f31-47d4-8035-dbec7f079c2e")
-	)
-	(wire
-		(pts
-			(xy 200.66 88.9) (xy 200.66 92.71)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f94f1d82-dd2d-4b2d-ac05-a39431b8dd34")
 	)
 	(wire
 		(pts
@@ -4977,7 +4774,7 @@
 	)
 	(global_label "+12V"
 		(shape input)
-		(at 165.1 124.46 90)
+		(at 165.1 125.73 90)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4987,7 +4784,7 @@
 		)
 		(uuid "2eb77480-073d-4a10-916b-1177a9c35f8f")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 165.1 116.3948 90)
+			(at 165.1 117.6648 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5073,7 +4870,7 @@
 	)
 	(global_label "+12V"
 		(shape input)
-		(at 149.86 124.46 90)
+		(at 149.86 125.73 90)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5083,7 +4880,7 @@
 		)
 		(uuid "826b8e67-7c2c-4035-9944-8ef0ae2243b0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 149.86 116.3948 90)
+			(at 149.86 117.6648 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5121,7 +4918,7 @@
 	)
 	(global_label "LPF"
 		(shape input)
-		(at 234.95 95.25 0)
+		(at 232.41 95.25 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5131,7 +4928,7 @@
 		)
 		(uuid "a527316b-3855-44e4-8cbb-ef4d4ddf82f2")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 241.3219 95.25 0)
+			(at 238.7819 95.25 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5169,7 +4966,7 @@
 	)
 	(global_label "+12V"
 		(shape input)
-		(at 133.35 124.46 90)
+		(at 133.35 125.73 90)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5179,7 +4976,7 @@
 		)
 		(uuid "e889022d-c1fe-4612-9e12-7d1e84826636")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 133.35 116.3948 90)
+			(at 133.35 117.6648 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5192,8 +4989,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 38.1 77.47 90)
+		(lib_id "Device:R")
+		(at 167.64 26.67 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5201,30 +4998,31 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "02ff6829-07ea-4e48-ae3a-b63be0a21e33")
-		(property "Reference" "C7"
-			(at 38.1 69.85 90)
+		(uuid "03c8463b-9c01-4ff6-911c-e0c16b9f6cc5")
+		(property "Reference" "R17"
+			(at 169.672 24.638 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Value" "100nF"
-			(at 38.1 72.39 90)
+		(property "Value" "10k"
+			(at 169.418 28.702 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 41.91 76.5048 0)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 167.64 28.448 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5235,7 +5033,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 38.1 77.47 0)
+			(at 167.64 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5245,8 +5043,8 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
-			(at 38.1 77.47 0)
+		(property "Description" "Resistor"
+			(at 167.64 26.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5255,17 +5053,17 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(pin "1"
-			(uuid "95f719dc-3cfd-4e7d-8df6-26989c2ce435")
 		)
 		(pin "2"
-			(uuid "5c974d74-c927-4854-8c0b-2c6d497fcbd4")
+			(uuid "68a8c94a-b0fd-4c34-866c-bde9f9d7a5d7")
+		)
+		(pin "1"
+			(uuid "016c1a1c-9369-4b97-8097-5413fe9e563d")
 		)
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "C7")
+					(reference "R17")
 					(unit 1)
 				)
 			)
@@ -5614,7 +5412,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 149.86 125.73 0)
+		(at 149.86 127 0)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -5626,7 +5424,7 @@
 		(fields_autoplaced yes)
 		(uuid "1182bac5-e21b-4e34-afde-a3ea7c216059")
 		(property "Reference" "TP2"
-			(at 152.4 130.3021 0)
+			(at 152.4 131.5721 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5637,7 +5435,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 152.4 127.7621 0)
+			(at 152.4 129.0321 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5648,7 +5446,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch7.62mm_Drill1.3mm"
-			(at 154.94 125.73 0)
+			(at 154.94 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5659,7 +5457,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 154.94 125.73 0)
+			(at 154.94 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5670,7 +5468,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 149.86 125.73 0)
+			(at 149.86 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5771,8 +5569,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R_Potentiometer")
-		(at 88.9 25.4 0)
+		(lib_id "Device:R")
+		(at 157.48 38.1 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5780,9 +5578,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "136aa705-74b7-4f6d-858c-7a40057001bb")
-		(property "Reference" "RV9"
-			(at 83.82 25.4 0)
+		(uuid "17c23b94-bf61-4618-82c9-0e949d553760")
+		(property "Reference" "R16"
+			(at 159.512 36.068 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5792,8 +5590,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100"
-			(at 88.9 27.432 90)
+		(property "Value" "1k"
+			(at 158.75 40.132 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5803,8 +5601,8 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 88.9 25.4 0)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 157.48 39.878 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5815,7 +5613,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 88.9 25.4 0)
+			(at 157.48 38.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5825,8 +5623,8 @@
 				)
 			)
 		)
-		(property "Description" "Potentiometer"
-			(at 88.9 25.4 0)
+		(property "Description" "Resistor"
+			(at 157.48 38.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5835,132 +5633,17 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(property "Sim.Device" "R"
-			(at 88.9 25.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Type" "POT"
-			(at 88.9 25.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 88.9 25.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "66a3f45d-e75a-494c-b23f-00362af1292d")
-		)
-		(pin "3"
-			(uuid "9be59c87-cb74-42f8-adb1-a8b215b85133")
 		)
 		(pin "2"
-			(uuid "62fd0f4a-8ff1-47ee-8e40-1be502395c36")
+			(uuid "20f48fb3-97de-4e34-8cc3-589a44842d91")
+		)
+		(pin "1"
+			(uuid "f7772d9c-594e-4284-a434-96fefcab7c2e")
 		)
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "RV9")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 147.32 38.1 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "147d2d4a-c0ca-445e-8181-5adecbb9e2ed")
-		(property "Reference" "Cin1"
-			(at 147.574 32.004 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "1uF"
-			(at 147.574 34.544 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 151.13 37.1348 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 147.32 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 147.32 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "1521669b-7915-4bfa-9ddc-ea86041008d4")
-		)
-		(pin "2"
-			(uuid "6be68edf-1347-4785-ad18-e6ee951cd2a1")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "Cin1")
+					(reference "R16")
 					(unit 1)
 				)
 			)
@@ -6123,7 +5806,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 232.41 90.17 270)
+		(at 228.6 90.17 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6132,8 +5815,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1e64ab66-4167-47cf-82b9-0ddff09c85b8")
-		(property "Reference" "J1"
-			(at 230.124 88.9 90)
+		(property "Reference" "J3"
+			(at 226.314 88.9 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6143,8 +5826,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Conn_01x02_Pin"
-			(at 233.68 92.0749 90)
+		(property "Value" "LPFO"
+			(at 229.87 92.0749 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6156,7 +5839,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 232.41 90.17 0)
+			(at 228.6 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6167,7 +5850,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 232.41 90.17 0)
+			(at 228.6 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6178,7 +5861,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 232.41 90.17 0)
+			(at 228.6 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6197,87 +5880,7 @@
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "J1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 208.28 80.01 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "213120e6-5655-4982-aae8-a132b12ef77f")
-		(property "Reference" "C4"
-			(at 208.28 72.39 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "68nF"
-			(at 208.28 74.93 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 212.09 79.0448 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 208.28 80.01 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 208.28 80.01 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "6d2a0043-c118-46d4-ac19-ca32a146c450")
-		)
-		(pin "2"
-			(uuid "40258107-5630-4060-932a-9fdf5bd39f9a")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "C4")
+					(reference "J3")
 					(unit 1)
 				)
 			)
@@ -6285,7 +5888,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 201.93 105.41 0)
+		(at 199.39 104.14 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6296,7 +5899,7 @@
 		(fields_autoplaced yes)
 		(uuid "21a84b8a-7136-4f18-9493-9296f0ee5471")
 		(property "Reference" "#PWR07"
-			(at 201.93 111.76 0)
+			(at 199.39 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6307,7 +5910,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 201.93 110.49 0)
+			(at 199.39 109.22 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6317,7 +5920,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 201.93 105.41 0)
+			(at 199.39 104.14 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6328,7 +5931,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 201.93 105.41 0)
+			(at 199.39 104.14 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6339,7 +5942,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 201.93 105.41 0)
+			(at 199.39 104.14 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6362,6 +5965,87 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 194.31 92.71 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "21fc653a-8381-4686-a80c-eca668bae715")
+		(property "Reference" "R14"
+			(at 196.088 90.678 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1.67.k"
+			(at 197.104 94.742 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 194.31 94.488 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 194.31 92.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 194.31 92.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "a4a02d67-a3ce-4f95-92b3-fc7b0b011a8e")
+		)
+		(pin "1"
+			(uuid "481197d3-c4bb-44ce-8e5d-91a06ff450d2")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "R14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 27.94 77.47 90)
 		(unit 1)
@@ -6371,10 +6055,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "24181e57-d34e-4db9-a133-61d0f1095f07")
-		(property "Reference" "C6"
-			(at 27.94 69.85 90)
+		(property "Reference" "C1"
+			(at 27.94 71.882 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6383,8 +6066,8 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
-			(at 27.94 72.39 90)
+		(property "Value" "470nF"
+			(at 27.94 74.168 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6435,7 +6118,7 @@
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "C6")
+					(reference "C1")
 					(unit 1)
 				)
 			)
@@ -6521,167 +6204,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 167.64 26.67 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "328f857c-485c-4450-8319-d1c1e077bf28")
-		(property "Reference" "R13"
-			(at 167.64 28.956 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10k"
-			(at 167.64 26.67 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 167.64 24.892 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 167.64 26.67 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 167.64 26.67 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "fac2ce3d-cc1c-4571-8ee1-63c5b62ce8a1")
-		)
-		(pin "2"
-			(uuid "708f76fb-526b-41ab-86fa-a282d4c8ae31")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "R13")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 71.12 80.01 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "35afbd30-1972-4727-a895-e2b2244dc271")
-		(property "Reference" "C8"
-			(at 71.12 72.39 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100nF"
-			(at 71.12 74.93 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 74.93 79.0448 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 71.12 80.01 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 71.12 80.01 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "b869edbd-334f-48a2-a4ba-b5b341b4cf93")
-		)
-		(pin "2"
-			(uuid "ce6cd45e-a11e-4266-b901-6186750af6c5")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "C8")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Amplifier_Operational:TL072")
-		(at 172.72 92.71 0)
+		(at 170.18 92.71 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6691,7 +6215,7 @@
 		(dnp no)
 		(uuid "379c6bc9-70aa-4abc-b7fd-b2cd7778dc30")
 		(property "Reference" "U2"
-			(at 172.72 84.836 0)
+			(at 170.18 84.836 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6701,7 +6225,7 @@
 			)
 		)
 		(property "Value" "TL072"
-			(at 172.72 87.376 0)
+			(at 170.18 87.376 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6711,7 +6235,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_Socket"
-			(at 172.72 92.71 0)
+			(at 170.18 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6722,7 +6246,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl071.pdf"
-			(at 172.72 92.71 0)
+			(at 170.18 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6733,7 +6257,7 @@
 			)
 		)
 		(property "Description" "Dual Low-Noise JFET-Input Operational Amplifiers, DIP-8/SOIC-8"
-			(at 172.72 92.71 0)
+			(at 170.18 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6778,7 +6302,8 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 190.5 127 0)
+		(at 184.15 130.81 0)
+		(mirror y)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6788,7 +6313,7 @@
 		(dnp no)
 		(uuid "37dc0747-ac26-4acd-a2bf-2e947fdb2cc1")
 		(property "Reference" "#PWR08"
-			(at 190.5 130.81 0)
+			(at 184.15 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6799,7 +6324,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 190.5 123.19 0)
+			(at 184.15 127 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6809,7 +6334,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 190.5 127 0)
+			(at 184.15 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6820,7 +6345,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 190.5 127 0)
+			(at 184.15 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6831,7 +6356,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 190.5 127 0)
+			(at 184.15 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6848,6 +6373,85 @@
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR08")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 38.1 77.47 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "3cca889b-2ab6-4f31-8dae-e94d4b57a222")
+		(property "Reference" "C2"
+			(at 38.1 71.882 90)
+			(show_name no)
+			(do_not_autoplace yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "470nF"
+			(at 38.1 74.168 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
+			(at 41.91 76.5048 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 38.1 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 38.1 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "7e9ada15-2af5-4914-b77d-5d69675b326b")
+		)
+		(pin "2"
+			(uuid "8fb895d0-b9f4-4a09-b2ab-17cc08b96130")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "C2")
 					(unit 1)
 				)
 			)
@@ -6954,6 +6558,164 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C")
+		(at 71.12 80.01 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "4524f054-f999-441f-b299-bec1cbbd6c02")
+		(property "Reference" "C3"
+			(at 71.12 74.422 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "470nF"
+			(at 71.12 76.708 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
+			(at 74.93 79.0448 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 71.12 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 71.12 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "66681626-74f7-4bcf-9611-4324008bcfe5")
+		)
+		(pin "2"
+			(uuid "df694198-6267-4986-9e92-2021b309ebcf")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "C3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 147.32 38.1 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "46ac7a3f-ae2e-4af2-8cc9-071d20949586")
+		(property "Reference" "Caudio1"
+			(at 147.32 32.512 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1uF"
+			(at 147.32 34.798 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
+			(at 151.13 37.1348 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 147.32 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 147.32 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "e88d660e-1a42-46bd-8008-4cfd1ad50373")
+		)
+		(pin "2"
+			(uuid "83264edf-f0d3-4566-b94a-fc45b556a7e1")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "Caudio1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_Potentiometer")
 		(at 177.8 26.67 90)
 		(unit 1)
@@ -6964,8 +6726,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4aff51a0-88d4-457f-b7d7-ef8c0c832417")
-		(property "Reference" "RV10"
-			(at 180.34 28.956 90)
+		(property "Reference" "RV1"
+			(at 179.832 28.956 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7064,7 +6826,7 @@
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "RV10")
+					(reference "RV1")
 					(unit 1)
 				)
 			)
@@ -7072,7 +6834,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 133.35 125.73 0)
+		(at 133.35 127 0)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -7081,32 +6843,31 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "4b9a68b0-24b3-424f-b023-9ba700155076")
-		(property "Reference" "TP01"
-			(at 135.89 130.3021 0)
+		(property "Reference" "TP1"
+			(at 138.43 131.318 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 135.89 127.7621 0)
+			(at 143.764 129.032 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch7.62mm_Drill1.3mm"
-			(at 138.43 125.73 0)
+			(at 138.43 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7117,7 +6878,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 138.43 125.73 0)
+			(at 138.43 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7128,7 +6889,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 133.35 125.73 0)
+			(at 133.35 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7144,7 +6905,7 @@
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "TP01")
+					(reference "TP1")
 					(unit 1)
 				)
 			)
@@ -7394,7 +7155,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "589564f9-2eb3-49e2-b3db-1c961ccb1253")
-		(property "Reference" "J2"
+		(property "Reference" "J4"
 			(at 221.996 40.64 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7405,7 +7166,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Conn_01x02_Pin"
+		(property "Value" "Offset"
 			(at 218.44 43.8149 90)
 			(hide yes)
 			(show_name no)
@@ -7459,7 +7220,88 @@
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "J2")
+					(reference "J4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 86.36 85.09 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "58ab1bcc-a243-44b9-b385-4486ef9ce1c9")
+		(property "Reference" "R4"
+			(at 82.55 84.328 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "3.65k"
+			(at 79.756 86.106 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 84.582 85.09 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 86.36 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 86.36 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "3d7b0649-f650-4e75-a928-9f33054473d5")
+		)
+		(pin "1"
+			(uuid "c2bfc640-db2b-492c-8e62-2fd709429da8")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "R4")
 					(unit 1)
 				)
 			)
@@ -7624,87 +7466,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 250.19 26.67 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "60798d16-d294-4e11-8629-4a5375c7457a")
-		(property "Reference" "R6"
-			(at 250.19 22.098 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10k"
-			(at 250.19 24.638 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 250.19 24.892 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 250.19 26.67 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 250.19 26.67 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "870c2f57-c7eb-47ea-b17f-a21871470aeb")
-		)
-		(pin "2"
-			(uuid "9550fd8c-38b8-4aef-a52c-12d3786b33ff")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "R6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Amplifier_Operational:TL072")
-		(at 215.9 95.25 0)
+		(at 213.36 95.25 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7714,7 +7477,7 @@
 		(dnp no)
 		(uuid "61f78615-4b80-4f6e-8569-b54a7387a9bc")
 		(property "Reference" "U3"
-			(at 215.9 87.376 0)
+			(at 213.36 87.376 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7724,7 +7487,7 @@
 			)
 		)
 		(property "Value" "TL072"
-			(at 215.9 89.916 0)
+			(at 213.36 89.916 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7734,7 +7497,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_Socket"
-			(at 215.9 95.25 0)
+			(at 213.36 95.25 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7745,7 +7508,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl071.pdf"
-			(at 215.9 95.25 0)
+			(at 213.36 95.25 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7756,7 +7519,7 @@
 			)
 		)
 		(property "Description" "Dual Low-Noise JFET-Input Operational Amplifiers, DIP-8/SOIC-8"
-			(at 215.9 95.25 0)
+			(at 213.36 95.25 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7892,6 +7655,87 @@
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "U1")
 					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 229.87 46.99 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "6b17cf5d-73a7-4d3b-8961-4601f1197c0c")
+		(property "Reference" "R20"
+			(at 231.902 44.958 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 231.648 49.022 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 229.87 48.768 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 229.87 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 229.87 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "411eae00-40c5-4d8a-80b5-9e879c16cc7c")
+		)
+		(pin "1"
+			(uuid "f4977c99-5f69-4c07-8574-7be5cdacdf52")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "R20")
+					(unit 1)
 				)
 			)
 		)
@@ -8052,89 +7896,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x02_Pin")
-		(at 209.55 130.81 0)
-		(mirror y)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "6e4b5416-ef4f-447d-a707-3fc8ff2e274d")
-		(property "Reference" "J5"
-			(at 210.82 133.096 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "v3.3"
-			(at 207.6451 129.54 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 209.55 130.81 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 209.55 130.81 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 209.55 130.81 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "2"
-			(uuid "af8ac235-f28f-49ac-b54e-f9f2485f7ef2")
-		)
-		(pin "1"
-			(uuid "37265cd3-7d57-476a-82ab-e63b9368acd5")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "J5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:-12V")
 		(at 95.25 144.78 180)
 		(unit 1)
@@ -8212,85 +7973,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 250.19 46.99 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "78503cc8-1cd8-4775-b842-89320b0c6e9e")
-		(property "Reference" "R7"
-			(at 250.19 42.418 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10k"
-			(at 250.19 44.958 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 250.19 45.212 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 250.19 46.99 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 250.19 46.99 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "348d5801-a396-48b5-aa84-b677df548225")
-		)
-		(pin "2"
-			(uuid "816a23ee-b731-46d0-be4e-bf44bcad56ec")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "R7")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C")
 		(at 81.28 80.01 90)
 		(unit 1)
@@ -8300,10 +7982,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "787d2d47-edb0-4416-b741-031f36c27bcf")
-		(property "Reference" "C9"
-			(at 81.28 72.39 90)
+		(uuid "744b8b9c-1b75-46f8-8797-ee1df2bff247")
+		(property "Reference" "C4"
+			(at 81.28 74.422 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8312,8 +7993,8 @@
 				)
 			)
 		)
-		(property "Value" "100nF"
-			(at 81.28 74.93 90)
+		(property "Value" "470nF"
+			(at 81.28 76.708 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8356,15 +8037,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "6999cd18-3ebd-454c-9b3a-5b208dafbeeb")
+			(uuid "ffca1164-5e42-49bf-99a7-01a4965830b1")
 		)
 		(pin "2"
-			(uuid "772e7e64-6eae-4075-bba3-aaeefb9969a5")
+			(uuid "26dbb469-b67d-462c-8f47-1498b5fdbd3f")
 		)
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "C9")
+					(reference "C4")
 					(unit 1)
 				)
 			)
@@ -8372,7 +8053,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 165.1 125.73 0)
+		(at 165.1 127 0)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -8384,7 +8065,7 @@
 		(fields_autoplaced yes)
 		(uuid "7a0235c1-ffa2-4692-8706-e816035d1d5d")
 		(property "Reference" "TP3"
-			(at 167.64 130.3021 0)
+			(at 167.64 131.5721 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8395,7 +8076,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 167.64 127.7621 0)
+			(at 167.64 129.0321 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8406,7 +8087,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch7.62mm_Drill1.3mm"
-			(at 170.18 125.73 0)
+			(at 170.18 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8417,7 +8098,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 170.18 125.73 0)
+			(at 170.18 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8428,7 +8109,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 165.1 125.73 0)
+			(at 165.1 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8451,6 +8132,87 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 140.97 90.17 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "7c0be09b-f10f-4e76-aec4-dbaf4271ec20")
+		(property "Reference" "R5"
+			(at 142.494 88.138 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1.64k"
+			(at 143.764 92.202 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 140.97 91.948 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 140.97 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 140.97 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "5f76a776-2deb-4894-b233-6b757fc3060a")
+		)
+		(pin "1"
+			(uuid "b06f79a9-e503-4095-9ff7-3d4a4d976925")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "R5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
 		(at 190.5 35.56 270)
 		(unit 1)
@@ -8461,7 +8223,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7fba05fe-4278-4b17-906a-a6624b781a09")
-		(property "Reference" "J7"
+		(property "Reference" "J1"
 			(at 188.214 34.29 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8472,7 +8234,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Conn_01x02_Pin"
+		(property "Value" "Audio"
 			(at 191.77 37.4649 90)
 			(hide yes)
 			(show_name no)
@@ -8526,7 +8288,7 @@
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "J7")
+					(reference "J1")
 					(unit 1)
 				)
 			)
@@ -8534,7 +8296,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 229.87 26.67 270)
+		(at 229.87 26.67 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8542,29 +8304,31 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "8426eca5-6ca2-4536-9cb9-03953c4a3a36")
-		(property "Reference" "R9"
-			(at 229.87 22.098 90)
+		(uuid "849a8f2a-909e-4c38-ab07-7edc5be00a1a")
+		(property "Reference" "R18"
+			(at 231.902 24.638 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "10k"
-			(at 229.87 24.638 90)
+			(at 231.648 28.702 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 229.87 24.892 90)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 229.87 28.448 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8596,24 +8360,24 @@
 				)
 			)
 		)
-		(pin "1"
-			(uuid "c5d00b8a-45cd-4a8f-83b8-8160280318d8")
-		)
 		(pin "2"
-			(uuid "49d58e7f-77f2-4dc8-b4ca-e3114a8025a0")
+			(uuid "bc63c0fd-d13c-4bfc-97aa-d8eefa99f35b")
+		)
+		(pin "1"
+			(uuid "83794333-b71d-4b8e-82dc-72282ce0cbed")
 		)
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "R9")
+					(reference "R18")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "Device:R_Potentiometer")
-		(at 92.71 62.23 90)
+		(lib_id "Device:C")
+		(at 162.56 80.01 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8621,31 +8385,29 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "846a261f-08d9-41ea-91d6-40c09673e063")
-		(property "Reference" "RV3"
-			(at 90.678 64.262 90)
+		(uuid "85643b99-4c0a-406e-99f1-e2037563ba56")
+		(property "Reference" "C6"
+			(at 162.56 74.422 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
 			)
 		)
-		(property "Value" "6.04k"
-			(at 90.17 66.04 90)
+		(property "Value" "27nF"
+			(at 162.56 76.708 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
 			)
 		)
-		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 92.71 62.23 0)
+		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
+			(at 166.37 79.0448 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8656,7 +8418,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 92.71 62.23 0)
+			(at 162.56 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8666,41 +8428,8 @@
 				)
 			)
 		)
-		(property "Description" "Potentiometer"
-			(at 92.71 62.23 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Device" "R"
-			(at 92.71 62.23 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Type" "POT"
-			(at 92.71 62.23 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 92.71 62.23 0)
+		(property "Description" "Unpolarized capacitor"
+			(at 162.56 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8711,18 +8440,96 @@
 			)
 		)
 		(pin "1"
-			(uuid "e04560ca-525b-4a80-bb3c-6d5e434d805f")
-		)
-		(pin "3"
-			(uuid "811161a1-e0bb-4f63-a192-9ba4343655d3")
+			(uuid "7ec4d975-e40b-4ab7-801c-8a74311d3a40")
 		)
 		(pin "2"
-			(uuid "ca534793-b4e9-4133-a2de-70052ec462f6")
+			(uuid "1517ca39-0430-4d86-a797-df16e4e5e4fb")
 		)
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "RV3")
+					(reference "C6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 43.18 82.55 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "86343f8f-e130-4992-ae50-7358acf15416")
+		(property "Reference" "R2"
+			(at 39.37 81.788 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "8.87k"
+			(at 36.576 83.566 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 41.402 82.55 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 43.18 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 43.18 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "b722a659-609e-433a-9977-87f909f0e55b")
+		)
+		(pin "1"
+			(uuid "19bc066b-3282-47f9-875a-9c31baecd52f")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -8808,6 +8615,87 @@
 	)
 	(symbol
 		(lib_id "Device:R")
+		(at 250.19 46.99 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "87e8f2e6-78ac-4c62-b43c-e9b8f5a5c33d")
+		(property "Reference" "R21"
+			(at 252.222 44.958 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 251.968 49.022 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 250.19 48.768 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 250.19 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 250.19 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "0fe6fdd3-a139-4576-959d-947ff6232eb1")
+		)
+		(pin "1"
+			(uuid "704b4f48-dcea-4632-b198-f844873d2948")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "R21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
 		(at 83.82 17.78 270)
 		(unit 1)
 		(body_style 1)
@@ -8817,8 +8705,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "89ade2e3-21b9-4088-8bf1-db58177b01e9")
-		(property "Reference" "R4"
-			(at 85.09 20.066 90)
+		(property "Reference" "R23"
+			(at 85.852 15.748 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8828,8 +8716,8 @@
 				(justify right)
 			)
 		)
-		(property "Value" "10k"
-			(at 85.598 17.78 90)
+		(property "Value" "1k"
+			(at 85.09 19.812 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8839,7 +8727,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
 			(at 83.82 16.002 90)
 			(hide yes)
 			(show_name no)
@@ -8881,7 +8769,7 @@
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "R4")
+					(reference "R23")
 					(unit 1)
 				)
 			)
@@ -9046,8 +8934,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R_Potentiometer")
-		(at 196.85 92.71 90)
+		(lib_id "Device:R")
+		(at 92.71 62.23 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9055,31 +8943,31 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "91660069-a063-49c6-a515-1d4f3233c6ee")
-		(property "Reference" "RV8"
-			(at 194.818 94.742 90)
+		(uuid "90af5a7a-f4ca-4da1-886d-07d5877870fa")
+		(property "Reference" "R3"
+			(at 94.234 60.198 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
-		(property "Value" "1.02k"
-			(at 194.31 96.52 90)
+		(property "Value" "3.09k"
+			(at 95.504 64.262 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
-		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 196.85 92.71 0)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 92.71 64.008 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9090,7 +8978,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 196.85 92.71 0)
+			(at 92.71 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9100,8 +8988,8 @@
 				)
 			)
 		)
-		(property "Description" "Potentiometer"
-			(at 196.85 92.71 0)
+		(property "Description" "Resistor"
+			(at 92.71 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9110,53 +8998,17 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(property "Sim.Device" "R"
-			(at 196.85 92.71 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Type" "POT"
-			(at 196.85 92.71 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 196.85 92.71 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "baad8799-05d2-4690-b52c-e6d6984705b9")
-		)
-		(pin "3"
-			(uuid "adb13388-e394-4a34-9429-7abe456d44a4")
 		)
 		(pin "2"
-			(uuid "9f6261e9-37e5-4e7f-bd37-e3c51b19b9ed")
+			(uuid "faf0eae9-0da5-42e0-97f3-1e0bb6aaff44")
+		)
+		(pin "1"
+			(uuid "386c68a6-d9c7-45d1-8b2c-c91a52e5412c")
 		)
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "RV8")
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -9348,8 +9200,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "9aef4ec6-7509-4ae1-827d-9a7b6809b032")
-		(property "Reference" "C1"
-			(at 20.32 28.194 0)
+		(property "Reference" "Cin1"
+			(at 18.542 28.194 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9412,7 +9264,88 @@
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "C1")
+					(reference "Cin1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 151.13 90.17 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9bec4e6c-78ed-4dea-a179-ea2b448b94b7")
+		(property "Reference" "R6"
+			(at 152.908 88.138 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "5.87k"
+			(at 153.924 92.202 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 151.13 91.948 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 151.13 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 151.13 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "35fb39ca-06c3-4e8a-9cc4-b49ece2b9dcc")
+		)
+		(pin "1"
+			(uuid "1e18fe15-5ed9-4d24-98f3-7820219a2672")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "R6")
 					(unit 1)
 				)
 			)
@@ -9679,7 +9612,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 158.75 102.87 0)
+		(at 156.21 101.6 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9690,7 +9623,7 @@
 		(fields_autoplaced yes)
 		(uuid "a19537d0-2ce5-4954-9f62-811605633011")
 		(property "Reference" "#PWR06"
-			(at 158.75 109.22 0)
+			(at 156.21 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9701,7 +9634,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 158.75 107.95 0)
+			(at 156.21 106.68 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9711,7 +9644,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 158.75 102.87 0)
+			(at 156.21 101.6 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9722,7 +9655,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 158.75 102.87 0)
+			(at 156.21 101.6 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9733,7 +9666,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 158.75 102.87 0)
+			(at 156.21 101.6 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9757,8 +9690,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 196.85 129.54 0)
-		(mirror y)
+		(at 177.8 133.35 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9767,8 +9699,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "a40ab2e8-c23f-438d-ad47-60039a58989f")
-		(property "Reference" "J4"
-			(at 198.12 131.826 90)
+		(property "Reference" "J5"
+			(at 176.53 135.636 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9779,7 +9711,7 @@
 			)
 		)
 		(property "Value" "v3.3"
-			(at 194.9451 128.27 90)
+			(at 179.7049 132.08 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9791,7 +9723,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 196.85 129.54 0)
+			(at 177.8 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9802,7 +9734,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 196.85 129.54 0)
+			(at 177.8 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9813,7 +9745,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 196.85 129.54 0)
+			(at 177.8 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9832,203 +9764,7 @@
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "J4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 140.97 31.75 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "a550dddd-ad58-493c-8578-f378a110865d")
-		(property "Reference" "R12"
-			(at 137.668 31.75 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "2.2k"
-			(at 140.97 31.75 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 139.192 31.75 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 140.97 31.75 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 140.97 31.75 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "0feefadb-d162-4d0d-ab09-0cf03db3d3c7")
-		)
-		(pin "2"
-			(uuid "aa50a29a-29ff-4285-b8fa-56298ad7db9f")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "R12")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Potentiometer")
-		(at 143.51 90.17 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "ab7bebe0-f15b-4197-a712-761a87c27dbf")
-		(property "Reference" "RV5"
-			(at 141.478 92.202 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "2.43k"
-			(at 140.97 93.98 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 143.51 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 143.51 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Potentiometer"
-			(at 143.51 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Device" "R"
-			(at 143.51 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Type" "POT"
-			(at 143.51 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 143.51 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "e26189f7-5ec6-4543-ac0a-6f401b7ec7cf")
-		)
-		(pin "3"
-			(uuid "9866c896-ffea-4f28-951e-1e2ebf33ccbe")
-		)
-		(pin "2"
-			(uuid "095272ce-dcff-4aca-b1eb-c17382285d8a")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "RV5")
+					(reference "J5")
 					(unit 1)
 				)
 			)
@@ -10109,6 +9845,87 @@
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#FLG01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 250.19 26.67 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ae1a78d5-7a70-404b-a1fb-b902894963f9")
+		(property "Reference" "R19"
+			(at 252.222 24.638 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 251.968 28.702 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 250.19 28.448 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 250.19 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 250.19 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "83fcbb46-5160-4722-835a-88544ef4ae6f")
+		)
+		(pin "1"
+			(uuid "54fd2fef-2c4f-47b7-b971-39a3e81da2c4")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "R19")
 					(unit 1)
 				)
 			)
@@ -10271,8 +10088,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R_Potentiometer")
-		(at 86.36 85.09 0)
+		(lib_id "Device:R")
+		(at 49.53 62.23 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10280,31 +10097,29 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "c16bc4e7-5560-477d-80ba-0cdd7cfac5d0")
-		(property "Reference" "RV2"
-			(at 84.328 84.328 0)
+		(uuid "b6b908fd-7ddf-4ff1-9cec-ddb0b7d63f10")
+		(property "Reference" "R1"
+			(at 49.53 60.198 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
 			)
 		)
-		(property "Value" "41.2k"
-			(at 84.836 86.36 0)
+		(property "Value" "1.3k"
+			(at 49.53 64.516 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
 			)
 		)
-		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 86.36 85.09 0)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 49.53 64.008 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10315,7 +10130,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 86.36 85.09 0)
+			(at 49.53 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10325,8 +10140,8 @@
 				)
 			)
 		)
-		(property "Description" "Potentiometer"
-			(at 86.36 85.09 0)
+		(property "Description" "Resistor"
+			(at 49.53 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10335,53 +10150,17 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(property "Sim.Device" "R"
-			(at 86.36 85.09 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Type" "POT"
-			(at 86.36 85.09 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 86.36 85.09 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "445de4be-3f8d-41ab-81e0-16694b7af077")
-		)
-		(pin "3"
-			(uuid "8e119b84-6f45-4a28-816c-e403f66ed61c")
 		)
 		(pin "2"
-			(uuid "a3ee1714-3e44-4612-a260-1fb38ce2d763")
+			(uuid "ca084a4c-2552-4f17-9747-8e20d151a366")
+		)
+		(pin "1"
+			(uuid "574840eb-c978-4e61-8858-fec38b7a3cb6")
 		)
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "RV2")
+					(reference "R1")
 					(unit 1)
 				)
 			)
@@ -10470,6 +10249,87 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 184.15 92.71 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "cde29d01-0ddc-4c63-880b-557b2d1d6972")
+		(property "Reference" "R10"
+			(at 185.928 90.678 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "779"
+			(at 186.182 94.742 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 184.15 94.488 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 184.15 92.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 184.15 92.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "cbc7099b-08f2-45f9-9a6a-6c9984f0eb71")
+		)
+		(pin "1"
+			(uuid "87b0349f-a59f-442f-b450-810ec9458bb7")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "R10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
 		(at 115.57 77.47 270)
 		(unit 1)
@@ -10480,7 +10340,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "d01720a7-e635-4bfc-8fca-cef26756c4a3")
-		(property "Reference" "J3"
+		(property "Reference" "J2"
 			(at 113.284 76.2 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10491,7 +10351,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Conn_01x02_Pin"
+		(property "Value" "HPF_O"
 			(at 116.84 79.3749 90)
 			(hide yes)
 			(show_name no)
@@ -10545,125 +10405,7 @@
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "J3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Potentiometer")
-		(at 153.67 90.17 270)
-		(mirror x)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "d123b900-372d-4f19-b238-96e2d2fb92cf")
-		(property "Reference" "RV6"
-			(at 155.702 92.202 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "2.43k"
-			(at 156.21 93.98 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 153.67 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 153.67 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Potentiometer"
-			(at 153.67 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Device" "R"
-			(at 153.67 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Type" "POT"
-			(at 153.67 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 153.67 90.17 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "cb0df223-0cb1-4198-84a7-05fbf5f87d18")
-		)
-		(pin "3"
-			(uuid "71532f43-8d5c-4ff7-994b-3fffa228f99a")
-		)
-		(pin "2"
-			(uuid "3d88ab8d-e3ee-4b8d-bf0f-9779ad7a0efd")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "RV6")
+					(reference "J2")
 					(unit 1)
 				)
 			)
@@ -10742,6 +10484,166 @@
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 140.97 31.75 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "d4b3e1b8-4615-40dd-b753-0b0287f993ce")
+		(property "Reference" "R15"
+			(at 135.89 30.988 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 135.636 32.766 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 139.192 31.75 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 140.97 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 140.97 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "833f076e-78bc-4fbd-86ac-60acbe0067ea")
+		)
+		(pin "1"
+			(uuid "f360a0a8-e4a2-4c61-995b-0d23640ca26b")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "R15")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 101.6 30.48 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "d6d1fdb8-83bc-4772-b492-aa7d9e249fb9")
+		(property "Reference" "Cref1"
+			(at 96.774 29.464 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "22uF"
+			(at 96.266 31.242 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
+			(at 100.6348 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 101.6 30.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 101.6 30.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "80ef06e1-a7ab-42c5-8496-fb2ad710f64f")
+		)
+		(pin "2"
+			(uuid "61b918e3-197c-4797-a199-84ebf889b0ab")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "Cref1")
 					(unit 1)
 				)
 			)
@@ -10927,167 +10829,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 101.6 30.48 0)
-		(mirror y)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "dc820b20-3db3-4cde-93f2-e4e6639adbea")
-		(property "Reference" "C17"
-			(at 105.41 31.7501 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "100nF"
-			(at 105.41 29.2101 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 100.6348 34.29 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 101.6 30.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 101.6 30.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "8669255d-ae64-4c24-85d5-ef0a1796ad22")
-		)
-		(pin "2"
-			(uuid "c65e4850-dbf2-40ab-88ef-046aa9503736")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "C17")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 157.48 38.1 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "decbe3ab-506b-47a9-bf6d-51119b9eca5f")
-		(property "Reference" "R11"
-			(at 157.48 36.068 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "1k"
-			(at 157.48 38.1 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 157.48 36.322 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 157.48 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 157.48 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "71a046f7-a4bd-4730-a116-6a97b86b0c49")
-		)
-		(pin "2"
-			(uuid "4ee5707b-6a5c-4b94-827d-2e71e740493d")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "R11")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 78.74 33.02 270)
 		(unit 1)
@@ -11175,7 +10916,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "df8d515c-38bd-4918-9fd7-d2c13a5b4e8e")
-		(property "Reference" "C10"
+		(property "Reference" "Cout1"
 			(at 53.086 28.448 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11186,7 +10927,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "10uF"
 			(at 53.086 30.48 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11239,7 +10980,7 @@
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "C10")
+					(reference "Cout1")
 					(unit 1)
 				)
 			)
@@ -11247,7 +10988,8 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 190.5 134.62 0)
+		(at 184.15 138.43 0)
+		(mirror y)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11258,7 +11000,7 @@
 		(fields_autoplaced yes)
 		(uuid "dfad946d-0d4f-41f1-b533-1685ce8024d8")
 		(property "Reference" "#PWR09"
-			(at 190.5 140.97 0)
+			(at 184.15 144.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11269,7 +11011,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 190.5 139.7 0)
+			(at 184.15 143.51 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11279,7 +11021,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 190.5 134.62 0)
+			(at 184.15 138.43 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11290,7 +11032,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 190.5 134.62 0)
+			(at 184.15 138.43 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11301,7 +11043,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 190.5 134.62 0)
+			(at 184.15 138.43 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11334,8 +11076,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "e0822fbc-30a2-4c34-b521-b82e393eabcd")
-		(property "Reference" "R5"
-			(at 82.55 30.734 90)
+		(property "Reference" "R22"
+			(at 82.042 30.988 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11345,8 +11087,8 @@
 				(justify right)
 			)
 		)
-		(property "Value" "10k"
-			(at 82.042 33.02 90)
+		(property "Value" "1.05K"
+			(at 81.026 35.052 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11356,7 +11098,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
 			(at 83.82 34.798 90)
 			(hide yes)
 			(show_name no)
@@ -11398,286 +11140,7 @@
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "R5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 201.93 99.06 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "e1411ebe-0cf9-49dd-a68e-201849e3cdc7")
-		(property "Reference" "C5"
-			(at 204.216 97.79 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10nF"
-			(at 204.216 100.33 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 202.8952 102.87 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 201.93 99.06 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 201.93 99.06 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "d9a4e9d8-cee8-4bd3-950d-50dc6dca5750")
-		)
-		(pin "2"
-			(uuid "75b2a2eb-f59d-4f41-82ce-2385e221a10d")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "C5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Potentiometer")
-		(at 49.53 62.23 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "e362825d-46ff-4efa-8de1-995fafc9aeed")
-		(property "Reference" "RV4"
-			(at 51.308 64.262 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "14.7k"
-			(at 52.324 66.04 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 49.53 62.23 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 49.53 62.23 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Potentiometer"
-			(at 49.53 62.23 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Device" "R"
-			(at 49.53 62.23 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Type" "POT"
-			(at 49.53 62.23 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 49.53 62.23 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "6906a057-2199-4f84-b75d-201c002ae786")
-		)
-		(pin "3"
-			(uuid "f785659e-50df-4c00-abd5-9c121eda277a")
-		)
-		(pin "2"
-			(uuid "95181c56-e10a-4c49-9858-641056e85e16")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "RV4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 158.75 96.52 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "e9d6c3f1-3425-4297-8cc1-e2bde8f8a6fe")
-		(property "Reference" "C3"
-			(at 161.036 95.25 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10nF"
-			(at 161.036 97.79 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 159.7152 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 158.75 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 158.75 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "0002c720-599e-4119-aaae-9b6357dbdf62")
-		)
-		(pin "2"
-			(uuid "f6320055-01ad-400d-bb19-1569a59b3dd1")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "C3")
+					(reference "R22")
 					(unit 1)
 				)
 			)
@@ -11762,9 +11225,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R_Potentiometer")
-		(at 186.69 92.71 270)
-		(mirror x)
+		(lib_id "Device:C")
+		(at 205.74 80.01 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11772,31 +11234,29 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "edc5bdc8-e24a-4f68-a400-0874d265c374")
-		(property "Reference" "RV7"
-			(at 188.722 94.742 90)
+		(uuid "ed15581c-e5a6-485b-9db8-22e6056c0dbc")
+		(property "Reference" "C8"
+			(at 205.74 74.422 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
 			)
 		)
-		(property "Value" "1.02k"
-			(at 189.23 96.52 90)
+		(property "Value" "27nF"
+			(at 205.74 76.708 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
 			)
 		)
-		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 186.69 92.71 0)
+		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
+			(at 209.55 79.0448 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11807,7 +11267,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 186.69 92.71 0)
+			(at 205.74 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11817,41 +11277,8 @@
 				)
 			)
 		)
-		(property "Description" "Potentiometer"
-			(at 186.69 92.71 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Device" "R"
-			(at 186.69 92.71 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Type" "POT"
-			(at 186.69 92.71 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 186.69 92.71 0)
+		(property "Description" "Unpolarized capacitor"
+			(at 205.74 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11862,18 +11289,173 @@
 			)
 		)
 		(pin "1"
-			(uuid "c4c17a7f-1b4d-4f45-b155-48f143161e7c")
-		)
-		(pin "3"
-			(uuid "cb3877cc-a943-4beb-aec5-627857341af9")
+			(uuid "694dc1f2-c8b2-4e56-9365-6dabbec2025d")
 		)
 		(pin "2"
-			(uuid "4e833e9f-40b4-4da5-9ec0-4665361fda6b")
+			(uuid "91eab953-4988-4ea6-870a-5054f79166f3")
 		)
 		(instances
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "RV7")
+					(reference "C8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 156.21 95.25 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f447d8b5-fbd4-4d03-8904-acc608c5766c")
+		(property "Reference" "C7"
+			(at 152.654 94.234 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "2.7nF"
+			(at 150.876 96.012 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
+			(at 155.2448 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 156.21 95.25 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 156.21 95.25 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "48591cea-f8db-4b23-93ad-4a9e524479b1")
+		)
+		(pin "2"
+			(uuid "76cd23b6-4f18-44a5-8f43-6790ac123bc2")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "C7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 199.39 97.79 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f60f9eac-b2ea-4cd4-ad1e-f373ae53ee62")
+		(property "Reference" "C9"
+			(at 195.834 96.774 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "20nF"
+			(at 194.056 98.552 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
+			(at 198.4248 93.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 199.39 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 199.39 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "7f2f518a-50ab-4edb-bc72-2c6ff079b945")
+		)
+		(pin "2"
+			(uuid "d2b121e8-ec3a-4de9-b951-11015458d821")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "C9")
 					(unit 1)
 				)
 			)
@@ -11972,282 +11554,6 @@
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "U1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Potentiometer")
-		(at 43.18 82.55 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "fa2d2153-d978-4125-86f2-cb826d0cb997")
-		(property "Reference" "RV1"
-			(at 41.148 81.788 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "17.2k"
-			(at 41.656 83.82 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
-			(at 43.18 82.55 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 43.18 82.55 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Potentiometer"
-			(at 43.18 82.55 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Device" "R"
-			(at 43.18 82.55 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Type" "POT"
-			(at 43.18 82.55 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
-			(at 43.18 82.55 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "70419eac-83d2-41e4-be12-27283615291b")
-		)
-		(pin "3"
-			(uuid "18d567aa-b767-488f-852f-5f09b1dc1c9c")
-		)
-		(pin "2"
-			(uuid "440c76f0-6980-4e43-928a-399acba24aa9")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "RV1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 165.1 80.01 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "fc8e5f43-e207-49d5-8744-39d6add7b059")
-		(property "Reference" "C2"
-			(at 165.1 72.39 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "12nF"
-			(at 165.1 74.93 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D5.0mm_P5.00mm"
-			(at 168.91 79.0448 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 165.1 80.01 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 165.1 80.01 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "8d117a1a-e294-4ab7-b2a9-96c83dceb89a")
-		)
-		(pin "2"
-			(uuid "496d497c-99c4-443b-8087-9bd2b20f4c42")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "C2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 229.87 46.99 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "fe299cc3-00c5-4c6d-be0a-52a8fcf60252")
-		(property "Reference" "R8"
-			(at 229.87 42.418 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10k"
-			(at 229.87 44.958 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal"
-			(at 229.87 45.212 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 229.87 46.99 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 229.87 46.99 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "a4e0bc44-2865-48b1-b533-b607df4f4238")
-		)
-		(pin "2"
-			(uuid "31f69986-6e51-4a9e-a2ac-f0858ff9af4a")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "R8")
 					(unit 1)
 				)
 			)

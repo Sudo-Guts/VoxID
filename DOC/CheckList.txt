@@ -26,11 +26,11 @@ ETAPA C0DE | Frame
 ETAPA C0DE | Windows
 ==========================================================================
 
-[ ] Verificar las herramientas GCC, GNU Make y objdump.
-[ ] Ejecutar la compilacion completa del programa.
-[ ] Ejecutar las pruebas unitarias de Frame.
-[ ] Verificar la generacion y limpieza de archivos en C0DE/out/.
-[ ] Documentar los comandos necesarios para compilar y ejecutar VoxID.
+[5a9816e] Verificar las herramientas GCC, GNU Make y objdump.
+[5a9816e] Ejecutar la compilacion completa del programa.
+[5a9816e] Ejecutar las pruebas unitarias de Frame.
+[5a9816e] Verificar la generacion y limpieza de archivos en C0DE/out/.
+[5a9816e] Documentar los comandos necesarios para compilar y ejecutar VoxID.
 
 ==========================================================================
 ETAPA C0DE | FFT (Transformada Rapida de Fourier)

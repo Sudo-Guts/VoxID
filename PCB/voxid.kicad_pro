@@ -696,7 +696,7 @@
         "uuid": "49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
       }
     ],
-    "used_designators": "TP2-6,TP26,#PWR23,#PWR25,J5",
+    "used_designators": "TP2-6,TP26,Cref1,#PWR23,#PWR25,R1-3,R10-11,R14,R17-21,J5,C6-11,Caudio1",
     "variants": []
   },
   "sheets": [

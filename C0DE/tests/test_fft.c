@@ -21,6 +21,7 @@ static void test_fft_forward_constante();
 static void test_fft_forward_coseno();
 static void test_fft_forward_seno();
 static void test_fft_forward_minimo();
+static void test_fft_forward_input();
 
 int main(void)
 {
@@ -70,7 +71,8 @@ int main(void)
     test_fft_forward_coseno();
     test_fft_forward_seno();
     test_fft_forward_minimo();
-
+    test_fft_forward_input();
+    
     return 0;
 }
 
@@ -269,4 +271,40 @@ static void test_fft_forward_minimo(void)
     assert(fabsf(output[1].imag) < tolerance);
 
     printf("OK: fft_forward() - longitud minima.\n");
+}
+
+/*
+ * =============================================================================
+ *  Prueba de conservacion de muestras originales
+ * =============================================================================
+ */
+static void test_fft_forward_input(void)
+{
+    FFT fft = {0};
+
+    FFTComplex twiddles[4] = {0};
+    FFTComplex output[8] = {0};
+
+    const float input[8] = {
+        1.0f, 2.0f, 3.0f, 4.0f,
+        5.0f, 6.0f, 7.0f, 8.0f
+    };
+
+    const float expected[8] = {
+        1.0f, 2.0f, 3.0f, 4.0f,
+        5.0f, 6.0f, 7.0f, 8.0f
+    };
+
+    // Inicializar la FFT.
+    assert(fft_init(&fft, twiddles, 8));
+
+    // Calcular la transformada.
+    assert(fft_forward(&fft, input, output));
+
+    // Verificar que las muestras originales no cambiaron.
+    for (size_t i = 0; i < 8; i++) {
+        assert(input[i] == expected[i]);
+    }
+
+    printf("OK: fft_forward() - conservacion de entrada.\n");
 }

@@ -19,17 +19,19 @@
 /**
  * @brief Representacion de un numero complejo.
  */
-typedef struct {
-    float real;     // Componente real.
-    float imag;     // Componente imaginaria.
+typedef struct
+{
+    float real;
+    float imag;
 } FFTComplex;
 
 /**
  * @brief Estructura de configuracion de la FFT.
  */
-typedef struct {
-    size_t fft_size;       // Numero de puntos de la FFT.
-    FFTComplex *twiddles;  // Factores de rotacion precalculados.
+typedef struct
+{
+    size_t fft_size;      // Numero de puntos de la FFT.
+    FFTComplex *twiddles; // Factores de rotacion precalculados.
 } FFT;
 
 /**

@@ -4,7 +4,7 @@
  */
 #ifndef TFT_OPHYRA_H_
 #define TFT_OPHYRA_H_
-// DESCOMENTE LA SIGUIENTE LÕNEA SI SE USAR¡ LA SD Y EL DESPLIEGUE DE IMAGENES.
+// DESCOMENTE LA SIGUIENTE L√çNEA SI SE USAR√Å LA SD Y EL DESPLIEGUE DE IMAGENES.
 // #define __TFT_BMP
 
  /*
@@ -22,17 +22,17 @@
  *
  * C/C++Build->
  * 		Settings->
- * 			(pestaÒa)Tool Settings->
+ * 			(pesta√±a)Tool Settings->
  * 								Libraries->
  * 								 	(ventana) Libraries->
  * 											:libST7735_Driver.a
  *  C/C++Build->
  * 		Settings->
- * 			(pestaÒa)Tool Settings->
+ * 			(pesta√±a)Tool Settings->
  * 								Libraries->
  * 									(ventana) Library search path->
  *  										"${workspace_loc:/${ProjName}/Src}"
- * COPIAR Y PEGAR LAS LÕNEAS QUE A CONTINUACI”N SE MUESTRAN,
+ * COPIAR Y PEGAR LAS L√çNEAS QUE A CONTINUACI√ìN SE MUESTRAN,
  * DENTRO DE LA FUNCION PRINCIPAL "main.c" DEL PROYECTO.
  *
 	#include "Intesc_Stdr_Types.h"
@@ -47,6 +47,7 @@ extern "C"
 {
 #endif /* __cplusplus */
 #include "Intesc_Stdr_Types.h"
+#include "ST7735_Driver.h"
 #include "stm32f4xx_hal.h"
 #ifdef __TFT_BMP
 #include "fatfs.h"
@@ -54,7 +55,7 @@ extern "C"
 #include <string.h>
 #define TFT_BackLight 		  pfTFT_BACKLIGHT_GPIO
 
-SPI_HandleTypeDef hspi1;
+extern SPI_HandleTypeDef hspi1;
 ST7735_tenErrCode 	pfSPI_WRITE (U8* pu8Data, U32 u32Size);
 ST7735_tenErrCode 	pfTFT_CS_GPIO(U8 u8State);
 ST7735_tenErrCode 	pfTFT_RS_GPIO(U8 u8State);
@@ -105,10 +106,14 @@ ST7735_tenErrCode TFT_PrintImgBMP(U8 u8XCursor, U8 u8YCursor,CHAR*uSD_FileName);
 /*
  * Definition of structures objects
  */
-ST7735_stImgDes 	pstImgdesc;
+extern ST7735_stImgDes pstImgdesc;
 #endif
-ST7735_tstStrDesc 	stStrDesc;
-ST7735_tstBSPDriver stOphyraBSP;
-ST7735_stGeomDesc   stGeomDesc;
+extern ST7735_tstStrDesc stStrDesc;
+extern ST7735_tstBSPDriver stOphyraBSP;
+extern ST7735_stGeomDesc stGeomDesc;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* TFT_OPHYRA_H_ */

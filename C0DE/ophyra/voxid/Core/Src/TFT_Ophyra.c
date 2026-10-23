@@ -16,6 +16,14 @@
 #include "TFT_Ophyra.h"
 #include "main.h"
 
+/* Unica definicion de los descriptores globales de la libreria TFT. */
+ST7735_tstStrDesc stStrDesc;
+ST7735_tstBSPDriver stOphyraBSP;
+ST7735_stGeomDesc stGeomDesc;
+#ifdef __TFT_BMP
+ST7735_stImgDes pstImgdesc;
+#endif
+
 //#endif
 
 /***************************************************************************************
@@ -96,7 +104,7 @@ ST7735_tenErrCode TFT_Init(U8 Orientation){
 }
 
 /***************************************************************************************
- * Funciones que utilizan la librería Driver_ST7735.a
+ * Funciones que utilizan la librerÃ­a Driver_ST7735.a
  ***************************************************************************************/
 ST7735_tenErrCode TFT_PrintStr(U8 XCursor, U8 YCursor, CHAR *pchString, U32 StrColour, U32 StrBkColour){
 	stStrDesc.u8XCursor = XCursor;

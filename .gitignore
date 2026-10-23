@@ -51,3 +51,30 @@ _autosave-*
 *.swp
 *.swo
 *~
+
+# -----------------------------------------------------------------------------
+#   STM32CubeIDE - Ophyra
+# -----------------------------------------------------------------------------
+
+# Workspace local
+**/.metadata/
+
+# Directorios de compilacion
+**/Debug/
+**/Release/
+
+# Archivos generados por ARM GCC
+*.o
+*.d
+*.elf
+*.map
+*.lst
+*.su
+
+# Configuraciones locales de depuracion
+*.launch
+*.jlink
+
+# Archivos temporales
+*.log
+*.bak

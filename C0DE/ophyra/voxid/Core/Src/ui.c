@@ -6,7 +6,8 @@
  * =============================================================================
  *
  *  UI para Ophyra, orientacion horizontal 160 x 128.
- *  Tema oscuro, acentos turquesa y navegacion por cuatro botones.
+ *  Tema pastel claro y navegacion por cuatro botones.
+ *  El menu solo actualiza los indicadores y textos que cambian.
  *
  *  Las funciones de identificar y registrar muestran su disponibilidad real:
  *  el reconocimiento de hablantes aun no esta conectado al firmware.
@@ -26,14 +27,15 @@
 /* La libreria de Ophyra recibe colores BGR de 24 bits. */
 #define UI_BGR(r, g, b)  (((uint32_t)(b) << 16) | ((uint32_t)(g) << 8) | (uint32_t)(r))
 
-#define UI_BG       UI_BGR(10, 16, 26)
-#define UI_PANEL    UI_BGR(20, 34, 48)
-#define UI_ACTIVE   UI_BGR(18, 58, 62)
-#define UI_BORDER   UI_BGR(40, 65, 77)
-#define UI_WHITE    UI_BGR(240, 246, 248)
-#define UI_MUTED    UI_BGR(133, 160, 169)
-#define UI_ACCENT   UI_BGR(59, 229, 193)
-#define UI_WARNING  UI_BGR(255, 190, 100)
+/* Colores pastel RGB; UI_BGR conserva el orden que utiliza el driver. */
+#define UI_BG       UI_BGR(251, 248, 245)   /* marfil */
+#define UI_PANEL    UI_BGR(237, 230, 245)   /* lavanda */
+#define UI_BORDER   UI_BGR(207, 196, 219)   /* lila suave */
+#define UI_TEXT     UI_BGR(70, 62, 88)     /* ciruela oscuro */
+#define UI_MUTED    UI_BGR(108, 101, 124)  /* gris violeta */
+#define UI_ACCENT   UI_BGR(55, 139, 125)   /* verde menta oscuro */
+#define UI_MARKER   UI_BGR(159, 220, 198)  /* menta pastel */
+#define UI_WARNING  UI_BGR(177, 99, 99)    /* coral oscuro */
 
 #define UI_WIDTH    160U
 #define UI_HEIGHT   128U
@@ -42,7 +44,12 @@
 static UIState current_state = UI_STATE_MENU;
 static UIState notice_origin = UI_STATE_MENU;
 static uint8_t menu_selection = 0U;
+static uint8_t rendered_menu_selection = 0U;
 static bool needs_redraw = true;
+
+static const char *const menu_labels[MENU_ITEMS] = {
+    "01 IDENTIFICAR", "02 REGISTRAR", "03 DIAGNOSTICO"
+};
 
 /* Adaptador al driver heredado, cuya interfaz usa CHAR* no const. */
 static void ui_text(uint8_t x, uint8_t y, const char *message,
@@ -75,7 +82,7 @@ static void ui_chrome(void)
     (void)TFT_ClearDisplay(UI_BG);
     ui_fill(0U, 0U, 3U, 27U, UI_ACCENT);
 
-    ui_text(9U, 7U, "VOXID", UI_WHITE, UI_BG);
+    ui_text(9U, 7U, "VOXID", UI_TEXT, UI_BG);
     ui_text(103U, 7U, "OPHYRA", UI_ACCENT, UI_BG);
 
     ui_line(8U, 26U, 151U, 26U, UI_BORDER);
@@ -88,33 +95,47 @@ static void ui_title(const char *title)
     ui_text(8U, 33U, title, UI_ACCENT, UI_BG);
 }
 
+/*
+ * El fondo de todas las filas es constante. En cada movimiento solo cambian
+ * la barra lateral y el color del texto, sin repintar el panel completo.
+ */
+static void ui_draw_menu_item(uint8_t index, bool selected, bool first_draw)
+{
+    const uint8_t top = (uint8_t)(47U + index * 21U);
+
+    if (first_draw) {
+        ui_fill(7U, top, 146U, 19U, UI_PANEL);
+    }
+
+    ui_fill(7U, top, 3U, 19U, selected ? UI_MARKER : UI_PANEL);
+    ui_text(15U, (uint8_t)(top + 4U), menu_labels[index],
+            selected ? UI_ACCENT : UI_MUTED, UI_PANEL);
+}
+
 static void ui_menu(void)
 {
-    static const char *const labels[MENU_ITEMS] = {
-        "01 IDENTIFICAR", "02 REGISTRAR", "03 DIAGNOSTICO"
-    };
-
     ui_title("MENU PRINCIPAL");
 
     for (uint8_t i = 0U; i < MENU_ITEMS; ++i) {
-        const uint8_t top = (uint8_t)(47U + i * 21U);
-        const bool selected = (i == menu_selection);
-        const uint32_t bg = selected ? UI_ACTIVE : UI_PANEL;
-        const uint32_t fg = selected ? UI_WHITE : UI_MUTED;
-
-        ui_fill(7U, top, 146U, 19U, bg);
-        if (selected) {
-            ui_fill(7U, top, 3U, 19U, UI_ACCENT);
-        }
-        ui_text(15U, (uint8_t)(top + 4U), labels[i], fg, bg);
+        ui_draw_menu_item(i, i == menu_selection, true);
     }
+
+    rendered_menu_selection = menu_selection;
+}
+
+/* Redibujar solamente las dos opciones cuyo estado visual cambia. */
+static void ui_update_menu_selection(void)
+{
+    ui_draw_menu_item(rendered_menu_selection, false, false);
+    ui_draw_menu_item(menu_selection, true, false);
+    rendered_menu_selection = menu_selection;
 }
 
 static void ui_identify(void)
 {
     ui_title("IDENTIFICAR");
     ui_line(8U, 49U, 151U, 49U, UI_BORDER);
-    ui_text(8U, 57U, "CAPTURA DE VOZ", UI_WHITE, UI_BG);
+    ui_text(8U, 57U, "CAPTURA DE VOZ", UI_TEXT, UI_BG);
     ui_text(8U, 76U, "Motor no vinculado", UI_MUTED, UI_BG);
     ui_text(8U, 94U, "OK: ver estado", UI_ACCENT, UI_BG);
 }
@@ -123,7 +144,7 @@ static void ui_enroll(void)
 {
     ui_title("REGISTRAR");
     ui_line(8U, 49U, 151U, 49U, UI_BORDER);
-    ui_text(8U, 57U, "NUEVO HABLANTE", UI_WHITE, UI_BG);
+    ui_text(8U, 57U, "NUEVO HABLANTE", UI_TEXT, UI_BG);
     ui_text(8U, 76U, "Registro pendiente", UI_MUTED, UI_BG);
     ui_text(8U, 94U, "OK: ver estado", UI_ACCENT, UI_BG);
 }
@@ -134,7 +155,7 @@ static void ui_system(void)
 
     ui_title("DIAGNOSTICO");
     ui_line(8U, 49U, 151U, 49U, UI_BORDER);
-    ui_text(8U, 56U, "STM32F407 / 168M", UI_WHITE, UI_BG);
+    ui_text(8U, 56U, "STM32F407 / 168M", UI_TEXT, UI_BG);
     ui_text(8U, 74U, "ADC: sin iniciar", UI_MUTED, UI_BG);
 
     (void)snprintf(diagnostic, sizeof(diagnostic),
@@ -196,11 +217,9 @@ static void ui_dispatch(ButtonEvent event)
         switch (event) {
             case BUTTON_UP:
                 menu_selection = (uint8_t)((menu_selection + MENU_ITEMS - 1U) % MENU_ITEMS);
-                needs_redraw = true;
                 break;
             case BUTTON_DOWN:
                 menu_selection = (uint8_t)((menu_selection + 1U) % MENU_ITEMS);
-                needs_redraw = true;
                 break;
             case BUTTON_OK:
                 current_state = (menu_selection == 0U) ? UI_STATE_IDENTIFY :
@@ -233,6 +252,7 @@ void ui_init(void)
     current_state = UI_STATE_MENU;
     notice_origin = UI_STATE_MENU;
     menu_selection = 0U;
+    rendered_menu_selection = 0U;
 
     (void)TFT_Init(0U); /* 0: horizontal, 160 x 128 */
     (void)pfTFT_BACKLIGHT_GPIO(1U);
@@ -252,6 +272,9 @@ void ui_task(void)
     /* El SPI de la pantalla se utiliza solo fuera de las ISR. */
     if (needs_redraw) {
         ui_render();
+    } else if (current_state == UI_STATE_MENU &&
+               menu_selection != rendered_menu_selection) {
+        ui_update_menu_selection();
     }
 }
 

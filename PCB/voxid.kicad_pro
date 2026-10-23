@@ -39,9 +39,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 1.3,
-          "height": 2.8,
-          "width": 2.8
+          "drill": 0.8,
+          "height": 1.6,
+          "width": 1.6
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -541,7 +541,7 @@
     "last_paths": {
       "idf": "",
       "netlist": "",
-      "plot": "Geber/",
+      "plot": "fabrication/",
       "specctra_dsn": "",
       "step": "",
       "vrml": ""
@@ -696,7 +696,7 @@
         "uuid": "49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
       }
     ],
-    "used_designators": "Rlim1,TP2-6,TP26,R1-3,R10-11,R14,R17-21,Cref1,#PWR22-23,#PWR25-26,#PWR28,J5-7,D1-2,C6-11,Caudio1",
+    "used_designators": "Rlim1,TP2-6,TP26,R1-3,R10-11,R14,R17-21,Cref1,Cref6-7,#PWR22-23,#PWR25-26,#PWR28,#PWR31-32,J5-7,D1-2,C6-11,Caudio1",
     "variants": []
   },
   "sheets": [

@@ -3176,7 +3176,7 @@
 		(uuid "241d398a-2daa-4cac-b8fc-5c81986e1522")
 	)
 	(junction
-		(at 222.25 134.62)
+		(at 222.25 137.16)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "26c2ae5d-34f1-4b2f-b0e4-a8a85bf9ffdf")
@@ -3254,13 +3254,13 @@
 		(uuid "7b84d205-698b-49f2-919e-85e47d515902")
 	)
 	(junction
-		(at 213.36 132.08)
+		(at 213.36 134.62)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "8326f2a2-698e-4206-b9a4-2b998adf8811")
 	)
 	(junction
-		(at 220.98 132.08)
+		(at 220.98 134.62)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "8c025f47-27ab-4f3e-812c-22efbd532def")
@@ -3475,7 +3475,7 @@
 	)
 	(wire
 		(pts
-			(xy 213.36 132.08) (xy 220.98 132.08)
+			(xy 213.36 134.62) (xy 220.98 134.62)
 		)
 		(stroke
 			(width 0)
@@ -3785,7 +3785,7 @@
 	)
 	(wire
 		(pts
-			(xy 220.98 134.62) (xy 222.25 134.62)
+			(xy 220.98 137.16) (xy 222.25 137.16)
 		)
 		(stroke
 			(width 0)
@@ -3995,7 +3995,7 @@
 	)
 	(wire
 		(pts
-			(xy 223.52 134.62) (xy 222.25 134.62)
+			(xy 223.52 137.16) (xy 222.25 137.16)
 		)
 		(stroke
 			(width 0)
@@ -4015,7 +4015,7 @@
 	)
 	(wire
 		(pts
-			(xy 213.36 140.97) (xy 213.36 142.24)
+			(xy 213.36 143.51) (xy 213.36 146.05)
 		)
 		(stroke
 			(width 0)
@@ -4175,7 +4175,7 @@
 	)
 	(wire
 		(pts
-			(xy 213.36 130.81) (xy 213.36 132.08)
+			(xy 213.36 133.35) (xy 213.36 134.62)
 		)
 		(stroke
 			(width 0)
@@ -4195,7 +4195,7 @@
 	)
 	(wire
 		(pts
-			(xy 220.98 132.08) (xy 223.52 132.08)
+			(xy 220.98 134.62) (xy 223.52 134.62)
 		)
 		(stroke
 			(width 0)
@@ -4312,6 +4312,16 @@
 			(type default)
 		)
 		(uuid "884bfc13-dc5a-46bc-b104-86fb9d9d295a")
+	)
+	(wire
+		(pts
+			(xy 213.36 124.46) (xy 213.36 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "88c7c97e-229a-419a-be71-30df744f2101")
 	)
 	(wire
 		(pts
@@ -4485,7 +4495,7 @@
 	)
 	(wire
 		(pts
-			(xy 222.25 134.62) (xy 222.25 142.24)
+			(xy 222.25 137.16) (xy 222.25 144.78)
 		)
 		(stroke
 			(width 0)
@@ -4512,16 +4522,6 @@
 			(type default)
 		)
 		(uuid "a42f804b-354d-4112-90d3-b314415b6704")
-	)
-	(wire
-		(pts
-			(xy 213.36 121.92) (xy 213.36 123.19)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a6513ca0-b623-468d-b6f9-5f0cbfdce90e")
 	)
 	(wire
 		(pts
@@ -4615,7 +4615,7 @@
 	)
 	(wire
 		(pts
-			(xy 198.12 132.08) (xy 201.93 132.08)
+			(xy 198.12 134.62) (xy 201.93 134.62)
 		)
 		(stroke
 			(width 0)
@@ -4975,7 +4975,7 @@
 	)
 	(wire
 		(pts
-			(xy 213.36 132.08) (xy 213.36 133.35)
+			(xy 213.36 134.62) (xy 213.36 135.89)
 		)
 		(stroke
 			(width 0)
@@ -5105,7 +5105,7 @@
 	)
 	(wire
 		(pts
-			(xy 209.55 132.08) (xy 213.36 132.08)
+			(xy 209.55 134.62) (xy 213.36 134.62)
 		)
 		(stroke
 			(width 0)
@@ -5247,7 +5247,7 @@
 	)
 	(global_label "S"
 		(shape input)
-		(at 198.12 132.08 180)
+		(at 198.12 134.62 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5257,7 +5257,7 @@
 		)
 		(uuid "213ecf90-bf66-463c-b1b9-6323b589dc91")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 193.9253 132.08 0)
+			(at 193.9253 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5542,7 +5542,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 167.64 28.448 90)
 			(hide yes)
 			(show_name no)
@@ -6201,7 +6201,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 157.48 39.878 90)
 			(hide yes)
 			(show_name no)
@@ -6674,7 +6674,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 194.31 94.488 90)
 			(hide yes)
 			(show_name no)
@@ -7823,6 +7823,89 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Conn_01x02_Pin")
+		(at 208.28 124.46 0)
+		(mirror x)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "53186c20-d26f-40e0-ba8f-a42b77d35c33")
+		(property "Reference" "J8"
+			(at 207.01 122.174 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Offset"
+			(at 210.1849 125.73 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+			(at 208.28 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 208.28 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x02, script generated"
+			(at 208.28 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "52c3dcb0-e8ab-47e4-94c4-e9beaf0e5e91")
+		)
+		(pin "1"
+			(uuid "faef721e-d29d-4ac6-9792-a4f26003b337")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "J8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3.3V")
 		(at 50.8 22.86 0)
 		(unit 1)
@@ -8015,7 +8098,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 84.582 85.09 90)
 			(hide yes)
 			(show_name no)
@@ -8065,7 +8148,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 222.25 142.24 0)
+		(at 222.25 144.78 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8076,7 +8159,7 @@
 		(fields_autoplaced yes)
 		(uuid "5ac6a338-9aa2-40c8-8f40-13f9405a0791")
 		(property "Reference" "#PWR022"
-			(at 222.25 148.59 0)
+			(at 222.25 151.13 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8087,7 +8170,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 222.25 147.32 0)
+			(at 222.25 149.86 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8097,7 +8180,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 222.25 142.24 0)
+			(at 222.25 144.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8108,7 +8191,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 222.25 142.24 0)
+			(at 222.25 144.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8119,7 +8202,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 222.25 142.24 0)
+			(at 222.25 144.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8495,7 +8578,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 215.9 132.08 0)
+		(at 215.9 134.62 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8505,7 +8588,7 @@
 		(dnp no)
 		(uuid "69feb948-ed84-40cc-b37f-af63228401a8")
 		(property "Reference" "J7"
-			(at 214.63 134.366 90)
+			(at 214.63 136.906 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8516,7 +8599,7 @@
 			)
 		)
 		(property "Value" "v3.3"
-			(at 217.8049 130.81 90)
+			(at 217.8049 133.35 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8528,7 +8611,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 215.9 132.08 0)
+			(at 215.9 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8539,7 +8622,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 215.9 132.08 0)
+			(at 215.9 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8550,7 +8633,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 215.9 132.08 0)
+			(at 215.9 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8608,7 +8691,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 229.87 48.768 90)
 			(hide yes)
 			(show_name no)
@@ -9080,7 +9163,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 140.97 91.948 90)
 			(hide yes)
 			(show_name no)
@@ -9209,7 +9292,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 205.74 132.08 90)
+		(at 205.74 134.62 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9219,7 +9302,7 @@
 		(dnp no)
 		(uuid "7d7c6e93-1c44-4758-b9d2-c758de081410")
 		(property "Reference" "Rlim1"
-			(at 208.534 130.048 90)
+			(at 208.534 132.588 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9230,7 +9313,7 @@
 			)
 		)
 		(property "Value" "4.7k"
-			(at 207.772 134.112 90)
+			(at 207.772 136.652 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9240,8 +9323,8 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
-			(at 205.74 133.858 90)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+			(at 205.74 136.398 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9252,7 +9335,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 205.74 132.08 0)
+			(at 205.74 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9263,7 +9346,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 205.74 132.08 0)
+			(at 205.74 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9482,7 +9565,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 229.87 28.448 90)
 			(hide yes)
 			(show_name no)
@@ -9642,7 +9725,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 41.402 82.55 90)
 			(hide yes)
 			(show_name no)
@@ -9801,7 +9884,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 250.19 48.768 90)
 			(hide yes)
 			(show_name no)
@@ -9882,7 +9965,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 83.82 16.002 90)
 			(hide yes)
 			(show_name no)
@@ -10121,7 +10204,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 92.71 64.008 90)
 			(hide yes)
 			(show_name no)
@@ -10425,7 +10508,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 213.36 142.24 0)
+		(at 213.36 146.05 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10436,7 +10519,7 @@
 		(fields_autoplaced yes)
 		(uuid "997f38fc-2818-4c34-b17a-785f4381045a")
 		(property "Reference" "#PWR023"
-			(at 213.36 148.59 0)
+			(at 213.36 152.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10447,7 +10530,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 213.36 147.32 0)
+			(at 213.36 151.13 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10457,7 +10540,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 213.36 142.24 0)
+			(at 213.36 146.05 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10468,7 +10551,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 213.36 142.24 0)
+			(at 213.36 146.05 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10479,7 +10562,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 213.36 142.24 0)
+			(at 213.36 146.05 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10615,7 +10698,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 151.13 91.948 90)
 			(hide yes)
 			(show_name no)
@@ -11274,7 +11357,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 250.19 28.448 90)
 			(hide yes)
 			(show_name no)
@@ -11588,7 +11671,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 49.53 64.008 90)
 			(hide yes)
 			(show_name no)
@@ -11827,7 +11910,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 184.15 94.488 90)
 			(hide yes)
 			(show_name no)
@@ -11877,7 +11960,7 @@
 	)
 	(symbol
 		(lib_id "Diode:1N5819")
-		(at 213.36 137.16 270)
+		(at 213.36 139.7 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11888,17 +11971,6 @@
 		(fields_autoplaced yes)
 		(uuid "cf747b63-622c-4b0e-9aad-36bd79926d92")
 		(property "Reference" "D2"
-			(at 215.9 135.5724 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1N5819"
 			(at 215.9 138.1124 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11909,8 +11981,19 @@
 				(justify left)
 			)
 		)
+		(property "Value" "1N5819"
+			(at 215.9 140.6524 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 		(property "Footprint" "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal"
-			(at 208.915 137.16 0)
+			(at 208.915 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11921,7 +12004,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.vishay.com/docs/88525/1n5817.pdf"
-			(at 213.36 137.16 0)
+			(at 213.36 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11932,7 +12015,7 @@
 			)
 		)
 		(property "Description" "40V 1A Schottky Barrier Rectifier Diode, DO-41"
-			(at 213.36 137.16 0)
+			(at 213.36 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12150,7 +12233,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 139.192 31.75 90)
 			(hide yes)
 			(show_name no)
@@ -12804,7 +12887,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 83.82 34.798 90)
 			(hide yes)
 			(show_name no)
@@ -12854,7 +12937,7 @@
 	)
 	(symbol
 		(lib_id "Diode:1N5819")
-		(at 213.36 127 270)
+		(at 213.36 129.54 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12865,17 +12948,6 @@
 		(fields_autoplaced yes)
 		(uuid "e40bc179-4829-4a82-95b4-5650f1a09ef0")
 		(property "Reference" "D1"
-			(at 215.9 125.4124 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1N5819"
 			(at 215.9 127.9524 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12886,8 +12958,19 @@
 				(justify left)
 			)
 		)
+		(property "Value" "1N5819"
+			(at 215.9 130.4924 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 		(property "Footprint" "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal"
-			(at 208.915 127 0)
+			(at 208.915 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12898,7 +12981,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.vishay.com/docs/88525/1n5817.pdf"
-			(at 213.36 127 0)
+			(at 213.36 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12909,7 +12992,7 @@
 			)
 		)
 		(property "Description" "40V 1A Schottky Barrier Rectifier Diode, DO-41"
-			(at 213.36 127 0)
+			(at 213.36 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12936,7 +13019,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
-		(at 228.6 132.08 0)
+		(at 228.6 134.62 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12947,17 +13030,6 @@
 		(fields_autoplaced yes)
 		(uuid "e8b6059b-21af-4b05-a8ce-86b984277455")
 		(property "Reference" "J6"
-			(at 231.14 132.0799 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "AudioOut"
 			(at 231.14 134.6199 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12968,8 +13040,19 @@
 				(justify left)
 			)
 		)
+		(property "Value" "AudioOut"
+			(at 231.14 137.1599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 		(property "Footprint" "TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm"
-			(at 228.6 132.08 0)
+			(at 228.6 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12980,7 +13063,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 228.6 132.08 0)
+			(at 228.6 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12991,7 +13074,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 228.6 132.08 0)
+			(at 228.6 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

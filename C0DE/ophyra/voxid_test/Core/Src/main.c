@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "buttons.h"
 #include "ui.h"
+#include "mfcc_benchmark.h"
 
 /* USER CODE END Includes */
 
@@ -49,6 +50,8 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
+/* Conservar el resultado en RAM para Live Expressions. */
+static MFCCBenchmarkResult benchmark_result;
 
 /* USER CODE END PV */
 
@@ -102,6 +105,10 @@ int main(void)
   /* USER CODE BEGIN 2 */
   buttons_init();
   ui_init();
+
+  /* Benchmark aislado: no iniciar ADC ni TIM2. */
+  mfcc_benchmark_run(&benchmark_result);
+  ui_show_result(&benchmark_result);
 
   /* USER CODE END 2 */
 

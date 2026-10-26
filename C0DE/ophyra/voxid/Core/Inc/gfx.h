@@ -18,6 +18,16 @@
 #include <stdint.h>
 
 // -----------------------------------------------------------------------------
+//  Alineacion de texto
+// -----------------------------------------------------------------------------
+
+typedef enum {
+    GFX_ALIGN_LEFT,
+    GFX_ALIGN_CENTER,
+    GFX_ALIGN_RIGHT
+} gfx_align_t;
+
+// -----------------------------------------------------------------------------
 //  Operaciones basicas
 // -----------------------------------------------------------------------------
 
@@ -43,5 +53,32 @@ bool gfx_draw_rect(int16_t x, int16_t y, uint16_t width, uint16_t height, uint16
 
 bool gfx_draw_circle(int16_t x, int16_t y, uint16_t radius, uint16_t color);
 bool gfx_fill_circle(int16_t x, int16_t y, uint16_t radius, uint16_t color);
+
+// -----------------------------------------------------------------------------
+//  Texto
+// -----------------------------------------------------------------------------
+
+bool gfx_draw_char(int16_t x, int16_t y, char character, uint16_t color);
+bool gfx_draw_text(int16_t x, int16_t y, const char *text, uint16_t color);
+
+bool gfx_draw_char_scaled(int16_t x, int16_t y, char character, uint16_t color, uint8_t scale);
+bool gfx_draw_text_scaled(int16_t x, int16_t y, const char *text, uint16_t color, uint8_t scale);
+
+// -----------------------------------------------------------------------------
+//  Texto con fondo
+// -----------------------------------------------------------------------------
+
+bool gfx_draw_text_bg(int16_t x, int16_t y, const char *text, uint16_t color, uint16_t bg);
+
+bool gfx_draw_text_scaled_bg(int16_t x, int16_t y, const char *text, uint16_t color, uint16_t bg, uint8_t scale);
+
+bool gfx_draw_text_aligned(int16_t x, int16_t y, const char *text, uint16_t color, uint16_t bg, uint8_t scale, gfx_align_t align);
+
+// -----------------------------------------------------------------------------
+//  Rectangulos redondeados
+// -----------------------------------------------------------------------------
+
+bool gfx_draw_round_rect(int16_t x, int16_t y, uint16_t width, uint16_t height, uint16_t radius, uint16_t color);
+bool gfx_fill_round_rect(int16_t x, int16_t y, uint16_t width, uint16_t height, uint16_t radius, uint16_t color);
 
 #endif /* GFX_H */

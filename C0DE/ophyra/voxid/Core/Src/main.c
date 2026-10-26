@@ -108,16 +108,19 @@ int main(void)
       tft_test_ok = gfx_fill_screen(0x0000U);
   }
 
+  // Tarjeta morada.
   if (tft_test_ok) {
-      tft_test_ok = gfx_fill_circle(40, 40, 25, 0x9B9BU);
+      tft_test_ok = gfx_fill_round_rect(10, 10, 140, 35, 10, 0x9B9BU);
   }
 
+  // Tarjeta cyan.
   if (tft_test_ok) {
-      tft_test_ok = gfx_fill_circle(115, 40, 25, 0x07EFU);
+      tft_test_ok = gfx_fill_round_rect(10, 50, 140, 35, 15, 0x07EFU);
   }
 
+  // Contorno blanco.
   if (tft_test_ok) {
-      tft_test_ok = gfx_fill_circle(80, 95, 20, 0xF81FU);
+      tft_test_ok = gfx_draw_round_rect(10, 90, 140, 30, 8, 0xFFFFU);
   }
 
   /* USER CODE END 2 */

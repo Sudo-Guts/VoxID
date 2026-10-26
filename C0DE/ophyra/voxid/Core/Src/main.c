@@ -24,6 +24,7 @@
 #include "st7735.h"
 #include "buttons.h"
 #include "ui.h"
+#include "voxid_dsp.h"
 
 /* USER CODE END Includes */
 
@@ -104,6 +105,10 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   buttons_init();
+
+  // Preparar el pipeline MFCC antes de capturar muestras reales.
+  (void)voxid_dsp_init();
+
   ui_ready = st7735_init(&hspi1);
 
   if (ui_ready) {

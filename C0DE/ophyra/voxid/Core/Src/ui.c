@@ -17,6 +17,7 @@
 
 #include "buttons.h"
 #include "gfx.h"
+#include "voxid_dsp.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -211,12 +212,15 @@ static bool ui_draw_system(void) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 80, "ADC: sin iniciar", UI_MUTED)) {
+    bool dsp_ok = voxid_dsp_is_ready();
+    const char *dsp_status = dsp_ok ? "MFCC: LISTO" : "MFCC: ERROR";
+
+    if (!gfx_draw_text(16, 80, dsp_status, dsp_ok ? UI_ACCENT : UI_WARNING)) {
         return false;
     }
 
-    (void)snprintf(diagnostic, sizeof(diagnostic), "Perdidos: %lu", (unsigned long)buttons_dropped());
-    return gfx_draw_text(16, 94, diagnostic, UI_ACCENT);
+    (void)snprintf(diagnostic, sizeof(diagnostic), "ADC OFF | Perd: %lu", (unsigned long)buttons_dropped());
+    return gfx_draw_text(16, 94, diagnostic, UI_MUTED);
 }
 
 static bool ui_draw_notice(void) {

@@ -50,16 +50,6 @@ TIM_HandleTypeDef htim2;
 /* USER CODE BEGIN PV */
 static volatile bool tft_test_ok = false;
 
-static const uint16_t test_colors[4] = {
-    0xF800U,  // Rojo
-    0x07E0U,  // Verde
-    0x001FU,  // Azul
-    0xFFFFU   // Blanco
-};
-
-static uint8_t test_color_index = 0U;
-/* USER CODE END PV */
-
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
@@ -107,9 +97,26 @@ int main(void)
   MX_ADC1_Init();
   MX_SPI1_Init();
   MX_TIM2_Init();
+
   /* USER CODE BEGIN 2 */
 
   tft_test_ok = st7735_init(&hspi1);
+
+  if (tft_test_ok) {
+      tft_test_ok = st7735_fill_screen(0x0000U);
+
+      if (tft_test_ok) {
+          tft_test_ok = st7735_fill_rect(10U, 10U, 60U, 40U, 0x9B9BU);
+      }
+
+      if (tft_test_ok) {
+          tft_test_ok = st7735_fill_rect(80U, 20U, 60U, 60U, 0x07EFU);
+      }
+
+      if (tft_test_ok) {
+          tft_test_ok = st7735_draw_pixel(150U, 110U, 0xFFFFU);
+      }
+  }
 
   /* USER CODE END 2 */
 
@@ -121,15 +128,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  if (tft_test_ok) {
-	      tft_test_ok = st7735_fill_screen(test_colors[test_color_index]);
-
-	      test_color_index = (uint8_t)((test_color_index + 1U) % 4U);
-
-	      HAL_Delay(1000U);
-	  } else {
-	      HAL_Delay(100U);
-	  }
+	  HAL_Delay(100U);
   }
   /* USER CODE END 3 */
 }

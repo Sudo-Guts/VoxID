@@ -92,4 +92,12 @@ bool st7735_fill_screen(uint16_t color);
 /* Encender o apagar retroiluminacion. */
 void st7735_set_backlight(bool enabled);
 
+// -----------------------------------------------------------------------------
+//  Primitivas graficas
+// -----------------------------------------------------------------------------
+
+bool st7735_draw_pixel(uint16_t x, uint16_t y, uint16_t color);
+
+bool st7735_fill_rect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color);
+
 #endif /* ST7735_H */

@@ -24,6 +24,7 @@
 #include "buttons.h"
 #include "ui.h"
 #include "mfcc_benchmark.h"
+#include "st7735.h"
 
 /* USER CODE END Includes */
 
@@ -52,6 +53,17 @@ TIM_HandleTypeDef htim2;
 /* USER CODE BEGIN PV */
 /* Conservar el resultado en RAM para Live Expressions. */
 static MFCCBenchmarkResult benchmark_result;
+
+static volatile bool tft_test_ok = false;
+
+static const uint16_t test_colors[4] = {
+    0xF800U,  // Rojo
+    0x07E0U,  // Verde
+    0x001FU,  // Azul
+    0xFFFFU   // Blanco
+};
+
+static uint8_t test_color_index = 0U;
 
 /* USER CODE END PV */
 

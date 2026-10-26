@@ -21,8 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "buttons.h"
-#include "ui.h"
+#include "st7735.h"
 
 /* USER CODE END Includes */
 
@@ -49,7 +48,16 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
+static volatile bool tft_test_ok = false;
 
+static const uint16_t test_colors[4] = {
+    0xF800U,  // Rojo
+    0x07E0U,  // Verde
+    0x001FU,  // Azul
+    0xFFFFU   // Blanco
+};
+
+static uint8_t test_color_index = 0U;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -100,8 +108,8 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  buttons_init();
-  ui_init();
+
+  tft_test_ok = st7735_init(&hspi1);
 
   /* USER CODE END 2 */
 
@@ -112,7 +120,16 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    ui_task();
+
+	  if (tft_test_ok) {
+	      tft_test_ok = st7735_fill_screen(test_colors[test_color_index]);
+
+	      test_color_index = (uint8_t)((test_color_index + 1U) % 4U);
+
+	      HAL_Delay(1000U);
+	  } else {
+	      HAL_Delay(100U);
+	  }
   }
   /* USER CODE END 3 */
 }
@@ -370,7 +387,7 @@ static void MX_GPIO_Init(void)
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  buttons_on_exti(GPIO_Pin, HAL_GetTick());
+
 }
 
 

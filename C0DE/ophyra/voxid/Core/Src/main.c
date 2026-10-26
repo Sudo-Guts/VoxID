@@ -22,6 +22,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "st7735.h"
+#include "gfx.h"
 
 /* USER CODE END Includes */
 
@@ -104,18 +105,18 @@ int main(void)
 
   if (tft_test_ok) {
       tft_test_ok = st7735_fill_screen(0x0000U);
+  }
 
-      if (tft_test_ok) {
-          tft_test_ok = st7735_fill_rect(10U, 10U, 60U, 40U, 0x9B9BU);
-      }
+  if (tft_test_ok) {
+      tft_test_ok = gfx_fill_circle(40, 40, 25, 0x9B9BU);
+  }
 
-      if (tft_test_ok) {
-          tft_test_ok = st7735_fill_rect(80U, 20U, 60U, 60U, 0x07EFU);
-      }
+  if (tft_test_ok) {
+      tft_test_ok = gfx_fill_circle(115, 40, 25, 0x07EFU);
+  }
 
-      if (tft_test_ok) {
-          tft_test_ok = st7735_draw_pixel(150U, 110U, 0xFFFFU);
-      }
+  if (tft_test_ok) {
+      tft_test_ok = gfx_fill_circle(80, 95, 20, 0xF81FU);
   }
 
   /* USER CODE END 2 */

@@ -22,7 +22,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "st7735.h"
-#include "gfx.h"
+#include "buttons.h"
+#include "ui.h"
 
 /* USER CODE END Includes */
 
@@ -49,7 +50,7 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
-static volatile bool tft_test_ok = false;
+static volatile bool ui_ready = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -102,28 +103,14 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 
-  tft_test_ok = st7735_init(&hspi1);
+  buttons_init();
+  ui_ready = st7735_init(&hspi1);
 
-  if (tft_test_ok) {
-      tft_test_ok = gfx_fill_screen(0x0000U);
+  if (ui_ready) {
+      ui_ready = ui_init();
   }
 
-  // Tarjeta morada.
-  if (tft_test_ok) {
-      tft_test_ok = gfx_fill_round_rect(10, 10, 140, 35, 10, 0x9B9BU);
-  }
-
-  // Tarjeta cyan.
-  if (tft_test_ok) {
-      tft_test_ok = gfx_fill_round_rect(10, 50, 140, 35, 15, 0x07EFU);
-  }
-
-  // Contorno blanco.
-  if (tft_test_ok) {
-      tft_test_ok = gfx_draw_round_rect(10, 90, 140, 30, 8, 0xFFFFU);
-  }
-
-  /* USER CODE END 2 */
+    /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -133,7 +120,12 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  HAL_Delay(100U);
+    if (ui_ready) {
+        ui_task();
+        HAL_Delay(5U);
+    } else {
+        HAL_Delay(100U);
+    }
   }
   /* USER CODE END 3 */
 }
@@ -391,7 +383,7 @@ static void MX_GPIO_Init(void)
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-
+    buttons_on_exti(GPIO_Pin, HAL_GetTick());
 }
 
 

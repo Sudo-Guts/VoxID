@@ -1,16 +1,14 @@
 /*
  * =============================================================================
  *  Proyecto : VoxID
- *  Archivo  : Core/Src/ui.c
+ *  Archivo  : ui.c
  *  Autor    : Gustavo Ruiz Luis
  * =============================================================================
  *
- *  UI para Ophyra, orientacion horizontal 160 x 128.
- *  Tema pastel claro y navegacion por cuatro botones.
- *  El menu solo actualiza los indicadores y textos que cambian.
- *
- *  Las funciones de identificar y registrar muestran su disponibilidad real:
- *  el reconocimiento de hablantes aun no esta conectado al firmware.
+ *  Interfaz pastel para la TFT de Ophyra (160 x 128).
+ *  Utiliza la API grafica gfx_* y los eventos de buttons.c.
+ *  Las pantallas de identificacion/registro permanecen informativas
+ *  hasta integrar el procesamiento MFCC en tiempo real.
  *
  * =============================================================================
  */
@@ -18,197 +16,263 @@
 #include "ui.h"
 
 #include "buttons.h"
-#include "TFT_Ophyra.h"
+#include "gfx.h"
 
-#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 
-/* La libreria de Ophyra recibe colores BGR de 24 bits. */
-#define UI_BGR(r, g, b)  (((uint32_t)(b) << 16) | ((uint32_t)(g) << 8) | (uint32_t)(r))
+// -----------------------------------------------------------------------------
+//  Paleta RGB565 - VoxID
+// -----------------------------------------------------------------------------
 
-/* Colores pastel RGB; UI_BGR conserva el orden que utiliza el driver. */
-#define UI_BG       UI_BGR(251, 248, 245)   /* marfil */
-#define UI_PANEL    UI_BGR(237, 230, 245)   /* lavanda */
-#define UI_BORDER   UI_BGR(207, 196, 219)   /* lila suave */
-#define UI_TEXT     UI_BGR(70, 62, 88)     /* ciruela oscuro */
-#define UI_MUTED    UI_BGR(108, 101, 124)  /* gris violeta */
-#define UI_ACCENT   UI_BGR(55, 139, 125)   /* verde menta oscuro */
-#define UI_MARKER   UI_BGR(159, 220, 198)  /* menta pastel */
-#define UI_WARNING  UI_BGR(177, 99, 99)    /* coral oscuro */
+#define UI_BG           0xFFBFU  // Marfil lavanda
+#define UI_HEADER       0xEF3FU  // Lavanda clara
+#define UI_PANEL        0xEF1EU  // Tarjetas pastel
+#define UI_SELECTED     0x8337U  // Morado
+#define UI_BORDER       0xCE1CU  // Borde lavanda
+#define UI_TEXT         0x3128U  // Ciruela oscuro
+#define UI_MUTED        0x6B0FU  // Gris violeta
+#define UI_ACCENT       0x7295U  // Acento morado
+#define UI_ACCENT_LIGHT 0xDE1DU  // Lavanda suave
+#define UI_WARNING      0xA26DU  // Coral oscuro
+#define UI_WHITE        0xFFFFU
 
-#define UI_WIDTH    160U
-#define UI_HEIGHT   128U
-#define MENU_ITEMS    3U
+#define UI_MENU_ITEMS   3U
+
+// -----------------------------------------------------------------------------
+//  Estado privado
+// -----------------------------------------------------------------------------
 
 static UIState current_state = UI_STATE_MENU;
 static UIState notice_origin = UI_STATE_MENU;
+
 static uint8_t menu_selection = 0U;
 static uint8_t rendered_menu_selection = 0U;
+
+static bool ui_ready = false;
 static bool needs_redraw = true;
 
-static const char *const menu_labels[MENU_ITEMS] = {
-    "01 IDENTIFICAR", "02 REGISTRAR", "03 DIAGNOSTICO"
+static const char *const menu_labels[UI_MENU_ITEMS] = {
+    "IDENTIFICAR",
+    "REGISTRAR",
+    "DIAGNOSTICO"
 };
 
-/* Adaptador al driver heredado, cuya interfaz usa CHAR* no const. */
-static void ui_text(uint8_t x, uint8_t y, const char *message,
-                    uint32_t color, uint32_t background)
-{
-    (void)TFT_PrintStr(x, y, (CHAR *)message, color, background);
-}
+static const char *const menu_numbers[UI_MENU_ITEMS] = {
+    "01", "02", "03"
+};
 
-static void ui_line(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint32_t color)
-{
-    (void)TFT_PrintLine(x1, y1, x2, y2, color);
-}
+// -----------------------------------------------------------------------------
+//  Componentes comunes
+// -----------------------------------------------------------------------------
 
-/* Relleno basado en lineas: la biblioteca no expone rectangulos solidos. */
-static void ui_fill(uint8_t x, uint8_t y, uint8_t width, uint8_t height,
-                    uint32_t color)
-{
-    if (width == 0U || height == 0U) {
-        return;
+static bool ui_draw_header(void) {
+    if (!gfx_fill_screen(UI_BG)) {
+        return false;
     }
 
-    uint8_t x2 = (uint8_t)(x + width - 1U);
-    for (uint16_t row = y; row < (uint16_t)y + height; ++row) {
-        ui_line(x, (uint8_t)row, x2, (uint8_t)row, color);
-    }
-}
-
-static void ui_chrome(void)
-{
-    (void)TFT_ClearDisplay(UI_BG);
-    ui_fill(0U, 0U, 3U, 27U, UI_ACCENT);
-
-    ui_text(9U, 7U, "VOXID", UI_TEXT, UI_BG);
-    ui_text(103U, 7U, "OPHYRA", UI_ACCENT, UI_BG);
-
-    ui_line(8U, 26U, 151U, 26U, UI_BORDER);
-    ui_line(8U, 111U, 151U, 111U, UI_BORDER);
-    ui_text(8U, 116U, "UP/DN  OK  BACK", UI_MUTED, UI_BG);
-}
-
-static void ui_title(const char *title)
-{
-    ui_text(8U, 33U, title, UI_ACCENT, UI_BG);
-}
-
-/*
- * El fondo de todas las filas es constante. En cada movimiento solo cambian
- * la barra lateral y el color del texto, sin repintar el panel completo.
- */
-static void ui_draw_menu_item(uint8_t index, bool selected, bool first_draw)
-{
-    const uint8_t top = (uint8_t)(47U + index * 21U);
-
-    if (first_draw) {
-        ui_fill(7U, top, 146U, 19U, UI_PANEL);
+    if (!gfx_fill_round_rect(8, 4, 144U, 25U, 7U, UI_HEADER)) {
+        return false;
     }
 
-    ui_fill(7U, top, 3U, 19U, selected ? UI_MARKER : UI_PANEL);
-    ui_text(15U, (uint8_t)(top + 4U), menu_labels[index],
-            selected ? UI_ACCENT : UI_MUTED, UI_PANEL);
+    if (!gfx_fill_rect(11U, 9U, 3U, 15U, UI_ACCENT)) {
+        return false;
+    }
+
+    if (!gfx_draw_text_scaled(20, 9, "VOXID", UI_TEXT, 2U)) {
+        return false;
+    }
+
+    if (!gfx_draw_text_aligned(145, 13, "OPHYRA", UI_ACCENT, UI_HEADER, 1U, GFX_ALIGN_RIGHT)) {
+        return false;
+    }
+
+    if (!gfx_fill_rect(8U, 112U, 144U, 1U, UI_BORDER)) {
+        return false;
+    }
+
+    const char *footer = current_state == UI_STATE_MENU ? "UP/DN   OK   BACK" : "BACK MENU    OK ESTADO";
+    return gfx_draw_text_aligned(80, 117, footer, UI_MUTED, UI_BG, 1U, GFX_ALIGN_CENTER);
 }
 
-static void ui_menu(void)
-{
-    ui_title("MENU PRINCIPAL");
+static bool ui_draw_title(const char *title) {
+    return gfx_draw_text(10, 36, title, UI_ACCENT);
+}
 
-    for (uint8_t i = 0U; i < MENU_ITEMS; ++i) {
-        ui_draw_menu_item(i, i == menu_selection, true);
+static bool ui_draw_card(void) {
+    return gfx_fill_round_rect(8, 54, 144U, 51U, 8U, UI_PANEL);
+}
+
+// -----------------------------------------------------------------------------
+//  Botones del menu
+// -----------------------------------------------------------------------------
+
+static bool ui_draw_menu_item(uint8_t index, bool selected) {
+    if (index >= UI_MENU_ITEMS) {
+        return false;
+    }
+
+    int16_t top = (int16_t)(49U + index * 21U);
+    uint16_t background = selected ? UI_SELECTED : UI_PANEL;
+    uint16_t foreground = selected ? UI_WHITE : UI_TEXT;
+    uint16_t number_color = selected ? UI_WHITE : UI_ACCENT;
+
+    if (!gfx_fill_round_rect(8, top, 144U, 18U, 6U, background)) {
+        return false;
+    }
+
+    if (!gfx_fill_rect(11U, (uint16_t)(top + 4), 3U, 10U, selected ? UI_WHITE : UI_ACCENT_LIGHT)) {
+        return false;
+    }
+
+    if (!gfx_draw_text_bg(19, (int16_t)(top + 5), menu_numbers[index], number_color, background)) {
+        return false;
+    }
+
+    return gfx_draw_text_aligned(91, (int16_t)(top + 5), menu_labels[index], foreground, background, 1U, GFX_ALIGN_CENTER);
+}
+
+static bool ui_draw_menu(void) {
+    if (!ui_draw_title("MENU PRINCIPAL")) {
+        return false;
+    }
+
+    for (uint8_t i = 0U; i < UI_MENU_ITEMS; ++i) {
+        if (!ui_draw_menu_item(i, i == menu_selection)) {
+            return false;
+        }
     }
 
     rendered_menu_selection = menu_selection;
+    return true;
 }
 
-/* Redibujar solamente las dos opciones cuyo estado visual cambia. */
-static void ui_update_menu_selection(void)
-{
-    ui_draw_menu_item(rendered_menu_selection, false, false);
-    ui_draw_menu_item(menu_selection, true, false);
-    rendered_menu_selection = menu_selection;
-}
-
-static void ui_identify(void)
-{
-    ui_title("IDENTIFICAR");
-    ui_line(8U, 49U, 151U, 49U, UI_BORDER);
-    ui_text(8U, 57U, "CAPTURA DE VOZ", UI_TEXT, UI_BG);
-    ui_text(8U, 76U, "Motor no vinculado", UI_MUTED, UI_BG);
-    ui_text(8U, 94U, "OK: ver estado", UI_ACCENT, UI_BG);
-}
-
-static void ui_enroll(void)
-{
-    ui_title("REGISTRAR");
-    ui_line(8U, 49U, 151U, 49U, UI_BORDER);
-    ui_text(8U, 57U, "NUEVO HABLANTE", UI_TEXT, UI_BG);
-    ui_text(8U, 76U, "Registro pendiente", UI_MUTED, UI_BG);
-    ui_text(8U, 94U, "OK: ver estado", UI_ACCENT, UI_BG);
-}
-
-static void ui_system(void)
-{
-    char diagnostic[26];
-
-    ui_title("DIAGNOSTICO");
-    ui_line(8U, 49U, 151U, 49U, UI_BORDER);
-    ui_text(8U, 56U, "STM32F407 / 168M", UI_TEXT, UI_BG);
-    ui_text(8U, 74U, "ADC: sin iniciar", UI_MUTED, UI_BG);
-
-    (void)snprintf(diagnostic, sizeof(diagnostic),
-                   "Eventos perd.: %lu", (unsigned long)buttons_dropped());
-    ui_text(8U, 93U, diagnostic, UI_ACCENT, UI_BG);
-}
-
-static void ui_notice(void)
-{
-    ui_title("ESTADO DEL MODULO");
-    ui_line(8U, 49U, 151U, 49U, UI_BORDER);
-    ui_text(8U, 57U, "AUN NO DISPONIBLE", UI_WARNING, UI_BG);
-
-    if (notice_origin == UI_STATE_IDENTIFY) {
-        ui_text(8U, 77U, "MFCC por conectar", UI_MUTED, UI_BG);
-    } else {
-        ui_text(8U, 77U, "Registro por crear", UI_MUTED, UI_BG);
+static bool ui_update_menu_selection(void) {
+    if (rendered_menu_selection == menu_selection) {
+        return true;
     }
 
-    ui_text(8U, 94U, "BACK: regresar", UI_ACCENT, UI_BG);
+    if (!ui_draw_menu_item(rendered_menu_selection, false)) {
+        return false;
+    }
+
+    if (!ui_draw_menu_item(menu_selection, true)) {
+        return false;
+    }
+
+    rendered_menu_selection = menu_selection;
+    return true;
 }
 
-static void ui_render(void)
-{
-    ui_chrome();
+// -----------------------------------------------------------------------------
+//  Pantallas informativas
+// -----------------------------------------------------------------------------
+
+static bool ui_draw_identify(void) {
+    if (!ui_draw_title("IDENTIFICAR") || !ui_draw_card()) {
+        return false;
+    }
+
+    if (!gfx_draw_text(16, 63, "CAPTURA DE VOZ", UI_TEXT)) {
+        return false;
+    }
+
+    if (!gfx_draw_text(16, 81, "MFCC sin vincular", UI_MUTED)) {
+        return false;
+    }
+
+    return gfx_draw_text(16, 94, "OK: ver estado", UI_ACCENT);
+}
+
+static bool ui_draw_enroll(void) {
+    if (!ui_draw_title("REGISTRAR") || !ui_draw_card()) {
+        return false;
+    }
+
+    if (!gfx_draw_text(16, 63, "NUEVO HABLANTE", UI_TEXT)) {
+        return false;
+    }
+
+    if (!gfx_draw_text(16, 81, "Registro pendiente", UI_MUTED)) {
+        return false;
+    }
+
+    return gfx_draw_text(16, 94, "OK: ver estado", UI_ACCENT);
+}
+
+static bool ui_draw_system(void) {
+    char diagnostic[32];
+
+    if (!ui_draw_title("DIAGNOSTICO") || !ui_draw_card()) {
+        return false;
+    }
+
+    if (!gfx_draw_text(16, 62, "STM32F407 / 168M", UI_TEXT)) {
+        return false;
+    }
+
+    if (!gfx_draw_text(16, 80, "ADC: sin iniciar", UI_MUTED)) {
+        return false;
+    }
+
+    (void)snprintf(diagnostic, sizeof(diagnostic), "Perdidos: %lu", (unsigned long)buttons_dropped());
+    return gfx_draw_text(16, 94, diagnostic, UI_ACCENT);
+}
+
+static bool ui_draw_notice(void) {
+    if (!ui_draw_title("ESTADO DEL MODULO") || !ui_draw_card()) {
+        return false;
+    }
+
+    if (!gfx_draw_text(16, 62, "AUN NO DISPONIBLE", UI_WARNING)) {
+        return false;
+    }
+
+    const char *reason = notice_origin == UI_STATE_IDENTIFY ? "MFCC por conectar" : "Registro por crear";
+
+    if (!gfx_draw_text(16, 80, reason, UI_MUTED)) {
+        return false;
+    }
+
+    return gfx_draw_text(16, 94, "BACK: regresar", UI_ACCENT);
+}
+
+// -----------------------------------------------------------------------------
+//  Renderizado por estado
+// -----------------------------------------------------------------------------
+
+static bool ui_render(void) {
+    if (!ui_draw_header()) {
+        return false;
+    }
 
     switch (current_state) {
         case UI_STATE_MENU:
-            ui_menu();
-            break;
+            return ui_draw_menu();
+
         case UI_STATE_IDENTIFY:
-            ui_identify();
-            break;
+            return ui_draw_identify();
+
         case UI_STATE_ENROLL:
-            ui_enroll();
-            break;
+            return ui_draw_enroll();
+
         case UI_STATE_SYSTEM:
-            ui_system();
-            break;
+            return ui_draw_system();
+
         case UI_STATE_NOTICE:
-            ui_notice();
-            break;
+            return ui_draw_notice();
+
         default:
             current_state = UI_STATE_MENU;
-            ui_menu();
-            break;
+            return ui_draw_menu();
     }
-
-    needs_redraw = false;
 }
 
-static void ui_dispatch(ButtonEvent event)
-{
+// -----------------------------------------------------------------------------
+//  Navegacion
+// -----------------------------------------------------------------------------
+
+static void ui_dispatch(ButtonEvent event) {
     if (event == BUTTON_NONE) {
         return;
     }
@@ -216,16 +280,19 @@ static void ui_dispatch(ButtonEvent event)
     if (current_state == UI_STATE_MENU) {
         switch (event) {
             case BUTTON_UP:
-                menu_selection = (uint8_t)((menu_selection + MENU_ITEMS - 1U) % MENU_ITEMS);
+                menu_selection = (uint8_t)((menu_selection + UI_MENU_ITEMS - 1U) % UI_MENU_ITEMS);
                 break;
+
             case BUTTON_DOWN:
-                menu_selection = (uint8_t)((menu_selection + 1U) % MENU_ITEMS);
+                menu_selection = (uint8_t)((menu_selection + 1U) % UI_MENU_ITEMS);
                 break;
+
             case BUTTON_OK:
-                current_state = (menu_selection == 0U) ? UI_STATE_IDENTIFY :
-                                (menu_selection == 1U) ? UI_STATE_ENROLL : UI_STATE_SYSTEM;
+                current_state = menu_selection == 0U ? UI_STATE_IDENTIFY :
+                                menu_selection == 1U ? UI_STATE_ENROLL : UI_STATE_SYSTEM;
                 needs_redraw = true;
                 break;
+
             default:
                 break;
         }
@@ -233,8 +300,7 @@ static void ui_dispatch(ButtonEvent event)
     }
 
     if (event == BUTTON_BACK) {
-        current_state = (current_state == UI_STATE_NOTICE) ?
-                        notice_origin : UI_STATE_MENU;
+        current_state = current_state == UI_STATE_NOTICE ? notice_origin : UI_STATE_MENU;
         needs_redraw = true;
     } else if (event == BUTTON_OK) {
         if (current_state == UI_STATE_IDENTIFY || current_state == UI_STATE_ENROLL) {
@@ -242,43 +308,47 @@ static void ui_dispatch(ButtonEvent event)
             current_state = UI_STATE_NOTICE;
             needs_redraw = true;
         } else if (current_state == UI_STATE_SYSTEM) {
-            needs_redraw = true; /* Actualizar diagnostico al presionar OK. */
+            needs_redraw = true;
         }
     }
 }
 
-void ui_init(void)
-{
+// -----------------------------------------------------------------------------
+//  API publica
+// -----------------------------------------------------------------------------
+
+bool ui_init(void) {
     current_state = UI_STATE_MENU;
     notice_origin = UI_STATE_MENU;
     menu_selection = 0U;
     rendered_menu_selection = 0U;
-
-    (void)TFT_Init(0U); /* 0: horizontal, 160 x 128 */
-    (void)pfTFT_BACKLIGHT_GPIO(1U);
-
     needs_redraw = true;
-    ui_render();
+
+    ui_ready = ui_render();
+    needs_redraw = !ui_ready;
+
+    return ui_ready;
 }
 
-void ui_task(void)
-{
+void ui_task(void) {
+    if (!ui_ready) {
+        return;
+    }
+
     ButtonEvent event;
 
     while (buttons_next_event(&event)) {
         ui_dispatch(event);
     }
 
-    /* El SPI de la pantalla se utiliza solo fuera de las ISR. */
     if (needs_redraw) {
-        ui_render();
-    } else if (current_state == UI_STATE_MENU &&
-               menu_selection != rendered_menu_selection) {
-        ui_update_menu_selection();
+        ui_ready = ui_render();
+        needs_redraw = !ui_ready;
+    } else if (current_state == UI_STATE_MENU && menu_selection != rendered_menu_selection) {
+        ui_ready = ui_update_menu_selection();
     }
 }
 
-UIState ui_state(void)
-{
+UIState ui_state(void) {
     return current_state;
 }

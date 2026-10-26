@@ -58,10 +58,6 @@ static const char *const menu_labels[UI_MENU_ITEMS] = {
     "DIAGNOSTICO"
 };
 
-static const char *const menu_numbers[UI_MENU_ITEMS] = {
-    "01", "02", "03"
-};
-
 // -----------------------------------------------------------------------------
 //  Componentes comunes
 // -----------------------------------------------------------------------------
@@ -115,9 +111,8 @@ static bool ui_draw_menu_item(uint8_t index, bool selected) {
     int16_t top = (int16_t)(49U + index * 21U);
     uint16_t background = selected ? UI_SELECTED : UI_PANEL;
     uint16_t foreground = selected ? UI_WHITE : UI_TEXT;
-    uint16_t number_color = selected ? UI_WHITE : UI_ACCENT;
 
-    if (!gfx_fill_round_rect(8, top, 144U, 18U, 6U, background)) {
+    if (!gfx_fill_round_rect(8, top, 144U, 18U, 7U, background)) {
         return false;
     }
 
@@ -125,11 +120,7 @@ static bool ui_draw_menu_item(uint8_t index, bool selected) {
         return false;
     }
 
-    if (!gfx_draw_text_bg(19, (int16_t)(top + 5), menu_numbers[index], number_color, background)) {
-        return false;
-    }
-
-    return gfx_draw_text_aligned(91, (int16_t)(top + 5), menu_labels[index], foreground, background, 1U, GFX_ALIGN_CENTER);
+    return gfx_draw_text_aligned(80, (int16_t)(top + 5), menu_labels[index], foreground, background, 1U, GFX_ALIGN_CENTER);
 }
 
 static bool ui_draw_menu(void) {

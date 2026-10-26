@@ -21,6 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "st7735.h"
 #include "buttons.h"
 #include "ui.h"
 
@@ -49,7 +50,7 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
-
+static volatile bool ui_ready = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -99,11 +100,17 @@ int main(void)
   MX_ADC1_Init();
   MX_SPI1_Init();
   MX_TIM2_Init();
-  /* USER CODE BEGIN 2 */
-  buttons_init();
-  ui_init();
 
-  /* USER CODE END 2 */
+  /* USER CODE BEGIN 2 */
+
+  buttons_init();
+  ui_ready = st7735_init(&hspi1);
+
+  if (ui_ready) {
+      ui_ready = ui_init();
+  }
+
+    /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -112,7 +119,13 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    ui_task();
+
+    if (ui_ready) {
+        ui_task();
+        HAL_Delay(5U);
+    } else {
+        HAL_Delay(100U);
+    }
   }
   /* USER CODE END 3 */
 }
@@ -370,7 +383,7 @@ static void MX_GPIO_Init(void)
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  buttons_on_exti(GPIO_Pin, HAL_GetTick());
+    buttons_on_exti(GPIO_Pin, HAL_GetTick());
 }
 
 

@@ -1,18 +1,24 @@
 /*
  * =============================================================================
  *  Proyecto : VoxID
- *  Archivo  : Core/Inc/ui.h
+ *  Archivo  : ui.h
  *  Autor    : Gustavo Ruiz Luis
  * =============================================================================
  *
- *  Interfaz de usuario horizontal (160 x 128) mediante maquina de estados.
- *  La UI se ejecuta fuera de las interrupciones.
+ *  Interfaz grafica de Ophyra, 160 x 128 pixeles.
+ *  Navegacion por eventos; no dibujar desde interrupciones.
  *
  * =============================================================================
  */
 
 #ifndef VOXID_UI_H
 #define VOXID_UI_H
+
+#include <stdbool.h>
+
+// -----------------------------------------------------------------------------
+//  Estados de interfaz
+// -----------------------------------------------------------------------------
 
 typedef enum {
     UI_STATE_MENU = 0,
@@ -22,13 +28,17 @@ typedef enum {
     UI_STATE_NOTICE
 } UIState;
 
-/* Inicializa la TFT en horizontal y muestra el menu principal. */
-void ui_init(void);
+// -----------------------------------------------------------------------------
+//  Interfaz publica
+// -----------------------------------------------------------------------------
 
-/* Procesa eventos de botones y redibuja solamente cuando sea necesario. */
+/* Inicializar la UI tras st7735_init(); false si falla el dibujo. */
+bool ui_init(void);
+
+/* Procesar botones y actualizar unicamente las regiones necesarias. */
 void ui_task(void);
 
-/* Permite consultar el estado actual de la interfaz. */
+/* Consultar la pantalla activa. */
 UIState ui_state(void);
 
 #endif /* VOXID_UI_H */

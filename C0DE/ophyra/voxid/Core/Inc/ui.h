@@ -3,7 +3,7 @@
  *  Proyecto : VoxID
  *  Archivo  : ui.h
  *  Autor    : Gustavo Ruiz Luis
- * =============================================================================
+ * -----------------------------------------------------------------------------
  *
  *  Interfaz grafica de Ophyra, 160 x 128 pixeles.
  *  Navegacion por eventos; no dibujar desde interrupciones.
@@ -25,7 +25,8 @@ typedef enum {
     UI_STATE_IDENTIFY,
     UI_STATE_ENROLL,
     UI_STATE_SYSTEM,
-    UI_STATE_NOTICE
+    UI_STATE_CAPTURE,
+    UI_STATE_SELFTEST
 } UIState;
 
 // -----------------------------------------------------------------------------

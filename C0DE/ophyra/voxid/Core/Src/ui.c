@@ -18,7 +18,9 @@
 #include "buttons.h"
 #include "gfx.h"
 #include "voxid_dsp.h"
+#include "voxid_selftest.h"
 
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -45,10 +47,13 @@
 // -----------------------------------------------------------------------------
 
 static UIState current_state = UI_STATE_MENU;
-static UIState notice_origin = UI_STATE_MENU;
+static UIState capture_origin = UI_STATE_IDENTIFY;
 
 static uint8_t menu_selection = 0U;
 static uint8_t rendered_menu_selection = 0U;
+static uint8_t speaker_slot = 0U;
+static uint8_t test_page = 0U;
+static VoxIDSelfTestResult selftest_result;
 
 static bool ui_ready = false;
 static bool needs_redraw = true;
@@ -88,7 +93,17 @@ static bool ui_draw_header(void) {
         return false;
     }
 
-    const char *footer = current_state == UI_STATE_MENU ? "UP/DN   OK   BACK" : "BACK MENU    OK ESTADO";
+    const char *footer = "UP/DN   OK   BACK";
+
+    if (current_state == UI_STATE_CAPTURE) {
+        footer = "BACK: REGRESAR";
+    } else if (current_state == UI_STATE_SYSTEM) {
+        footer = "OK TEST  BACK MENU";
+    } else if (current_state == UI_STATE_SELFTEST) {
+        footer = "UP/DN PAG  OK TEST";
+    } else if (current_state == UI_STATE_IDENTIFY) {
+        footer = "OK CAPTURA  BACK";
+    }
     return gfx_draw_text_aligned(80, 117, footer, UI_MUTED, UI_BG, 1U, GFX_ALIGN_CENTER);
 }
 
@@ -160,81 +175,190 @@ static bool ui_update_menu_selection(void) {
 //  Pantallas informativas
 // -----------------------------------------------------------------------------
 
+// =============================================================================
+//  Preparacion de adquisicion e inscripcion de locutor
+// =============================================================================
+
 static bool ui_draw_identify(void) {
     if (!ui_draw_title("IDENTIFICAR") || !ui_draw_card()) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 63, "CAPTURA DE VOZ", UI_TEXT)) {
+    if (!gfx_draw_text(16, 62, "ADQUIRIR VOZ", UI_TEXT)) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 81, "MFCC sin vincular", UI_MUTED)) {
+    if (!gfx_draw_text(16, 80, "PCM 16kHz / 16bit", UI_MUTED)) {
         return false;
     }
 
-    return gfx_draw_text(16, 94, "OK: ver estado", UI_ACCENT);
+    return gfx_draw_text(16, 94, "OK: PREPARAR", UI_ACCENT);
 }
 
 static bool ui_draw_enroll(void) {
+    char slot[26];
+
     if (!ui_draw_title("REGISTRAR") || !ui_draw_card()) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 63, "NUEVO HABLANTE", UI_TEXT)) {
+    (void)snprintf(slot, sizeof(slot), "LOCUTOR %02u / 04", (unsigned)(speaker_slot + 1U));
+
+    if (!gfx_draw_text(16, 62, slot, UI_TEXT)) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 81, "Registro pendiente", UI_MUTED)) {
+    if (!gfx_draw_text(16, 80, "UP/DN: ELEGIR", UI_MUTED)) {
         return false;
     }
 
-    return gfx_draw_text(16, 94, "OK: ver estado", UI_ACCENT);
+    return gfx_draw_text(16, 94, "OK: PREPARAR", UI_ACCENT);
 }
 
+static bool ui_draw_capture(void) {
+    char slot[26];
+
+    if (!ui_draw_title("CAPTURA DE VOZ") || !ui_draw_card()) {
+        return false;
+    }
+
+    if (capture_origin == UI_STATE_ENROLL) {
+        (void)snprintf(slot, sizeof(slot), "LOCUTOR %02u: SIN VOZ", (unsigned)(speaker_slot + 1U));
+
+        if (!gfx_draw_text(16, 62, slot, UI_TEXT)) {
+            return false;
+        }
+    } else if (!gfx_draw_text(16, 62, "IDENTIFICACION", UI_TEXT)) {
+        return false;
+    }
+
+    if (!gfx_draw_text(16, 80, "ADC NO VINCULADO", UI_WARNING)) {
+        return false;
+    }
+
+    return gfx_draw_text(16, 94, "SIN CAPTURA REAL", UI_MUTED);
+}
+
+// =============================================================================
+//  Diagnostico del sistema
+// =============================================================================
+
 static bool ui_draw_system(void) {
-    char diagnostic[32];
+    char line[26];
 
     if (!ui_draw_title("DIAGNOSTICO") || !ui_draw_card()) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 62, "STM32F407 / 168M", UI_TEXT)) {
+    if (!gfx_draw_text(16, 60, "STM32F407 / ADC OFF", UI_TEXT)) {
         return false;
     }
 
-    bool dsp_ok = voxid_dsp_is_ready();
-    const char *dsp_status = dsp_ok ? "MFCC: LISTO" : "MFCC: ERROR";
+    bool ok = voxid_dsp_is_ready();
 
-    if (!gfx_draw_text(16, 80, dsp_status, dsp_ok ? UI_ACCENT : UI_WARNING)) {
+    if (!gfx_draw_text(16, 74, ok ? "MFCC: LISTO" : "MFCC: ERROR", ok ? UI_ACCENT : UI_WARNING)) {
         return false;
     }
 
-    (void)snprintf(diagnostic, sizeof(diagnostic), "ADC OFF | Perd: %lu", (unsigned long)buttons_dropped());
-    return gfx_draw_text(16, 94, diagnostic, UI_MUTED);
+    (void)snprintf(line, sizeof(line), "Perdidos: %lu", (unsigned long)buttons_dropped());
+
+    if (!gfx_draw_text(16, 87, line, UI_MUTED)) {
+        return false;
+    }
+
+    return gfx_draw_text(16, 98, "OK: TEST 440HZ", UI_ACCENT);
 }
 
-static bool ui_draw_notice(void) {
-    if (!ui_draw_title("ESTADO DEL MODULO") || !ui_draw_card()) {
-        return false;
+// =============================================================================
+//  Prueba sintetica MFCC y navegacion de coeficientes
+// =============================================================================
+
+static const char *ui_test_status(VoxIDSelfTestStatus status) {
+    switch (status) {
+        case VOXID_SELFTEST_OK:
+            return "3 FRAMES: OK";
+        case VOXID_SELFTEST_INIT_ERROR:
+            return "ERROR: INICIO";
+        case VOXID_SELFTEST_PROCESS_ERROR:
+            return "ERROR: MFCC";
+        case VOXID_SELFTEST_SEQUENCE_ERROR:
+            return "ERROR: SECUENCIA";
+        case VOXID_SELFTEST_VALUE_ERROR:
+            return "ERROR: NAN/INF";
+        default:
+            return "SIN PRUEBA";
     }
-
-    if (!gfx_draw_text(16, 62, "AUN NO DISPONIBLE", UI_WARNING)) {
-        return false;
-    }
-
-    const char *reason = notice_origin == UI_STATE_IDENTIFY ? "MFCC por conectar" : "Registro por crear";
-
-    if (!gfx_draw_text(16, 80, reason, UI_MUTED)) {
-        return false;
-    }
-
-    return gfx_draw_text(16, 94, "BACK: regresar", UI_ACCENT);
 }
 
-// -----------------------------------------------------------------------------
-//  Renderizado por estado
-// -----------------------------------------------------------------------------
+static bool ui_draw_test_summary(void) {
+    char line[26];
+
+    if (!ui_draw_title("PRUEBA MFCC") || !ui_draw_card()) {
+        return false;
+    }
+
+    if (!gfx_draw_text(16, 61, "440Hz / 16kHz", UI_TEXT)) {
+        return false;
+    }
+
+    (void)snprintf(line, sizeof(line), "MUESTRAS: %lu", (unsigned long)selftest_result.samples);
+
+    if (!gfx_draw_text(16, 75, line, UI_MUTED)) {
+        return false;
+    }
+
+    bool passed = selftest_result.status == VOXID_SELFTEST_OK;
+
+    if (!gfx_draw_text(16, 89, ui_test_status(selftest_result.status), passed ? UI_ACCENT : UI_WARNING)) {
+        return false;
+    }
+
+    return gfx_draw_text(16, 99, "OK: REPETIR", UI_MUTED);
+}
+
+static bool ui_draw_coefficient(uint8_t index, int16_t y) {
+    char line[26];
+    float value = selftest_result.mfcc[index];
+    bool negative = value < 0.0f;
+
+    if (negative) {
+        value = -value;
+    }
+
+    if (!isfinite(value) || value > 1000000.0f) {
+        (void)snprintf(line, sizeof(line), "C%02u: FUERA RANGO", (unsigned)index);
+    } else {
+        uint32_t scaled = (uint32_t)(value * 100.0f + 0.5f);
+        (void)snprintf(line, sizeof(line), "C%02u:%c%lu.%02lu", (unsigned)index, negative ? '-' : '+', (unsigned long)(scaled / 100U), (unsigned long)(scaled % 100U));
+    }
+
+    return gfx_draw_text(13, y, line, UI_TEXT);
+}
+
+static bool ui_draw_selftest(void) {
+    if (test_page == 0U) {
+        return ui_draw_test_summary();
+    }
+
+    uint8_t first = test_page == 1U ? 0U : 7U;
+    uint8_t last = test_page == 1U ? 7U : VOXID_MFCC_COUNT;
+
+    if (!ui_draw_title(test_page == 1U ? "MFCC C00-C06" : "MFCC C07-C12")) {
+        return false;
+    }
+
+    if (selftest_result.status != VOXID_SELFTEST_OK) {
+        return gfx_draw_text(15, 70, "SIN RESULTADOS", UI_WARNING);
+    }
+
+    for (uint8_t i = first; i < last; ++i) {
+        if (!ui_draw_coefficient(i, (int16_t)(44U + (i - first) * 10U))) {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 static bool ui_render(void) {
     if (!ui_draw_header()) {
@@ -254,8 +378,11 @@ static bool ui_render(void) {
         case UI_STATE_SYSTEM:
             return ui_draw_system();
 
-        case UI_STATE_NOTICE:
-            return ui_draw_notice();
+        case UI_STATE_CAPTURE:
+            return ui_draw_capture();
+
+        case UI_STATE_SELFTEST:
+            return ui_draw_selftest();
 
         default:
             current_state = UI_STATE_MENU;
@@ -267,6 +394,10 @@ static bool ui_render(void) {
 //  Navegacion
 // -----------------------------------------------------------------------------
 
+// =============================================================================
+//  Navegacion por eventos
+// =============================================================================
+
 static void ui_dispatch(ButtonEvent event) {
     if (event == BUTTON_NONE) {
         return;
@@ -277,46 +408,86 @@ static void ui_dispatch(ButtonEvent event) {
             case BUTTON_UP:
                 menu_selection = (uint8_t)((menu_selection + UI_MENU_ITEMS - 1U) % UI_MENU_ITEMS);
                 break;
-
             case BUTTON_DOWN:
                 menu_selection = (uint8_t)((menu_selection + 1U) % UI_MENU_ITEMS);
                 break;
-
             case BUTTON_OK:
-                current_state = menu_selection == 0U ? UI_STATE_IDENTIFY :
-                                menu_selection == 1U ? UI_STATE_ENROLL : UI_STATE_SYSTEM;
+                current_state = menu_selection == 0U ? UI_STATE_IDENTIFY : menu_selection == 1U ? UI_STATE_ENROLL : UI_STATE_SYSTEM;
                 needs_redraw = true;
                 break;
-
             default:
                 break;
         }
+
         return;
     }
 
     if (event == BUTTON_BACK) {
-        current_state = current_state == UI_STATE_NOTICE ? notice_origin : UI_STATE_MENU;
+        if (current_state == UI_STATE_CAPTURE) {
+            current_state = capture_origin;
+        } else if (current_state == UI_STATE_SELFTEST) {
+            current_state = UI_STATE_SYSTEM;
+        } else {
+            current_state = UI_STATE_MENU;
+        }
+
         needs_redraw = true;
-    } else if (event == BUTTON_OK) {
-        if (current_state == UI_STATE_IDENTIFY || current_state == UI_STATE_ENROLL) {
-            notice_origin = current_state;
-            current_state = UI_STATE_NOTICE;
+        return;
+    }
+
+    if (current_state == UI_STATE_ENROLL) {
+        if (event == BUTTON_UP) {
+            speaker_slot = (uint8_t)((speaker_slot + 3U) % 4U);
             needs_redraw = true;
-        } else if (current_state == UI_STATE_SYSTEM) {
+        } else if (event == BUTTON_DOWN) {
+            speaker_slot = (uint8_t)((speaker_slot + 1U) % 4U);
             needs_redraw = true;
         }
     }
-}
 
-// -----------------------------------------------------------------------------
-//  API publica
-// -----------------------------------------------------------------------------
+    if (current_state == UI_STATE_SELFTEST) {
+        if (event == BUTTON_UP) {
+            test_page = (uint8_t)((test_page + 2U) % 3U);
+            needs_redraw = true;
+        } else if (event == BUTTON_DOWN) {
+            test_page = (uint8_t)((test_page + 1U) % 3U);
+            needs_redraw = true;
+        }
+    }
+
+    if (event != BUTTON_OK) {
+        return;
+    }
+
+    switch (current_state) {
+        case UI_STATE_IDENTIFY:
+        case UI_STATE_ENROLL:
+            capture_origin = current_state;
+            current_state = UI_STATE_CAPTURE;
+            needs_redraw = true;
+            break;
+        case UI_STATE_SYSTEM:
+        case UI_STATE_SELFTEST:
+            current_state = UI_STATE_SELFTEST;
+            test_page = 0U;
+            voxid_selftest_run(&selftest_result);
+            needs_redraw = true;
+            break;
+        default:
+            break;
+    }
+}
 
 bool ui_init(void) {
     current_state = UI_STATE_MENU;
-    notice_origin = UI_STATE_MENU;
+    capture_origin = UI_STATE_IDENTIFY;
     menu_selection = 0U;
     rendered_menu_selection = 0U;
+    speaker_slot = 0U;
+    test_page = 0U;
+    selftest_result.status = VOXID_SELFTEST_NOT_RUN;
+    selftest_result.samples = 0U;
+    selftest_result.frames = 0U;
     needs_redraw = true;
 
     ui_ready = ui_render();

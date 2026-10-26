@@ -3,7 +3,7 @@
  *  Proyecto : VoxID
  *  Archivo  : st7735.h
  *  Autor    : Gustavo Ruiz Luis
- * -----------------------------------------------------------------------------
+ * =============================================================================
  *
  *  Controlador TFT ST7735 para la placa Ophyra.
  *  Comunicacion mediante STM32 HAL.

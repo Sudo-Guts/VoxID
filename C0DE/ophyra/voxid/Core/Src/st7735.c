@@ -1,15 +1,15 @@
 /*
- * =============================================================================
- *  Proyecto : VoxID
- *  Archivo  : st7735.c
- *  Autor    : Gustavo Ruiz Luis
- * =============================================================================
- *
- *  Controlador TFT ST7735 para la placa Ophyra.
- *  Comunicacion mediante STM32 HAL.
- *
- * =============================================================================
- */
+* =============================================================================
+*  Proyecto : VoxID
+*  Archivo  : st7735.c
+*  Autor    : Gustavo Ruiz Luis
+* =============================================================================
+*
+*  Controlador TFT ST7735 para la placa Ophyra.
+*  Comunicacion mediante STM32 HAL.
+*
+* =============================================================================
+*/
 
 #include "st7735.h"
 
@@ -26,8 +26,7 @@ static bool tft_ready = false;
 //  Comunicacion SPI
 // -----------------------------------------------------------------------------
 
-static bool st7735_spi_write(const uint8_t *data, uint16_t size)
-{
+static bool st7735_spi_write(const uint8_t *data, uint16_t size) {
     if (tft_spi == NULL || (size > 0U && data == NULL)) {
         return false;
     }
@@ -43,15 +42,14 @@ static bool st7735_spi_write(const uint8_t *data, uint16_t size)
 //  Envio de comandos
 // -----------------------------------------------------------------------------
 
-static bool st7735_write_command(uint8_t command, const uint8_t *data, uint16_t size)
-{
-	HAL_GPIO_WritePin(ST7735_CS_PORT, ST7735_CS_PIN, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(ST7735_DC_PORT, ST7735_DC_PIN, GPIO_PIN_RESET);
+static bool st7735_write_command(uint8_t command, const uint8_t *data, uint16_t size) {
+    HAL_GPIO_WritePin(ST7735_CS_PORT, ST7735_CS_PIN, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(ST7735_DC_PORT, ST7735_DC_PIN, GPIO_PIN_RESET);
 
     bool success = st7735_spi_write(&command, 1U);
 
     if (success && size > 0U) {
-    	HAL_GPIO_WritePin(ST7735_DC_PORT, ST7735_DC_PIN, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(ST7735_DC_PORT, ST7735_DC_PIN, GPIO_PIN_SET);
         success = st7735_spi_write(data, size);
     }
 
@@ -64,8 +62,7 @@ static bool st7735_write_command(uint8_t command, const uint8_t *data, uint16_t 
 //  Retroiluminacion
 // -----------------------------------------------------------------------------
 
-void st7735_set_backlight(bool enabled)
-{
+void st7735_set_backlight(bool enabled) {
     HAL_GPIO_WritePin(ST7735_BL_PORT, ST7735_BL_PIN, enabled ? GPIO_PIN_SET : GPIO_PIN_RESET);
 }
 
@@ -73,8 +70,7 @@ void st7735_set_backlight(bool enabled)
 //  Reinicio fisico
 // -----------------------------------------------------------------------------
 
-static void st7735_reset(void)
-{
+static void st7735_reset(void) {
     HAL_GPIO_WritePin(ST7735_RST_PORT, ST7735_RST_PIN, GPIO_PIN_SET);
     HAL_Delay(10U);
 
@@ -89,8 +85,7 @@ static void st7735_reset(void)
 //  Inicializacion
 // -----------------------------------------------------------------------------
 
-bool st7735_init(SPI_HandleTypeDef *hspi)
-{
+bool st7735_init(SPI_HandleTypeDef *hspi) {
     if (hspi == NULL) {
         return false;
     }
@@ -133,7 +128,7 @@ bool st7735_init(SPI_HandleTypeDef *hspi)
 
     // Activar modo normal.
     if (!st7735_write_command(ST7735_NORON, NULL, 0U)) {
-    	return false;
+        return false;
     }
     HAL_Delay(10U);
 
@@ -160,8 +155,7 @@ bool st7735_init(SPI_HandleTypeDef *hspi)
 //  Rellenar pantalla
 // -----------------------------------------------------------------------------
 
-bool st7735_fill_screen(uint16_t color)
-{
+bool st7735_fill_screen(uint16_t color) {
     if (!tft_ready) {
         return false;
     }
@@ -211,7 +205,7 @@ bool st7735_fill_screen(uint16_t color)
     HAL_GPIO_WritePin(ST7735_DC_PORT, ST7735_DC_PIN, GPIO_PIN_RESET);
 
     if (!st7735_spi_write(&command, 1U)) {
-    	HAL_GPIO_WritePin(ST7735_CS_PORT, ST7735_CS_PIN, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(ST7735_CS_PORT, ST7735_CS_PIN, GPIO_PIN_SET);
         return false;
     }
 
@@ -223,7 +217,7 @@ bool st7735_fill_screen(uint16_t color)
         uint16_t count = (remaining >= ST7735_BLOCK_PIXELS) ? ST7735_BLOCK_PIXELS : (uint16_t)remaining;
 
         if (!st7735_spi_write(buffer, count * 2U)) {
-        	HAL_GPIO_WritePin(ST7735_CS_PORT, ST7735_CS_PIN, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(ST7735_CS_PORT, ST7735_CS_PIN, GPIO_PIN_SET);
             return false;
         }
 
@@ -239,132 +233,129 @@ bool st7735_fill_screen(uint16_t color)
 //  Configuracion de region de escritura
 // -----------------------------------------------------------------------------
 
-static bool st7735_set_window(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1)
-{
-   x0 += ST7735_X_OFFSET;
-   x1 += ST7735_X_OFFSET;
+static bool st7735_set_window(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {
+    x0 += ST7735_X_OFFSET;
+    x1 += ST7735_X_OFFSET;
 
-   y0 += ST7735_Y_OFFSET;
-   y1 += ST7735_Y_OFFSET;
+    y0 += ST7735_Y_OFFSET;
+    y1 += ST7735_Y_OFFSET;
 
-   uint8_t columns[4] = {
-       (uint8_t)(x0 >> 8),
-       (uint8_t)x0,
-       (uint8_t)(x1 >> 8),
-       (uint8_t)x1
-   };
+    uint8_t columns[4] = {
+        (uint8_t)(x0 >> 8),
+        (uint8_t)x0,
+        (uint8_t)(x1 >> 8),
+        (uint8_t)x1
+    };
 
-   uint8_t rows[4] = {
-       (uint8_t)(y0 >> 8),
-       (uint8_t)y0,
-       (uint8_t)(y1 >> 8),
-       (uint8_t)y1
-   };
+    uint8_t rows[4] = {
+        (uint8_t)(y0 >> 8),
+        (uint8_t)y0,
+        (uint8_t)(y1 >> 8),
+        (uint8_t)y1
+    };
 
-   if (!st7735_write_command(ST7735_CASET, columns, sizeof(columns))) {
-       return false;
-   }
+    if (!st7735_write_command(ST7735_CASET, columns, sizeof(columns))) {
+        return false;
+    }
 
-   if (!st7735_write_command(ST7735_RASET, rows, sizeof(rows))) {
-       return false;
-   }
+    if (!st7735_write_command(ST7735_RASET, rows, sizeof(rows))) {
+        return false;
+    }
 
-   return true;
+    return true;
 }
 
 // -----------------------------------------------------------------------------
 //  Dibujar pixel
 // -----------------------------------------------------------------------------
 
-bool st7735_draw_pixel(uint16_t x, uint16_t y, uint16_t color)
-{
-   if (!tft_ready || x >= ST7735_WIDTH || y >= ST7735_HEIGHT) {
-       return false;
-   }
+bool st7735_draw_pixel(uint16_t x, uint16_t y, uint16_t color) {
+    if (!tft_ready || x >= ST7735_WIDTH || y >= ST7735_HEIGHT) {
+        return false;
+    }
 
-   if (!st7735_set_window(x, y, x, y)) {
-       return false;
-   }
+    if (!st7735_set_window(x, y, x, y)) {
+        return false;
+    }
 
-   uint8_t pixel[2] = {
-       (uint8_t)(color >> 8),
-       (uint8_t)color
-   };
+    uint8_t pixel[2] = {
+        (uint8_t)(color >> 8),
+        (uint8_t)color
+    };
 
-   return st7735_write_command(ST7735_RAMWR, pixel, sizeof(pixel));
+    return st7735_write_command(ST7735_RAMWR, pixel, sizeof(pixel));
 }
 
 // -----------------------------------------------------------------------------
 //  Dibujar rectangulo relleno
 // -----------------------------------------------------------------------------
 
-bool st7735_fill_rect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color)
-{
-   if (!tft_ready) {
-       return false;
-   }
+bool st7735_fill_rect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color) {
+    if (!tft_ready) {
+        return false;
+    }
 
-   if (width == 0U || height == 0U) {
-       return true;
-   }
+    if (width == 0U || height == 0U) {
+        return true;
+    }
 
-   if (x >= ST7735_WIDTH || y >= ST7735_HEIGHT) {
-       return false;
-   }
+    if (x >= ST7735_WIDTH || y >= ST7735_HEIGHT) {
+        return false;
+    }
 
-   // Ajustar las dimensiones a los limites de pantalla.
-   if (width > ST7735_WIDTH - x) {
-       width = ST7735_WIDTH - x;
-   }
+    // Ajustar las dimensiones a los limites de pantalla.
+    if (width > ST7735_WIDTH - x) {
+        width = ST7735_WIDTH - x;
+    }
 
-   if (height > ST7735_HEIGHT - y) {
-       height = ST7735_HEIGHT - y;
-   }
+    if (height > ST7735_HEIGHT - y) {
+        height = ST7735_HEIGHT - y;
+    }
 
-   uint16_t x1 = x + width - 1U;
-   uint16_t y1 = y + height - 1U;
+    uint16_t x1 = x + width - 1U;
+    uint16_t y1 = y + height - 1U;
 
-   if (!st7735_set_window(x, y, x1, y1)) {
-       return false;
-   }
+    if (!st7735_set_window(x, y, x1, y1)) {
+        return false;
+    }
 
-   // Preparar un bloque de pixeles RGB565.
-   uint8_t buffer[ST7735_BLOCK_PIXELS * 2U];
+    // Preparar un bloque de pixeles RGB565.
+    uint8_t buffer[ST7735_BLOCK_PIXELS * 2U];
 
-   for (uint16_t i = 0U; i < ST7735_BLOCK_PIXELS; ++i) {
-       buffer[2U * i] = (uint8_t)(color >> 8);
-       buffer[2U * i + 1U] = (uint8_t)color;
-   }
+    for (uint16_t i = 0U; i < ST7735_BLOCK_PIXELS; ++i) {
+        buffer[2U * i] = (uint8_t)(color >> 8);
+        buffer[2U * i + 1U] = (uint8_t)color;
+    }
 
-   uint32_t total_pixels = (uint32_t)width * height;
-   uint32_t blocks = total_pixels / ST7735_BLOCK_PIXELS;
-   uint16_t remaining = (uint16_t)(total_pixels % ST7735_BLOCK_PIXELS);
+    uint32_t total_pixels = (uint32_t)width * height;
+    uint32_t blocks = total_pixels / ST7735_BLOCK_PIXELS;
+    uint16_t remaining = (uint16_t)(total_pixels % ST7735_BLOCK_PIXELS);
 
-   const uint8_t command = ST7735_RAMWR;
+    const uint8_t command = ST7735_RAMWR;
 
-   HAL_GPIO_WritePin(ST7735_CS_PORT, ST7735_CS_PIN, GPIO_PIN_RESET);
-   HAL_GPIO_WritePin(ST7735_DC_PORT, ST7735_DC_PIN, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(ST7735_CS_PORT, ST7735_CS_PIN, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(ST7735_DC_PORT, ST7735_DC_PIN, GPIO_PIN_RESET);
 
-   bool success = st7735_spi_write(&command, 1U);
+    bool success = st7735_spi_write(&command, 1U);
 
-   if (success) {
-       HAL_GPIO_WritePin(ST7735_DC_PORT, ST7735_DC_PIN, GPIO_PIN_SET);
+    if (success) {
+        HAL_GPIO_WritePin(ST7735_DC_PORT, ST7735_DC_PIN, GPIO_PIN_SET);
 
-       // Transmitir bloques completos.
-       for (uint32_t i = 0U; i < blocks; ++i) {
-           if (!st7735_spi_write(buffer, sizeof(buffer))) {
-               success = false;
-               break;
-           }
-       }
+        // Transmitir bloques completos.
+        for (uint32_t i = 0U; i < blocks; ++i) {
+            if (!st7735_spi_write(buffer, sizeof(buffer))) {
+                success = false;
+                break;
+            }
+        }
 
-       // Transmitir los pixeles restantes.
-       if (success && remaining > 0U) {
-           success = st7735_spi_write(buffer, remaining * 2U);
-       }
-   }
+        // Transmitir los pixeles restantes.
+        if (success && remaining > 0U) {
+            success = st7735_spi_write(buffer, remaining * 2U);
+        }
+    }
 
-   HAL_GPIO_WritePin(ST7735_CS_PORT, ST7735_CS_PIN, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(ST7735_CS_PORT, ST7735_CS_PIN, GPIO_PIN_SET);
 
-   return success;
+    return success;
 }

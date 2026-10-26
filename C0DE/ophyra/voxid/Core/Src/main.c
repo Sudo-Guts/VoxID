@@ -50,6 +50,7 @@ TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
 static volatile bool tft_test_ok = false;
+/* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -104,7 +105,7 @@ int main(void)
   tft_test_ok = st7735_init(&hspi1);
 
   if (tft_test_ok) {
-      tft_test_ok = st7735_fill_screen(0x0000U);
+      tft_test_ok = gfx_fill_screen(0x0000U);
   }
 
   if (tft_test_ok) {

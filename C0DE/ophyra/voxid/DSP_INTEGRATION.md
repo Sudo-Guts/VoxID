@@ -22,7 +22,7 @@ Configuracion reutilizada de `voxid_test`:
 ### STM32CubeIDE
 
 1. Importar el proyecto desde `C0DE/ophyra/voxid` (en el checkout completo del repositorio).
-2. Actualizar los recursos con **F5**. Verificar que `Core/Src` y `Core/Inc` muestren los archivos DSP enlazados.
+2. La ruta de compilacion `${ProjDirPath}/../../inc` ya esta configurada tanto en **Debug** como **Release** dentro de `.cproject`. Actualizar los recursos con **F5**. Verificar que `Core/Src` y `Core/Inc` muestren los archivos DSP enlazados.
 3. Ejecutar **Project > Clean** y **Build (Debug)**; confirmar que se compilan `frame.c`, `fft.c`, `mfcc.c`, etc.
 4. Programar la Ophyra y abrir **DIAGNOSTICO**: debe mostrar `MFCC: LISTO` si la inicializacion termino bien.
 

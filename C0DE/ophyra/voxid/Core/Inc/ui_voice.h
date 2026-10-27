@@ -5,8 +5,8 @@
  *  Autor    : Gustavo Ruiz Luis
  * -----------------------------------------------------------------------------
  *
- *  Indicador de tres circulos concentricos para el estado de captura
- *  y futuro procesamiento de voz, con paleta pastel sobre fondo claro.
+ *  Indicador de tres circulos concentricos con paleta pastel clara.
+ *  Se anima en PREPARADO y se dibuja fijo durante la captura ADC.
  *
  * =============================================================================
  */
@@ -38,6 +38,7 @@
  * @return false si la fase es invalida o falla un primitivo grafico.
  *
  * @note Redibuja solo un rectangulo de 64 x 56 pixeles.
+ *       El llamador controla las fases y si debe actualizar la figura.
  *       No contiene esperas, timers ni procesamiento de audio.
  *       Utilizar desde el bucle principal, nunca desde interrupciones.
  */

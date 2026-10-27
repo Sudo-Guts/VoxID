@@ -329,8 +329,9 @@ static bool ui_draw_capture(void) {
         return gfx_draw_text(16, 95, line, UI_MUTED);
     }
 
-    // En espera: circulos visibles, sin animacion.
-    // Durante la captura: la animacion avanza desde ui_task().
+    // PREPARADO: los circulos se animan desde ui_task().
+    // ESCUCHANDO: se dibujan una sola vez y permanecen inmoviles.
+    // RESULTADO/ERROR: la pantalla no muestra circulos.
     if (!ui_voice_draw(voice_phase, UI_BG)) {
         return false;
     }
@@ -731,29 +732,37 @@ void ui_task(void) {
         return;
     }
 
-    // Solo animar mientras ADC + DMA estan adquiriendo muestras reales.
-    if (current_state != UI_STATE_CAPTURE || voxid_audio_status() != VOXID_AUDIO_CAPTURING) {
+    if (current_state != UI_STATE_CAPTURE) {
         return;
     }
 
-    uint32_t now = HAL_GetTick();
-    uint32_t samples = voxid_audio_sample_count();
-    uint32_t remain = VOXID_AUDIO_TOTAL_SAMPLES > samples ? VOXID_AUDIO_TOTAL_SAMPLES - samples : 0U;
-    uint8_t seconds = (uint8_t)((remain + VOXID_AUDIO_SAMPLE_RATE - 1U) / VOXID_AUDIO_SAMPLE_RATE);
+    VoxIDAudioState state = voxid_audio_status();
 
-    if (seconds != voice_seconds_rendered) {
-        voice_seconds_rendered = seconds;
-        ui_ready = ui_draw_capture_hint(seconds);
+    if (state == VOXID_AUDIO_CAPTURING) {
+        // Durante los 3 segundos los anillos no se redibujan.
+        // Unicamente se actualiza el texto al cambiar de segundo.
+        uint32_t samples = voxid_audio_sample_count();
+        uint32_t remain = VOXID_AUDIO_TOTAL_SAMPLES > samples ? VOXID_AUDIO_TOTAL_SAMPLES - samples : 0U;
+        uint8_t seconds = (uint8_t)((remain + VOXID_AUDIO_SAMPLE_RATE - 1U) / VOXID_AUDIO_SAMPLE_RATE);
 
-        if (!ui_ready) {
-            return;
+        if (seconds != voice_seconds_rendered) {
+            voice_seconds_rendered = seconds;
+            ui_ready = ui_draw_capture_hint(seconds);
         }
+
+        return;
     }
 
-    if ((uint32_t)(now - voice_last_tick) >= UI_VOICE_TICK_MS && voxid_audio_status() == VOXID_AUDIO_CAPTURING) {
-        voice_last_tick = now;
-        voice_phase = (uint8_t)((voice_phase + 1U) % UI_VOICE_PHASES);
-        ui_ready = ui_voice_draw(voice_phase, UI_BG);
+    // La animacion de bienvenida solo funciona antes de iniciar la captura.
+    // Los estados READY y ERROR mantienen pantallas estaticas.
+    if (state == VOXID_AUDIO_IDLE && !voice_capture_pending) {
+        uint32_t now = HAL_GetTick();
+
+        if ((uint32_t)(now - voice_last_tick) >= UI_VOICE_TICK_MS) {
+            voice_last_tick = now;
+            voice_phase = (uint8_t)((voice_phase + 1U) % UI_VOICE_PHASES);
+            ui_ready = ui_voice_draw(voice_phase, UI_BG);
+        }
     }
 }
 

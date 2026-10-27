@@ -1,7 +1,7 @@
 /*
  * =============================================================================
  *  Proyecto : VoxID
- *  Archivo  : Core/Src/voxid_dsp.c
+ *  Archivo  : C0DE/ophyra/voxid/Core/Src/voxid_dsp.c
  *  Autor    : Gustavo Ruiz Luis
  * =============================================================================
  *  Almacenamiento estatico del extractor MFCC.
@@ -26,8 +26,7 @@ static float mel_energies[VOXID_MEL_FILTERS];
 static float dct_basis[VOXID_MEL_FILTERS * VOXID_MFCC_COUNT];
 static float coefficients[VOXID_MFCC_COUNT];
 
-bool voxid_dsp_init(void)
-{
+bool voxid_dsp_init(void) {
     const MFCCConfig config = {
         .frame_size = VOXID_FRAME_SIZE,
         .hop_size = VOXID_HOP_SIZE,
@@ -58,13 +57,11 @@ bool voxid_dsp_init(void)
     return dsp_ready;
 }
 
-MFCCResult voxid_dsp_push(int16_t sample)
-{
+MFCCResult voxid_dsp_push(int16_t sample) {
     return dsp_ready ? mfcc_push(&extractor, sample, coefficients) : MFCC_ERROR;
 }
 
-const float *voxid_dsp_coefficients(void)
-{
+const float *voxid_dsp_coefficients(void) {
     return coefficients;
 }
 
@@ -74,4 +71,15 @@ const float *voxid_dsp_coefficients(void)
 
 bool voxid_dsp_is_ready(void) {
     return dsp_ready;
+}
+
+float voxid_dsp_frame_energy(void) {
+    float energia = 0.0f;
+
+    for (uint32_t i = 0U; i < VOXID_FRAME_SIZE; ++i) {
+        float muestra = (float)frame_samples[i] / 32768.0f;
+        energia += muestra * muestra;
+    }
+
+    return energia / (float)VOXID_FRAME_SIZE;
 }

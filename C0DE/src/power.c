@@ -1,4 +1,3 @@
-
 /*
  * =============================================================================
  *  Proyecto : VoxID
@@ -18,13 +17,16 @@
 //  Calculo del espectro de potencia
 // =============================================================================
 
-bool power_compute(const FFTComplex *spectrum, float *output, size_t fft_size)
-{
+bool power_compute(const FFTComplex *spectrum, float *output, size_t fft_size) {
     // Validar punteros.
-    if (spectrum == NULL || output == NULL) return false;
+    if (spectrum == NULL || output == NULL) {
+        return false;
+    }
 
-    // Validar el tamaño minimo de la transformada.
-    if (fft_size < 2) return false;
+    // Validar el tamano minimo de la transformada.
+    if (fft_size < 2) {
+        return false;
+    }
 
     // Determinar el numero de componentes no redundantes.
     size_t bins = fft_size / 2 + 1;

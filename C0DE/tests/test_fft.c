@@ -16,15 +16,14 @@
 
 #include "fft.h"
 
-static void test_fft_forward_impulso();
-static void test_fft_forward_constante();
-static void test_fft_forward_coseno();
-static void test_fft_forward_seno();
-static void test_fft_forward_minimo();
-static void test_fft_forward_input();
+static void test_fft_forward_impulso(void);
+static void test_fft_forward_constante(void);
+static void test_fft_forward_coseno(void);
+static void test_fft_forward_seno(void);
+static void test_fft_forward_minimo(void);
+static void test_fft_forward_input(void);
 
-int main(void)
-{
+int main(void) {
     FFT fft = {0};
     FFTComplex twiddles[4] = {0};
 
@@ -55,7 +54,7 @@ int main(void)
     assert(!fft_init(NULL, twiddles, 8));
     assert(!fft_init(&fft, NULL, 8));
 
-    // Verificar tamaños invalidos.
+    // Verificar tamanos invalidos.
     assert(!fft_init(&fft, twiddles, 0));
     assert(!fft_init(&fft, twiddles, 1));
     assert(!fft_init(&fft, twiddles, 3));
@@ -72,18 +71,16 @@ int main(void)
     test_fft_forward_seno();
     test_fft_forward_minimo();
     test_fft_forward_input();
-    
+
     return 0;
 }
-
 
 /*
  * =============================================================================
  *  Prueba de FFT con impulso unitario
  * =============================================================================
  */
-static void test_fft_forward_impulso()
-{
+static void test_fft_forward_impulso(void) {
     FFT fft = {0};
 
     FFTComplex twiddles[4] = {0};
@@ -111,14 +108,12 @@ static void test_fft_forward_impulso()
     printf("OK: fft_forward() - impulso unitario.\n");
 }
 
-
 /*
  * =============================================================================
- *  Prueba de FFT con señal constante
+ *  Prueba de FFT con senal constante
  * =============================================================================
  */
-static void test_fft_forward_constante(void)
-{
+static void test_fft_forward_constante(void) {
     FFT fft = {0};
 
     FFTComplex twiddles[4] = {0};
@@ -147,24 +142,22 @@ static void test_fft_forward_constante(void)
         assert(fabsf(output[k].imag) < tolerance);
     }
 
-    printf("OK: fft_forward() - señal constante.\n");
+    printf("OK: fft_forward() - senal constante.\n");
 }
-
 
 /*
  * =============================================================================
- *  Prueba de FFT con señal cosenoidal
+ *  Prueba de FFT con senal cosenoidal
  * =============================================================================
  */
-static void test_fft_forward_coseno(void)
-{
+static void test_fft_forward_coseno(void) {
     FFT fft = {0};
 
     FFTComplex twiddles[4] = {0};
     FFTComplex output[8] = {0};
 
     const float input[8] = {
-         1.0f,  0.70710678f,  0.0f, -0.70710678f,
+        1.0f,  0.70710678f,  0.0f, -0.70710678f,
         -1.0f, -0.70710678f,  0.0f,  0.70710678f
     };
 
@@ -189,25 +182,23 @@ static void test_fft_forward_coseno(void)
         assert(fabsf(output[k].imag) < tolerance);
     }
 
-    printf("OK: fft_forward() - señal cosenoidal.\n");
+    printf("OK: fft_forward() - senal cosenoidal.\n");
 }
-
 
 /*
  * =============================================================================
  *  Prueba de FFT con senal senoidal
  * =============================================================================
  */
-static void test_fft_forward_seno(void)
-{
+static void test_fft_forward_seno(void) {
     FFT fft = {0};
 
     FFTComplex twiddles[4] = {0};
     FFTComplex output[8] = {0};
 
     const float input[8] = {
-         0.0f,  0.70710678f,  1.0f,  0.70710678f,
-         0.0f, -0.70710678f, -1.0f, -0.70710678f
+        0.0f,  0.70710678f,  1.0f,  0.70710678f,
+        0.0f, -0.70710678f, -1.0f, -0.70710678f
     };
 
     const float tolerance = 0.0001f;
@@ -237,14 +228,12 @@ static void test_fft_forward_seno(void)
     printf("OK: fft_forward() - senal senoidal.\n");
 }
 
-
 /*
  * =============================================================================
  *  Prueba de FFT con longitud minima
  * =============================================================================
  */
-static void test_fft_forward_minimo(void)
-{
+static void test_fft_forward_minimo(void) {
     FFT fft = {0};
 
     FFTComplex twiddles[1] = {0};
@@ -278,8 +267,7 @@ static void test_fft_forward_minimo(void)
  *  Prueba de conservacion de muestras originales
  * =============================================================================
  */
-static void test_fft_forward_input(void)
-{
+static void test_fft_forward_input(void) {
     FFT fft = {0};
 
     FFTComplex twiddles[4] = {0};

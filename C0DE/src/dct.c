@@ -20,18 +20,24 @@
 //  Inicializacion de la DCT-II
 // =============================================================================
 
-bool dct_init(DCT *dct, float *basis,
-              size_t input_size, size_t coefficient_count)
-{
+bool dct_init(DCT *dct, float *basis, size_t input_size, size_t coefficient_count) {
     // Validar punteros.
-    if (dct == NULL || basis == NULL) return false;
+    if (dct == NULL || basis == NULL) {
+        return false;
+    }
 
     // Validar dimensiones.
-    if (input_size == 0 || coefficient_count == 0) return false;
-    if (coefficient_count > input_size) return false;
+    if (input_size == 0 || coefficient_count == 0) {
+        return false;
+    }
+    if (coefficient_count > input_size) {
+        return false;
+    }
 
     // Evitar desbordamiento del numero de coeficientes.
-    if (input_size > SIZE_MAX / coefficient_count) return false;
+    if (input_size > SIZE_MAX / coefficient_count) {
+        return false;
+    }
 
     // Constante matematica PI.
     const float pi = 3.14159265358979323846f;
@@ -46,7 +52,7 @@ bool dct_init(DCT *dct, float *basis,
 
         for (size_t m = 0; m < input_size; m++) {
             float angle = pi * (float)k *
-                          ((float)m + 0.5f) / (float)input_size;
+            ((float)m + 0.5f) / (float)input_size;
 
             basis[k * input_size + m] = scale * cosf(angle);
         }
@@ -64,15 +70,14 @@ bool dct_init(DCT *dct, float *basis,
 //  Aplicacion de la DCT-II
 // =============================================================================
 
-bool dct_apply(const DCT *dct, const float *input, float *output)
-{
+bool dct_apply(const DCT *dct, const float *input, float *output) {
     // Validar punteros.
-    if (dct == NULL || input == NULL || output == NULL) return false;
+    if (dct == NULL || input == NULL || output == NULL) {
+        return false;
+    }
 
     // Validar la configuracion.
-    if (dct->basis == NULL || dct->input_size == 0 ||
-        dct->coefficient_count == 0 ||
-        dct->coefficient_count > dct->input_size) {
+    if (dct->basis == NULL || dct->input_size == 0 || dct->coefficient_count == 0 || dct->coefficient_count > dct->input_size) {
         return false;
     }
 

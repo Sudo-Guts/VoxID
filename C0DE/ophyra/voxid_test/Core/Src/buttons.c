@@ -1,7 +1,7 @@
 /*
  * =============================================================================
  *  Proyecto : VoxID
- *  Archivo  : Core/Src/buttons.c
+ *  Archivo  : C0DE/ophyra/voxid_test/Core/Src/buttons.c
  *  Autor    : Gustavo Ruiz Luis
  * =============================================================================
  *
@@ -29,8 +29,7 @@ static volatile uint32_t dropped_events;
 static uint32_t last_tick[4];
 static uint8_t has_previous[4];
 
-void buttons_init(void)
-{
+void buttons_init(void) {
     queue_head = 0U;
     queue_tail = 0U;
     dropped_events = 0U;
@@ -41,8 +40,7 @@ void buttons_init(void)
     }
 }
 
-void buttons_on_exti(uint16_t gpio_pin, uint32_t tick_ms)
-{
+void buttons_on_exti(uint16_t gpio_pin, uint32_t tick_ms) {
     ButtonEvent event;
     uint8_t index;
 
@@ -69,8 +67,7 @@ void buttons_on_exti(uint16_t gpio_pin, uint32_t tick_ms)
     }
 
     /* Resta sin signo: tambien funciona cuando HAL_GetTick() desborda. */
-    if ((has_previous[index] != 0U) &&
-        ((uint32_t)(tick_ms - last_tick[index]) < BUTTON_DEBOUNCE_MS)) {
+    if ((has_previous[index] != 0U) && ((uint32_t)(tick_ms - last_tick[index]) < BUTTON_DEBOUNCE_MS)) {
         return;
     }
 
@@ -89,18 +86,16 @@ void buttons_on_exti(uint16_t gpio_pin, uint32_t tick_ms)
     queue_head = next;
 }
 
-bool buttons_next_event(ButtonEvent *event)
-{
+bool buttons_next_event(ButtonEvent *event) {
     if (event == NULL || queue_head == queue_tail) {
         return false;
     }
 
-    *event = event_queue[queue_tail];
+     *event = event_queue[queue_tail];
     queue_tail = (uint8_t)((queue_tail + 1U) & BUTTON_QUEUE_MASK);
     return true;
 }
 
-uint32_t buttons_dropped(void)
-{
+uint32_t buttons_dropped(void) {
     return dropped_events;
 }

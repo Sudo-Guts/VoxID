@@ -1,7 +1,7 @@
 /*
  * =============================================================================
  *  Proyecto : VoxID
- *  Archivo  : Core/Inc/mfcc_benchmark.h
+ *  Archivo  : C0DE/ophyra/voxid_test/Core/Inc/mfcc_benchmark.h
  *  Autor    : Gustavo Ruiz Luis
  * =============================================================================
  *  Benchmark sintetico MFCC medido con DWT->CYCCNT.
@@ -46,7 +46,10 @@ typedef struct {
     float mfcc[VOXID_MFCC_COUNT];
 } MFCCBenchmarkResult;
 
-/* Ejecutar una vez, despues de HAL_Init y SystemClock_Config. */
+/**
+ * @brief Mide la cadena sintetica con DWT despues de configurar el reloj.
+ * @param result Destino de tiempos, estado y ultimo vector MFCC.
+ */
 void mfcc_benchmark_run(MFCCBenchmarkResult *result);
 
 #endif /* MFCC_BENCHMARK_H */

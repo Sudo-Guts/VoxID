@@ -1,69 +1,32 @@
-# Etapa 2 — PCM y MFCC de voz real en STM32F407
+# Etapa 2: PCM y MFCC reales
 
-## Alcance
-
-La adquisicion ADC1 + TIM2 TRGO + DMA circular de 3 segundos
-(48 000 muestras a 16 kHz) se conecta al pipeline MFCC existente.
-
-**No hay reconocimiento, registro de perfiles ni EEPROM todavia.**
-La palabra de referencia acordada es MARIPOSA, pero esta etapa
-solo calcula caracteristicas acusticas; no verifica que se pronuncie.
+Se implementa la conexión de ADC y DMA con el extractor MFCC compartido. No se registran prototipos ni se accede a EEPROM.
 
 ## Flujo
 
-1. ADC1_IN2 (PA2) produce muestras sin signo de 12 bits, 0...4095.
-2. DMA circular llena 1280 muestras divididas en dos bloques de 640
-   (40 ms por bloque), sin interrumpir por cada muestra.
-3. `voxid_audio_task()` procesa fuera de IRQ el semibuffer completo.
-4. `voxid_voice_process_block()` convierte ADC a PCM de 16 bits con
-   signo y aplica un filtro DC recursivo de primer orden:
-   `x = (adc - 2048)*16`,
-   `y[n] = x[n] - x[n-1] + (32604/32768)*y[n-1]`.
-   El resultado se satura a [-32768, 32767].
-5. Cada muestra PCM pasa a `voxid_dsp_push()`. El extractor
-   conserva internamente un frame de 400 muestras y un hop de 160.
-6. Por cada `MFCC_READY`, se revisan los 13 coeficientes con
-   `isfinite()`, se conserva el ultimo vector y se acumula su
-   suma para obtener la media de la toma.
-7. Al finalizar se verifica que hay 48 000 muestras y **298 frames**
-   (`1 + (48000 - 400)/160 = 298`). No se acumula PCM en RAM.
-8. Si el procesamiento falla, los coeficientes no son finitos o el
-   DMA amenaza sobrescribir un bloque, se presenta error, no exito.
+1. ADC1_IN2 entrega cuentas de 12 bits sin signo.
+2. DMA entrega mitades de 640 muestras al bucle principal.
+3. `voxid_voice_process_block()` centra cada cuenta: `x = (adc - 2048) * 16`.
+4. El filtro DC aplica `y[n] = x[n] - x[n-1] + (32604/32768) * y[n-1]` y satura a int16_t.
+5. La primera muestra inicializa la entrada anterior; una entrada DC constante no introduce un escalón artificial.
+6. El extractor produce frames de 400 muestras con avance de 160: Hamming, FFT 512, potencia, 26 Mel, logaritmo y 13 MFCC.
+7. Se validan los coeficientes y se calcula la energía PCM del mismo frame, usando su buffer existente.
+8. Solo los frames sobre el umbral RMS se acumulan en la media. También se conserva el total para verificar continuidad.
+9. La toma se acepta si termina con 48 000 muestras y 298 frames finitos.
 
-## Pantalla Ophyra
+No se almacena el audio completo. Los parámetros compartidos están en `Core/Inc/voxid_config.h`.
 
-- PREPARADO: circulos pastel animados y OK para iniciar.
-- ESCUCHANDO: 3 segundos, circulos fijos, cuenta regresiva,
-  solo BACK para cancelar. El calculo MFCC ocurre en el bucle principal.
-- RESULTADO pagina 1: MFCC OK, contador 298/298, ADC MIN/MAX
-  y PROMEDIO; OK repite, BACK regresa.
-- RESULTADO pagina 2: grafica de 13 coeficientes de la **media MFCC
-  de toda la toma**, navegable con UP/DN solo al completar la captura.
-- ERROR: no presenta valores falsos ni grafica inventada.
+## Resultados y silencio
 
-## Validacion sugerida
+`VoxIDVoiceStats.frames` cuenta todos los frames y `voiced_frames` cuenta los que superan el criterio de energía. `mean_mfcc` promedia únicamente los seleccionados; si no hay ninguno, su contenido no representa voz y no debe usarse como perfil ni dibujarse como gráfica de voz.
 
-1. Clean/Build desde STM32CubeIDE tras refrescar el proyecto.
-2. Confirmar que los modulos nuevos `voxid_voice.c/.h` compilan.
-3. Con tension DC controlada cerca de 1.65 V en PA2 y GND comun,
-   realizar una toma. Deben obtenerse 298 frames finitos incluso
-   con silencio, pero eso **no prueba presencia de voz**.
-4. Repetir con la etapa analogica acondicionada (0...3.3 V)
-   y pronunciar MARIPOSA, comprobando que los valores MFCC cambian.
-5. Comprobar que las 75 mitades DMA se consumen sin desbordamientos.
-   Si aparece ERROR DE CAPTURA, medir el tiempo consumido por
-   MFCC frente a los 40 ms por semibuffer y optimizar antes de
-   implementar perfiles.
-6. Repetir el autodiagnostico sintetico MFCC de 440 Hz para
-   verificar que sigue independiente de la voz real.
+El umbral inicial es RMS normalizado 0.01. Es un criterio provisional que requiere calibración física y también puede seleccionar ruido intenso.
 
-## Limites y siguiente etapa
+La UI muestra los 298 frames, CON VOZ y estadísticas ADC. En la segunda página dibuja la media seleccionada; con cero frames muestra SIN VOZ DETECTADA. MARIPOSA es una referencia de uso, no una palabra verificada por este código.
 
-Se han acumulado estadisticas sobre **todos** los frames de los 3 s,
-incluyendo segmentos silenciosos. La media obtenida es diagnostica
-y **todavia no es un prototipo de locutor apto para EEPROM**.
-En la siguiente etapa seleccionaremos frames con voz mediante
-energia, haremos tres tomas de MARIPOSA y calcularemos prototipos.
+## Validación
 
-La captura fisica y el rendimiento continuo del DSP deben validarse
-en la placa. El codigo publicado no equivale a una prueba de hardware.
+Las regresiones en PC cubren silencio, DC desplazada, tono, señal débil, intermitencia, reinicio y errores. El camino ADC y DMA se prueba con HAL simulada.
+
+Quedan pendientes compilación ARM, captura física, calibración y consumo real frente a los 40 ms de cada mitad. Seguir [la validación de etapas 1 y 2](../../../DOC/Validacion_etapas_1_2.md).
+

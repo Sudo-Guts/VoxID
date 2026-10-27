@@ -1,53 +1,12 @@
-# Prueba MFCC y pantallas de voz (Ophyra)
+# Autoprueba sintética MFCC
 
-Se reutilizan los algoritmos DSP compartidos y `voxid_dsp.c`; no se habilitan ADC1, TIM2 ni DMA.
+DIAGNOSTICO permite ejecutar una señal sintética de 440 Hz, muestreada a 16 kHz. Se procesan 720 muestras y se exige MFCC_READY en 400, 560 y 720, con tres frames y trece coeficientes finitos por frame.
 
-## Prueba funcional
+UP/DN recorre resumen, gráfica y dos páginas de coeficientes. OK repite y BACK vuelve a diagnóstico. La gráfica usa el último vector y una escala relativa, sin adquisición ADC.
 
-Desde **DIAGNOSTICO**, pulsar OK para ejecutar la prueba de 440 Hz / 16 kHz.
-Se generan **720 muestras** PCM de senoide y se exige `MFCC_READY` exactamente en
-las muestras **400, 560 y 720**. Se verifican **3 frames** y **13 coeficientes finitos
-por frame**. UP y DOWN recorren cuatro paginas: resumen, grafica de los 13 MFCC, coeficientes C00-C06 y C07-C12;
-OK repite la prueba y BACK vuelve a Diagnostico. Los coeficientes corresponden
-al tercer frame y se muestran en decimal fijo, sin `_printf_float`.
+El extractor compartido se reinicia al iniciar la autoprueba. La navegación mantiene la captura y esta prueba en pantallas distintas para impedir su ejecución simultánea.
 
-## Interfaz de captura y registro
+IDENTIFICAR y REGISTRAR ya tienen captura ADC con DMA y MFCC real; los cuatro espacios de registro siguen sin perfiles. Ver STAGE2_REAL_MFCC.md y VOICE_UI.md.
 
-- **IDENTIFICAR → OK:** pantalla preparatoria de adquisicion.
-- **REGISTRAR → UP/DOWN:** seleccion de uno de **4 espacios de locutor**; OK abre
-  su pantalla preparatoria.
-- Ambas pantallas indican **ADC NO VINCULADO** y **SIN CAPTURA REAL**.
-- BACK regresa a la pantalla anterior.
+Las regresiones de PC comprueban el retorno a esta pantalla tras usar adquisición. La prueba funcional física de la versión actual sigue pendiente.
 
-Los cuatro espacios **no contienen perfiles almacenados**, y no se afirma que un
-locutor haya sido reconocido o registrado. No se implementan nombres, persistencia,
-clasificador ni toma de muestras en esta etapa.
-
-## Verificacion
-
-En STM32CubeIDE: F5, Clean, Build Debug, programar placa. Validar navegacion
-y `3 FRAMES: OK` en la prueba. El resultado de inicializacion ya fue observado
-en hardware, pero la compilacion y prueba fisica de esta version estan pendientes.
-
-## Footer con mini botones
-
-Cuatro etiquetas graficas redondeadas de 32 x 12 px se distribuyen en toda
-la anchura de la pantalla: `UP` (izquierda), `DN`, `OK` y `BACK` (derecha).
-Cuando la accion no esta disponible se muestra el mini boton atenuado y sin letras; solo los controles activos conservan su etiqueta.
-No son botones tactiles: corresponden a los pulsadores fisicos de Ophyra.
-
-## Graficas
-
-- **GRAFICA MFCC**: 13 barras sobre un eje cero, color morado para
-  coeficientes positivos y coral para negativos. La escala vertical es
-  relativa al valor absoluto maximo del ultimo vector: NO compara
-  magnitudes absolutas entre distintas grabaciones.
-- Los coeficientes numericos y el resumen de 3 frames permanecen disponibles.
-
-La vista de onda sintetica y sus funciones de acceso publico a las muestras
-se retiraron. La prueba MFCC sigue procesando sus 720 muestras internas.
-
-El resumen ahora usa dos columnas para mantener etiquetas y valores alineados:
-SENAL / frecuencia y muestreo, MUESTRAS / cantidad, FRAMES / conteo y estado.
-La grafica MFCC conserva colores por signo, sin la leyenda textual.
-Las pantallas se actualizan al cambiar de pagina.

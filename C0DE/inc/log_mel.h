@@ -1,4 +1,3 @@
-
 /*
  * =============================================================================
  *  Proyecto : VoxID
@@ -33,7 +32,6 @@
  * @note No se permite superposicion parcial de arreglos distintos.
  * @note No se realiza asignacion dinamica de memoria.
  */
-bool log_mel_apply(const float *input, float *output,
-                   size_t count, float epsilon);
+bool log_mel_apply(const float *input, float *output, size_t count, float epsilon);
 
 #endif

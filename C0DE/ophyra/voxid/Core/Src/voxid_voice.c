@@ -4,132 +4,192 @@
  *  Archivo  : C0DE/ophyra/voxid/Core/Src/voxid_voice.c
  *  Autor    : Gustavo Ruiz Luis
  * -----------------------------------------------------------------------------
- *  Convierte ADC a PCM con eliminacion de DC y ejecuta MFCC en streaming.
- *  No reserva buffers de tres segundos de audio.
+ *
+ *  Conversion ADC a PCM, filtro DC y media MFCC de frames seleccionados
+ *  por energia. No almacena la grabacion completa ni perfiles de locutor.
+ *
  * =============================================================================
  */
+
 #include "voxid_voice.h"
+
 #include <math.h>
 #include <stddef.h>
 #include <string.h>
 
-// Pasaaltas DC de primer orden: y[n] = x[n] - x[n-1] + 0.995*y[n-1].
+// =============================================================================
+//  Estado de una toma
+// =============================================================================
+
 #define VOXID_VOICE_DC_Q15 32604
 
-static int32_t previous_input = 0;
-static int32_t previous_output = 0;
-static uint32_t voice_samples = 0U;
-static uint32_t voice_frames = 0U;
-static uint16_t voice_peak = 0U;
-static float last_coefficients[VOXID_MFCC_COUNT];
-static float sum_coefficients[VOXID_MFCC_COUNT];
-static bool voice_active = false;
-static bool voice_complete = false;
+static int32_t entrada_anterior;
+static int32_t salida_anterior;
+static bool filtro_iniciado;
+static uint32_t muestras_recibidas;
+static uint32_t frames_totales;
+static uint32_t frames_con_voz;
+static uint16_t pico_pcm;
+static float energia_maxima;
+static float ultimo_mfcc[VOXID_MFCC_COUNT];
+static float suma_mfcc[VOXID_MFCC_COUNT];
+static bool toma_activa;
+static bool toma_completa;
 
+/**
+ * @brief Centra el ADC y elimina DC sin introducir un escalon al iniciar.
+ * @param adc Cuenta ADC previamente validada, entre cero y 4095.
+ * @return Muestra PCM saturada al intervalo de int16_t.
+ */
 static int16_t voxid_voice_adc_to_pcm(uint16_t adc) {
-    int32_t input = ((int32_t)adc - 2048) * 16;
-    int32_t output = input - previous_input + (VOXID_VOICE_DC_Q15 * previous_output) / 32768;
-    previous_input = input;
+    int32_t entrada = ((int32_t)adc - 2048) * 16;
 
-    if (output > 32767) {
-        output = 32767;
-    } else if (output < -32768) {
-        output = -32768;
+    if (!filtro_iniciado) {
+        entrada_anterior = entrada;
+        filtro_iniciado = true;
     }
 
-    previous_output = output;
-    return (int16_t)output;
+    int32_t salida = entrada - entrada_anterior + (VOXID_VOICE_DC_Q15 * salida_anterior) / 32768;
+    entrada_anterior = entrada;
+
+    if (salida > 32767) {
+        salida = 32767;
+    } else if (salida < -32768) {
+        salida = -32768;
+    }
+
+    salida_anterior = salida;
+    return (int16_t)salida;
 }
 
+/**
+ * @brief Valida un vector y lo acumula solo si supera el umbral de energia.
+ * @return true si los coeficientes y la energia son finitos.
+ */
+static bool voxid_voice_accept_frame(void) {
+    const float *coeficientes = voxid_dsp_coefficients();
+    float energia = voxid_dsp_frame_energy();
+
+    if (coeficientes == NULL || frames_totales >= VOXID_VOICE_EXPECTED_FRAMES || !isfinite(energia)) {
+        return false;
+    }
+
+    for (uint32_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
+        if (!isfinite(coeficientes[k])) {
+            return false;
+        }
+    }
+
+    bool tiene_voz = energia >= VOXID_VOICE_MIN_RMS * VOXID_VOICE_MIN_RMS;
+
+    for (uint32_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
+        ultimo_mfcc[k] = coeficientes[k];
+
+        if (tiene_voz) {
+            suma_mfcc[k] += coeficientes[k];
+
+            if (!isfinite(suma_mfcc[k])) {
+                return false;
+            }
+        }
+    }
+
+    if (energia > energia_maxima) {
+        energia_maxima = energia;
+    }
+
+    ++frames_totales;
+
+    if (tiene_voz) {
+        ++frames_con_voz;
+    }
+
+    return true;
+}
+
+// =============================================================================
+//  Control y procesamiento de la toma
+// =============================================================================
+
 bool voxid_voice_begin(void) {
-    voice_active = false;
-    voice_complete = false;
-    previous_input = 0;
-    previous_output = 0;
-    voice_samples = 0U;
-    voice_frames = 0U;
-    voice_peak = 0U;
-    (void)memset(last_coefficients, 0, sizeof(last_coefficients));
-    (void)memset(sum_coefficients, 0, sizeof(sum_coefficients));
-    voice_active = voxid_dsp_init();
-    return voice_active;
+    toma_activa = false;
+    toma_completa = false;
+    entrada_anterior = 0;
+    salida_anterior = 0;
+    filtro_iniciado = false;
+    muestras_recibidas = 0U;
+    frames_totales = 0U;
+    frames_con_voz = 0U;
+    pico_pcm = 0U;
+    energia_maxima = 0.0f;
+    (void)memset(ultimo_mfcc, 0, sizeof(ultimo_mfcc));
+    (void)memset(suma_mfcc, 0, sizeof(suma_mfcc));
+    toma_activa = voxid_dsp_init();
+    return toma_activa;
 }
 
 bool voxid_voice_process_block(const uint16_t *samples, uint16_t count) {
-    if (!voice_active || samples == NULL || count == 0U || voice_samples + count > VOXID_VOICE_EXPECTED_SAMPLES) {
+    if (!toma_activa) {
+        return false;
+    }
+
+    if (samples == NULL || count == 0U || count > VOXID_VOICE_EXPECTED_SAMPLES - muestras_recibidas) {
+        toma_activa = false;
         return false;
     }
 
     for (uint16_t i = 0U; i < count; ++i) {
         if (samples[i] > 4095U) {
-            voice_active = false;
+            toma_activa = false;
             return false;
         }
 
         int16_t pcm = voxid_voice_adc_to_pcm(samples[i]);
-        uint32_t amplitude = pcm < 0 ? (uint32_t)(-(int32_t)pcm) : (uint32_t)pcm;
+        uint32_t amplitud = pcm < 0 ? (uint32_t)(-(int32_t)pcm) : (uint32_t)pcm;
 
-        if (amplitude > voice_peak) {
-            voice_peak = (uint16_t)amplitude;
+        if (amplitud > pico_pcm) {
+            pico_pcm = (uint16_t)amplitud;
         }
 
-        MFCCResult state = voxid_dsp_push(pcm);
+        MFCCResult estado = voxid_dsp_push(pcm);
 
-        if (state == MFCC_ERROR) {
-            voice_active = false;
+        if (estado == MFCC_ERROR || (estado == MFCC_READY && !voxid_voice_accept_frame())) {
+            toma_activa = false;
             return false;
         }
 
-        if (state == MFCC_READY) {
-            const float *coeffs = voxid_dsp_coefficients();
-
-            if (coeffs == NULL || voice_frames >= VOXID_VOICE_EXPECTED_FRAMES) {
-                voice_active = false;
-                return false;
-            }
-
-            for (uint32_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
-                if (!isfinite(coeffs[k])) {
-                    voice_active = false;
-                    return false;
-                }
-
-                last_coefficients[k] = coeffs[k];
-                sum_coefficients[k] += coeffs[k];
-            }
-
-            ++voice_frames;
-        }
-
-        ++voice_samples;
+        ++muestras_recibidas;
     }
 
     return true;
 }
 
 bool voxid_voice_finish(void) {
-    voice_complete = voice_active && voice_samples == VOXID_VOICE_EXPECTED_SAMPLES && voice_frames == VOXID_VOICE_EXPECTED_FRAMES;
-    voice_active = false;
-    return voice_complete;
+    toma_completa = toma_activa && muestras_recibidas == VOXID_VOICE_EXPECTED_SAMPLES && frames_totales == VOXID_VOICE_EXPECTED_FRAMES;
+    toma_activa = false;
+    return toma_completa;
 }
 
 bool voxid_voice_read_stats(VoxIDVoiceStats *stats) {
-    if (!voice_complete || stats == NULL || voice_frames == 0U) {
+    if (!toma_completa || stats == NULL) {
         return false;
     }
 
-    stats->samples = voice_samples;
-    stats->frames = voice_frames;
-    stats->pcm_peak = voice_peak;
+    stats->samples = muestras_recibidas;
+    stats->frames = frames_totales;
+    stats->voiced_frames = frames_con_voz;
+    stats->pcm_peak = pico_pcm;
+    stats->rms_max = sqrtf(energia_maxima);
 
     for (uint32_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
-        stats->last_mfcc[k] = last_coefficients[k];
-        stats->mean_mfcc[k] = sum_coefficients[k] / (float)voice_frames;
-
-        if (!isfinite(stats->mean_mfcc[k])) {
-            return false;
-        }
+        stats->last_mfcc[k] = ultimo_mfcc[k];
+        stats->mean_mfcc[k] = frames_con_voz > 0U ? suma_mfcc[k] / (float)frames_con_voz : 0.0f;
     }
 
     return true;
+}
+
+void voxid_voice_cancel(void) {
+    toma_activa = false;
+    toma_completa = false;
 }

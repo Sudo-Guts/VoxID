@@ -1,7 +1,7 @@
 /*
  * =============================================================================
  *  Proyecto : VoxID
- *  Archivo  : st7735.h
+ *  Archivo  : C0DE/ophyra/voxid/Core/Inc/st7735.h
  *  Autor    : Gustavo Ruiz Luis
  * =============================================================================
  *
@@ -79,25 +79,52 @@
 //  Inicializacion
 // -----------------------------------------------------------------------------
 
-/* Inicializar pantalla utilizando un SPI configurado. */
+/**
+ * @brief Inicializa y limpia la pantalla antes de encender la luz de fondo.
+ * @param hspi Interfaz SPI previamente configurada.
+ * @return true si la secuencia de inicializacion termina correctamente.
+ */
 bool st7735_init(SPI_HandleTypeDef *hspi);
 
 // -----------------------------------------------------------------------------
 //  Pantalla
 // -----------------------------------------------------------------------------
 
-/* Rellenar pantalla con un color RGB565. */
+/**
+ * @brief Rellena toda la pantalla.
+ * @param color Color RGB565.
+ * @return true si la pantalla estaba lista y la transferencia termina.
+ */
 bool st7735_fill_screen(uint16_t color);
 
-/* Encender o apagar retroiluminacion. */
+/**
+ * @brief Controla la retroiluminacion.
+ * @param enabled true para encender; false para apagar.
+ */
 void st7735_set_backlight(bool enabled);
 
 // -----------------------------------------------------------------------------
 //  Primitivas graficas
 // -----------------------------------------------------------------------------
 
+/**
+ * @brief Dibuja un pixel dentro de los limites de la pantalla.
+ * @param x Columna.
+ * @param y Fila.
+ * @param color Color RGB565.
+ * @return true si se dibuja correctamente.
+ */
 bool st7735_draw_pixel(uint16_t x, uint16_t y, uint16_t color);
 
+/**
+ * @brief Rellena un rectangulo dentro de la pantalla.
+ * @param x Columna inicial.
+ * @param y Fila inicial.
+ * @param width Anchura en pixeles.
+ * @param height Altura en pixeles.
+ * @param color Color RGB565.
+ * @return true si la transferencia termina correctamente.
+ */
 bool st7735_fill_rect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color);
 
 #endif /* ST7735_H */

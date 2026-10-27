@@ -1,7 +1,7 @@
 /*
  * =============================================================================
  *  Proyecto : VoxID
- *  Archivo  : ui.h
+ *  Archivo  : C0DE/ophyra/voxid/Core/Inc/ui.h
  *  Autor    : Gustavo Ruiz Luis
  * -----------------------------------------------------------------------------
  *
@@ -33,13 +33,21 @@ typedef enum {
 //  Interfaz publica
 // -----------------------------------------------------------------------------
 
-/* Inicializar la UI tras st7735_init(); false si falla el dibujo. */
+/**
+ * @brief Inicializa la UI despues de st7735_init().
+ * @return false si falla el dibujo.
+ */
 bool ui_init(void);
 
-/* Procesar botones y actualizar unicamente las regiones necesarias. */
+/**
+ * @brief Procesa botones y actualiza la pantalla desde el bucle principal.
+ */
 void ui_task(void);
 
-/* Consultar la pantalla activa. */
+/**
+ * @brief Consulta la pantalla activa.
+ * @return Estado actual de la interfaz.
+ */
 UIState ui_state(void);
 
 #endif /* VOXID_UI_H */

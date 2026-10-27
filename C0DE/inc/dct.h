@@ -1,4 +1,3 @@
-
 /*
  * =============================================================================
  *  Proyecto : VoxID
@@ -43,8 +42,7 @@ typedef struct {
  *       input_size * coefficient_count elementos.
  * @note No se realiza asignacion dinamica de memoria.
  */
-bool dct_init(DCT *dct, float *basis,
-              size_t input_size, size_t coefficient_count);
+bool dct_init(DCT *dct, float *basis, size_t input_size, size_t coefficient_count);
 
 /**
  * @brief Aplica la DCT-II sobre energias logaritmicas.

@@ -15,13 +15,14 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include "voxid_config.h"
 
 // =============================================================================
 //  Parametros de adquisicion
 // =============================================================================
 
-#define VOXID_AUDIO_SAMPLE_RATE   16000U
-#define VOXID_AUDIO_DURATION_S    3U
+#define VOXID_AUDIO_SAMPLE_RATE   VOXID_SAMPLE_RATE
+#define VOXID_AUDIO_DURATION_S    VOXID_CAPTURE_DURATION_S
 #define VOXID_AUDIO_TOTAL_SAMPLES (VOXID_AUDIO_SAMPLE_RATE * VOXID_AUDIO_DURATION_S)
 #define VOXID_AUDIO_BLOCK_SAMPLES 640U
 #define VOXID_AUDIO_DMA_SAMPLES   (2U * VOXID_AUDIO_BLOCK_SAMPLES)

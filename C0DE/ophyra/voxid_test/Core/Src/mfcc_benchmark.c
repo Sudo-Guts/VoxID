@@ -1,7 +1,7 @@
 /*
  * =============================================================================
  *  Proyecto : VoxID
- *  Archivo  : Core/Src/mfcc_benchmark.c
+ *  Archivo  : C0DE/ophyra/voxid_test/Core/Src/mfcc_benchmark.c
  *  Autor    : Gustavo Ruiz Luis
  * =============================================================================
  *  Entrada: 720 muestras sinteticas, senoide 440 Hz a 16 kHz.
@@ -37,8 +37,7 @@ typedef struct {
 
 static int16_t test_signal[BENCH_SIGNAL_SIZE];
 
-static void stats_add(CycleStats *stats, uint32_t cycles)
-{
+static void stats_add(CycleStats *stats, uint32_t cycles) {
     if (stats->count == 0U || cycles < stats->min) {
         stats->min = cycles;
     }
@@ -49,32 +48,27 @@ static void stats_add(CycleStats *stats, uint32_t cycles)
     stats->count++;
 }
 
-static uint32_t stats_average(const CycleStats *stats)
-{
+static uint32_t stats_average(const CycleStats *stats) {
     return (stats->count != 0U)
-           ? (uint32_t)(stats->sum / stats->count)
-           : 0U;
+    ? (uint32_t)(stats->sum / stats->count)
+    : 0U;
 }
 
-static bool bench_enable_dwt(void)
-{
+static bool bench_enable_dwt(void) {
     CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
     DWT->CYCCNT = 0U;
     DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
     return (DWT->CTRL & DWT_CTRL_CYCCNTENA_Msk) != 0U;
 }
 
-static void generate_signal(void)
-{
+static void generate_signal(void) {
     for (uint32_t n = 0U; n < BENCH_SIGNAL_SIZE; ++n) {
-        const float angle = (2.0f * BENCH_PI * BENCH_FREQUENCY_HZ *
-                             (float)n) / (float)VOXID_SAMPLE_RATE;
+        const float angle = (2.0f * BENCH_PI * BENCH_FREQUENCY_HZ * (float)n) / (float)VOXID_SAMPLE_RATE;
         test_signal[n] = (int16_t)(BENCH_AMPLITUDE * sinf(angle));
     }
 }
 
-void mfcc_benchmark_run(MFCCBenchmarkResult *result)
-{
+void mfcc_benchmark_run(MFCCBenchmarkResult *result) {
     if (result == NULL) {
         return;
     }

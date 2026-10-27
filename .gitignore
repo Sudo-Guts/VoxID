@@ -18,13 +18,7 @@
 # -----------------------------------------------------------------------------
 
 /C0DE/out/*
-!/C0DE/out/voxid.o
-!/C0DE/out/voxid.elf
-!/C0DE/out/voxid.hex
-!/C0DE/out/voxid.bin
-!/C0DE/out/voxid.asm
-!/C0DE/out/voxid.map
-!/C0DE/out/voxid.exe
+!/C0DE/out/.gitkeep
 
 # -----------------------------------------------------------------------------
 #   Archivos Locales y Temporales de KiCad

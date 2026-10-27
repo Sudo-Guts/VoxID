@@ -1,48 +1,17 @@
-# Indicador de voz pastel — VoxID Ophyra
+# Indicador de captura
 
-## Estados de la interfaz
+| Estado | Círculos | Acciones |
+|---|---|---|
+| PREPARADO | Animados cada 180 ms, sin esperas bloqueantes. | OK inicia; BACK regresa. |
+| ESCUCHANDO | Se dibujan una vez y permanecen fijos. | Cuenta de 3 a 1; OK se ignora; BACK cancela. |
+| RESULTADO | Se borran. | OK repite; UP/DN cambia entre resumen y media MFCC; BACK regresa. |
+| ERROR | Se borran. | OK reintenta; BACK regresa. |
 
-El indicador conserva los tres circulos concentricos de color pastel
-sobre el fondo claro de la pantalla ST7735 de 160 x 128 pixeles.
+La solicitud de una toma tiene prioridad sobre el resultado anterior al dibujar. La cuenta se reinicia en tres segundos, se pinta la pantalla de escucha y después se habilita DMA.
 
-- **PREPARADO (antes de OK):** los circulos se animan suavemente.
-  `ui_task()` cambia de fase cada 180 ms mediante `HAL_GetTick()`.
-  Estan disponibles OK para iniciar y BACK para regresar.
-- **ESCUCHANDO (3 segundos):** al pulsar OK, se fija una sola fase
-  de los circulos. **No se animan ni se redibujan durante la captura**.
-  Solo se actualiza la cuenta regresiva de 3 a 2 a 1 segundos.
-  OK se oculta y se ignora; BACK permite cancelar la captura.
-- **RESULTADO:** se limpian los circulos y aparece la tarjeta estatica
-  `3 SEGUNDOS: OK` con MIN, MAX y PROMEDIO. OK permite repetir,
-  y BACK regresa.
-- **ERROR:** tarjeta estatica de error, sin circulos, con OK para
-  reintentar y BACK para regresar.
+La gráfica representa la media de frames seleccionados por energía. Si no se seleccionan frames, aparece SIN VOZ DETECTADA. Su escala es relativa al mayor coeficiente absoluto y no permite comparar amplitudes absolutas entre tomas.
 
-## Consideraciones de implementacion
+Los botones de la pantalla representan los pulsadores físicos. El firmware conserva el menú sintético de diagnóstico.
 
-`Core/Src/ui_voice.c` dibuja las fases mediante `gfx_draw_circle()`.
-El cambio de fases ocurre **unicamente cuando ADC esta en IDLE**
-y la pantalla actual es CAPTURA. Durante el muestreo DMA se conserva
-el dibujo fijo y no se realizan llamadas periodicas a `ui_voice_draw()`.
+Las pruebas en PC comprueban las transiciones y que los círculos no se redibujen durante la captura. La comprobación visual y temporal en Ophyra sigue pendiente.
 
-Al solicitar la captura, la UI dibuja el footer (solo BACK), una
-fase fija de los circulos y el texto ESCUCHANDO antes de arrancar DMA,
-para evitar redibujar la pantalla completa mientras se reciben bloques.
-
-La captura sigue usando ADC1_IN2 (PA2), TIM2 TRGO a 16 kHz,
-DMA circular con mitades de 640 muestras y duracion de 3 segundos
-(48000 muestras). **No se cambia la temporizacion ADC ni el DMA**. La etapa 2
-procesa los bloques recibidos con PCM y MFCC fuera de ISR.
-Todavia no se guardan perfiles de locutores ni EEPROM.
-
-## Verificacion en Ophyra
-
-1. Entrar en IDENTIFICAR o REGISTRAR -> OK. Ver los circulos animados.
-2. Pulsar OK para empezar: los circulos quedan estaticos mientras
-   desciende la cuenta regresiva y solo BACK esta habilitado.
-3. Al acabar los tres segundos: desaparecen los circulos y aparece
-   la tarjeta de resultados, sin superposiciones ni parpadeos.
-4. Pulsar OK para repetir o BACK para regresar.
-5. Confirmar que DIAGNOSTICO -> prueba sintetica MFCC se mantiene igual.
-
-Pendiente compilar y comprobar esta version en la tarjeta fisica.

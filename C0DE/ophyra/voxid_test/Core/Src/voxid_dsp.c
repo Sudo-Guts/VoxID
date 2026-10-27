@@ -1,7 +1,7 @@
 /*
  * =============================================================================
  *  Proyecto : VoxID
- *  Archivo  : Core/Src/voxid_dsp.c
+ *  Archivo  : C0DE/ophyra/voxid_test/Core/Src/voxid_dsp.c
  *  Autor    : Gustavo Ruiz Luis
  * =============================================================================
  *  Almacenamiento estatico del extractor MFCC.
@@ -25,8 +25,7 @@ static float mel_energies[VOXID_MEL_FILTERS];
 static float dct_basis[VOXID_MEL_FILTERS * VOXID_MFCC_COUNT];
 static float coefficients[VOXID_MFCC_COUNT];
 
-bool voxid_dsp_init(void)
-{
+bool voxid_dsp_init(void) {
     const MFCCConfig config = {
         .frame_size = VOXID_FRAME_SIZE,
         .hop_size = VOXID_HOP_SIZE,
@@ -55,12 +54,10 @@ bool voxid_dsp_init(void)
     return mfcc_init(&extractor, &config, &buffers);
 }
 
-MFCCResult voxid_dsp_push(int16_t sample)
-{
+MFCCResult voxid_dsp_push(int16_t sample) {
     return mfcc_push(&extractor, sample, coefficients);
 }
 
-const float *voxid_dsp_coefficients(void)
-{
+const float *voxid_dsp_coefficients(void) {
     return coefficients;
 }

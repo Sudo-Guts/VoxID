@@ -5,8 +5,9 @@
  *  Autor    : Gustavo Ruiz Luis
  * -----------------------------------------------------------------------------
  *
- *  Validacion inicial del ADC1 en PA2, sincronizado por TIM2 TRGO.
- *  Adquiere un bloque corto sin DMA y sin procesamiento en interrupciones.
+ *  Captura finita de 3 segundos mediante ADC1, TIM2 TRGO y DMA circular.
+ *  Las interrupciones solo notifican bloques completos. El resumen se
+ *  calcula en el bucle principal, sin almacenar los 48000 samples en RAM.
  *
  * =============================================================================
  */
@@ -17,43 +18,57 @@
 #include <stddef.h>
 
 // =============================================================================
-//  Referencias a perifericos CubeMX
+//  Perifericos generados por STM32CubeMX
 // =============================================================================
 
 extern ADC_HandleTypeDef hadc1;
 extern TIM_HandleTypeDef htim2;
 
-// -----------------------------------------------------------------------------
-//  Buffer de muestras sin asignacion dinamica
-// -----------------------------------------------------------------------------
+// =============================================================================
+//  Buffer DMA de dos mitades y estado sincronizado con interrupciones
+// =============================================================================
 
-static volatile uint16_t adc_samples[VOXID_AUDIO_SAMPLES];
-static volatile uint16_t adc_sample_count = 0U;
+static uint16_t adc_dma_buffer[VOXID_AUDIO_DMA_SAMPLES];
 static volatile VoxIDAudioState audio_state = VOXID_AUDIO_IDLE;
+static volatile uint32_t produced_blocks = 0U;
+static volatile uint32_t consumed_blocks = 0U;
+
+static uint32_t sample_sum = 0U;
+static uint16_t sample_minimum = 4095U;
+static uint16_t sample_maximum = 0U;
+static uint32_t dropped_blocks = 0U;
 
 // =============================================================================
-//  Validacion de configuracion
+//  Validacion de la frecuencia del temporizador y los perifericos
 // =============================================================================
 
 static bool voxid_audio_config_valid(void) {
-    if (hadc1.Instance != ADC1 || htim2.Instance != TIM2) {
+    if (hadc1.Instance != ADC1 || htim2.Instance != TIM2 || hadc1.DMA_Handle == NULL) {
         return false;
     }
 
-    if (hadc1.Init.Resolution != ADC_RESOLUTION_12B || hadc1.Init.ContinuousConvMode != DISABLE) {
+    if (hadc1.Init.Resolution != ADC_RESOLUTION_12B || hadc1.Init.ContinuousConvMode != DISABLE ||
+        hadc1.Init.ExternalTrigConv != ADC_EXTERNALTRIGCONV_T2_TRGO ||
+        hadc1.Init.ExternalTrigConvEdge != ADC_EXTERNALTRIGCONVEDGE_RISING ||
+        hadc1.Init.DMAContinuousRequests != ENABLE) {
         return false;
     }
 
-    if (hadc1.Init.ExternalTrigConv != ADC_EXTERNALTRIGCONV_T2_TRGO || hadc1.Init.ExternalTrigConvEdge != ADC_EXTERNALTRIGCONVEDGE_RISING) {
+    if (htim2.Init.Prescaler != 0U || htim2.Init.Period != 5249U ||
+        HAL_RCC_GetPCLK1Freq() != 42000000U ||
+        (RCC->CFGR & RCC_CFGR_PPRE1) != RCC_HCLK_DIV4) {
         return false;
     }
 
-    if (htim2.Init.Prescaler != 0U || htim2.Init.Period != 5249U || HAL_RCC_GetPCLK1Freq() != 42000000U) {
+    if (hadc1.DMA_Handle->Instance != DMA2_Stream0 ||
+        hadc1.DMA_Handle->Init.Channel != DMA_CHANNEL_0 ||
+        hadc1.DMA_Handle->Init.Mode != DMA_CIRCULAR ||
+        hadc1.DMA_Handle->Init.MemDataAlignment != DMA_MDATAALIGN_HALFWORD ||
+        hadc1.DMA_Handle->Init.PeriphDataAlignment != DMA_PDATAALIGN_HALFWORD) {
         return false;
     }
 
-    // El divisor APB1 es 4; por ello TIM2 recibe 84 MHz.
-    return (RCC->CFGR & RCC_CFGR_PPRE1) == RCC_HCLK_DIV4;
+    return VOXID_AUDIO_TOTAL_SAMPLES % VOXID_AUDIO_BLOCK_SAMPLES == 0U;
 }
 
 // =============================================================================
@@ -65,28 +80,32 @@ bool voxid_audio_start(void) {
         return false;
     }
 
+    (void)HAL_TIM_Base_Stop(&htim2);
+    (void)HAL_ADC_Stop_DMA(&hadc1);
+
     if (!voxid_audio_config_valid()) {
         audio_state = VOXID_AUDIO_ERROR;
         return false;
     }
 
-    // Desarmar cualquier ejecucion anterior antes de vaciar el buffer.
-    (void)HAL_TIM_Base_Stop(&htim2);
-    (void)HAL_ADC_Stop_IT(&hadc1);
-
-    adc_sample_count = 0U;
+    produced_blocks = 0U;
+    consumed_blocks = 0U;
+    sample_sum = 0U;
+    sample_minimum = 4095U;
+    sample_maximum = 0U;
+    dropped_blocks = 0U;
     __HAL_TIM_SET_COUNTER(&htim2, 0U);
     __HAL_TIM_CLEAR_FLAG(&htim2, TIM_FLAG_UPDATE);
     audio_state = VOXID_AUDIO_CAPTURING;
 
-    // Armar el ADC antes de activar los disparos periodicos del timer.
-    if (HAL_ADC_Start_IT(&hadc1) != HAL_OK) {
+    // STM32F4: el puntero HAL es uint32_t*, pero el DMA usa halfword.
+    if (HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_dma_buffer, VOXID_AUDIO_DMA_SAMPLES) != HAL_OK) {
         audio_state = VOXID_AUDIO_ERROR;
         return false;
     }
 
     if (HAL_TIM_Base_Start(&htim2) != HAL_OK) {
-        (void)HAL_ADC_Stop_IT(&hadc1);
+        (void)HAL_ADC_Stop_DMA(&hadc1);
         audio_state = VOXID_AUDIO_ERROR;
         return false;
     }
@@ -96,83 +115,123 @@ bool voxid_audio_start(void) {
 
 void voxid_audio_stop(void) {
     (void)HAL_TIM_Base_Stop(&htim2);
-    (void)HAL_ADC_Stop_IT(&hadc1);
-    adc_sample_count = 0U;
+    (void)HAL_ADC_Stop_DMA(&hadc1);
     audio_state = VOXID_AUDIO_IDLE;
+    produced_blocks = 0U;
+    consumed_blocks = 0U;
 }
 
 // =============================================================================
-//  Estado y estadisticas
+//  Consumir bloques DMA en el bucle principal
+// =============================================================================
+
+void voxid_audio_task(void) {
+    if (audio_state != VOXID_AUDIO_CAPTURING) {
+        return;
+    }
+
+    // Si existen dos bloques pendientes, la mitad antigua puede estar
+    // siendo sobrescrita por DMA. No entregar estadisticas invalidas.
+    if (produced_blocks - consumed_blocks > 1U) {
+        ++dropped_blocks;
+        __HAL_TIM_DISABLE(&htim2);
+        audio_state = VOXID_AUDIO_ERROR;
+        (void)HAL_ADC_Stop_DMA(&hadc1);
+        return;
+    }
+
+    if (consumed_blocks == produced_blocks) {
+        return;
+    }
+
+    uint32_t block = consumed_blocks;
+    uint32_t offset = (block % 2U) * VOXID_AUDIO_BLOCK_SAMPLES;
+
+    for (uint32_t i = 0U; i < VOXID_AUDIO_BLOCK_SAMPLES; ++i) {
+        uint16_t value = adc_dma_buffer[offset + i];
+
+        if (value < sample_minimum) {
+            sample_minimum = value;
+        }
+
+        if (value > sample_maximum) {
+            sample_maximum = value;
+        }
+
+        sample_sum += value;
+    }
+
+    consumed_blocks = block + 1U;
+
+    if (audio_state != VOXID_AUDIO_CAPTURING) {
+        return;
+    }
+
+    if (consumed_blocks == VOXID_AUDIO_TOTAL_BLOCKS) {
+        // El ultimo callback detuvo TIM2 al alcanzar 48000 muestras.
+        if (HAL_TIM_Base_Stop(&htim2) != HAL_OK || HAL_ADC_Stop_DMA(&hadc1) != HAL_OK) {
+            audio_state = VOXID_AUDIO_ERROR;
+            return;
+        }
+
+        audio_state = VOXID_AUDIO_READY;
+    }
+}
+
+// =============================================================================
+//  Consultar avance y estadisticas
 // =============================================================================
 
 VoxIDAudioState voxid_audio_status(void) {
     return audio_state;
 }
 
-uint16_t voxid_audio_sample_count(void) {
-    return adc_sample_count;
+uint32_t voxid_audio_sample_count(void) {
+    return consumed_blocks * VOXID_AUDIO_BLOCK_SAMPLES;
 }
 
 bool voxid_audio_read_stats(VoxIDAudioStats *stats) {
-    if (stats == NULL || audio_state != VOXID_AUDIO_READY || adc_sample_count != VOXID_AUDIO_SAMPLES) {
+    if (stats == NULL || audio_state != VOXID_AUDIO_READY || consumed_blocks != VOXID_AUDIO_TOTAL_BLOCKS) {
         return false;
     }
 
-    // Ya se detuvo TIM2 desde la interrupcion final; liberar ahora HAL ADC.
-    if (HAL_TIM_Base_Stop(&htim2) != HAL_OK || HAL_ADC_Stop_IT(&hadc1) != HAL_OK) {
-        audio_state = VOXID_AUDIO_ERROR;
-        return false;
-    }
-
-    uint16_t minimum = 4095U;
-    uint16_t maximum = 0U;
-    uint32_t sum = 0U;
-
-    for (uint16_t n = 0U; n < VOXID_AUDIO_SAMPLES; ++n) {
-        uint16_t value = adc_samples[n];
-
-        if (value < minimum) {
-            minimum = value;
-        }
-
-        if (value > maximum) {
-            maximum = value;
-        }
-
-        sum += value;
-    }
-
-    stats->minimum = minimum;
-    stats->maximum = maximum;
-    stats->average = (uint16_t)((sum + VOXID_AUDIO_SAMPLES / 2U) / VOXID_AUDIO_SAMPLES);
-    stats->count = VOXID_AUDIO_SAMPLES;
-
+    stats->minimum = sample_minimum;
+    stats->maximum = sample_maximum;
+    stats->average = (uint16_t)((sample_sum + VOXID_AUDIO_TOTAL_SAMPLES / 2U) / VOXID_AUDIO_TOTAL_SAMPLES);
+    stats->count = VOXID_AUDIO_TOTAL_SAMPLES;
+    stats->dropped_blocks = dropped_blocks;
     return true;
 }
 
 // =============================================================================
-//  Callbacks ADC: trabajo minimo en interrupciones
+//  DMA: senalizar disponibilidad de bloques sin procesar dentro de IRQ
 // =============================================================================
 
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
-    if (hadc == NULL || hadc->Instance != ADC1 || audio_state != VOXID_AUDIO_CAPTURING) {
+static void voxid_audio_block_ready(void) {
+    if (audio_state != VOXID_AUDIO_CAPTURING) {
         return;
     }
 
-    uint16_t value = (uint16_t)HAL_ADC_GetValue(hadc);
-    uint16_t index = adc_sample_count;
+    ++produced_blocks;
 
-    if (index >= VOXID_AUDIO_SAMPLES) {
-        return;
-    }
-
-    adc_samples[index] = value;
-    adc_sample_count = index + 1U;
-
-    if (adc_sample_count == VOXID_AUDIO_SAMPLES) {
-        // Detener nuevos TRGO en la ultima muestra sin bloquear la ISR.
+    if (produced_blocks == VOXID_AUDIO_TOTAL_BLOCKS) {
+        // 75 eventos de 640 muestras: exactamente 3 segundos a 16 kHz.
         __HAL_TIM_DISABLE(&htim2);
-        audio_state = VOXID_AUDIO_READY;
+    } else if (produced_blocks > VOXID_AUDIO_TOTAL_BLOCKS) {
+        __HAL_TIM_DISABLE(&htim2);
+        audio_state = VOXID_AUDIO_ERROR;
+    }
+}
+
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc) {
+    if (hadc != NULL && hadc->Instance == ADC1) {
+        voxid_audio_block_ready();
+    }
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
+    if (hadc != NULL && hadc->Instance == ADC1) {
+        voxid_audio_block_ready();
     }
 }
 

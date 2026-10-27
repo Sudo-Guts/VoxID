@@ -61,6 +61,8 @@ static uint8_t test_page = 0U;
 static VoxIDAudioState rendered_audio_state = VOXID_AUDIO_IDLE;
 static uint8_t voice_phase = 0U;
 static uint32_t voice_last_tick = 0U;
+static bool voice_capture_pending = false;
+static uint8_t voice_seconds_rendered = 3U;
 static VoxIDSelfTestResult selftest_result;
 
 static bool ui_ready = false;
@@ -258,15 +260,26 @@ static bool ui_draw_enroll(void) {
 //  Indicador de captura: circulos pastel
 // =============================================================================
 
+static bool ui_draw_capture_hint(uint8_t remaining) {
+    char message[26];
+    (void)snprintf(message, sizeof(message), "ESCUCHANDO: %us", (unsigned)remaining);
+
+    if (!gfx_fill_rect(9U, 101U, 142U, 9U, UI_BG)) {
+        return false;
+    }
+
+    return gfx_draw_text_aligned(80, 102, message, UI_ACCENT, UI_BG, 1U, GFX_ALIGN_CENTER);
+}
+
 static bool ui_draw_capture(void) {
-    char line[28];
+    char line[30];
     VoxIDAudioState state = voxid_audio_status();
     rendered_audio_state = state;
 
     if (capture_origin == UI_STATE_ENROLL) {
-        (void)snprintf(line, sizeof(line), "ADC1 LOCUTOR %02u", (unsigned)(speaker_slot + 1U));
+        (void)snprintf(line, sizeof(line), "LOCUTOR %02u / MARIPOSA", (unsigned)(speaker_slot + 1U));
     } else {
-        (void)snprintf(line, sizeof(line), "ADC1 IDENTIFICAR");
+        (void)snprintf(line, sizeof(line), "MARIPOSA / PA2");
     }
 
     if (!ui_draw_title(line)) {
@@ -284,7 +297,7 @@ static bool ui_draw_capture(void) {
             return gfx_draw_text(16, 77, "ERROR LECTURA", UI_WARNING);
         }
 
-        if (!gfx_draw_text(16, 62, "720 MUESTRAS: OK", UI_ACCENT)) {
+        if (!gfx_draw_text(16, 61, "3 SEGUNDOS: OK", UI_ACCENT)) {
             return false;
         }
 
@@ -298,20 +311,22 @@ static bool ui_draw_capture(void) {
         return gfx_draw_text(16, 95, line, UI_MUTED);
     }
 
-    // El indicador tambien aparece en reposo: la captura ADC dura solo 45 ms.
     if (!ui_voice_draw(voice_phase, UI_BG)) {
         return false;
     }
 
-    const char *message = "OK: CAPTURAR ADC";
-
-    if (state == VOXID_AUDIO_CAPTURING) {
-        message = "MUESTREANDO ADC";
-    } else if (state == VOXID_AUDIO_ERROR) {
-        message = "ERROR ADC/TIM2";
+    if (state == VOXID_AUDIO_ERROR) {
+        return gfx_draw_text_aligned(80, 102, "ERROR DMA / OK", UI_WARNING, UI_BG, 1U, GFX_ALIGN_CENTER);
     }
 
-    return gfx_draw_text_aligned(80, 102, message, state == VOXID_AUDIO_ERROR ? UI_WARNING : UI_ACCENT, UI_BG, 1U, GFX_ALIGN_CENTER);
+    if (voice_capture_pending || state == VOXID_AUDIO_CAPTURING) {
+        uint32_t samples = voxid_audio_sample_count();
+        uint32_t remain = VOXID_AUDIO_TOTAL_SAMPLES > samples ? VOXID_AUDIO_TOTAL_SAMPLES - samples : 0U;
+        voice_seconds_rendered = (uint8_t)((remain + VOXID_AUDIO_SAMPLE_RATE - 1U) / VOXID_AUDIO_SAMPLE_RATE);
+        return ui_draw_capture_hint(voice_seconds_rendered);
+    }
+
+    return gfx_draw_text_aligned(80, 102, "OK: HABLAR 3 SEG", UI_ACCENT, UI_BG, 1U, GFX_ALIGN_CENTER);
 }
 
 // =============================================================================
@@ -569,6 +584,7 @@ static void ui_dispatch(ButtonEvent event) {
     if (event == BUTTON_BACK) {
         if (current_state == UI_STATE_CAPTURE) {
             voxid_audio_stop();
+            voice_capture_pending = false;
             current_state = capture_origin;
         } else if (current_state == UI_STATE_SELFTEST) {
             current_state = UI_STATE_SYSTEM;
@@ -611,13 +627,14 @@ static void ui_dispatch(ButtonEvent event) {
             current_state = UI_STATE_CAPTURE;
             voice_phase = 0U;
             voice_last_tick = HAL_GetTick();
+            voice_capture_pending = false;
             needs_redraw = true;
             break;
         case UI_STATE_CAPTURE:
-            if (voxid_audio_status() != VOXID_AUDIO_CAPTURING) {
+            if (voxid_audio_status() != VOXID_AUDIO_CAPTURING && !voice_capture_pending) {
                 voice_phase = 0U;
                 voice_last_tick = HAL_GetTick();
-                (void)voxid_audio_start();
+                voice_capture_pending = true;
                 needs_redraw = true;
             }
             break;
@@ -644,6 +661,8 @@ bool ui_init(void) {
     rendered_audio_state = VOXID_AUDIO_IDLE;
     voice_phase = 0U;
     voice_last_tick = HAL_GetTick();
+    voice_capture_pending = false;
+    voice_seconds_rendered = VOXID_AUDIO_DURATION_S;
     selftest_result.status = VOXID_SELFTEST_NOT_RUN;
     selftest_result.samples = 0U;
     selftest_result.frames = 0U;
@@ -666,17 +685,44 @@ void ui_task(void) {
         ui_dispatch(event);
     }
 
-    if (current_state == UI_STATE_CAPTURE && voxid_audio_status() != rendered_audio_state) {
+    if (current_state == UI_STATE_CAPTURE && voxid_audio_status() != rendered_audio_state && !voice_capture_pending) {
         needs_redraw = true;
     }
 
     if (needs_redraw) {
         ui_ready = ui_render();
         needs_redraw = !ui_ready;
+
+        // Dibujar primero la pantalla para no consumir el primer bloque DMA
+        // durante un refresco completo de la TFT.
+        if (ui_ready && current_state == UI_STATE_CAPTURE && voice_capture_pending) {
+            voice_capture_pending = false;
+
+            if (voxid_audio_start()) {
+                rendered_audio_state = VOXID_AUDIO_CAPTURING;
+            } else {
+                needs_redraw = true;
+            }
+        }
     } else if (current_state == UI_STATE_MENU && menu_selection != rendered_menu_selection) {
         ui_ready = ui_update_menu_selection();
     } else if (current_state == UI_STATE_CAPTURE && voxid_audio_status() != VOXID_AUDIO_READY) {
         uint32_t now = HAL_GetTick();
+
+        if (voxid_audio_status() == VOXID_AUDIO_CAPTURING) {
+            uint32_t samples = voxid_audio_sample_count();
+            uint32_t remain = VOXID_AUDIO_TOTAL_SAMPLES > samples ? VOXID_AUDIO_TOTAL_SAMPLES - samples : 0U;
+            uint8_t seconds = (uint8_t)((remain + VOXID_AUDIO_SAMPLE_RATE - 1U) / VOXID_AUDIO_SAMPLE_RATE);
+
+            if (seconds != voice_seconds_rendered) {
+                voice_seconds_rendered = seconds;
+                ui_ready = ui_draw_capture_hint(seconds);
+
+                if (!ui_ready) {
+                    return;
+                }
+            }
+        }
 
         if ((uint32_t)(now - voice_last_tick) >= UI_VOICE_TICK_MS) {
             voice_last_tick = now;

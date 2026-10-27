@@ -5,8 +5,7 @@
  *  Autor    : Gustavo Ruiz Luis
  * -----------------------------------------------------------------------------
  *
- *  Adquisicion acotada de muestras ADC1 disparadas por TIM2.
- *  Prueba de hardware previa al uso de DMA y al reconocimiento de voz.
+ *  Adquisicion ADC1 + TIM2 TRGO + DMA circular a 16 kHz.
  *
  * =============================================================================
  */
@@ -18,11 +17,15 @@
 #include <stdint.h>
 
 // =============================================================================
-//  Configuracion de adquisicion
+//  Parametros de adquisicion
 // =============================================================================
 
-#define VOXID_AUDIO_SAMPLE_RATE 16000U
-#define VOXID_AUDIO_SAMPLES     720U
+#define VOXID_AUDIO_SAMPLE_RATE   16000U
+#define VOXID_AUDIO_DURATION_S    3U
+#define VOXID_AUDIO_TOTAL_SAMPLES (VOXID_AUDIO_SAMPLE_RATE * VOXID_AUDIO_DURATION_S)
+#define VOXID_AUDIO_BLOCK_SAMPLES 640U
+#define VOXID_AUDIO_DMA_SAMPLES   (2U * VOXID_AUDIO_BLOCK_SAMPLES)
+#define VOXID_AUDIO_TOTAL_BLOCKS  (VOXID_AUDIO_TOTAL_SAMPLES / VOXID_AUDIO_BLOCK_SAMPLES)
 
 typedef enum {
     VOXID_AUDIO_IDLE = 0,
@@ -35,55 +38,60 @@ typedef struct {
     uint16_t minimum;
     uint16_t maximum;
     uint16_t average;
-    uint16_t count;
+    uint32_t count;
+    uint32_t dropped_blocks;
 } VoxIDAudioStats;
 
 // =============================================================================
-//  Interfaz publica
+//  API publica
 // =============================================================================
 
 /**
- * @brief Inicia una captura acotada de 720 conversiones ADC1 a 16 kHz.
+ * @brief Inicia tres segundos de captura ADC1 sincronizada por TIM2.
  *
- * @return true si el ADC quedo armado y el temporizador se inicio.
- * @return false si los perifericos o su configuracion son incorrectos.
+ * @return true si DMA circular y TIM2 iniciaron correctamente.
+ * @return false si la configuracion es invalida o existe un fallo de HAL.
  *
- * @note El ADC1 lee PA2 (IN2). TIM2 genera TRGO al actualizarse.
- *       Esta prueba usa una interrupcion por muestra; DMA queda pendiente.
+ * @note Entrada PA2 (ADC1_IN2), rango de 0 a VDDA; 48000 muestras.
+ *       No ejecuta MFCC ni guarda perfiles de locutor.
  */
 bool voxid_audio_start(void);
 
 /**
- * @brief Detiene la conversion y descarta cualquier captura parcial.
+ * @brief Procesa fuera de ISR las mitades completas del buffer DMA.
  *
- * @note Utilizar desde el bucle principal, no desde interrupciones.
+ * @note Ejecutar con frecuencia desde el bucle principal; nunca dentro de IRQ.
+ *       Marca ERROR si una mitad corre riesgo de ser sobrescrita.
+ */
+void voxid_audio_task(void);
+
+/**
+ * @brief Detiene ADC y TIM2 y descarta la sesion actual.
+ *
+ * @note Solo debe llamarse desde el bucle principal.
  */
 void voxid_audio_stop(void);
 
 /**
- * @brief Devuelve el estado actual de la captura.
+ * @brief Consulta el estado de captura.
  *
- * @return Estado de adquisicion actual.
+ * @return VOXID_AUDIO_IDLE, CAPTURING, READY o ERROR.
  */
 VoxIDAudioState voxid_audio_status(void);
 
 /**
- * @brief Indica cuantas muestras se recibieron por el ADC.
+ * @brief Consulta el avance de captura validado por el bucle principal.
  *
- * @return Numero de conversiones recibidas hasta VOXID_AUDIO_SAMPLES.
+ * @return Numero de muestras procesadas, entre 0 y 48000.
  */
-uint16_t voxid_audio_sample_count(void);
+uint32_t voxid_audio_sample_count(void);
 
 /**
- * @brief Resume un bloque completado en unidades crudas del ADC.
+ * @brief Devuelve estadisticas del ultimo bloque completo de tres segundos.
  *
- * @param stats Estructura de salida para el minimo, maximo, promedio y total.
+ * @param stats Estructura de salida, en cuentas crudas del ADC de 12 bits.
  *
- * @return true si se completo el bloque y el resumen es valido.
- * @return false cuando la adquisicion no ha terminado o fallo.
- *
- * @note Los datos van de 0 a 4095; aun no estan convertidos a PCM
- *       ni se han enviado al extractor MFCC.
+ * @return true cuando la captura termino sin desbordamientos.
  */
 bool voxid_audio_read_stats(VoxIDAudioStats *stats);
 

@@ -52,3 +52,13 @@ detenerlo cuando se muestre el resultado.
   no asumir reconocimiento fiable hasta validar las comparaciones.
 
 Aun NO se ha configurado I2C ni escrito la EEPROM.
+
+
+## Actualizacion: escucha de tres segundos
+
+La misma animacion de circulos pastel se reutiliza durante la captura
+DMA de tres segundos. La UI muestra una cuenta regresiva 3s, 2s, 1s
+conforme avanzan los bloques DMA. La TFT se prepara antes de activar
+autodisparos TIM2. Al finalizar se muestran estadisticas ADC.
+
+No se ha integrado aun MFCC sobre la voz real ni almacenamiento EEPROM.

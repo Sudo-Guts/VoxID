@@ -64,3 +64,16 @@ SIM/psim/Filtro_Real.cir
 *.swp
 *.swo
 *~
+
+# -----------------------------------------------------------------------------
+#   Grabaciones locales y resultados de MATLAB
+# -----------------------------------------------------------------------------
+
+/SIM/datos/originales/*
+!/SIM/datos/originales/.gitkeep
+/SIM/datos/preparados/*
+!/SIM/datos/preparados/.gitkeep
+/SIM/resultados/*
+!/SIM/resultados/.gitkeep
+/SIM/*.asv
+/SIM/funciones/*.asv

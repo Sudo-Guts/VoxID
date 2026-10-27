@@ -80,13 +80,13 @@ bool voxid_audio_start(void) {
         return false;
     }
 
-    (void)HAL_TIM_Base_Stop(&htim2);
-    (void)HAL_ADC_Stop_DMA(&hadc1);
-
     if (!voxid_audio_config_valid()) {
         audio_state = VOXID_AUDIO_ERROR;
         return false;
     }
+
+    (void)HAL_TIM_Base_Stop(&htim2);
+    (void)HAL_ADC_Stop_DMA(&hadc1);
 
     produced_blocks = 0U;
     consumed_blocks = 0U;
@@ -115,7 +115,11 @@ bool voxid_audio_start(void) {
 
 void voxid_audio_stop(void) {
     (void)HAL_TIM_Base_Stop(&htim2);
-    (void)HAL_ADC_Stop_DMA(&hadc1);
+
+    if (hadc1.DMA_Handle != NULL) {
+        (void)HAL_ADC_Stop_DMA(&hadc1);
+    }
+
     audio_state = VOXID_AUDIO_IDLE;
     produced_blocks = 0U;
     consumed_blocks = 0U;

@@ -55,4 +55,21 @@ typedef struct {
  */
 void voxid_selftest_run(VoxIDSelfTestResult *result);
 
+/**
+ * @brief Permite visualizar la senal PCM sintetica usada en la autoprueba.
+ *
+ * @return Puntero de solo lectura a las muestras de la ultima generacion.
+ *
+ * @note El buffer es estatico y tiene VOXID_SELFTEST_SAMPLES elementos.
+ *       Consultar el estado de la prueba antes de representar las muestras.
+ */
+const int16_t *voxid_selftest_samples(void);
+
+/**
+ * @brief Devuelve el numero de muestras del buffer de la autoprueba.
+ *
+ * @return Numero de muestras: VOXID_SELFTEST_SAMPLES.
+ */
+uint32_t voxid_selftest_sample_count(void);
+
 #endif /* VOXID_SELFTEST_H */

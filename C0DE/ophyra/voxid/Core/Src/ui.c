@@ -20,6 +20,8 @@
 #include "voxid_dsp.h"
 #include "voxid_selftest.h"
 #include "voxid_audio.h"
+#include "ui_voice.h"
+#include "main.h"
 
 #include <math.h>
 #include <stdint.h>
@@ -57,6 +59,8 @@ static uint8_t rendered_menu_selection = 0U;
 static uint8_t speaker_slot = 0U;
 static uint8_t test_page = 0U;
 static VoxIDAudioState rendered_audio_state = VOXID_AUDIO_IDLE;
+static uint8_t voice_phase = 0U;
+static uint32_t voice_last_tick = 0U;
 static VoxIDSelfTestResult selftest_result;
 
 static bool ui_ready = false;
@@ -250,73 +254,64 @@ static bool ui_draw_enroll(void) {
     return gfx_draw_text(16, 94, "OK: PREPARAR", UI_ACCENT);
 }
 
+// =============================================================================
+//  Indicador de captura: circulos pastel
+// =============================================================================
+
 static bool ui_draw_capture(void) {
     char line[28];
     VoxIDAudioState state = voxid_audio_status();
     rendered_audio_state = state;
 
-    if (!ui_draw_title("CAPTURA ADC1") || !ui_draw_card()) {
-        return false;
-    }
-
     if (capture_origin == UI_STATE_ENROLL) {
-        (void)snprintf(line, sizeof(line), "LOCUTOR %02u / PA2", (unsigned)(speaker_slot + 1U));
+        (void)snprintf(line, sizeof(line), "ADC1 LOCUTOR %02u", (unsigned)(speaker_slot + 1U));
     } else {
-        (void)snprintf(line, sizeof(line), "IDENTIFICAR / PA2");
+        (void)snprintf(line, sizeof(line), "ADC1 IDENTIFICAR");
     }
 
-    if (!gfx_draw_text(16, 59, line, UI_TEXT)) {
+    if (!ui_draw_title(line)) {
         return false;
     }
 
     if (state == VOXID_AUDIO_READY) {
         VoxIDAudioStats stats;
 
+        if (!ui_draw_card()) {
+            return false;
+        }
+
         if (!voxid_audio_read_stats(&stats)) {
             return gfx_draw_text(16, 77, "ERROR LECTURA", UI_WARNING);
         }
 
-        if (!gfx_draw_text(16, 74, "720 MUESTRAS: OK", UI_ACCENT)) {
+        if (!gfx_draw_text(16, 62, "720 MUESTRAS: OK", UI_ACCENT)) {
             return false;
         }
 
         (void)snprintf(line, sizeof(line), "MIN:%u MAX:%u", (unsigned)stats.minimum, (unsigned)stats.maximum);
 
-        if (!gfx_draw_text(16, 87, line, UI_MUTED)) {
+        if (!gfx_draw_text(16, 80, line, UI_MUTED)) {
             return false;
         }
 
         (void)snprintf(line, sizeof(line), "PROMEDIO:%u", (unsigned)stats.average);
-        return gfx_draw_text(16, 98, line, UI_MUTED);
+        return gfx_draw_text(16, 95, line, UI_MUTED);
     }
+
+    // El indicador tambien aparece en reposo: la captura ADC dura solo 45 ms.
+    if (!ui_voice_draw(voice_phase, UI_BG)) {
+        return false;
+    }
+
+    const char *message = "OK: CAPTURAR ADC";
 
     if (state == VOXID_AUDIO_CAPTURING) {
-        (void)snprintf(line, sizeof(line), "MUESTRAS:%u/720", (unsigned)voxid_audio_sample_count());
-
-        if (!gfx_draw_text(16, 74, "CAPTURANDO...", UI_ACCENT)) {
-            return false;
-        }
-
-        return gfx_draw_text(16, 90, line, UI_MUTED);
+        message = "MUESTREANDO ADC";
+    } else if (state == VOXID_AUDIO_ERROR) {
+        message = "ERROR ADC/TIM2";
     }
 
-    if (state == VOXID_AUDIO_ERROR) {
-        if (!gfx_draw_text(16, 76, "ERROR ADC/TIM2", UI_WARNING)) {
-            return false;
-        }
-
-        return gfx_draw_text(16, 94, "OK: REINTENTAR", UI_MUTED);
-    }
-
-    if (!gfx_draw_text(16, 74, "OK: CAPTURAR", UI_ACCENT)) {
-        return false;
-    }
-
-    if (!gfx_draw_text(16, 87, "ADC 12BIT / 16KHZ", UI_MUTED)) {
-        return false;
-    }
-
-    return gfx_draw_text(16, 98, "NO GUARDA PERFIL", UI_MUTED);
+    return gfx_draw_text_aligned(80, 102, message, state == VOXID_AUDIO_ERROR ? UI_WARNING : UI_ACCENT, UI_BG, 1U, GFX_ALIGN_CENTER);
 }
 
 // =============================================================================
@@ -614,10 +609,14 @@ static void ui_dispatch(ButtonEvent event) {
         case UI_STATE_ENROLL:
             capture_origin = current_state;
             current_state = UI_STATE_CAPTURE;
+            voice_phase = 0U;
+            voice_last_tick = HAL_GetTick();
             needs_redraw = true;
             break;
         case UI_STATE_CAPTURE:
             if (voxid_audio_status() != VOXID_AUDIO_CAPTURING) {
+                voice_phase = 0U;
+                voice_last_tick = HAL_GetTick();
                 (void)voxid_audio_start();
                 needs_redraw = true;
             }
@@ -643,6 +642,8 @@ bool ui_init(void) {
     speaker_slot = 0U;
     test_page = 0U;
     rendered_audio_state = VOXID_AUDIO_IDLE;
+    voice_phase = 0U;
+    voice_last_tick = HAL_GetTick();
     selftest_result.status = VOXID_SELFTEST_NOT_RUN;
     selftest_result.samples = 0U;
     selftest_result.frames = 0U;
@@ -674,6 +675,14 @@ void ui_task(void) {
         needs_redraw = !ui_ready;
     } else if (current_state == UI_STATE_MENU && menu_selection != rendered_menu_selection) {
         ui_ready = ui_update_menu_selection();
+    } else if (current_state == UI_STATE_CAPTURE && voxid_audio_status() != VOXID_AUDIO_READY) {
+        uint32_t now = HAL_GetTick();
+
+        if ((uint32_t)(now - voice_last_tick) >= UI_VOICE_TICK_MS) {
+            voice_last_tick = now;
+            voice_phase = (uint8_t)((voice_phase + 1U) % UI_VOICE_PHASES);
+            ui_ready = ui_voice_draw(voice_phase, UI_BG);
+        }
     }
 }
 

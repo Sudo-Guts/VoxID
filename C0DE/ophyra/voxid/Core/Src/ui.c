@@ -20,6 +20,7 @@
 #include "voxid_dsp.h"
 #include "voxid_selftest.h"
 #include "voxid_audio.h"
+#include "voxid_voice.h"
 #include "ui_voice.h"
 #include "main.h"
 
@@ -63,6 +64,7 @@ static uint8_t voice_phase = 0U;
 static uint32_t voice_last_tick = 0U;
 static bool voice_capture_pending = false;
 static uint8_t voice_seconds_rendered = 3U;
+static uint8_t capture_page = 0U;
 static VoxIDSelfTestResult selftest_result;
 
 static bool ui_ready = false;
@@ -101,7 +103,7 @@ static bool ui_capture_is_listening(void) {
 }
 
 static bool ui_draw_footer(void) {
-    bool can_move = current_state == UI_STATE_MENU || current_state == UI_STATE_ENROLL || current_state == UI_STATE_SELFTEST;
+    bool can_move = current_state == UI_STATE_MENU || current_state == UI_STATE_ENROLL || current_state == UI_STATE_SELFTEST || (current_state == UI_STATE_CAPTURE && voxid_audio_status() == VOXID_AUDIO_READY);
     bool can_ok = !ui_capture_is_listening();
     bool can_back = current_state != UI_STATE_MENU;
 
@@ -264,6 +266,58 @@ static bool ui_draw_enroll(void) {
 //  Indicador de captura: circulos pastel
 // =============================================================================
 
+// =============================================================================
+//  Grafica reutilizable de trece coeficientes MFCC
+// =============================================================================
+
+static bool ui_draw_mfcc_bars(const float *values) {
+    if (values == NULL) {
+        return false;
+    }
+
+    float maximum = 0.0f;
+
+    for (uint8_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
+        float value = fabsf(values[k]);
+
+        if (value > maximum) {
+            maximum = value;
+        }
+    }
+
+    if (maximum < 1e-10f) {
+        maximum = 1.0f;
+    }
+
+    if (!gfx_fill_rect(16U, 78U, UI_GRAPH_WIDTH, 1U, UI_BORDER)) {
+        return false;
+    }
+
+    // Escala simetrica alrededor de cero; se normaliza al mayor |MFCC|.
+    for (uint8_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
+        float value = values[k];
+        uint16_t magnitude = (uint16_t)(fabsf(value) * 19.0f / maximum + 0.5f);
+
+        if (magnitude == 0U) {
+            continue;
+        }
+
+        uint16_t x = (uint16_t)(17U + k * 10U);
+        uint16_t y = value >= 0.0f ? (uint16_t)(78U - magnitude) : 79U;
+        uint16_t color = value >= 0.0f ? UI_ACCENT : UI_WARNING;
+
+        if (!gfx_fill_rect(x, y, 6U, magnitude, color)) {
+            return false;
+        }
+    }
+
+    if (!gfx_draw_text(17, 98, "C00", UI_MUTED)) {
+        return false;
+    }
+
+    return gfx_draw_text(122, 98, "C12", UI_MUTED);
+}
+
 static bool ui_draw_capture_hint(uint8_t remaining) {
     char message[26];
     (void)snprintf(message, sizeof(message), "ESCUCHANDO: %us", (unsigned)remaining);
@@ -280,7 +334,9 @@ static bool ui_draw_capture(void) {
     VoxIDAudioState state = voxid_audio_status();
     rendered_audio_state = state;
 
-    if (capture_origin == UI_STATE_ENROLL) {
+    if (state == VOXID_AUDIO_READY && capture_page == 1U) {
+        (void)snprintf(line, sizeof(line), "MFCC VOZ REAL");
+    } else if (capture_origin == UI_STATE_ENROLL) {
         (void)snprintf(line, sizeof(line), "LOCUTOR %02u / MARIPOSA", (unsigned)(speaker_slot + 1U));
     } else {
         (void)snprintf(line, sizeof(line), "MARIPOSA / PA2");
@@ -309,24 +365,36 @@ static bool ui_draw_capture(void) {
             return gfx_draw_text(16, 93, "OK: REPETIR", UI_MUTED);
         }
 
-        VoxIDAudioStats stats;
+        VoxIDAudioStats adc;
+        VoxIDVoiceStats mfcc;
 
-        if (!voxid_audio_read_stats(&stats)) {
-            return gfx_draw_text(16, 77, "ERROR LECTURA", UI_WARNING);
+        if (!voxid_audio_read_stats(&adc) || !voxid_voice_read_stats(&mfcc)) {
+            return gfx_draw_text(16, 77, "ERROR MFCC REAL", UI_WARNING);
         }
 
-        if (!gfx_draw_text(16, 61, "3 SEGUNDOS: OK", UI_ACCENT)) {
+        if (capture_page == 1U) {
+            // Grafica de la media MFCC de los 298 frames, no de un locutor entrenado.
+            return ui_draw_mfcc_bars(mfcc.mean_mfcc);
+        }
+
+        if (!gfx_draw_text(16, 58, "3 SEG / MFCC OK", UI_ACCENT)) {
             return false;
         }
 
-        (void)snprintf(line, sizeof(line), "MIN:%u MAX:%u", (unsigned)stats.minimum, (unsigned)stats.maximum);
+        (void)snprintf(line, sizeof(line), "FRAMES: %lu/%u", (unsigned long)mfcc.frames, (unsigned)VOXID_VOICE_EXPECTED_FRAMES);
 
-        if (!gfx_draw_text(16, 80, line, UI_MUTED)) {
+        if (!gfx_draw_text(16, 70, line, UI_TEXT)) {
             return false;
         }
 
-        (void)snprintf(line, sizeof(line), "PROMEDIO:%u", (unsigned)stats.average);
-        return gfx_draw_text(16, 95, line, UI_MUTED);
+        (void)snprintf(line, sizeof(line), "MIN:%u MAX:%u", (unsigned)adc.minimum, (unsigned)adc.maximum);
+
+        if (!gfx_draw_text(16, 82, line, UI_MUTED)) {
+            return false;
+        }
+
+        (void)snprintf(line, sizeof(line), "PROMEDIO:%u", (unsigned)adc.average);
+        return gfx_draw_text(16, 94, line, UI_MUTED);
     }
 
     // PREPARADO: los circulos se animan desde ui_task().
@@ -464,47 +532,7 @@ static bool ui_draw_mfcc_graph(void) {
         return gfx_draw_text(16, 78, "SIN RESULTADOS", UI_WARNING);
     }
 
-    float maximum = 0.0f;
-
-    for (uint8_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
-        float value = fabsf(selftest_result.mfcc[k]);
-
-        if (value > maximum) {
-            maximum = value;
-        }
-    }
-
-    if (maximum < 1e-10f) {
-        maximum = 1.0f;
-    }
-
-    if (!gfx_fill_rect(16U, 78U, UI_GRAPH_WIDTH, 1U, UI_BORDER)) {
-        return false;
-    }
-
-    // Escala simetrica alrededor de cero; se normaliza al mayor |MFCC|.
-    for (uint8_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
-        float value = selftest_result.mfcc[k];
-        uint16_t magnitude = (uint16_t)(fabsf(value) * 19.0f / maximum + 0.5f);
-
-        if (magnitude == 0U) {
-            continue;
-        }
-
-        uint16_t x = (uint16_t)(17U + k * 10U);
-        uint16_t y = value >= 0.0f ? (uint16_t)(78U - magnitude) : 79U;
-        uint16_t color = value >= 0.0f ? UI_ACCENT : UI_WARNING;
-
-        if (!gfx_fill_rect(x, y, 6U, magnitude, color)) {
-            return false;
-        }
-    }
-
-    if (!gfx_draw_text(17, 98, "C00", UI_MUTED)) {
-        return false;
-    }
-
-    return gfx_draw_text(122, 98, "C12", UI_MUTED);
+    return ui_draw_mfcc_bars(selftest_result.mfcc);
 }
 
 static bool ui_draw_selftest(void) {
@@ -623,6 +651,14 @@ static void ui_dispatch(ButtonEvent event) {
         }
     }
 
+    if (current_state == UI_STATE_CAPTURE && voxid_audio_status() == VOXID_AUDIO_READY) {
+        if (event == BUTTON_UP || event == BUTTON_DOWN) {
+            capture_page = (uint8_t)(1U - capture_page);
+            needs_redraw = true;
+            return;
+        }
+    }
+
     if (current_state == UI_STATE_SELFTEST) {
         if (event == BUTTON_UP) {
             test_page = (uint8_t)((test_page + UI_TEST_PAGES - 1U) % UI_TEST_PAGES);
@@ -642,6 +678,7 @@ static void ui_dispatch(ButtonEvent event) {
         case UI_STATE_ENROLL:
             capture_origin = current_state;
             current_state = UI_STATE_CAPTURE;
+            capture_page = 0U;
             voice_phase = 0U;
             voice_last_tick = HAL_GetTick();
             voice_capture_pending = false;
@@ -649,6 +686,7 @@ static void ui_dispatch(ButtonEvent event) {
             break;
         case UI_STATE_CAPTURE:
             if (!ui_capture_is_listening()) {
+                capture_page = 0U;
                 voice_phase = 0U;
                 voice_last_tick = HAL_GetTick();
                 voice_capture_pending = true;
@@ -680,6 +718,7 @@ bool ui_init(void) {
     voice_last_tick = HAL_GetTick();
     voice_capture_pending = false;
     voice_seconds_rendered = VOXID_AUDIO_DURATION_S;
+    capture_page = 0U;
     selftest_result.status = VOXID_SELFTEST_NOT_RUN;
     selftest_result.samples = 0U;
     selftest_result.frames = 0U;

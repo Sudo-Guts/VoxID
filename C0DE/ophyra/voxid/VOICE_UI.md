@@ -31,8 +31,9 @@ para evitar redibujar la pantalla completa mientras se reciben bloques.
 
 La captura sigue usando ADC1_IN2 (PA2), TIM2 TRGO a 16 kHz,
 DMA circular con mitades de 640 muestras y duracion de 3 segundos
-(48000 muestras). **No se modifican ADC, DMA, MFCC ni EEPROM**.
-Aun no se procesan MFCC de audio real ni se guardan perfiles.
+(48000 muestras). **No se cambia la temporizacion ADC ni el DMA**. La etapa 2
+procesa los bloques recibidos con PCM y MFCC fuera de ISR.
+Todavia no se guardan perfiles de locutores ni EEPROM.
 
 ## Verificacion en Ophyra
 

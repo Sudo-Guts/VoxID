@@ -42,6 +42,13 @@ y MIN, MAX, PROMEDIO. OK repite y BACK cancela/retorna.
 La pantalla se dibuja antes de habilitar DMA para evitar
 bloquear el primer semibuffer durante un refresco de pantalla.
 
+## Etapa 2
+
+Ahora los bloques DMA tambien se convierten a PCM con signo y se
+procesan mediante MFCC. Consultar `STAGE2_REAL_MFCC.md` para
+el pipeline, las verificaciones de 298 frames y la nueva grafica
+MFCC real. La validacion en hardware sigue pendiente.
+
 ## Validacion fisica pendiente
 
 1. Clean/Build en STM32CubeIDE; comprobar que se reconoce el modulo DMA.
@@ -53,9 +60,8 @@ bloquear el primer semibuffer durante un refresco de pantalla.
 6. Si se muestra ERROR DMA, revisar latencia del bucle principal
    y tiempos de dibujado antes de intentar almacenar perfiles.
 
-El primer objetivo es la captura estable y sincronizada. Todavia
-**NO** se convierte ADC a PCM con signo ni se ejecutan MFCC reales,
-no se valida la palabra MARIPOSA, no hay memoria EEPROM ni clasificador.
+Ahora se convierte ADC a PCM y se calculan MFCC reales.
+No se valida la palabra MARIPOSA, ni hay perfiles EEPROM o clasificador.
 
 ## Riesgo de firmware generado
 

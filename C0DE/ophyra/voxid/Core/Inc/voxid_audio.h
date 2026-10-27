@@ -53,12 +53,12 @@ typedef struct {
  * @return false si la configuracion es invalida o existe un fallo de HAL.
  *
  * @note Entrada PA2 (ADC1_IN2), rango de 0 a VDDA; 48000 muestras.
- *       No ejecuta MFCC ni guarda perfiles de locutor.
+ *       Ejecuta MFCC real fuera de IRQ, sin guardar perfiles.
  */
 bool voxid_audio_start(void);
 
 /**
- * @brief Procesa fuera de ISR las mitades completas del buffer DMA.
+ * @brief Procesa PCM y MFCC fuera de ISR por semibuffer DMA.
  *
  * @note Ejecutar con frecuencia desde el bucle principal; nunca dentro de IRQ.
  *       Marca ERROR si una mitad corre riesgo de ser sobrescrita.
@@ -87,7 +87,8 @@ VoxIDAudioState voxid_audio_status(void);
 uint32_t voxid_audio_sample_count(void);
 
 /**
- * @brief Devuelve estadisticas del ultimo bloque completo de tres segundos.
+ * @brief Devuelve estadisticas ADC de los tres segundos capturados.
+ * @note El resultado MFCC se consulta con voxid_voice_read_stats().
  *
  * @param stats Estructura de salida, en cuentas crudas del ADC de 12 bits.
  *

@@ -14,6 +14,7 @@
 
 #include "voxid_audio.h"
 #include "main.h"
+#include "voxid_voice.h"
 
 #include <stddef.h>
 
@@ -87,6 +88,11 @@ bool voxid_audio_start(void) {
 
     (void)HAL_TIM_Base_Stop(&htim2);
     (void)HAL_ADC_Stop_DMA(&hadc1);
+
+    if (!voxid_voice_begin()) {
+        audio_state = VOXID_AUDIO_ERROR;
+        return false;
+    }
 
     produced_blocks = 0U;
     consumed_blocks = 0U;
@@ -165,6 +171,25 @@ void voxid_audio_task(void) {
         sample_sum += value;
     }
 
+    // El DSP consume la mitad del DMA fuera de IRQ.
+    if (!voxid_voice_process_block(&adc_dma_buffer[offset], VOXID_AUDIO_BLOCK_SAMPLES)) {
+        ++dropped_blocks;
+        __HAL_TIM_DISABLE(&htim2);
+        audio_state = VOXID_AUDIO_ERROR;
+        (void)HAL_ADC_Stop_DMA(&hadc1);
+        return;
+    }
+
+    // Verificar otra vez: una operacion DSP lenta puede hacer que
+    // el DMA vuelva a escribir la mitad que acabamos de leer.
+    if (produced_blocks - block > 1U) {
+        ++dropped_blocks;
+        __HAL_TIM_DISABLE(&htim2);
+        audio_state = VOXID_AUDIO_ERROR;
+        (void)HAL_ADC_Stop_DMA(&hadc1);
+        return;
+    }
+
     consumed_blocks = block + 1U;
 
     if (audio_state != VOXID_AUDIO_CAPTURING) {
@@ -173,7 +198,7 @@ void voxid_audio_task(void) {
 
     if (consumed_blocks == VOXID_AUDIO_TOTAL_BLOCKS) {
         // El ultimo callback detuvo TIM2 al alcanzar 48000 muestras.
-        if (HAL_TIM_Base_Stop(&htim2) != HAL_OK || HAL_ADC_Stop_DMA(&hadc1) != HAL_OK) {
+        if (HAL_TIM_Base_Stop(&htim2) != HAL_OK || HAL_ADC_Stop_DMA(&hadc1) != HAL_OK || !voxid_voice_finish()) {
             audio_state = VOXID_AUDIO_ERROR;
             return;
         }

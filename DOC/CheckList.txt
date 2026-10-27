@@ -65,9 +65,17 @@ ETAPA 3 | Tres prototipos MFCC por locutor
 ETAPA 4 | EEPROM M24C32 e identificacion
 ==========================================================================
 
-[ ] Definir registros, version y validacion de perfiles.
-[ ] Implementar acceso M24C32 y persistencia de prototipos.
-[ ] Implementar distancia normalizada y criterio de rechazo.
+[x] Definir registros little-endian, version, revision DSP y CRC32.
+[x] Configurar I2C1 PB6/PB7, paginas M24C32 y persistencia con dos copias.
+[x] Recuperar perfiles al arrancar sin escribir ni formatear la EEPROM.
+[x] Reintentar un fallo de guardado sin volver a capturar la tercera toma.
+[x] Implementar distancia L2 normalizada C01..C12 y promedio de tres prototipos.
+[x] Rechazar por distancia maxima, margen insuficiente y toma invalida.
+[x] Mantener grafica MFCC y estadisticas ADC junto al resultado.
+[x] Ejecutar once pruebas de PC, incluidos cortes, CRC y ambiguedad.
+[ ] Compilar y enlazar la etapa 4 con toolchain ARM en STM32CubeIDE.
+[ ] Validar EEPROM real, reinicio, errores I2C y recuperacion de perfiles.
+[ ] Calibrar distancia maxima y margen con voz registrada y desconocida.
 [ ] Validar identificacion con tomas distintas de las usadas en registro.
 
 ==========================================================================

@@ -275,6 +275,48 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 
 }
 
+/**
+ * @brief Habilita I2C1 y sus lineas en drenador abierto.
+ * @param hi2c Handle del controlador I2C.
+ * @note Ophyra incorpora las resistencias externas del bus compartido.
+ */
+void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c) {
+    if (hi2c->Instance == I2C1) {
+        /* USER CODE BEGIN I2C1_MspInit 0 */
+
+        /* USER CODE END I2C1_MspInit 0 */
+        GPIO_InitTypeDef gpio = {0};
+        __HAL_RCC_GPIOB_CLK_ENABLE();
+        gpio.Pin = GPIO_PIN_6 | GPIO_PIN_7;
+        gpio.Mode = GPIO_MODE_AF_OD;
+        gpio.Pull = GPIO_NOPULL;
+        gpio.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+        gpio.Alternate = GPIO_AF4_I2C1;
+        HAL_GPIO_Init(GPIOB, &gpio);
+        __HAL_RCC_I2C1_CLK_ENABLE();
+        /* USER CODE BEGIN I2C1_MspInit 1 */
+
+        /* USER CODE END I2C1_MspInit 1 */
+    }
+}
+
+/**
+ * @brief Libera los recursos de I2C1.
+ * @param hi2c Handle del controlador I2C.
+ */
+void HAL_I2C_MspDeInit(I2C_HandleTypeDef *hi2c) {
+    if (hi2c->Instance == I2C1) {
+        /* USER CODE BEGIN I2C1_MspDeInit 0 */
+
+        /* USER CODE END I2C1_MspDeInit 0 */
+        __HAL_RCC_I2C1_CLK_DISABLE();
+        HAL_GPIO_DeInit(GPIOB, GPIO_PIN_6 | GPIO_PIN_7);
+        /* USER CODE BEGIN I2C1_MspDeInit 1 */
+
+        /* USER CODE END I2C1_MspDeInit 1 */
+    }
+}
+
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */

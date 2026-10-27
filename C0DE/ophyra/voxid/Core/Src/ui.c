@@ -7,8 +7,7 @@
  *
  *  Interfaz pastel para la TFT de Ophyra (160 x 128).
  *  Utiliza la API grafica gfx_* y los eventos de buttons.c.
- *  Captura de voz y registro de tres prototipos por locutor en RAM.
- *  La identificacion y la persistencia se reservan para la etapa 4.
+ *  Registro persistente y comparacion de tres prototipos por locutor.
  *
  * =============================================================================
  */
@@ -22,6 +21,8 @@
 #include "voxid_audio.h"
 #include "voxid_voice.h"
 #include "voxid_enroll.h"
+#include "voxid_identify.h"
+#include "voxid_storage.h"
 #include "ui_voice.h"
 #include "main.h"
 
@@ -66,6 +67,7 @@ static uint32_t ultimo_tick_circulos = 0U;
 static bool captura_pendiente = false;
 static uint8_t segundos_dibujados = 3U;
 static uint8_t pagina_captura = 0U;
+static bool error_guardado = false;
 static VoxIDSelfTestResult resultado_prueba;
 
 static bool interfaz_lista = false;
@@ -231,15 +233,26 @@ static bool ui_update_menu_selection(void) {
 // =============================================================================
 
 static bool ui_draw_identify(void) {
+    char linea[26];
+    uint8_t perfiles = 0U;
+
+    for (uint8_t locutor = 0U; locutor < VOXID_SPEAKER_COUNT; ++locutor) {
+        if (voxid_enroll_profile(locutor) != NULL) {
+            ++perfiles;
+        }
+    }
+
     if (!ui_draw_title("IDENTIFICAR") || !ui_draw_card()) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 62, "ADQUIRIR VOZ", UI_TEXT)) {
+    (void)snprintf(linea, sizeof(linea), "LOCUTORES: %u/%u", (unsigned)perfiles, (unsigned)VOXID_SPEAKER_COUNT);
+
+    if (!gfx_draw_text(16, 62, linea, UI_TEXT)) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 80, "PCM 16kHz / 16bit", UI_MUTED)) {
+    if (!gfx_draw_text(16, 80, perfiles > 0U ? "DECIR MARIPOSA" : "SIN PERFILES", UI_MUTED)) {
         return false;
     }
 
@@ -260,7 +273,7 @@ static bool ui_draw_enroll(void) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 80, perfil != NULL ? "3 PROTOTIPOS EN RAM" : "ESPACIO VACIO", perfil != NULL ? UI_ACCENT : UI_MUTED)) {
+    if (!gfx_draw_text(16, 80, perfil != NULL ? "GUARDADO EN EEPROM" : "ESPACIO VACIO", perfil != NULL ? UI_ACCENT : UI_MUTED)) {
         return false;
     }
 
@@ -275,6 +288,10 @@ static bool ui_draw_enroll(void) {
 static bool ui_draw_enroll_take(const VoxIDVoiceStats *toma) {
     char linea[30];
     bool valida = voxid_enroll_take_valid(toma);
+
+    if (error_guardado) {
+        return gfx_draw_text(16, 58, "ERROR AL GUARDAR", UI_WARNING) && gfx_draw_text(16, 70, "EEPROM NO CONFIRMA", UI_WARNING) && gfx_draw_text(16, 82, "OK: REINTENTAR", UI_ACCENT) && gfx_draw_text(16, 94, "BACK: CANCELAR", UI_MUTED);
+    }
 
     if (valida) {
         (void)snprintf(linea, sizeof(linea), "FRAMES: %lu/%u", (unsigned long)toma->frames, (unsigned)VOXID_VOICE_EXPECTED_FRAMES);
@@ -295,15 +312,64 @@ static bool ui_draw_enroll_take(const VoxIDVoiceStats *toma) {
     const char *accion = "OK: REPETIR VOZ";
 
     if (valida) {
-        accion = voxid_enroll_count() + 1U == VOXID_PROTOTYPES_PER_SPEAKER ? "OK: GUARDAR RAM" : "OK: SIGUIENTE";
+        accion = voxid_enroll_count() + 1U == VOXID_PROTOTYPES_PER_SPEAKER ? "OK: GUARDAR" : "OK: SIGUIENTE";
     }
 
     if (!gfx_draw_text(16, 82, accion, UI_ACCENT)) {
         return false;
     }
 
-    (void)snprintf(linea, sizeof(linea), "EN RAM: %u/%u TOMAS", (unsigned)voxid_enroll_count(), (unsigned)VOXID_PROTOTYPES_PER_SPEAKER);
+    (void)snprintf(linea, sizeof(linea), "ACEPTADAS: %u/%u", (unsigned)voxid_enroll_count(), (unsigned)VOXID_PROTOTYPES_PER_SPEAKER);
     return gfx_draw_text(16, 94, linea, UI_MUTED);
+}
+
+/**
+ * @brief Presenta identidad o rechazo sin convertir la distancia en confianza.
+ * @param toma Captura terminada que se comparara con los perfiles RAM.
+ * @return true si el resultado se dibuja correctamente.
+ */
+static bool ui_draw_identify_result(const VoxIDVoiceStats *toma) {
+    VoxIDIdentifyResult resultado;
+    char linea[30];
+
+    if (!voxid_identify_run(toma, &resultado)) {
+        return false;
+    }
+
+    if (resultado.status == VOXID_IDENTIFY_INVALID_VOICE) {
+        (void)snprintf(linea, sizeof(linea), "CON VOZ: %lu", (unsigned long)toma->voiced_frames);
+        return gfx_draw_text(16, 58, "VOZ INSUFICIENTE", UI_WARNING) && gfx_draw_text(16, 70, linea, UI_MUTED) && gfx_draw_text(16, 94, "OK: REPETIR VOZ", UI_ACCENT);
+    }
+
+    if (resultado.status == VOXID_IDENTIFY_NO_PROFILES) {
+        return gfx_draw_text(16, 58, "SIN LOCUTORES", UI_WARNING) && gfx_draw_text(16, 76, "REGISTRA PRIMERO", UI_MUTED) && gfx_draw_text(16, 94, "BACK: VOLVER", UI_ACCENT);
+    }
+
+    if (resultado.status == VOXID_IDENTIFY_MATCH) {
+        (void)snprintf(linea, sizeof(linea), "LOCUTOR %02u", (unsigned)(resultado.locutor + 1U));
+    } else {
+        (void)snprintf(linea, sizeof(linea), "%s", resultado.status == VOXID_IDENTIFY_AMBIGUOUS ? "VOZ AMBIGUA" : "DESCONOCIDO");
+    }
+
+    if (!gfx_draw_text(16, 58, linea, resultado.status == VOXID_IDENTIFY_MATCH ? UI_ACCENT : UI_WARNING)) {
+        return false;
+    }
+
+    uint32_t distancia = (uint32_t)(resultado.distancia * 1000.0f + 0.5f);
+    (void)snprintf(linea, sizeof(linea), "DIST: %lu.%03lu", (unsigned long)(distancia / 1000U), (unsigned long)(distancia % 1000U));
+
+    if (!gfx_draw_text(16, 70, linea, UI_TEXT)) {
+        return false;
+    }
+
+    if (resultado.perfiles > 1U) {
+        uint32_t margen = (uint32_t)(resultado.margen * 1000.0f + 0.5f);
+        (void)snprintf(linea, sizeof(linea), "MARGEN: %lu.%03lu", (unsigned long)(margen / 1000U), (unsigned long)(margen % 1000U));
+    } else {
+        (void)snprintf(linea, sizeof(linea), "UN SOLO PERFIL");
+    }
+
+    return gfx_draw_text(16, 82, linea, UI_MUTED) && gfx_draw_text(16, 94, "OK: OTRA TOMA", UI_ACCENT);
 }
 
 // =============================================================================
@@ -373,6 +439,36 @@ static bool ui_draw_capture_hint(uint8_t remaining) {
     return gfx_draw_text_aligned(80, 102, message, UI_ACCENT, UI_BG, 1U, GFX_ALIGN_CENTER);
 }
 
+static bool ui_draw_capture_stats(const VoxIDVoiceStats *mfcc) {
+    VoxIDAudioStats adc;
+    char linea[30];
+
+    if (!voxid_audio_read_stats(&adc)) {
+        return gfx_draw_text(16, 77, "ERROR ESTADISTICAS", UI_WARNING);
+    }
+
+    (void)snprintf(linea, sizeof(linea), "FRAMES: %lu/%u", (unsigned long)mfcc->frames, (unsigned)VOXID_VOICE_EXPECTED_FRAMES);
+
+    if (!gfx_draw_text(16, 58, linea, UI_TEXT)) {
+        return false;
+    }
+
+    (void)snprintf(linea, sizeof(linea), "CON VOZ: %lu", (unsigned long)mfcc->voiced_frames);
+
+    if (!gfx_draw_text(16, 70, linea, mfcc->voiced_frames > 0U ? UI_ACCENT : UI_WARNING)) {
+        return false;
+    }
+
+    (void)snprintf(linea, sizeof(linea), "MIN:%u MAX:%u", (unsigned)adc.minimum, (unsigned)adc.maximum);
+
+    if (!gfx_draw_text(16, 82, linea, UI_MUTED)) {
+        return false;
+    }
+
+    (void)snprintf(linea, sizeof(linea), "PROMEDIO:%u", (unsigned)adc.average);
+    return gfx_draw_text(16, 94, linea, UI_MUTED);
+}
+
 static bool ui_draw_capture(void) {
     char line[30];
     VoxIDAudioState state = captura_pendiente ? VOXID_AUDIO_CAPTURING : voxid_audio_status();
@@ -382,8 +478,10 @@ static bool ui_draw_capture(void) {
         (void)snprintf(line, sizeof(line), "LOC%02u / TOMA %u/%u", (unsigned)(espacio_locutor + 1U), (unsigned)(voxid_enroll_count() + 1U), (unsigned)VOXID_PROTOTYPES_PER_SPEAKER);
     } else if (state == VOXID_AUDIO_READY && pagina_captura == 1U) {
         (void)snprintf(line, sizeof(line), "MEDIA MFCC / VOZ");
+    } else if (state == VOXID_AUDIO_READY && pagina_captura == 2U) {
+        (void)snprintf(line, sizeof(line), "CAPTURA / ADC");
     } else if (state == VOXID_AUDIO_READY) {
-        (void)snprintf(line, sizeof(line), "3 SEG / MFCC OK");
+        (void)snprintf(line, sizeof(line), "RESULTADO / VOXID");
     } else {
         (void)snprintf(line, sizeof(line), "MARIPOSA / PA2");
     }
@@ -411,10 +509,9 @@ static bool ui_draw_capture(void) {
             return gfx_draw_text(16, 93, "OK: REPETIR", UI_MUTED);
         }
 
-        VoxIDAudioStats adc;
         VoxIDVoiceStats mfcc;
 
-        if (!voxid_audio_read_stats(&adc) || !voxid_voice_read_stats(&mfcc)) {
+        if (!voxid_voice_read_stats(&mfcc)) {
             return gfx_draw_text(16, 77, "ERROR MFCC REAL", UI_WARNING);
         }
 
@@ -431,26 +528,7 @@ static bool ui_draw_capture(void) {
             return ui_draw_enroll_take(&mfcc);
         }
 
-        (void)snprintf(line, sizeof(line), "FRAMES: %lu/%u", (unsigned long)mfcc.frames, (unsigned)VOXID_VOICE_EXPECTED_FRAMES);
-
-        if (!gfx_draw_text(16, 58, line, UI_TEXT)) {
-            return false;
-        }
-
-        (void)snprintf(line, sizeof(line), "CON VOZ: %lu", (unsigned long)mfcc.voiced_frames);
-
-        if (!gfx_draw_text(16, 70, line, mfcc.voiced_frames > 0U ? UI_ACCENT : UI_WARNING)) {
-            return false;
-        }
-
-        (void)snprintf(line, sizeof(line), "MIN:%u MAX:%u", (unsigned)adc.minimum, (unsigned)adc.maximum);
-
-        if (!gfx_draw_text(16, 82, line, UI_MUTED)) {
-            return false;
-        }
-
-        (void)snprintf(line, sizeof(line), "PROMEDIO:%u", (unsigned)adc.average);
-        return gfx_draw_text(16, 94, line, UI_MUTED);
+        return pagina_captura == 2U ? ui_draw_capture_stats(&mfcc) : ui_draw_identify_result(&mfcc);
     }
 
     // PREPARADO: los circulos se animan desde ui_task().
@@ -475,13 +553,15 @@ static bool ui_draw_capture(void) {
 // =============================================================================
 
 static bool ui_draw_system(void) {
-    char line[26];
+    char linea[26];
 
     if (!ui_draw_title("DIAGNOSTICO") || !ui_draw_card()) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 60, "STM32F407 / ADC OFF", UI_TEXT)) {
+    (void)snprintf(linea, sizeof(linea), "BTN PERD: %lu", (unsigned long)buttons_dropped());
+
+    if (!gfx_draw_text(16, 60, linea, UI_TEXT)) {
         return false;
     }
 
@@ -491,9 +571,27 @@ static bool ui_draw_system(void) {
         return false;
     }
 
-    (void)snprintf(line, sizeof(line), "Perdidos: %lu", (unsigned long)buttons_dropped());
+    const char *memoria;
 
-    if (!gfx_draw_text(16, 87, line, UI_MUTED)) {
+    switch (voxid_storage_status()) {
+        case VOXID_STORAGE_READY:
+            memoria = "EEPROM: LISTA";
+            break;
+        case VOXID_STORAGE_EMPTY:
+            memoria = "EEPROM: VACIA";
+            break;
+        case VOXID_STORAGE_CORRUPT:
+            memoria = "EEPROM: DATOS DANADOS";
+            break;
+        case VOXID_STORAGE_IO_ERROR:
+            memoria = "EEPROM: ERROR I2C";
+            break;
+        default:
+            memoria = "EEPROM: NO INICIADA";
+            break;
+    }
+
+    if (!gfx_draw_text(16, 87, memoria, UI_MUTED)) {
         return false;
     }
 
@@ -691,6 +789,7 @@ static void ui_dispatch(ButtonEvent event) {
             }
 
             captura_pendiente = false;
+            error_guardado = false;
             estado_actual = origen_captura;
         } else if (estado_actual == UI_STATE_SELFTEST) {
             estado_actual = UI_STATE_SYSTEM;
@@ -720,7 +819,8 @@ static void ui_dispatch(ButtonEvent event) {
 
     if (estado_actual == UI_STATE_CAPTURE && voxid_audio_status() == VOXID_AUDIO_READY) {
         if (event == BUTTON_UP || event == BUTTON_DOWN) {
-            pagina_captura = (uint8_t)(1U - pagina_captura);
+            uint8_t paginas = origen_captura == UI_STATE_ENROLL ? 2U : 3U;
+            pagina_captura = (uint8_t)((pagina_captura + (event == BUTTON_UP ? paginas - 1U : 1U)) % paginas);
             redibujar = true;
             return;
         }
@@ -754,17 +854,30 @@ static void ui_dispatch(ButtonEvent event) {
             fase_circulos = 0U;
             ultimo_tick_circulos = HAL_GetTick();
             captura_pendiente = false;
+            error_guardado = false;
             redibujar = true;
             break;
         case UI_STATE_CAPTURE:
             if (origen_captura == UI_STATE_ENROLL && voxid_audio_status() == VOXID_AUDIO_READY) {
                 VoxIDVoiceStats toma;
 
-                if (voxid_voice_read_stats(&toma) && voxid_enroll_add(&toma) == VOXID_ENROLL_COMPLETE) {
-                    voxid_audio_stop();
-                    estado_actual = UI_STATE_ENROLL;
-                    redibujar = true;
-                    break;
+                if (voxid_voice_read_stats(&toma)) {
+                    VoxIDEnrollResult resultado = voxid_enroll_add(&toma);
+
+                    if (resultado == VOXID_ENROLL_STORAGE_ERROR) {
+                        error_guardado = true;
+                        pagina_captura = 0U;
+                        redibujar = true;
+                        break;
+                    }
+
+                    if (resultado == VOXID_ENROLL_COMPLETE) {
+                        voxid_audio_stop();
+                        error_guardado = false;
+                        estado_actual = UI_STATE_ENROLL;
+                        redibujar = true;
+                        break;
+                    }
                 }
             }
 
@@ -773,6 +886,7 @@ static void ui_dispatch(ButtonEvent event) {
             fase_circulos = 0U;
             ultimo_tick_circulos = HAL_GetTick();
             captura_pendiente = true;
+            error_guardado = false;
             segundos_dibujados = VOXID_AUDIO_DURATION_S;
             redibujar = true;
             break;
@@ -803,6 +917,7 @@ bool ui_init(void) {
     captura_pendiente = false;
     segundos_dibujados = VOXID_AUDIO_DURATION_S;
     pagina_captura = 0U;
+    error_guardado = false;
     resultado_prueba.status = VOXID_SELFTEST_NOT_RUN;
     resultado_prueba.samples = 0U;
     resultado_prueba.frames = 0U;

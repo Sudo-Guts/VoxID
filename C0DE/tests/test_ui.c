@@ -19,6 +19,8 @@
 #include "voxid_audio.h"
 #include "voxid_dsp.h"
 #include "voxid_enroll.h"
+#include "voxid_storage.h"
+#include "mock_eeprom.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -124,8 +126,27 @@ static void terminar_toma(bool con_senal) {
     assert(voxid_audio_status() == VOXID_AUDIO_READY);
 }
 
+static void comprobar_identificacion(const char *esperado) {
+    assert(ui_init());
+    pulsar(BTN_OK_Pin);
+    pulsar(BTN_OK_Pin);
+    pulsar(BTN_OK_Pin);
+    uint32_t lecturas = mock_eeprom_read_calls;
+    uint32_t escrituras = mock_eeprom_write_calls;
+    terminar_toma(true);
+    assert(strstr(texto_pantalla, esperado) != NULL);
+    assert(mock_eeprom_read_calls == lecturas && mock_eeprom_write_calls == escrituras);
+    pulsar(BTN_BACK_Pin);
+    pulsar(BTN_BACK_Pin);
+    pulsar(BTN_DOWN_Pin);
+    pulsar(BTN_OK_Pin);
+    assert(ui_state() == UI_STATE_ENROLL);
+}
+
 static void comprobar_registro(void) {
     mock_hal_reset();
+    mock_eeprom_reset();
+    assert(voxid_storage_init(&hi2c1));
     buttons_init();
     assert(ui_init());
     pulsar(BTN_DOWN_Pin);
@@ -164,10 +185,19 @@ static void comprobar_registro(void) {
     pulsar(BTN_OK_Pin);
     terminar_toma(true);
     assert(voxid_enroll_profile(0U) == NULL);
-    assert(strstr(texto_pantalla, "OK: GUARDAR RAM") != NULL);
+    assert(strstr(texto_pantalla, "OK: GUARDAR") != NULL);
+    mock_eeprom_protected = true;
+    pulsar(BTN_OK_Pin);
+    assert(ui_state() == UI_STATE_CAPTURE);
+    assert(voxid_enroll_profile(0U) == NULL && voxid_enroll_count() == 2U);
+    assert(voxid_audio_status() == VOXID_AUDIO_READY);
+    assert(strstr(texto_pantalla, "ERROR AL GUARDAR") != NULL);
+    assert(strstr(texto_pantalla, "OK: REINTENTAR") != NULL);
+    assert(!mock_timer_running && !mock_dma_running);
+    mock_eeprom_protected = false;
     pulsar(BTN_OK_Pin);
     assert(ui_state() == UI_STATE_ENROLL);
-    assert(strstr(texto_pantalla, "3 PROTOTIPOS EN RAM") != NULL);
+    assert(strstr(texto_pantalla, "GUARDADO EN EEPROM") != NULL);
     assert(!mock_timer_running && !mock_dma_running);
 
     const VoxIDSpeakerProfile *perfil = voxid_enroll_profile(0U);
@@ -182,6 +212,9 @@ static void comprobar_registro(void) {
     pulsar(BTN_BACK_Pin);
     assert(ui_state() == UI_STATE_ENROLL && voxid_enroll_count() == 0U);
     assert(memcmp(perfil->mfcc, anterior.mfcc, sizeof(anterior.mfcc)) == 0);
+
+    assert(voxid_storage_init(&hi2c1));
+    comprobar_identificacion("LOCUTOR 01");
 
     pulsar(BTN_DOWN_Pin);
     assert(strstr(texto_pantalla, "LOCUTOR 02") != NULL);
@@ -198,10 +231,13 @@ static void comprobar_registro(void) {
     assert(voxid_enroll_profile(1U) != NULL);
     assert(voxid_enroll_profile(2U) == NULL);
     assert(memcmp(perfil->mfcc, anterior.mfcc, sizeof(anterior.mfcc)) == 0);
+    comprobar_identificacion("VOZ AMBIGUA");
 }
 
 int main(void) {
     mock_hal_reset();
+    mock_eeprom_reset();
+    assert(voxid_storage_init(&hi2c1));
     buttons_init();
     assert(voxid_dsp_init() && ui_init());
     pulsar(BTN_OK_Pin);
@@ -231,10 +267,13 @@ int main(void) {
 
     assert(voxid_audio_status() == VOXID_AUDIO_READY);
     assert(circulos_dibujados == circulos_fijos);
-    assert(strstr(texto_pantalla, "FRAMES: 298/298") != NULL);
+    assert(strstr(texto_pantalla, "VOZ INSUFICIENTE") != NULL);
     assert(strstr(texto_pantalla, "CON VOZ: 0") != NULL);
     pulsar(BTN_DOWN_Pin);
     assert(strstr(texto_pantalla, "SIN VOZ DETECTADA") != NULL);
+    pulsar(BTN_DOWN_Pin);
+    assert(strstr(texto_pantalla, "FRAMES: 298/298") != NULL);
+    assert(strstr(texto_pantalla, "MIN:2048 MAX:2048") != NULL);
 
     encolar(BTN_OK_Pin);
     encolar(BTN_DOWN_Pin);
@@ -255,6 +294,11 @@ int main(void) {
     pulsar(BTN_OK_Pin);
     comprobar_escucha();
     pulsar(BTN_BACK_Pin);
+    pulsar(BTN_OK_Pin);
+    pulsar(BTN_OK_Pin);
+    terminar_toma(true);
+    assert(strstr(texto_pantalla, "SIN LOCUTORES") != NULL);
+    pulsar(BTN_BACK_Pin);
     pulsar(BTN_BACK_Pin);
     pulsar(BTN_DOWN_Pin);
     pulsar(BTN_DOWN_Pin);
@@ -264,6 +308,6 @@ int main(void) {
 
     comprobar_registro();
 
-    puts("OK: solo BACK, tres tomas, reintento de silencio/error y perfiles por locutor.");
+    puts("OK: solo BACK, registro persistente, reintento sin recaptura e identificacion tras reinicio.");
     return 0;
 }

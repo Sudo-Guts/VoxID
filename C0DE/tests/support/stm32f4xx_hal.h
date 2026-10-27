@@ -5,13 +5,15 @@
  *  Autor    : Gustavo Ruiz Luis
  * -----------------------------------------------------------------------------
  *
- *  Tipo SPI minimo para probar GFX sin compilar el controlador de hardware.
+ *  Tipos HAL minimos para probar GFX y EEPROM sin hardware.
  *
  * =============================================================================
  */
 
 #ifndef VOXID_TEST_HAL_H
 #define VOXID_TEST_HAL_H
+
+#include "main.h"
 
 typedef struct {
     void *Instance;

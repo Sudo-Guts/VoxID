@@ -1,6 +1,6 @@
 # Etapa 2: PCM y MFCC reales
 
-Se implementa la conexión de ADC y DMA con el extractor MFCC compartido. El registro de prototipos se implementa por separado en voxid_enroll, descrito en STAGE3_ENROLLMENT.md. No se accede a EEPROM.
+Se implementa la conexión de ADC y DMA con el extractor MFCC compartido. El registro de prototipos se implementa por separado en voxid_enroll, descrito en STAGE3_ENROLLMENT.md. La persistencia y comparación de la versión actual se describen en [etapa 4](STAGE4_STORAGE_IDENTIFY.md); no se accede a EEPROM durante adquisición o DSP.
 
 ## Flujo
 
@@ -22,7 +22,7 @@ No se almacena el audio completo. Los parámetros compartidos están en `Core/In
 
 El umbral inicial es RMS normalizado 0.01. Es un criterio provisional que requiere calibración física y también puede seleccionar ruido intenso.
 
-La UI muestra los 298 frames, CON VOZ y estadísticas ADC. En la segunda página dibuja la media seleccionada; con cero frames muestra SIN VOZ DETECTADA. MARIPOSA es una referencia de uso, no una palabra verificada por este código.
+En IDENTIFICAR, la UI muestra primero el resultado de comparación; UP/DN permite consultar la gráfica y una tercera página con los 298 frames, CON VOZ y estadísticas ADC. En la gráfica dibuja la media seleccionada; con cero frames muestra SIN VOZ DETECTADA. MARIPOSA es una referencia de uso, no una palabra verificada por este código.
 
 ## Validación
 

@@ -25,7 +25,8 @@ ETAPA 1 | ADC1 + TIM2 + DMA e interfaz
 [x] Detener ADC y DMA desde el bucle principal tambien tras un error de IRQ.
 [x] Animar circulos solo en PREPARADO; fijarlos durante la captura.
 [x] Corregir repeticion desde RESULTADO/ERROR y reiniciar cuenta regresiva.
-[x] Ignorar OK durante la escucha y permitir cancelacion con BACK.
+[x] Mostrar solo BACK y bloquear UP/DN/OK desde la solicitud de captura.
+[x] Probar el cambio entre tomas cuando ADC conserva READY de la anterior.
 [x] Probar estos contratos en PC con HAL y dibujo simulados.
 [ ] Clean/Build Debug con toolchain ARM en STM32CubeIDE.
 [ ] Validar temporizacion, ADC, DMA, botones e interfaz en la placa.
@@ -50,10 +51,15 @@ ETAPA 2 | PCM y MFCC de audio real
 ETAPA 3 | Tres prototipos MFCC por locutor
 ==========================================================================
 
-[ ] Definir la calidad minima y el procedimiento de cada toma.
-[ ] Registrar tres prototipos por locutor.
-[ ] Validar repetibilidad con varias personas y nuevas tomas.
-[ ] Implementar despues de cerrar la validacion de etapas 1 y 2.
+[x] Definir aceptacion inicial: continuidad, MFCC finitos y 20 frames seleccionados.
+[x] Registrar tres medias MFCC de tomas independientes por locutor en RAM.
+[x] Repetir tomas insuficientes o fallidas sin avanzar el contador.
+[x] Conservar el perfil previo hasta aceptar tres tomas de reemplazo.
+[x] Cancelar el registro pendiente sin borrar perfiles completos.
+[x] Probar modulo de registro y flujo UI con ADC/DMA simulados.
+[ ] Compilar la nueva version con toolchain ARM en STM32CubeIDE.
+[ ] Validar registro, cancelacion y regrabacion en Ophyra.
+[ ] Ajustar el minimo de frames con varias personas y nuevas tomas.
 
 ==========================================================================
 ETAPA 4 | EEPROM M24C32 e identificacion

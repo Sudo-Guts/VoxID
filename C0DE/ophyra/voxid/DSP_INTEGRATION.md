@@ -11,7 +11,8 @@ El adaptador `voxid_dsp.c` reserva buffers estáticos y ofrece inicialización, 
 El firmware integra dos caminos de comprobación:
 
 - DIAGNOSTICO ejecuta la señal sintética de 440 Hz sin ADC.
-- IDENTIFICAR y REGISTRAR permiten adquirir audio y calcular MFCC; no identifican ni almacenan perfiles todavía.
+- IDENTIFICAR permite adquirir audio y calcular MFCC, sin decisión de identidad.
+- REGISTRAR acepta tres tomas por locutor y conserva sus prototipos en RAM mediante voxid_enroll; no accede a EEPROM.
 
 Mantener la estructura relativa del checkout, refrescar con F5 y ejecutar Clean/Build en STM32CubeIDE. La compilación ARM y la captura física de la versión de mantenimiento quedan pendientes.
 

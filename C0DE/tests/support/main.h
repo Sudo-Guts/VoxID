@@ -100,6 +100,9 @@ void mock_hal_reset(void);
  */
 void mock_dma_block(uint16_t value);
 
+/** @brief Llena una mitad DMA con una senoide de 440 Hz y notifica su entrega. */
+void mock_dma_tone_block(void);
+
 /** @brief Reloj simulado. @return Frecuencia APB1 en Hz. */
 uint32_t HAL_RCC_GetPCLK1Freq(void);
 /** @brief Tiempo simulado. @return Milisegundos transcurridos. */

@@ -1,6 +1,6 @@
 # Etapa 2: PCM y MFCC reales
 
-Se implementa la conexión de ADC y DMA con el extractor MFCC compartido. No se registran prototipos ni se accede a EEPROM.
+Se implementa la conexión de ADC y DMA con el extractor MFCC compartido. El registro de prototipos se implementa por separado en voxid_enroll, descrito en STAGE3_ENROLLMENT.md. No se accede a EEPROM.
 
 ## Flujo
 

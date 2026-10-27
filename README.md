@@ -10,10 +10,10 @@ La plataforma digital es **Ophyra con STM32F407VGT6**, pantalla ST7735 de 160 ×
 |---|---|---|
 | 1 | ADC1 + TIM2 + DMA y círculos de preparación | Implementada; pendiente de validación física de la versión actual. |
 | 2 | ADC a PCM y extracción MFCC de audio real | Implementada y probada en PC con señales sintéticas y HAL simulada; pendiente de compilación ARM y validación en Ophyra. |
-| 3 | Registro de tres prototipos MFCC por locutor | Pendiente. |
+| 3 | Registro de tres prototipos MFCC por locutor | Implementada en RAM y probada en PC; pendiente de validación física del registro. |
 | 4 | EEPROM M24C32 e identificación por distancia normalizada | Pendiente. |
 
-La interfaz permite elegir cuatro espacios de locutor. Todavía no contiene perfiles, reconocimiento de la palabra ni identificación de personas.
+La interfaz permite registrar cuatro locutores, con tres prototipos de 13 coeficientes por locutor. Los perfiles se mantienen en RAM hasta reiniciar. El reconocimiento de la palabra y la identificación de personas todavía no están implementados.
 
 ## Adquisición y procesamiento
 
@@ -33,6 +33,12 @@ La cadena prevista comprende micrófono electret, preamplificación, filtros pas
 `voxid_config.h` concentra los parámetros compartidos. La ISR notifica bloques; el bucle principal convierte ADC a PCM, elimina DC y procesa MFCC. Se usan buffers estáticos y no se guarda el audio completo.
 
 La media MFCC utiliza únicamente frames cuya energía supera `VOXID_VOICE_MIN_RMS`. El umbral inicial es RMS 0.01 respecto de la escala completa y necesita calibración con voz y ruido medidos en la placa. Un ruido suficientemente intenso también puede superar este criterio. Si no se selecciona ningún frame, la captura puede ser válida, pero la UI muestra `CON VOZ: 0` y no dibuja una media de voz.
+
+## Registro de locutores
+
+REGISTRAR permite elegir un locutor y capturar tres tomas independientes. OK acepta cada toma válida y empieza la siguiente; en la tercera confirma el guardado en RAM. BACK descarta el registro pendiente y conserva el perfil anterior si existía.
+
+El mínimo inicial es de 20 frames seleccionados por toma, configurable en `voxid_config.h` y pendiente de calibración física. Una toma insuficiente o un error se repite sin avanzar. Consultar [el flujo y validación de etapa 3](C0DE/ophyra/voxid/STAGE3_ENROLLMENT.md).
 
 ## Organización
 
@@ -60,14 +66,14 @@ make -C C0DE clean
 
 En Windows con MinGW, usar `mingw32-make` en lugar de `make`. La ruta de ejecución y la limpieza tienen reglas para ambos sistemas; la verificación automatizada de esta revisión se realizó en Linux.
 
-`all` comprueba la compilación y el enlace del núcleo portable y genera un ejecutable mínimo y su desensamblado. Para comprobar comportamiento, ejecutar `test`: Frame, ventana, FFT, MFCC, voz, adquisición, interfaz y GFX. Las pruebas de adquisición e interfaz simulan HAL; no sustituyen las mediciones en placa.
+`all` comprueba la compilación y el enlace del núcleo portable y genera un ejecutable mínimo y su desensamblado. Para comprobar comportamiento, ejecutar `test`: Frame, ventana, FFT, MFCC, voz, adquisición, interfaz, GFX y registro. Las pruebas de adquisición e interfaz simulan HAL; no sustituyen las mediciones en placa.
 
 ## Compilar el firmware
 
 1. Mantener el checkout completo del repositorio: el proyecto enlaza los ocho módulos DSP compartidos mediante rutas relativas.
 2. Importar `C0DE/ophyra/voxid` en STM32CubeIDE.
 3. Refrescar con F5, ejecutar Clean y Build Debug, y programar Ophyra.
-4. Seguir [la validación de etapas 1 y 2](DOC/Validacion_etapas_1_2.md).
+4. Seguir [la validación de etapas 1 y 2](DOC/Validacion_etapas_1_2.md) y [el registro de etapa 3](C0DE/ophyra/voxid/STAGE3_ENROLLMENT.md).
 
 El Makefile de PC no genera firmware ARM. Si CubeMX regenera código, comprobar la configuración DMA del `.ioc`, la vinculación con ADC1 y el orden GPIO, DMA, ADC1, SPI1, TIM2.
 

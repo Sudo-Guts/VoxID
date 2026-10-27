@@ -46,6 +46,17 @@ static void identify_normalize(const float *mfcc, float *unitario) {
     }
 }
 
+bool voxid_identify_read_prototype(uint8_t locutor, uint8_t prototipo, float *valores) {
+    const VoxIDSpeakerProfile *perfil = voxid_enroll_profile(locutor);
+
+    if (valores == NULL || prototipo >= VOXID_PROTOTYPES_PER_SPEAKER || !voxid_enroll_profile_valid(perfil)) {
+        return false;
+    }
+
+    identify_normalize(perfil->mfcc[prototipo], valores);
+    return true;
+}
+
 bool voxid_identify_run(const VoxIDVoiceStats *toma, VoxIDIdentifyResult *resultado) {
     if (toma == NULL || resultado == NULL) {
         return false;

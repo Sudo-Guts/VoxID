@@ -6,7 +6,7 @@ VOXID | Seguimiento de etapas
 [x] Implementar DSP portable: Frame, Hamming, FFT, potencia, Mel, log-Mel y DCT.
 [x] Integrar los ocho modulos compartidos sin duplicarlos en el firmware.
 [x] Conservar el benchmark sintetico en voxid_test y sus dependencias.
-[x] Implementar la autoprueba sintetica de 720 muestras y tres frames.
+[x] Mantener la prueba MFCC sintetica en PC y el benchmark de voxid_test.
 [x] Unificar parametros digitales en voxid_config.h.
 [x] Normalizar el codigo propio: ASCII, cuatro espacios y firmas en una linea.
 [x] Documentar APIs propias y conservar bloques USER CODE del firmware generado.
@@ -72,6 +72,10 @@ ETAPA 4 | EEPROM M24C32 e identificacion
 [x] Implementar distancia L2 normalizada C01..C12 y promedio de tres prototipos.
 [x] Rechazar por distancia maxima, margen insuficiente y toma invalida.
 [x] Mantener grafica MFCC y estadisticas ADC junto al resultado.
+[x] Sustituir DIAGNOSTICO por LOCUTORES con estado y tres referencias L2.
+[x] Consultar cuatro espacios sin capturar audio ni acceder a EEPROM.
+[x] Verificar barras con vectores conocidos y dibujo mediante UI/GFX reales en PC.
+[ ] Validar la nueva vista LOCUTORES en la pantalla de Ophyra.
 [x] Ejecutar once pruebas de PC, incluidos cortes, CRC y ambiguedad.
 [ ] Compilar y enlazar la etapa 4 con toolchain ARM en STM32CubeIDE.
 [ ] Validar EEPROM real, reinicio, errores I2C y recuperacion de perfiles.

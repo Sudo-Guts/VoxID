@@ -25,7 +25,7 @@ FUENTES_AUDIO := $(FUENTES_VOZ) $(CORE)/Src/voxid_audio.c tests/support/mock_hal
 FUENTES_REGISTRO := $(CORE)/Src/voxid_enroll.c
 FUENTES_PERFILES := $(FUENTES_REGISTRO) $(CORE)/Src/voxid_storage.c $(CORE)/Src/m24c32.c tests/support/mock_eeprom.c
 FUENTES_IDENTIFICAR := $(CORE)/Src/voxid_identify.c
-FUENTES_UI := $(FUENTES_AUDIO) $(FUENTES_PERFILES) $(FUENTES_IDENTIFICAR) $(CORE)/Src/ui.c $(CORE)/Src/ui_voice.c $(CORE)/Src/buttons.c $(CORE)/Src/voxid_selftest.c
+FUENTES_UI := $(FUENTES_AUDIO) $(FUENTES_PERFILES) $(FUENTES_IDENTIFICAR) $(CORE)/Src/ui.c $(CORE)/Src/ui_voice.c $(CORE)/Src/buttons.c
 INCLUDES_PLACA := -Itests/support -I$(CORE)/Inc
 
 PROGRAMA := $(OUT)/voxid.exe

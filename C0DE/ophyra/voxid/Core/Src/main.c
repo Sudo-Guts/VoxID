@@ -118,7 +118,7 @@ int main(void)
   // Preparar el pipeline MFCC antes de capturar muestras reales.
   (void)voxid_dsp_init();
 
-  // Un fallo de EEPROM se informa en la UI; no bloquea el diagnostico.
+  // Cargar lo recuperable; LOCUTORES informa los fallos de lectura.
   (void)voxid_storage_init(&hi2c1);
 
   ui_ready = st7735_init(&hspi1);

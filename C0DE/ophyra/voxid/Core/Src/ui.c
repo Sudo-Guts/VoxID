@@ -3,11 +3,11 @@
  *  Proyecto : VoxID
  *  Archivo  : C0DE/ophyra/voxid/Core/Src/ui.c
  *  Autor    : Gustavo Ruiz Luis
- * =============================================================================
+ * -----------------------------------------------------------------------------
  *
  *  Interfaz pastel para la TFT de Ophyra (160 x 128).
  *  Utiliza la API grafica gfx_* y los eventos de buttons.c.
- *  Registro persistente y comparacion de tres prototipos por locutor.
+ *  Registro persistente, consulta de perfiles e identificacion de locutores.
  *
  * =============================================================================
  */
@@ -16,8 +16,6 @@
 
 #include "buttons.h"
 #include "gfx.h"
-#include "voxid_dsp.h"
-#include "voxid_selftest.h"
 #include "voxid_audio.h"
 #include "voxid_voice.h"
 #include "voxid_enroll.h"
@@ -46,9 +44,11 @@
 #define UI_WARNING      0xA26DU  // Coral oscuro
 #define UI_WHITE        0xFFFFU
 
-#define UI_MENU_ITEMS   3U
-#define UI_TEST_PAGES   4U
-#define UI_GRAPH_WIDTH  129U
+#define UI_MENU_ITEMS            3U
+#define UI_GRAPH_WIDTH         129U
+#define UI_PROFILE_AXIS         80U
+#define UI_PROFILE_HALF_HEIGHT 13U
+#define UI_PROFILE_THIRD_COLOR 0x34B1U
 
 // -----------------------------------------------------------------------------
 //  Estado privado
@@ -60,7 +60,6 @@ static UIState origen_captura = UI_STATE_IDENTIFY;
 static uint8_t opcion_menu = 0U;
 static uint8_t opcion_dibujada = 0U;
 static uint8_t espacio_locutor = 0U;
-static uint8_t pagina_prueba = 0U;
 static VoxIDAudioState estado_audio_dibujado = VOXID_AUDIO_IDLE;
 static uint8_t fase_circulos = 0U;
 static uint32_t ultimo_tick_circulos = 0U;
@@ -68,7 +67,6 @@ static bool captura_pendiente = false;
 static uint8_t segundos_dibujados = 3U;
 static uint8_t pagina_captura = 0U;
 static bool error_guardado = false;
-static VoxIDSelfTestResult resultado_prueba;
 
 static bool interfaz_lista = false;
 static bool redibujar = true;
@@ -76,7 +74,7 @@ static bool redibujar = true;
 static const char *const etiquetas_menu[UI_MENU_ITEMS] = {
     "IDENTIFICAR",
     "REGISTRAR",
-    "DIAGNOSTICO"
+    "LOCUTORES"
 };
 
 // -----------------------------------------------------------------------------
@@ -107,7 +105,7 @@ static bool ui_capture_is_listening(void) {
 
 static bool ui_draw_footer(void) {
     bool escuchando = ui_capture_is_listening();
-    bool can_move = estado_actual == UI_STATE_MENU || estado_actual == UI_STATE_ENROLL || estado_actual == UI_STATE_SELFTEST || (estado_actual == UI_STATE_CAPTURE && voxid_audio_status() == VOXID_AUDIO_READY);
+    bool can_move = estado_actual == UI_STATE_MENU || estado_actual == UI_STATE_ENROLL || estado_actual == UI_STATE_PROFILES || (estado_actual == UI_STATE_CAPTURE && voxid_audio_status() == VOXID_AUDIO_READY);
     bool can_ok = !ui_capture_is_listening();
     bool can_back = estado_actual != UI_STATE_MENU;
 
@@ -124,7 +122,7 @@ static bool ui_draw_footer(void) {
             return false;
         }
 
-        if (!ui_draw_footer_button(84U, "OK", can_ok)) {
+        if (estado_actual != UI_STATE_PROFILES && !ui_draw_footer_button(84U, "OK", can_ok)) {
             return false;
         }
     }
@@ -549,173 +547,75 @@ static bool ui_draw_capture(void) {
 }
 
 // =============================================================================
-//  Diagnostico del sistema
+//  Perfiles de locutor: referencias usadas al identificar
 // =============================================================================
 
-static bool ui_draw_system(void) {
+/**
+ * @brief Muestra el estado y las tres referencias del locutor seleccionado.
+ * @return true si el dibujo termina correctamente.
+ * @note Escala fija -1..1 para C01..C12; el color identifica la toma.
+ *       Los valores se obtienen del mismo normalizador de identificacion.
+ */
+static bool ui_draw_profiles(void) {
+    static const uint16_t colores[VOXID_PROTOTYPES_PER_SPEAKER] = {UI_ACCENT, UI_WARNING, UI_PROFILE_THIRD_COLOR};
+    const VoxIDSpeakerProfile *perfil = voxid_enroll_profile(espacio_locutor);
     char linea[26];
+    (void)snprintf(linea, sizeof(linea), "LOCUTOR %02u / %02u", (unsigned)(espacio_locutor + 1U), (unsigned)VOXID_SPEAKER_COUNT);
 
-    if (!ui_draw_title("DIAGNOSTICO") || !ui_draw_card()) {
+    if (!ui_draw_title(linea) || !ui_draw_card()) {
         return false;
     }
 
-    (void)snprintf(linea, sizeof(linea), "BTN PERD: %lu", (unsigned long)buttons_dropped());
+    if (!voxid_enroll_profile_valid(perfil)) {
+        VoxIDStorageStatus memoria = voxid_storage_status();
+        const char *mensaje = "SIN REGISTRAR";
+        bool error_memoria = memoria == VOXID_STORAGE_IO_ERROR || memoria == VOXID_STORAGE_CORRUPT || memoria == VOXID_STORAGE_NOT_INITIALIZED;
 
-    if (!gfx_draw_text(16, 60, linea, UI_TEXT)) {
+        if (memoria == VOXID_STORAGE_IO_ERROR) {
+            mensaje = "ERROR EEPROM / I2C";
+        } else if (memoria == VOXID_STORAGE_CORRUPT) {
+            mensaje = "EEPROM: DATOS DANADOS";
+        } else if (memoria == VOXID_STORAGE_NOT_INITIALIZED) {
+            mensaje = "EEPROM NO INICIADA";
+        }
+
+        return gfx_draw_text(10, 46, "SIN PERFIL CARGADO", UI_MUTED) && gfx_draw_text(16, 68, mensaje, error_memoria ? UI_WARNING : UI_MUTED) && gfx_draw_text(16, 88, error_memoria ? "REVISA LA MEMORIA" : "REGISTRA TRES TOMAS", UI_MUTED);
+    }
+
+    if (!gfx_draw_text(10, 46, "REGISTRADO / L2", UI_ACCENT) || !gfx_fill_rect(16U, UI_PROFILE_AXIS, UI_GRAPH_WIDTH, 1U, UI_BORDER)) {
         return false;
     }
 
-    bool ok = voxid_dsp_is_ready();
+    float valores[VOXID_MFCC_COUNT];
 
-    if (!gfx_draw_text(16, 74, ok ? "MFCC: LISTO" : "MFCC: ERROR", ok ? UI_ACCENT : UI_WARNING)) {
-        return false;
-    }
-
-    const char *memoria;
-
-    switch (voxid_storage_status()) {
-        case VOXID_STORAGE_READY:
-            memoria = "EEPROM: LISTA";
-            break;
-        case VOXID_STORAGE_EMPTY:
-            memoria = "EEPROM: VACIA";
-            break;
-        case VOXID_STORAGE_CORRUPT:
-            memoria = "EEPROM: DATOS DANADOS";
-            break;
-        case VOXID_STORAGE_IO_ERROR:
-            memoria = "EEPROM: ERROR I2C";
-            break;
-        default:
-            memoria = "EEPROM: NO INICIADA";
-            break;
-    }
-
-    if (!gfx_draw_text(16, 87, memoria, UI_MUTED)) {
-        return false;
-    }
-
-    return gfx_draw_text(16, 98, "OK: TEST 440HZ", UI_ACCENT);
-}
-
-// =============================================================================
-//  Prueba sintetica MFCC y navegacion de coeficientes
-// =============================================================================
-
-static const char *ui_test_status(VoxIDSelfTestStatus status) {
-    switch (status) {
-        case VOXID_SELFTEST_OK:
-            return "OK";
-        case VOXID_SELFTEST_INIT_ERROR:
-            return "INIT ERR";
-        case VOXID_SELFTEST_PROCESS_ERROR:
-            return "DSP ERR";
-        case VOXID_SELFTEST_SEQUENCE_ERROR:
-            return "SEQ ERR";
-        case VOXID_SELFTEST_VALUE_ERROR:
-            return "NAN/INF";
-        default:
-            return "SIN TEST";
-    }
-}
-
-static bool ui_draw_test_summary(void) {
-    char line[26];
-
-    if (!ui_draw_title("PRUEBA MFCC") || !ui_draw_card()) {
-        return false;
-    }
-
-    // Etiquetas a la izquierda y valores alineados a la derecha.
-    if (!gfx_draw_text(16, 61, "SENAL", UI_MUTED)) {
-        return false;
-    }
-
-    if (!gfx_draw_text_aligned(144, 61, "440Hz / 16kHz", UI_TEXT, UI_PANEL, 1U, GFX_ALIGN_RIGHT)) {
-        return false;
-    }
-
-    if (!gfx_draw_text(16, 76, "MUESTRAS", UI_MUTED)) {
-        return false;
-    }
-
-    (void)snprintf(line, sizeof(line), "%lu", (unsigned long)resultado_prueba.samples);
-
-    if (!gfx_draw_text_aligned(144, 76, line, UI_TEXT, UI_PANEL, 1U, GFX_ALIGN_RIGHT)) {
-        return false;
-    }
-
-    if (!gfx_draw_text(16, 91, "FRAMES", UI_MUTED)) {
-        return false;
-    }
-
-    bool passed = resultado_prueba.status == VOXID_SELFTEST_OK;
-    (void)snprintf(line, sizeof(line), "%lu/%u %s", (unsigned long)resultado_prueba.frames, (unsigned)VOXID_SELFTEST_FRAMES, ui_test_status(resultado_prueba.status));
-    return gfx_draw_text_aligned(144, 91, line, passed ? UI_ACCENT : UI_WARNING, UI_PANEL, 1U, GFX_ALIGN_RIGHT);
-}
-
-static bool ui_draw_coefficient(uint8_t index, int16_t y) {
-    char line[26];
-    float value = resultado_prueba.mfcc[index];
-    bool negative = value < 0.0f;
-
-    if (negative) {
-        value = -value;
-    }
-
-    if (!isfinite(value) || value > 1000000.0f) {
-        (void)snprintf(line, sizeof(line), "C%02u: FUERA RANGO", (unsigned)index);
-    } else {
-        uint32_t scaled = (uint32_t)(value * 100.0f + 0.5f);
-        (void)snprintf(line, sizeof(line), "C%02u:%c%lu.%02lu", (unsigned)index, negative ? '-' : '+', (unsigned long)(scaled / 100U), (unsigned long)(scaled % 100U));
-    }
-
-    return gfx_draw_text(13, y, line, UI_TEXT);
-}
-
-// =============================================================================
-//  Grafica de los 13 coeficientes MFCC
-// =============================================================================
-
-static bool ui_draw_mfcc_graph(void) {
-    if (!ui_draw_title("GRAFICA MFCC") || !ui_draw_card()) {
-        return false;
-    }
-
-    if (resultado_prueba.status != VOXID_SELFTEST_OK) {
-        return gfx_draw_text(16, 78, "SIN RESULTADOS", UI_WARNING);
-    }
-
-    return ui_draw_mfcc_bars(resultado_prueba.mfcc);
-}
-
-static bool ui_draw_selftest(void) {
-    if (pagina_prueba == 0U) {
-        return ui_draw_test_summary();
-    }
-
-    if (pagina_prueba == 1U) {
-        return ui_draw_mfcc_graph();
-    }
-
-    uint8_t first = pagina_prueba == 2U ? 0U : 7U;
-    uint8_t last = pagina_prueba == 2U ? 7U : VOXID_MFCC_COUNT;
-
-    if (!ui_draw_title(pagina_prueba == 2U ? "MFCC C00-C06" : "MFCC C07-C12")) {
-        return false;
-    }
-
-    if (resultado_prueba.status != VOXID_SELFTEST_OK) {
-        return gfx_draw_text(15, 70, "SIN RESULTADOS", UI_WARNING);
-    }
-
-    for (uint8_t i = first; i < last; ++i) {
-        if (!ui_draw_coefficient(i, (int16_t)(44U + (i - first) * 10U))) {
+    for (uint8_t toma = 0U; toma < VOXID_PROTOTYPES_PER_SPEAKER; ++toma) {
+        if (!voxid_identify_read_prototype(espacio_locutor, toma, valores)) {
             return false;
+        }
+
+        (void)snprintf(linea, sizeof(linea), "T%u", (unsigned)(toma + 1U));
+
+        if (!gfx_draw_text((int16_t)(23U + toma * 43U), 57, linea, colores[toma])) {
+            return false;
+        }
+
+        for (uint8_t k = 1U; k < VOXID_MFCC_COUNT; ++k) {
+            uint16_t alto = (uint16_t)(fabsf(valores[k]) * (float)UI_PROFILE_HALF_HEIGHT + 0.5f);
+
+            if (alto == 0U) {
+                continue;
+            }
+
+            uint16_t x = (uint16_t)(17U + (k - 1U) * 10U + toma * 3U);
+            uint16_t y = valores[k] >= 0.0f ? (uint16_t)(UI_PROFILE_AXIS - alto) : UI_PROFILE_AXIS + 1U;
+
+            if (!gfx_fill_rect(x, y, 2U, alto, colores[toma])) {
+                return false;
+            }
         }
     }
 
-    return true;
+    return gfx_draw_text(17, 98, "C01", UI_MUTED) && gfx_draw_text(122, 98, "C12", UI_MUTED);
 }
 
 static bool ui_render(void) {
@@ -733,14 +633,11 @@ static bool ui_render(void) {
         case UI_STATE_ENROLL:
             return ui_draw_enroll();
 
-        case UI_STATE_SYSTEM:
-            return ui_draw_system();
+        case UI_STATE_PROFILES:
+            return ui_draw_profiles();
 
         case UI_STATE_CAPTURE:
             return ui_draw_capture();
-
-        case UI_STATE_SELFTEST:
-            return ui_draw_selftest();
 
         default:
             estado_actual = UI_STATE_MENU;
@@ -770,7 +667,7 @@ static void ui_dispatch(ButtonEvent event) {
                 opcion_menu = (uint8_t)((opcion_menu + 1U) % UI_MENU_ITEMS);
                 break;
             case BUTTON_OK:
-                estado_actual = opcion_menu == 0U ? UI_STATE_IDENTIFY : opcion_menu == 1U ? UI_STATE_ENROLL : UI_STATE_SYSTEM;
+                estado_actual = opcion_menu == 0U ? UI_STATE_IDENTIFY : opcion_menu == 1U ? UI_STATE_ENROLL : UI_STATE_PROFILES;
                 redibujar = true;
                 break;
             default:
@@ -791,8 +688,6 @@ static void ui_dispatch(ButtonEvent event) {
             captura_pendiente = false;
             error_guardado = false;
             estado_actual = origen_captura;
-        } else if (estado_actual == UI_STATE_SELFTEST) {
-            estado_actual = UI_STATE_SYSTEM;
         } else {
             estado_actual = UI_STATE_MENU;
         }
@@ -807,7 +702,7 @@ static void ui_dispatch(ButtonEvent event) {
         return;
     }
 
-    if (estado_actual == UI_STATE_ENROLL) {
+    if (estado_actual == UI_STATE_ENROLL || estado_actual == UI_STATE_PROFILES) {
         if (event == BUTTON_UP) {
             espacio_locutor = (uint8_t)((espacio_locutor + VOXID_SPEAKER_COUNT - 1U) % VOXID_SPEAKER_COUNT);
             redibujar = true;
@@ -823,16 +718,6 @@ static void ui_dispatch(ButtonEvent event) {
             pagina_captura = (uint8_t)((pagina_captura + (event == BUTTON_UP ? paginas - 1U : 1U)) % paginas);
             redibujar = true;
             return;
-        }
-    }
-
-    if (estado_actual == UI_STATE_SELFTEST) {
-        if (event == BUTTON_UP) {
-            pagina_prueba = (uint8_t)((pagina_prueba + UI_TEST_PAGES - 1U) % UI_TEST_PAGES);
-            redibujar = true;
-        } else if (event == BUTTON_DOWN) {
-            pagina_prueba = (uint8_t)((pagina_prueba + 1U) % UI_TEST_PAGES);
-            redibujar = true;
         }
     }
 
@@ -891,13 +776,6 @@ static void ui_dispatch(ButtonEvent event) {
             redibujar = true;
             break;
 
-        case UI_STATE_SYSTEM:
-        case UI_STATE_SELFTEST:
-            estado_actual = UI_STATE_SELFTEST;
-            pagina_prueba = 0U;
-            voxid_selftest_run(&resultado_prueba);
-            redibujar = true;
-            break;
         default:
             break;
     }
@@ -910,7 +788,6 @@ bool ui_init(void) {
     opcion_menu = 0U;
     opcion_dibujada = 0U;
     espacio_locutor = 0U;
-    pagina_prueba = 0U;
     estado_audio_dibujado = VOXID_AUDIO_IDLE;
     fase_circulos = 0U;
     ultimo_tick_circulos = HAL_GetTick();
@@ -918,9 +795,6 @@ bool ui_init(void) {
     segundos_dibujados = VOXID_AUDIO_DURATION_S;
     pagina_captura = 0U;
     error_guardado = false;
-    resultado_prueba.status = VOXID_SELFTEST_NOT_RUN;
-    resultado_prueba.samples = 0U;
-    resultado_prueba.frames = 0U;
     redibujar = true;
 
     interfaz_lista = ui_render();

@@ -44,4 +44,15 @@ typedef struct {
  */
 bool voxid_identify_run(const VoxIDVoiceStats *toma, VoxIDIdentifyResult *resultado);
 
+/**
+ * @brief Copia un prototipo normalizado tal como se usa al identificar.
+ * @param locutor Indice del locutor registrado.
+ * @param prototipo Indice de la toma, entre cero y dos.
+ * @param valores Destino con capacidad para VOXID_MFCC_COUNT floats.
+ * @return true si existe un perfil valido; false sin modificar el destino.
+ * @note C00 queda en cero; C01..C12 tienen norma L2 unitaria. Consulta RAM
+ *       y no modifica perfiles, EEPROM ni el estado del extractor MFCC.
+ */
+bool voxid_identify_read_prototype(uint8_t locutor, uint8_t prototipo, float *valores);
+
 #endif /* VOXID_IDENTIFY_H */

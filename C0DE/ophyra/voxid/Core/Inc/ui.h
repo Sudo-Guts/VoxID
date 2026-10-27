@@ -24,9 +24,8 @@ typedef enum {
     UI_STATE_MENU = 0,
     UI_STATE_IDENTIFY,
     UI_STATE_ENROLL,
-    UI_STATE_SYSTEM,
-    UI_STATE_CAPTURE,
-    UI_STATE_SELFTEST
+    UI_STATE_PROFILES,
+    UI_STATE_CAPTURE
 } UIState;
 
 // -----------------------------------------------------------------------------

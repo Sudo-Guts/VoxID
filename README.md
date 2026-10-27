@@ -40,6 +40,12 @@ REGISTRAR permite elegir un locutor y capturar tres tomas independientes. OK ace
 
 El mínimo inicial es de 20 frames seleccionados por toma, configurable en `voxid_config.h` y pendiente de calibración física. Una toma insuficiente o un error se repite sin avanzar. Consultar [el flujo de etapa 3](C0DE/ophyra/voxid/STAGE3_ENROLLMENT.md) y [la persistencia e identificación de etapa 4](C0DE/ophyra/voxid/STAGE4_STORAGE_IDENTIFY.md).
 
+## Consulta de locutores
+
+El menú ofrece IDENTIFICAR, REGISTRAR y LOCUTORES. LOCUTORES sustituye a DIAGNOSTICO: UP/DN cambia entre los cuatro espacios y BACK regresa al menú. Cada perfil registrado muestra una gráfica con las tres series T1, T2 y T3, obtenidas del mismo normalizador que utiliza la identificación. Son C01..C12 con norma L2 unitaria y escala fija de -1 a 1; C00 queda fuera de la comparación. Cada serie corresponde a la media de los frames de una toma.
+
+El identificador promedia las tres distancias, por lo que se conservan las tres referencias. La consulta usa RAM, sin capturar audio, reiniciar el DSP ni escribir EEPROM. Los perfiles ya guardados siguen siendo compatibles.
+
 ## Identificación y EEPROM
 
 I2C1 utiliza PB6/PB7 a 100 kHz para la M24C32 integrada. Cada locutor dispone de dos copias con versión y CRC: el reemplazo conserva la copia vigente hasta verificar la nueva. El arranque lee los perfiles sin formatear ni escribir. Un fallo de guardado permite reintentar la tercera toma sin volver a capturarla.

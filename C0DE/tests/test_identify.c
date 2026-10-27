@@ -17,6 +17,7 @@
 #include <float.h>
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
 
 #define TEST_PI 3.14159265358979323846f
 
@@ -52,7 +53,54 @@ static void guardar_perfil(uint8_t locutor, float angulo) {
     assert(voxid_enroll_restore(locutor, &perfil));
 }
 
+static void comprobar_prototipos(void) {
+    float valores[VOXID_MFCC_COUNT];
+    voxid_enroll_reset();
+    assert(!voxid_identify_read_prototype(0U, 0U, valores));
+    VoxIDSpeakerProfile perfil = {.completo = true};
+
+    for (uint8_t toma = 0U; toma < VOXID_PROTOTYPES_PER_SPEAKER; ++toma) {
+        perfil.frames_con_voz[toma] = VOXID_ENROLL_MIN_VOICED_FRAMES;
+        perfil.mfcc[toma][0] = 1000.0f + (float)toma;
+    }
+
+    perfil.mfcc[0][1] = 3.0f;
+    perfil.mfcc[0][2] = 4.0f;
+    perfil.mfcc[1][1] = -5.0f;
+    perfil.mfcc[2][12] = 2.0f;
+    assert(voxid_enroll_restore(0U, &perfil));
+
+    for (uint8_t toma = 0U; toma < VOXID_PROTOTYPES_PER_SPEAKER; ++toma) {
+        assert(voxid_identify_read_prototype(0U, toma, valores));
+
+        for (uint8_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
+            float esperado = 0.0f;
+
+            if (toma == 0U && k == 1U) {
+                esperado = 0.6f;
+            } else if (toma == 0U && k == 2U) {
+                esperado = 0.8f;
+            } else if (toma == 1U && k == 1U) {
+                esperado = -1.0f;
+            } else if (toma == 2U && k == 12U) {
+                esperado = 1.0f;
+            }
+
+            assert(fabsf(valores[k] - esperado) < 1e-6f);
+        }
+    }
+
+    float anterior[VOXID_MFCC_COUNT];
+    (void)memcpy(anterior, valores, sizeof(anterior));
+    assert(!voxid_identify_read_prototype(VOXID_SPEAKER_COUNT, 0U, valores));
+    assert(!voxid_identify_read_prototype(0U, VOXID_PROTOTYPES_PER_SPEAKER, valores));
+    assert(!voxid_identify_read_prototype(0U, 0U, NULL));
+    assert(memcmp(anterior, valores, sizeof(anterior)) == 0);
+    assert(memcmp(voxid_enroll_profile(0U)->mfcc, perfil.mfcc, sizeof(perfil.mfcc)) == 0);
+}
+
 int main(void) {
+    comprobar_prototipos();
     VoxIDVoiceStats toma = crear_toma(0.0f);
     VoxIDIdentifyResult resultado;
     assert(!voxid_identify_run(NULL, &resultado));

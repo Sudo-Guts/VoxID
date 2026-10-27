@@ -17,7 +17,7 @@ El criterio de energía selecciona candidatos a voz y no reconoce MARIPOSA. La c
 
 1. Abrir el checkout completo e importar `C0DE/ophyra/voxid`.
 2. F5, Clean y Build Debug. Confirmar que se compilan `voxid_audio.c`, `voxid_voice.c` y los ocho módulos DSP.
-3. Programar la placa y ejecutar DIAGNOSTICO, prueba MFCC. Deben procesarse tres frames sintéticos.
+3. Programar la placa y comprobar el acceso a IDENTIFICAR, REGISTRAR y LOCUTORES. La integración sintética de tres frames se comprueba en PC con `make -C C0DE test test_mfcc.c`.
 
 Si se regenera con CubeMX, revisar `MX_DMA_Init` antes de `MX_ADC1_Init`, DMA2 Stream0 Channel0 circular y el enlace `__HAL_LINKDMA`.
 
@@ -42,7 +42,7 @@ En la prueba sintética de PC, una entrada DC ideal produce cero frames seleccio
 2. Capturar pronunciaciones de MARIPOSA y registrar mínimo, máximo, promedio y cantidad CON VOZ.
 3. Repetir la toma y comprobar que no aparecen errores ni datos anteriores.
 4. Cancelar con BACK y verificar que se puede iniciar una toma nueva.
-5. Repetir la autoprueba sintética después de utilizar audio real.
+5. Consultar LOCUTORES después de registrar audio real y verificar que se muestran las referencias guardadas sin iniciar otra captura.
 
 No se reserva un buffer de tres segundos: se reciben mitades de 640 muestras y cada una dispone de 40 ms antes de que DMA necesite reutilizarla. La detección de sobreescritura rechaza una toma; medir el consumo real para comprobar el margen.
 

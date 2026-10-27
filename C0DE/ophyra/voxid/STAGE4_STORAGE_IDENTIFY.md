@@ -2,7 +2,7 @@
 
 La versión actual conserva los tres prototipos MFCC de cada uno de los cuatro locutores en la M24C32 y los recupera al arrancar. IDENTIFICAR compara una toma nueva con los perfiles recuperados en RAM.
 
-La implementación y las pruebas de PC están completas. Quedan pendientes la compilación y el enlace ARM, la prueba en Ophyra y la calibración con voces reales. Los perfiles de etapa 3 estaban solo en RAM: deben registrarse una vez con esta versión para que queden persistidos.
+La implementación y las pruebas de PC están completas. El usuario reportó que el firmware de etapa 4 ya es funcional. La nueva vista LOCUTORES está verificada en PC y pendiente de revisar en Ophyra; la calibración con voces reales sigue requiriendo mediciones documentadas. Los perfiles ya guardados en EEPROM son compatibles con este cambio de interfaz.
 
 ## Integración con Ophyra
 
@@ -71,7 +71,7 @@ El lector exige firma, versión, parámetros DSP compatibles, confirmación, CRC
 
 Al actualizar se elige la copia que no contiene la última versión válida. Primero se invalida su confirmación y se comprueba; después se escribe y relee el cuerpo; al final se escribe la confirmación y se valida el registro completo. La copia vigente queda intacta. La secuencia se compara con aritmética modular, incluido el paso de UINT32_MAX a cero.
 
-El arranque recupera la copia válida más reciente de cada locutor. Si una está dañada, utiliza la otra. Sin copias válidas, el espacio queda vacío. Un fallo de lectura no se interpreta como memoria vacía; los otros espacios que sí pudieron leerse se conservan. DIAGNOSTICO distingue memoria lista, vacía, datos dañados y error I2C. El estado también refleja el resultado del último guardado.
+El arranque recupera la copia válida más reciente de cada locutor. Si una está dañada, utiliza la otra. Sin copias válidas, el espacio queda vacío. Un fallo de lectura no se interpreta como memoria vacía; los otros espacios que sí pudieron leerse se conservan. LOCUTORES consulta los espacios cargados y sus referencias. Si un espacio no tiene perfil y el estado de persistencia indica datos dañados o error I2C, muestra ese estado. El estado también refleja el resultado del último guardado; la vista no vuelve a consultar el bus.
 
 ## Distancia normalizada
 
@@ -100,6 +100,12 @@ UP/DN recorre resultado, gráfica MFCC y estadísticas ADC. OK inicia otra toma;
 
 Los valores 0.35 y 0.05 son iniciales, no umbrales validados. Deben ajustarse con nuevas tomas de los locutores registrados y personas no registradas, manteniendo separados registro y evaluación. También siguen pendientes la calibración RMS, el mínimo de frames y la comprobación de ruido de la etapa analógica.
 
+## Consulta de referencias
+
+El menú LOCUTORES sustituye a DIAGNOSTICO. UP/DN cambia de locutor y BACK regresa al menú; OK no tiene acción ni se dibuja. Un perfil registrado muestra las tres tomas normalizadas en una sola gráfica: T1 morada, T2 coral y T3 verde, con C01..C12 y escala fija -1..1. Un espacio sin perfil informa SIN REGISTRAR o el error de persistencia disponible.
+
+`voxid_identify_read_prototype()` obtiene cada referencia mediante el mismo normalizador utilizado por la comparación. Cada prototipo ya representa la media seleccionada de una toma; se conservan tres porque el criterio promedia sus distancias. La consulta no captura audio, no reinicia DSP ni escribe EEPROM. La gráfica de captura conserva sus 13 MFCC crudos y su escala relativa.
+
 ## Código y pruebas
 
 | Módulo | Responsabilidad |
@@ -108,7 +114,7 @@ Los valores 0.35 y 0.05 son iniciales, no umbrales validados. Deben ajustarse co
 | `voxid_storage.c/.h` | Formato, validación, dos copias y carga inicial |
 | `voxid_enroll.c/.h` | Sesión de tres tomas; publicación RAM solo tras guardado verificado |
 | `voxid_identify.c/.h` | Normalización, distancias y rechazo |
-| `ui.c` | Registro, reintento de guardado y presentación del resultado |
+| `ui.c` | Registro, reintento de guardado, resultado y consulta de locutores |
 
 No se reserva memoria dinámica ni se conserva la grabación completa.
 
@@ -123,12 +129,12 @@ Pasan las once pruebas de PC. La prueba EEPROM cubre páginas, límites, ACK, fo
 
 La identificación se contrasta con distancias analíticas, cambio de C00, escalado, promedio de los tres prototipos, umbrales, empates y cuatro locutores. La UI usa ADC→PCM→MFCC reales con HAL de prueba: comprueba reintento sin recaptura, identificación tras recargar EEPROM, ambigüedad y controles ocultos durante captura.
 
-Registro, persistencia, identificación y UI se comprobaron además con AddressSanitizer y UndefinedBehaviorSanitizer, sin comprobación de fugas. Se revisó sintaxis de 19 archivos con cabeceras reales STM32 y HAL I2C. Estas comprobaciones no generan un binario ARM ni validan el enlace, la memoria o los tiempos en placa.
+Registro, persistencia, identificación y UI se comprobaron además con AddressSanitizer y UndefinedBehaviorSanitizer, sin comprobación de fugas. Se revisó sintaxis de 18 archivos con cabeceras reales STM32 y HAL I2C. Estas comprobaciones no generan un binario ARM ni validan el enlace, la memoria o los tiempos en placa.
 
 ## Validación pendiente en Ophyra
 
 1. Actualizar a `feature/eeprom-identificacion`, refrescar F5, Clean y Build Debug. Verificar que se compilan los nuevos módulos y HAL I2C/I2CEx; programar la placa.
-2. En DIAGNOSTICO comprobar el estado de EEPROM y ejecutar la autoprueba MFCC.
+2. Entrar a LOCUTORES y recorrer los cuatro espacios. Verificar el estado registrado/vacío, las tres series normalizadas y el retorno con BACK.
 3. Registrar tres tomas de un locutor. Comprobar que solo aparece BACK durante las capturas y que termina con `GUARDADO EN EEPROM`.
 4. Reiniciar sin regrabar: el mismo espacio debe seguir ocupado. IDENTIFICAR con una pronunciación nueva debe mostrar un resultado y su distancia.
 5. Cancelar una regrabación después de una o dos tomas. Reiniciar y comprobar que sigue disponible el perfil anterior.

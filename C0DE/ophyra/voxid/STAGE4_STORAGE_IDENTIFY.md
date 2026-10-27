@@ -102,9 +102,9 @@ Los valores 0.35 y 0.05 son iniciales, no umbrales validados. Deben ajustarse co
 
 ## Consulta de referencias
 
-El menú LOCUTORES sustituye a DIAGNOSTICO. UP/DN cambia de locutor y BACK regresa al menú; OK no tiene acción ni se dibuja. Un perfil registrado muestra las tres tomas normalizadas en una sola gráfica: T1 morada, T2 coral y T3 verde, con C01..C12 y escala fija -1..1. Un espacio sin perfil informa SIN REGISTRAR o el error de persistencia disponible.
+El menú LOCUTORES sustituye a DIAGNOSTICO. En la selección, UP/DN cambia de locutor y se muestran estado, cantidad de tomas y coeficientes por toma. OK abre TOMA 1/3 únicamente si hay un perfil registrado. En la consulta, UP/DN recorre las tres tomas del mismo locutor y BACK vuelve a su selección; otro BACK regresa al menú. Un espacio sin perfil informa SIN REGISTRAR o el error de persistencia disponible.
 
-`voxid_identify_read_prototype()` obtiene cada referencia mediante el mismo normalizador utilizado por la comparación. Cada prototipo ya representa la media seleccionada de una toma; se conservan tres porque el criterio promedia sus distancias. La consulta no captura audio, no reinicia DSP ni escribe EEPROM. La gráfica de captura conserva sus 13 MFCC crudos y su escala relativa.
+Cada pantalla de toma muestra sus frames seleccionados y una gráfica C01..C12 con escala fija -1..1. OK no tiene acción y conserva su recuadro sin texto con el fondo inactivo, igual que en un locutor sin perfil. `voxid_identify_read_prototype()` obtiene cada referencia mediante el mismo normalizador utilizado por la comparación. Cada prototipo ya representa la media seleccionada de una toma; se conservan tres porque el criterio promedia sus distancias. La consulta no captura audio, no reinicia DSP ni escribe EEPROM. La gráfica de captura conserva sus 13 MFCC crudos y su escala relativa.
 
 ## Código y pruebas
 
@@ -134,7 +134,7 @@ Registro, persistencia, identificación y UI se comprobaron además con AddressS
 ## Validación pendiente en Ophyra
 
 1. Actualizar a `feature/eeprom-identificacion`, refrescar F5, Clean y Build Debug. Verificar que se compilan los nuevos módulos y HAL I2C/I2CEx; programar la placa.
-2. Entrar a LOCUTORES y recorrer los cuatro espacios. Verificar el estado registrado/vacío, las tres series normalizadas y el retorno con BACK.
+2. Entrar a LOCUTORES y recorrer los cuatro espacios. Abrir un perfil con OK, recorrer sus tres tomas con UP/DN y volver con BACK al mismo locutor. Verificar que OK queda sin texto y con fondo inactivo en espacios vacíos y dentro de las tomas.
 3. Registrar tres tomas de un locutor. Comprobar que solo aparece BACK durante las capturas y que termina con `GUARDADO EN EEPROM`.
 4. Reiniciar sin regrabar: el mismo espacio debe seguir ocupado. IDENTIFICAR con una pronunciación nueva debe mostrar un resultado y su distancia.
 5. Cancelar una regrabación después de una o dos tomas. Reiniciar y comprobar que sigue disponible el perfil anterior.

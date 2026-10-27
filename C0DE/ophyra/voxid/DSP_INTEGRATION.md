@@ -10,7 +10,7 @@ El adaptador `voxid_dsp.c` reserva buffers estáticos y ofrece inicialización, 
 
 El firmware integra estos caminos:
 
-- LOCUTORES consulta el estado de cada espacio y grafica las tres referencias normalizadas C01..C12, sin modificar el DSP ni la EEPROM.
+- LOCUTORES permite seleccionar un espacio, abrirlo con OK y recorrer sus tres referencias normalizadas C01..C12 con UP/DN, sin modificar el DSP ni la EEPROM.
 - IDENTIFICAR adquiere audio, calcula MFCC y compara los perfiles con distancia normalizada y rechazo por margen.
 - REGISTRAR acepta tres tomas por locutor y guarda sus prototipos mediante voxid_enroll y voxid_storage. El arranque recupera los perfiles EEPROM en RAM.
 

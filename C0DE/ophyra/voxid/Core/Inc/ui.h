@@ -25,7 +25,8 @@ typedef enum {
     UI_STATE_IDENTIFY,
     UI_STATE_ENROLL,
     UI_STATE_PROFILES,
-    UI_STATE_CAPTURE
+    UI_STATE_CAPTURE,
+    UI_STATE_PROFILE_TAKE
 } UIState;
 
 // -----------------------------------------------------------------------------

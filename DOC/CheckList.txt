@@ -73,6 +73,9 @@ ETAPA 4 | EEPROM M24C32 e identificacion
 [x] Rechazar por distancia maxima, margen insuficiente y toma invalida.
 [x] Mantener grafica MFCC y estadisticas ADC junto al resultado.
 [x] Sustituir DIAGNOSTICO por LOCUTORES con estado y tres referencias L2.
+[x] Separar seleccion de locutor y consulta de una toma con navegacion UP/DN.
+[x] Volver con BACK al mismo locutor y desactivar OK sin perfil o dentro de tomas.
+[x] Dibujar botones inactivos sin texto y con el fondo existente de la paleta.
 [x] Consultar cuatro espacios sin capturar audio ni acceder a EEPROM.
 [x] Verificar barras con vectores conocidos y dibujo mediante UI/GFX reales en PC.
 [ ] Validar la nueva vista LOCUTORES en la pantalla de Ophyra.

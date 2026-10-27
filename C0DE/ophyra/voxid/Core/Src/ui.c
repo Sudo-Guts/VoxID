@@ -46,9 +46,8 @@
 
 #define UI_MENU_ITEMS            3U
 #define UI_GRAPH_WIDTH         129U
-#define UI_PROFILE_AXIS         80U
-#define UI_PROFILE_HALF_HEIGHT 13U
-#define UI_PROFILE_THIRD_COLOR 0x34B1U
+#define UI_PROFILE_AXIS         78U
+#define UI_PROFILE_HALF_HEIGHT  19U
 
 // -----------------------------------------------------------------------------
 //  Estado privado
@@ -60,6 +59,7 @@ static UIState origen_captura = UI_STATE_IDENTIFY;
 static uint8_t opcion_menu = 0U;
 static uint8_t opcion_dibujada = 0U;
 static uint8_t espacio_locutor = 0U;
+static uint8_t toma_consulta = 0U;
 static VoxIDAudioState estado_audio_dibujado = VOXID_AUDIO_IDLE;
 static uint8_t fase_circulos = 0U;
 static uint32_t ultimo_tick_circulos = 0U;
@@ -105,9 +105,13 @@ static bool ui_capture_is_listening(void) {
 
 static bool ui_draw_footer(void) {
     bool escuchando = ui_capture_is_listening();
-    bool can_move = estado_actual == UI_STATE_MENU || estado_actual == UI_STATE_ENROLL || estado_actual == UI_STATE_PROFILES || (estado_actual == UI_STATE_CAPTURE && voxid_audio_status() == VOXID_AUDIO_READY);
-    bool can_ok = !ui_capture_is_listening();
+    bool can_move = estado_actual == UI_STATE_MENU || estado_actual == UI_STATE_ENROLL || estado_actual == UI_STATE_PROFILES || estado_actual == UI_STATE_PROFILE_TAKE || (estado_actual == UI_STATE_CAPTURE && voxid_audio_status() == VOXID_AUDIO_READY);
+    bool can_ok = !escuchando && estado_actual != UI_STATE_PROFILE_TAKE;
     bool can_back = estado_actual != UI_STATE_MENU;
+
+    if (estado_actual == UI_STATE_PROFILES) {
+        can_ok = voxid_enroll_profile_valid(voxid_enroll_profile(espacio_locutor));
+    }
 
     if (!gfx_fill_rect(8U, 112U, 144U, 1U, UI_BORDER)) {
         return false;
@@ -122,7 +126,7 @@ static bool ui_draw_footer(void) {
             return false;
         }
 
-        if (estado_actual != UI_STATE_PROFILES && !ui_draw_footer_button(84U, "OK", can_ok)) {
+        if (!ui_draw_footer_button(84U, "OK", can_ok)) {
             return false;
         }
     }
@@ -551,13 +555,10 @@ static bool ui_draw_capture(void) {
 // =============================================================================
 
 /**
- * @brief Muestra el estado y las tres referencias del locutor seleccionado.
+ * @brief Muestra estado e informacion del locutor seleccionado antes de abrir sus tomas.
  * @return true si el dibujo termina correctamente.
- * @note Escala fija -1..1 para C01..C12; el color identifica la toma.
- *       Los valores se obtienen del mismo normalizador de identificacion.
  */
 static bool ui_draw_profiles(void) {
-    static const uint16_t colores[VOXID_PROTOTYPES_PER_SPEAKER] = {UI_ACCENT, UI_WARNING, UI_PROFILE_THIRD_COLOR};
     const VoxIDSpeakerProfile *perfil = voxid_enroll_profile(espacio_locutor);
     char linea[26];
     (void)snprintf(linea, sizeof(linea), "LOCUTOR %02u / %02u", (unsigned)(espacio_locutor + 1U), (unsigned)VOXID_SPEAKER_COUNT);
@@ -579,39 +580,52 @@ static bool ui_draw_profiles(void) {
             mensaje = "EEPROM NO INICIADA";
         }
 
-        return gfx_draw_text(10, 46, "SIN PERFIL CARGADO", UI_MUTED) && gfx_draw_text(16, 68, mensaje, error_memoria ? UI_WARNING : UI_MUTED) && gfx_draw_text(16, 88, error_memoria ? "REVISA LA MEMORIA" : "REGISTRA TRES TOMAS", UI_MUTED);
+        return gfx_draw_text(16, 58, mensaje, error_memoria ? UI_WARNING : UI_MUTED) && gfx_draw_text(16, 70, "TOMAS: 0/3", UI_MUTED) && gfx_draw_text(16, 82, "SIN REFERENCIAS", UI_MUTED) && gfx_draw_text(16, 94, error_memoria ? "REVISA LA MEMORIA" : "REGISTRA TRES TOMAS", UI_MUTED);
     }
 
-    if (!gfx_draw_text(10, 46, "REGISTRADO / L2", UI_ACCENT) || !gfx_fill_rect(16U, UI_PROFILE_AXIS, UI_GRAPH_WIDTH, 1U, UI_BORDER)) {
+    (void)snprintf(linea, sizeof(linea), "TOMAS: %u/%u", (unsigned)VOXID_PROTOTYPES_PER_SPEAKER, (unsigned)VOXID_PROTOTYPES_PER_SPEAKER);
+    return gfx_draw_text(16, 58, "ESTADO: REGISTRADO", UI_ACCENT) && gfx_draw_text(16, 70, linea, UI_TEXT) && gfx_draw_text(16, 82, "13 MFCC POR TOMA", UI_MUTED) && gfx_draw_text(16, 94, "OK: VER TOMAS", UI_ACCENT);
+}
+
+/**
+ * @brief Grafica una referencia del locutor sin modificar el registro.
+ * @return true si el dibujo termina correctamente.
+ * @note C01..C12 usan el mismo normalizador de identificacion y escala fija
+ *       -1..1; UP/DN cambia la toma, mientras BACK conserva el locutor elegido.
+ */
+static bool ui_draw_profile_take(void) {
+    const VoxIDSpeakerProfile *perfil = voxid_enroll_profile(espacio_locutor);
+    float valores[VOXID_MFCC_COUNT];
+    char linea[30];
+    (void)snprintf(linea, sizeof(linea), "LOC%02u / TOMA %u/%u", (unsigned)(espacio_locutor + 1U), (unsigned)(toma_consulta + 1U), (unsigned)VOXID_PROTOTYPES_PER_SPEAKER);
+
+    if (!ui_draw_title(linea) || !ui_draw_card()) {
         return false;
     }
 
-    float valores[VOXID_MFCC_COUNT];
+    if (!voxid_identify_read_prototype(espacio_locutor, toma_consulta, valores)) {
+        return gfx_draw_text(16, 75, "SIN TOMA GUARDADA", UI_WARNING);
+    }
 
-    for (uint8_t toma = 0U; toma < VOXID_PROTOTYPES_PER_SPEAKER; ++toma) {
-        if (!voxid_identify_read_prototype(espacio_locutor, toma, valores)) {
-            return false;
+    (void)snprintf(linea, sizeof(linea), "VOZ: %u FRAMES / L2", (unsigned)perfil->frames_con_voz[toma_consulta]);
+
+    if (!gfx_draw_text(10, 46, linea, UI_MUTED) || !gfx_fill_rect(16U, UI_PROFILE_AXIS, UI_GRAPH_WIDTH, 1U, UI_BORDER)) {
+        return false;
+    }
+
+    for (uint8_t k = 1U; k < VOXID_MFCC_COUNT; ++k) {
+        uint16_t alto = (uint16_t)(fabsf(valores[k]) * (float)UI_PROFILE_HALF_HEIGHT + 0.5f);
+
+        if (alto == 0U) {
+            continue;
         }
 
-        (void)snprintf(linea, sizeof(linea), "T%u", (unsigned)(toma + 1U));
+        uint16_t x = (uint16_t)(17U + (k - 1U) * 10U);
+        uint16_t y = valores[k] >= 0.0f ? (uint16_t)(UI_PROFILE_AXIS - alto) : UI_PROFILE_AXIS + 1U;
+        uint16_t color = valores[k] >= 0.0f ? UI_ACCENT : UI_WARNING;
 
-        if (!gfx_draw_text((int16_t)(23U + toma * 43U), 57, linea, colores[toma])) {
+        if (!gfx_fill_rect(x, y, 6U, alto, color)) {
             return false;
-        }
-
-        for (uint8_t k = 1U; k < VOXID_MFCC_COUNT; ++k) {
-            uint16_t alto = (uint16_t)(fabsf(valores[k]) * (float)UI_PROFILE_HALF_HEIGHT + 0.5f);
-
-            if (alto == 0U) {
-                continue;
-            }
-
-            uint16_t x = (uint16_t)(17U + (k - 1U) * 10U + toma * 3U);
-            uint16_t y = valores[k] >= 0.0f ? (uint16_t)(UI_PROFILE_AXIS - alto) : UI_PROFILE_AXIS + 1U;
-
-            if (!gfx_fill_rect(x, y, 2U, alto, colores[toma])) {
-                return false;
-            }
         }
     }
 
@@ -635,6 +649,9 @@ static bool ui_render(void) {
 
         case UI_STATE_PROFILES:
             return ui_draw_profiles();
+
+        case UI_STATE_PROFILE_TAKE:
+            return ui_draw_profile_take();
 
         case UI_STATE_CAPTURE:
             return ui_draw_capture();
@@ -688,6 +705,8 @@ static void ui_dispatch(ButtonEvent event) {
             captura_pendiente = false;
             error_guardado = false;
             estado_actual = origen_captura;
+        } else if (estado_actual == UI_STATE_PROFILE_TAKE) {
+            estado_actual = UI_STATE_PROFILES;
         } else {
             estado_actual = UI_STATE_MENU;
         }
@@ -699,6 +718,15 @@ static void ui_dispatch(ButtonEvent event) {
     // BACK ya fue atendido. Los demas eventos se ignoran tambien mientras
     // la siguiente toma esta pendiente de arrancar, aunque ADC siga en READY.
     if (ui_capture_is_listening()) {
+        return;
+    }
+
+    if (estado_actual == UI_STATE_PROFILE_TAKE) {
+        if (event == BUTTON_UP || event == BUTTON_DOWN) {
+            toma_consulta = (uint8_t)((toma_consulta + (event == BUTTON_UP ? VOXID_PROTOTYPES_PER_SPEAKER - 1U : 1U)) % VOXID_PROTOTYPES_PER_SPEAKER);
+            redibujar = true;
+        }
+
         return;
     }
 
@@ -726,6 +754,13 @@ static void ui_dispatch(ButtonEvent event) {
     }
 
     switch (estado_actual) {
+        case UI_STATE_PROFILES:
+            if (voxid_enroll_profile_valid(voxid_enroll_profile(espacio_locutor))) {
+                toma_consulta = 0U;
+                estado_actual = UI_STATE_PROFILE_TAKE;
+                redibujar = true;
+            }
+            break;
         case UI_STATE_IDENTIFY:
         case UI_STATE_ENROLL:
             if (estado_actual == UI_STATE_ENROLL && !voxid_enroll_begin(espacio_locutor)) {
@@ -788,6 +823,7 @@ bool ui_init(void) {
     opcion_menu = 0U;
     opcion_dibujada = 0U;
     espacio_locutor = 0U;
+    toma_consulta = 0U;
     estado_audio_dibujado = VOXID_AUDIO_IDLE;
     fase_circulos = 0U;
     ultimo_tick_circulos = HAL_GetTick();

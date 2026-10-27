@@ -29,6 +29,8 @@
 static char texto_pantalla[4096];
 static uint32_t circulos_dibujados;
 static bool botones_visibles[4];
+static bool etiquetas_botones[4];
+static uint16_t colores_botones[4];
 
 typedef struct {
     uint16_t x;
@@ -37,7 +39,7 @@ typedef struct {
     uint16_t color;
 } BarraPerfil;
 
-static BarraPerfil barras_perfil[36];
+static BarraPerfil barras_perfil[VOXID_MFCC_COUNT - 1U];
 static uint8_t cantidad_barras;
 
 static bool registrar_texto(const char *texto) {
@@ -53,6 +55,8 @@ bool gfx_fill_screen(uint16_t color) {
 
     for (uint8_t i = 0U; i < 4U; ++i) {
         botones_visibles[i] = false;
+        etiquetas_botones[i] = false;
+        colores_botones[i] = 0U;
     }
 
     return true;
@@ -61,7 +65,7 @@ bool gfx_fill_screen(uint16_t color) {
 bool gfx_fill_rect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color) {
     assert(x + width <= 160U && y + height <= 128U);
 
-    if (width == 2U && x >= 17U && x <= 135U && y >= 67U && y <= 93U) {
+    if (ui_state() == UI_STATE_PROFILE_TAKE && width == 6U && x >= 17U && x <= 127U && y >= 59U && y <= 97U) {
         assert(cantidad_barras < sizeof(barras_perfil) / sizeof(barras_perfil[0]));
         barras_perfil[cantidad_barras++] = (BarraPerfil){x, y, height, color};
     }
@@ -71,11 +75,11 @@ bool gfx_fill_rect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint
 
 bool gfx_fill_round_rect(int16_t x, int16_t y, uint16_t width, uint16_t height, uint16_t radius, uint16_t color) {
     (void)radius;
-    (void)color;
     assert(x >= 0 && y >= 0 && x + width <= 160 && y + height <= 128);
 
     if (y == 115 && x >= 4 && (x - 4) % 40 == 0) {
         botones_visibles[(x - 4) / 40] = true;
+        colores_botones[(x - 4) / 40] = color;
     }
 
     return true;
@@ -104,6 +108,11 @@ bool gfx_draw_text_aligned(int16_t x, int16_t y, const char *text, uint16_t colo
     (void)bg;
     (void)scale;
     (void)align;
+
+    if (y == 117 && x >= 20 && x <= 140 && (x - 20) % 40 == 0) {
+        etiquetas_botones[(x - 20) / 40] = true;
+    }
+
     return gfx_draw_text(x, y, text, color);
 }
 
@@ -165,7 +174,7 @@ static void comprobar_perfiles(void) {
     VoxIDSpeakerProfile perfil = {.completo = true};
 
     for (uint8_t toma = 0U; toma < VOXID_PROTOTYPES_PER_SPEAKER; ++toma) {
-        perfil.frames_con_voz[toma] = VOXID_ENROLL_MIN_VOICED_FRAMES;
+        perfil.frames_con_voz[toma] = (uint16_t)(VOXID_ENROLL_MIN_VOICED_FRAMES + toma);
         perfil.mfcc[toma][0] = 1000.0f + (float)toma;
     }
 
@@ -178,37 +187,74 @@ static void comprobar_perfiles(void) {
     assert(ui_init());
     assert(strstr(texto_pantalla, "LOCUTORES") != NULL);
     assert(strstr(texto_pantalla, "DIAGNOSTICO") == NULL);
+    uint16_t color_inactivo = colores_botones[3];
+    assert(botones_visibles[3] && !etiquetas_botones[3]);
     uint32_t lecturas = mock_eeprom_read_calls;
     uint32_t escrituras = mock_eeprom_write_calls;
     pulsar(BTN_UP_Pin);
     pulsar(BTN_OK_Pin);
     assert(ui_state() == UI_STATE_PROFILES);
     assert(strstr(texto_pantalla, "LOCUTOR 01 / 04") != NULL);
-    assert(strstr(texto_pantalla, "REGISTRADO / L2") != NULL);
-    assert(strstr(texto_pantalla, "T1T2T3") != NULL);
-    assert(strstr(texto_pantalla, "C01C12") != NULL);
-    assert(botones_visibles[0] && botones_visibles[1] && !botones_visibles[2] && botones_visibles[3]);
-
-    // Estos valores analiticos distinguen normalizacion L2, signo y toma.
-    // Un promedio de prototipos o barras de MFCC crudos no produce estas barras.
-    assert(cantidad_barras == 4U);
-    assert(barras_perfil[0].x == 17U && barras_perfil[0].y == 72U && barras_perfil[0].alto == 8U);
-    assert(barras_perfil[1].x == 27U && barras_perfil[1].y == 70U && barras_perfil[1].alto == 10U);
-    assert(barras_perfil[2].x == 20U && barras_perfil[2].y == 81U && barras_perfil[2].alto == 13U);
-    assert(barras_perfil[3].x == 133U && barras_perfil[3].y == 67U && barras_perfil[3].alto == 13U);
-    assert(barras_perfil[0].color == barras_perfil[1].color);
-    assert(barras_perfil[0].color != barras_perfil[2].color && barras_perfil[0].color != barras_perfil[3].color && barras_perfil[2].color != barras_perfil[3].color);
-    pulsar(BTN_OK_Pin);
-    assert(ui_state() == UI_STATE_PROFILES && cantidad_barras == 4U);
+    assert(strstr(texto_pantalla, "ESTADO: REGISTRADO") != NULL);
+    assert(strstr(texto_pantalla, "TOMAS: 3/3") != NULL);
+    assert(strstr(texto_pantalla, "13 MFCC POR TOMA") != NULL);
+    assert(strstr(texto_pantalla, "OK: VER TOMAS") != NULL && cantidad_barras == 0U);
+    assert(botones_visibles[0] && botones_visibles[1] && botones_visibles[2] && botones_visibles[3]);
+    assert(etiquetas_botones[0] && etiquetas_botones[1] && etiquetas_botones[2] && etiquetas_botones[3]);
+    assert(colores_botones[2] != color_inactivo);
     pulsar(BTN_UP_Pin);
     assert(strstr(texto_pantalla, "LOCUTOR 04 / 04") != NULL);
     assert(strstr(texto_pantalla, "SIN REGISTRAR") != NULL && cantidad_barras == 0U);
+    assert(strstr(texto_pantalla, "TOMAS: 0/3") != NULL);
+    assert(botones_visibles[2] && !etiquetas_botones[2] && colores_botones[2] == color_inactivo);
+    pulsar(BTN_OK_Pin);
+    assert(ui_state() == UI_STATE_PROFILES);
+    assert(strstr(texto_pantalla, "LOCUTOR 04 / 04") != NULL);
     pulsar(BTN_DOWN_Pin);
-    assert(strstr(texto_pantalla, "LOCUTOR 01 / 04") != NULL && cantidad_barras == 4U);
+    pulsar(BTN_OK_Pin);
+    assert(ui_state() == UI_STATE_PROFILE_TAKE);
+    assert(strstr(texto_pantalla, "LOC01 / TOMA 1/3") != NULL);
+    assert(strstr(texto_pantalla, "VOZ: 20 FRAMES / L2") != NULL);
+    assert(strstr(texto_pantalla, "C01C12") != NULL);
+    assert(botones_visibles[2] && !etiquetas_botones[2] && colores_botones[2] == color_inactivo);
+    assert(etiquetas_botones[0] && etiquetas_botones[1] && etiquetas_botones[3]);
+
+    // Estos valores analiticos distinguen normalizacion L2, signo y toma.
+    // Un promedio de prototipos o barras de MFCC crudos no produce estas barras.
+    assert(cantidad_barras == 2U);
+    assert(barras_perfil[0].x == 17U && barras_perfil[0].y == 67U && barras_perfil[0].alto == 11U);
+    assert(barras_perfil[1].x == 27U && barras_perfil[1].y == 63U && barras_perfil[1].alto == 15U);
+    assert(barras_perfil[0].color == barras_perfil[1].color);
+    uint16_t color_positivo = barras_perfil[0].color;
+    pulsar(BTN_OK_Pin);
+    assert(ui_state() == UI_STATE_PROFILE_TAKE && cantidad_barras == 2U);
+    assert(strstr(texto_pantalla, "LOC01 / TOMA 1/3") != NULL);
+    pulsar(BTN_UP_Pin);
+    assert(strstr(texto_pantalla, "LOC01 / TOMA 3/3") != NULL);
+    assert(strstr(texto_pantalla, "VOZ: 22 FRAMES / L2") != NULL);
+    assert(cantidad_barras == 1U && barras_perfil[0].x == 127U && barras_perfil[0].y == 59U && barras_perfil[0].alto == 19U);
     pulsar(BTN_DOWN_Pin);
-    assert(strstr(texto_pantalla, "LOCUTOR 02 / 04") != NULL && cantidad_barras == 0U);
+    assert(strstr(texto_pantalla, "LOC01 / TOMA 1/3") != NULL && cantidad_barras == 2U);
     pulsar(BTN_DOWN_Pin);
-    assert(strstr(texto_pantalla, "LOCUTOR 03 / 04") != NULL && cantidad_barras == 4U);
+    assert(strstr(texto_pantalla, "LOC01 / TOMA 2/3") != NULL);
+    assert(cantidad_barras == 1U && barras_perfil[0].x == 17U && barras_perfil[0].y == 79U && barras_perfil[0].alto == 19U);
+    assert(barras_perfil[0].color != color_positivo);
+    pulsar(BTN_DOWN_Pin);
+    assert(strstr(texto_pantalla, "LOC01 / TOMA 3/3") != NULL);
+    pulsar(BTN_BACK_Pin);
+    assert(ui_state() == UI_STATE_PROFILES && cantidad_barras == 0U);
+    assert(strstr(texto_pantalla, "LOCUTOR 01 / 04") != NULL && etiquetas_botones[2]);
+    pulsar(BTN_DOWN_Pin);
+    assert(strstr(texto_pantalla, "LOCUTOR 02 / 04") != NULL && !etiquetas_botones[2]);
+    pulsar(BTN_OK_Pin);
+    assert(ui_state() == UI_STATE_PROFILES && cantidad_barras == 0U);
+    pulsar(BTN_DOWN_Pin);
+    assert(strstr(texto_pantalla, "LOCUTOR 03 / 04") != NULL && etiquetas_botones[2]);
+    pulsar(BTN_OK_Pin);
+    assert(strstr(texto_pantalla, "LOC03 / TOMA 1/3") != NULL && cantidad_barras == 2U);
+    pulsar(BTN_BACK_Pin);
+    assert(ui_state() == UI_STATE_PROFILES);
+    assert(strstr(texto_pantalla, "LOCUTOR 03 / 04") != NULL);
     pulsar(BTN_BACK_Pin);
     assert(ui_state() == UI_STATE_MENU);
     assert(mock_eeprom_read_calls == lecturas && mock_eeprom_write_calls == escrituras);
@@ -220,7 +266,9 @@ static void comprobar_perfiles(void) {
     assert(ui_init());
     pulsar(BTN_UP_Pin);
     pulsar(BTN_OK_Pin);
-    assert(strstr(texto_pantalla, "REGISTRADO / L2") != NULL && cantidad_barras > 0U);
+    assert(strstr(texto_pantalla, "ESTADO: REGISTRADO") != NULL && cantidad_barras == 0U);
+    pulsar(BTN_OK_Pin);
+    assert(ui_state() == UI_STATE_PROFILE_TAKE && cantidad_barras > 0U);
 }
 
 static void comprobar_registro(void) {

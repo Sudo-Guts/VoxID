@@ -25,10 +25,17 @@ En identificación, UP/DN recorre resultado, gráfica MFCC y estadísticas ADC. 
 
 ## Consulta de locutores
 
-LOCUTORES sustituye a DIAGNOSTICO. UP/DN cambia de espacio, con retorno circular entre 01 y 04; BACK regresa al menú. OK no realiza acciones y no se dibuja en esta vista.
+LOCUTORES sustituye a DIAGNOSTICO y tiene dos niveles:
 
-Un espacio registrado muestra REGISTRADO / L2 y una gráfica con tres series: T1 morada, T2 coral y T3 verde. Cada grupo representa un coeficiente C01..C12, con las tres tomas en orden y escala fija -1..1. Los datos se obtienen mediante `voxid_identify_read_prototype()`, que usa el mismo normalizador de la comparación. No se modifica el criterio de identificación ni el formato EEPROM.
+| Pantalla | UP/DN | OK | BACK |
+|---|---|---|---|
+| Selección de locutor | Cambia entre los cuatro espacios, con retorno circular. | Abre TOMA 1/3 si el perfil está registrado; inactivo si no hay perfil. | Regresa al menú principal. |
+| Consulta de tomas | Cambia entre TOMA 1/3, 2/3 y 3/3, con retorno circular. | Inactivo. | Regresa al mismo locutor en la selección. |
 
-Sin un perfil cargado se muestra SIN REGISTRAR. Si el estado de persistencia informa un fallo de lectura, datos dañados o falta de inicialización, se presenta ese estado en el espacio sin perfil. La consulta no verifica de nuevo el bus I2C.
+La selección muestra estado, cantidad de tomas y 13 MFCC por toma. Un espacio sin perfil muestra SIN REGISTRAR y TOMAS: 0/3. Si el estado de persistencia informa un fallo de lectura, datos dañados o falta de inicialización, se muestra ese estado. La consulta no verifica de nuevo el bus I2C.
 
-Las pruebas comprueban cuatro espacios, navegación circular, signos, alturas de barras con vectores conocidos, colores por toma, datos recuperados tras reinicio y ausencia de operaciones I2C al consultar. El dibujo se revisó con UI y GFX reales sobre memoria de PC; falta revisar esta nueva disposición en la pantalla física.
+Al abrir un perfil se muestra una sola referencia por pantalla, identificada por locutor y número de toma. Se informa la cantidad de frames selecciónados por energía que la originaron. La gráfica presenta C01..C12 normalizados, con escala fija -1..1, barras positivas moradas y negativas coral. Los datos se obtienen mediante `voxid_identify_read_prototype()`, que usa el mismo normalizador de la comparación.
+
+Los botones sin acción conservan su recuadro, sin texto y con el fondo inactivo `UI_PANEL` de la paleta existente. En particular, OK queda inactivo en espacios vacíos y al consultar las tomas. Durante la captura se conserva la regla previa: solo aparece BACK.
+
+Las pruebas comprueban ambos niveles, navegación circular, BACK sin perder el locutor, apertura desde TOMA 1/3, bloqueo de OK inactivo, colores de botones, barras con vectores conocidos y ausencia de I2C al consultar. El dibujo se revisó con UI y GFX reales sobre memoria de PC; falta revisar esta disposición en la pantalla física.

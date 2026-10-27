@@ -42,9 +42,9 @@ El mínimo inicial es de 20 frames seleccionados por toma, configurable en `voxi
 
 ## Consulta de locutores
 
-El menú ofrece IDENTIFICAR, REGISTRAR y LOCUTORES. LOCUTORES sustituye a DIAGNOSTICO: UP/DN cambia entre los cuatro espacios y BACK regresa al menú. Cada perfil registrado muestra una gráfica con las tres series T1, T2 y T3, obtenidas del mismo normalizador que utiliza la identificación. Son C01..C12 con norma L2 unitaria y escala fija de -1 a 1; C00 queda fuera de la comparación. Cada serie corresponde a la media de los frames de una toma.
+El menú ofrece IDENTIFICAR, REGISTRAR y LOCUTORES. En LOCUTORES, UP/DN selecciona uno de los cuatro espacios; se muestra su estado, cantidad de tomas y 13 MFCC por toma. OK abre las tomas de un perfil registrado. Dentro, UP/DN recorre TOMA 1/3, 2/3 y 3/3; BACK regresa al mismo locutor y otro BACK al menú. Los botones sin acción quedan sin texto y con el fondo inactivo de la paleta.
 
-El identificador promedia las tres distancias, por lo que se conservan las tres referencias. La consulta usa RAM, sin capturar audio, reiniciar el DSP ni escribir EEPROM. Los perfiles ya guardados siguen siendo compatibles.
+Cada toma tiene su propia gráfica C01..C12, normalizada a norma L2 unitaria y con escala fija -1..1; C00 queda fuera de la comparación. El identificador promedia las tres distancias, por lo que se conservan las tres referencias. La consulta usa RAM, sin capturar audio, reiniciar el DSP ni escribir EEPROM. Los perfiles ya guardados siguen siendo compatibles.
 
 ## Identificación y EEPROM
 

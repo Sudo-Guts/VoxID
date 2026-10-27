@@ -17,13 +17,16 @@
 // =============================================================================
 //  Inicializacion del enventanador
 // =============================================================================
-bool window_init(Window *window, float *coefficients, size_t window_size)
-{
+bool window_init(Window *window, float *coefficients, size_t window_size) {
     // Validar punteros.
-    if (window == NULL || coefficients == NULL) return false;
+    if (window == NULL || coefficients == NULL) {
+        return false;
+    }
 
     // Validar la longitud de la ventana.
-    if (window_size < 2) return false;
+    if (window_size < 2) {
+        return false;
+    }
 
     // Configurar almacenamiento y parametros.
     window->coefficients = coefficients;
@@ -45,13 +48,16 @@ bool window_init(Window *window, float *coefficients, size_t window_size)
 // =============================================================================
 //  Aplicacion de la ventana de Hamming
 // =============================================================================
-bool window_apply(const Window *window, const int16_t *input, float *output)
-{
+bool window_apply(const Window *window, const int16_t *input, float *output) {
     // Validar punteros.
-    if (window == NULL || input == NULL || output == NULL) return false;
+    if (window == NULL || input == NULL || output == NULL) {
+        return false;
+    }
 
     // Validar la configuracion del enventanador.
-    if (window->coefficients == NULL || window->window_size < 2) return false;
+    if (window->coefficients == NULL || window->window_size < 2) {
+        return false;
+    }
 
     // Normalizar las muestras y aplicar los coeficientes de Hamming.
     for (size_t i = 0; i < window->window_size; i++) {
@@ -62,4 +68,3 @@ bool window_apply(const Window *window, const int16_t *input, float *output)
 
     return true;
 }
-

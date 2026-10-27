@@ -1,4 +1,4 @@
-/* 
+/*
  * =============================================================================
  *  Proyecto : VoxID
  *  Archivo  : C0DE/src/frame.c
@@ -15,13 +15,16 @@
 // =============================================================================
 //  Inicializacion del segmentador
 // =============================================================================
-bool frame_init(Frame *frame, int16_t *buffer, size_t frame_size, size_t hop_size)
-{
+bool frame_init(Frame *frame, int16_t *buffer, size_t frame_size, size_t hop_size) {
     // Validar punteros.
-    if (frame == NULL || buffer == NULL) return false;
+    if (frame == NULL || buffer == NULL) {
+        return false;
+    }
 
     // Validar dimensiones de la ventana y desplazamiento.
-    if (frame_size == 0 || hop_size == 0 || hop_size > frame_size) return false;
+    if (frame_size == 0 || hop_size == 0 || hop_size > frame_size) {
+        return false;
+    }
 
     // Configurar almacenamiento y parametros.
     frame->buffer = buffer;
@@ -39,28 +42,36 @@ bool frame_init(Frame *frame, int16_t *buffer, size_t frame_size, size_t hop_siz
 // =============================================================================
 //  Recepcion y segmentacion de muestras
 // =============================================================================
-FrameResult frame_push(Frame *frame, int16_t sample, int16_t *output)
-{
+FrameResult frame_push(Frame *frame, int16_t sample, int16_t *output) {
     // Validar punteros y configuracion.
-    if (frame == NULL || output == NULL) return FRAME_ERROR;
+    if (frame == NULL || output == NULL) {
+        return FRAME_ERROR;
+    }
 
-    if (frame->buffer == NULL || frame->frame_size == 0 || frame->hop_size == 0 || frame->hop_size > frame->frame_size) return FRAME_ERROR;
+    if (frame->buffer == NULL || frame->frame_size == 0 || frame->hop_size == 0 || frame->hop_size > frame->frame_size) {
+        return FRAME_ERROR;
+    }
 
     // Validar el estado interno.
-    if (frame->write_index >= frame->frame_size || frame->count > frame->frame_size || frame->since_last_frame >= frame->hop_size) return FRAME_ERROR;
+    if (frame->write_index >= frame->frame_size || frame->count > frame->frame_size || frame->since_last_frame >= frame->hop_size) {
+        return FRAME_ERROR;
+    }
 
     // Almacenar la muestra en el buffer circular.
     frame->buffer[frame->write_index] = sample;
     frame->write_index = (frame->write_index >= frame->frame_size - 1) ? 0 : frame->write_index + 1;
 
-    
     if (frame->count < frame->frame_size) {
         frame->count++;
-        if (frame->count < frame->frame_size) return FRAME_WAITING;
-    } else {    
+        if (frame->count < frame->frame_size) {
+            return FRAME_WAITING;
+        }
+    } else {
         // Esperar el desplazamiento entre ventanas.
         frame->since_last_frame++;
-        if (frame->since_last_frame < frame->hop_size) return FRAME_WAITING;
+        if (frame->since_last_frame < frame->hop_size) {
+            return FRAME_WAITING;
+        }
     }
 
     // Copiar las muestras en orden cronologico.

@@ -18,13 +18,7 @@
 # -----------------------------------------------------------------------------
 
 /C0DE/out/*
-!/C0DE/out/voxid.o
-!/C0DE/out/voxid.elf
-!/C0DE/out/voxid.hex
-!/C0DE/out/voxid.bin
-!/C0DE/out/voxid.asm
-!/C0DE/out/voxid.map
-!/C0DE/out/voxid.exe
+!/C0DE/out/.gitkeep
 
 # -----------------------------------------------------------------------------
 #   Archivos Locales y Temporales de KiCad
@@ -64,6 +58,33 @@ SIM/psim/Filtro_Real.cir
 *.swp
 *.swo
 *~
+
+# -----------------------------------------------------------------------------
+#   STM32CubeIDE - Ophyra
+# -----------------------------------------------------------------------------
+
+# Workspace local
+**/.metadata/
+
+# Directorios de compilacion
+**/Debug/
+**/Release/
+
+# Archivos generados por ARM GCC
+*.o
+*.d
+*.elf
+*.map
+*.lst
+*.su
+
+# Configuraciones locales de depuracion
+*.launch
+*.jlink
+
+# Archivos temporales
+*.log
+*.bak
 
 # -----------------------------------------------------------------------------
 #   Grabaciones locales y resultados de MATLAB

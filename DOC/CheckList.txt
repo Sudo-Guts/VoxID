@@ -1,56 +1,105 @@
 ==========================================================================
-ETAPA C0DE | Makefile
+VOXID | Seguimiento de etapas
 ==========================================================================
 
-[2b9e6b8] Configurar el sistema de compilacion inicial de VoxID en Windows.
-[d0f37cc] Implementar ejecucion individual de pruebas unitarias y limpieza automatica de los archivos generados.
-[ ] Verificar la compatibilidad del Makefile con GNU Make en Linux.
-[ ] Comprobar los objetivos all, run, test y clean en ambos sistemas.
-[ ] Corregir .gitignore para excluir los binarios y archivos generados.
-[ ] Evaluar la compilacion automatica de multiples modulos .c y sus dependencias.
-[ ] Adaptar el sistema de compilacion a la plataforma embebida definitiva.
+[x] Confirmar plataforma digital: Ophyra, STM32F407VGT6 y TFT ST7735.
+[x] Implementar DSP portable: Frame, Hamming, FFT, potencia, Mel, log-Mel y DCT.
+[x] Integrar los ocho modulos compartidos sin duplicarlos en el firmware.
+[x] Conservar el benchmark sintetico en voxid_test y sus dependencias.
+[x] Mantener la prueba MFCC sintetica en PC y el benchmark de voxid_test.
+[x] Unificar parametros digitales en voxid_config.h.
+[x] Normalizar el codigo propio: ASCII, cuatro espacios y firmas en una linea.
+[x] Documentar APIs propias y conservar bloques USER CODE del firmware generado.
+[x] Corregir recorte GFX con coordenadas negativas y probarlo sobre memoria.
+[x] Corregir Makefile: dependencias DSP, seleccion de prueba y ejecucion completa.
+[x] Excluir resultados generados de C0DE/out y conservar .gitkeep.
+[x] Integrar firmware, PCB y simulaciones conservando sus historiales.
+[x] Registrar la confirmacion del usuario sobre el funcionamiento general en Ophyra.
+
+Los pendientes siguientes requieren comprobaciones especificas o mediciones;
+no invalidan el reporte de funcionamiento general del usuario.
 
 ==========================================================================
-ETAPA C0DE | Frame
+ETAPA 1 | ADC1 + TIM2 + DMA e interfaz
 ==========================================================================
 
-[f897b69] Implementar segmentacion de audio mediante ventanas configurables, traslape y almacenamiento circular de muestras.
-[ ] Verificar las pruebas unitarias del modulo Frame.
-[ ] Definir el formato de muestras: int16_t, float o conversion entre ambos.
-[ ] Evaluar tamaños de ventana en potencias de 2 para facilitar la FFT.
-[ ] Optimizar el manejo de indices y la copia de muestras del buffer circular.
-[ ] Comparar el rendimiento y consumo de memoria antes y despues de optimizar.
-[ ] Analizar alternativas de buffers circulares y el uso de memoria dinamica.
+[x] Configurar PA2, ADC1 de 12 bits, TIM2 TRGO a 16 kHz y DMA circular.
+[x] Capturar 48000 muestras en 75 mitades de 640 muestras.
+[x] Mantener el procesamiento fuera de las interrupciones.
+[x] Rechazar capturas con bloques sobrescritos o errores HAL.
+[x] Detener ADC y DMA desde el bucle principal tambien tras un error de IRQ.
+[x] Animar circulos solo en PREPARADO; fijarlos durante la captura.
+[x] Corregir repeticion desde RESULTADO/ERROR y reiniciar cuenta regresiva.
+[x] Mostrar solo BACK y bloquear UP/DN/OK desde la solicitud de captura.
+[x] Probar el cambio entre tomas cuando ADC conserva READY de la anterior.
+[x] Probar estos contratos en PC con HAL y dibujo simulados.
+[ ] Clean/Build Debug con toolchain ARM en STM32CubeIDE.
+[ ] Validar temporizacion, ADC, DMA, botones e interfaz en la placa.
 
 ==========================================================================
-ETAPA C0DE | Windows
+ETAPA 2 | PCM y MFCC de audio real
 ==========================================================================
 
-[5a9816e] Verificar las herramientas GCC, GNU Make y objdump.
-[5a9816e] Ejecutar la compilacion completa del programa.
-[5a9816e] Ejecutar las pruebas unitarias de Frame.
-[5a9816e] Verificar la generacion y limpieza de archivos en C0DE/out/.
-[5a9816e] Documentar los comandos necesarios para compilar y ejecutar VoxID.
+[x] Convertir ADC sin signo a PCM de 16 bits y eliminar DC.
+[x] Evitar el transitorio inicial de un nivel DC constante.
+[x] Exigir 48000 muestras y 298 frames MFCC con coeficientes finitos.
+[x] Separar frames totales de frames seleccionados por energia.
+[x] Calcular la media solo con los frames seleccionados.
+[x] No mostrar grafica de voz cuando no se seleccionaron frames.
+[x] Probar silencio, offset DC, senal debil, tono e intermitencia en PC.
+[x] Probar reinicio, cancelacion, fallos de ADC/DMA y repeticion.
+[ ] Calibrar el umbral RMS con ruido y voz de la etapa analogica real.
+[ ] Confirmar ausencia de perdida de bloques con DSP y TFT activos.
+[ ] Verificar capturas repetibles de MARIPOSA en Ophyra.
 
 ==========================================================================
-ETAPA C0DE | FFT (Transformada Rapida de Fourier)
+ETAPA 3 | Tres prototipos MFCC por locutor
 ==========================================================================
 
-[ ] Definir el tamaño de FFT y la representacion numerica.
-[ ] Seleccionar e implementar el algoritmo FFT.
-[ ] Implementar la funcion de ventana (Hann u otra justificada).
-[ ] Obtener el espectro de magnitud o potencia de cada segmento.
-[ ] Validar los resultados mediante señales conocidas.
-[ ] Optimizar tiempo de ejecucion, memoria y precision numerica.
+[x] Definir aceptacion inicial: continuidad, MFCC finitos y 20 frames seleccionados.
+[x] Registrar tres medias MFCC de tomas independientes por locutor en RAM.
+[x] Repetir tomas insuficientes o fallidas sin avanzar el contador.
+[x] Conservar el perfil previo hasta aceptar tres tomas de reemplazo.
+[x] Cancelar el registro pendiente sin borrar perfiles completos.
+[x] Probar modulo de registro y flujo UI con ADC/DMA simulados.
+[ ] Compilar la nueva version con toolchain ARM en STM32CubeIDE.
+[ ] Validar registro, cancelacion y regrabacion en Ophyra.
+[ ] Ajustar el minimo de frames con varias personas y nuevas tomas.
 
 ==========================================================================
-ETAPA C0DE | MEL (Banco de Filtros Mel)
+ETAPA 4 | EEPROM M24C32 e identificacion
 ==========================================================================
 
-[ ] Definir la cantidad de filtros y el rango de frecuencias.
-[ ] Implementar la conversion entre frecuencias Hz y escala Mel.
-[ ] Calcular las frecuencias centrales y limites de cada filtro.
-[ ] Implementar los filtros triangulares sobre el espectro de potencia.
-[ ] Calcular la energia correspondiente a cada filtro Mel.
-[ ] Validar los resultados mediante valores de referencia.
-[ ] Evaluar posibles optimizaciones de memoria y procesamiento.
+[x] Definir registros little-endian, version, revision DSP y CRC32.
+[x] Configurar I2C1 PB6/PB7, paginas M24C32 y persistencia con dos copias.
+[x] Recuperar perfiles al arrancar sin escribir ni formatear la EEPROM.
+[x] Reintentar un fallo de guardado sin volver a capturar la tercera toma.
+[x] Implementar distancia L2 normalizada C01..C12 y promedio de tres prototipos.
+[x] Rechazar por distancia maxima, margen insuficiente y toma invalida.
+[x] Mantener grafica MFCC y estadisticas ADC junto al resultado.
+[x] Sustituir DIAGNOSTICO por LOCUTORES con estado y tres referencias L2.
+[x] Separar seleccion de locutor y consulta de una toma con navegacion UP/DN.
+[x] Volver con BACK al mismo locutor y desactivar OK sin perfil o dentro de tomas.
+[x] Dibujar botones inactivos sin texto y con el fondo existente de la paleta.
+[x] Consultar cuatro espacios sin capturar audio ni acceder a EEPROM.
+[x] Verificar barras con vectores conocidos y dibujo mediante UI/GFX reales en PC.
+[x] Confirmar con el usuario la nueva navegacion LOCUTORES y sus botones.
+[x] Ejecutar once pruebas de PC, incluidos cortes, CRC y ambiguedad.
+[ ] Compilar y enlazar la etapa 4 con toolchain ARM en STM32CubeIDE.
+[ ] Validar EEPROM real, reinicio, errores I2C y recuperacion de perfiles.
+[ ] Calibrar distancia maxima y margen con voz registrada y desconocida.
+[ ] Validar identificacion con tomas distintas de las usadas en registro.
+
+==========================================================================
+HARDWARE Y SIMULACIONES | Integrados en main; desarrollo en pcb-sim
+==========================================================================
+
+[x] Integrar la PCB vigente y sus archivos de fabricacion versionados.
+[x] Integrar la revision de simulaciones con valores de la PCB vigente.
+[x] Comprobar los 16 valores comerciales en los tres netlists SPICE.
+[x] Incorporar preparacion de grabaciones MATLAB sin modificar originales.
+[x] Excluir grabaciones y resultados locales conservando sus .gitkeep.
+[ ] Ejecutar probar_preparacion_audio en MATLAB y leer un MP4 real.
+[ ] Ejecutar de nuevo AC, Monte Carlo y ruido con esos valores.
+[ ] Verificar ERC/DRC y correspondencia de archivos de fabricacion.
+[ ] Medir alimentaciones, offset y limites reales antes del acoplamiento ADC.

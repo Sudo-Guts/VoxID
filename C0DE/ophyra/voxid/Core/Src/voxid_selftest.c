@@ -95,15 +95,3 @@ void voxid_selftest_run(VoxIDSelfTestResult *result) {
 
     result->status = result->frames == VOXID_SELFTEST_FRAMES ? VOXID_SELFTEST_OK : VOXID_SELFTEST_SEQUENCE_ERROR;
 }
-
-// =============================================================================
-//  Acceso de solo lectura a las muestras sinteticas
-// =============================================================================
-
-const int16_t *voxid_selftest_samples(void) {
-    return test_signal;
-}
-
-uint32_t voxid_selftest_sample_count(void) {
-    return VOXID_SELFTEST_SAMPLES;
-}

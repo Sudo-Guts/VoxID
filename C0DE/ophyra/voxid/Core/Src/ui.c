@@ -41,7 +41,7 @@
 #define UI_WHITE        0xFFFFU
 
 #define UI_MENU_ITEMS   3U
-#define UI_TEST_PAGES   5U
+#define UI_TEST_PAGES   4U
 #define UI_GRAPH_WIDTH  129U
 
 // -----------------------------------------------------------------------------
@@ -76,13 +76,16 @@ static const char *const menu_labels[UI_MENU_ITEMS] = {
 
 static bool ui_draw_footer_button(uint16_t x, const char *label, bool enabled) {
     uint16_t background = enabled ? UI_ACCENT_LIGHT : UI_PANEL;
-    uint16_t foreground = enabled ? UI_TEXT : UI_MUTED;
 
     if (!gfx_fill_round_rect((int16_t)x, 115, 32U, 12U, 4U, background)) {
         return false;
     }
 
-    return gfx_draw_text_aligned((int16_t)(x + 16U), 117, label, foreground, background, 1U, GFX_ALIGN_CENTER);
+    if (!enabled) {
+        return true;
+    }
+
+    return gfx_draw_text_aligned((int16_t)(x + 16U), 117, label, UI_TEXT, background, 1U, GFX_ALIGN_CENTER);
 }
 
 static bool ui_draw_footer(void) {
@@ -306,17 +309,17 @@ static bool ui_draw_system(void) {
 static const char *ui_test_status(VoxIDSelfTestStatus status) {
     switch (status) {
         case VOXID_SELFTEST_OK:
-            return "3 FRAMES: OK";
+            return "OK";
         case VOXID_SELFTEST_INIT_ERROR:
-            return "ERROR: INICIO";
+            return "INIT ERR";
         case VOXID_SELFTEST_PROCESS_ERROR:
-            return "ERROR: MFCC";
+            return "DSP ERR";
         case VOXID_SELFTEST_SEQUENCE_ERROR:
-            return "ERROR: SECUENCIA";
+            return "SEQ ERR";
         case VOXID_SELFTEST_VALUE_ERROR:
-            return "ERROR: NAN/INF";
+            return "NAN/INF";
         default:
-            return "SIN PRUEBA";
+            return "SIN TEST";
     }
 }
 
@@ -327,23 +330,32 @@ static bool ui_draw_test_summary(void) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 61, "440Hz / 16kHz", UI_TEXT)) {
+    // Etiquetas a la izquierda y valores alineados a la derecha.
+    if (!gfx_draw_text(16, 61, "SENAL", UI_MUTED)) {
         return false;
     }
 
-    (void)snprintf(line, sizeof(line), "MUESTRAS: %lu", (unsigned long)selftest_result.samples);
+    if (!gfx_draw_text_aligned(144, 61, "440Hz / 16kHz", UI_TEXT, UI_PANEL, 1U, GFX_ALIGN_RIGHT)) {
+        return false;
+    }
 
-    if (!gfx_draw_text(16, 75, line, UI_MUTED)) {
+    if (!gfx_draw_text(16, 76, "MUESTRAS", UI_MUTED)) {
+        return false;
+    }
+
+    (void)snprintf(line, sizeof(line), "%lu", (unsigned long)selftest_result.samples);
+
+    if (!gfx_draw_text_aligned(144, 76, line, UI_TEXT, UI_PANEL, 1U, GFX_ALIGN_RIGHT)) {
+        return false;
+    }
+
+    if (!gfx_draw_text(16, 91, "FRAMES", UI_MUTED)) {
         return false;
     }
 
     bool passed = selftest_result.status == VOXID_SELFTEST_OK;
-
-    if (!gfx_draw_text(16, 89, ui_test_status(selftest_result.status), passed ? UI_ACCENT : UI_WARNING)) {
-        return false;
-    }
-
-    return gfx_draw_text(16, 99, "OK: REPETIR", UI_MUTED);
+    (void)snprintf(line, sizeof(line), "%lu/%u %s", (unsigned long)selftest_result.frames, (unsigned)VOXID_SELFTEST_FRAMES, ui_test_status(selftest_result.status));
+    return gfx_draw_text_aligned(144, 91, line, passed ? UI_ACCENT : UI_WARNING, UI_PANEL, 1U, GFX_ALIGN_RIGHT);
 }
 
 static bool ui_draw_coefficient(uint8_t index, int16_t y) {
@@ -366,64 +378,6 @@ static bool ui_draw_coefficient(uint8_t index, int16_t y) {
 }
 
 // =============================================================================
-//  Grafica de muestras PCM sinteticas
-// =============================================================================
-
-static bool ui_draw_waveform(void) {
-    if (!ui_draw_title("ONDA SINTETICA") || !ui_draw_card()) {
-        return false;
-    }
-
-    if (selftest_result.status != VOXID_SELFTEST_OK) {
-        return gfx_draw_text(16, 78, "SIN RESULTADOS", UI_WARNING);
-    }
-
-    if (!gfx_draw_text(16, 56, "440Hz / 16kHz", UI_MUTED)) {
-        return false;
-    }
-
-    for (uint16_t x = 0U; x < UI_GRAPH_WIDTH; x += 8U) {
-        if (!gfx_fill_rect((uint16_t)(16U + x), 80U, 4U, 1U, UI_BORDER)) {
-            return false;
-        }
-    }
-
-    const int16_t *samples = voxid_selftest_samples();
-    uint32_t count = voxid_selftest_sample_count();
-
-    if (samples == NULL || count != VOXID_SELFTEST_SAMPLES) {
-        return false;
-    }
-
-    // Un minimo y un maximo por columna evitan perder los picos al comprimir.
-    for (uint32_t x = 0U; x < UI_GRAPH_WIDTH; ++x) {
-        uint32_t first = x * count / UI_GRAPH_WIDTH;
-        uint32_t last = (x + 1U) * count / UI_GRAPH_WIDTH;
-        int16_t minimum = samples[first];
-        int16_t maximum = samples[first];
-
-        for (uint32_t n = first + 1U; n < last; ++n) {
-            if (samples[n] < minimum) {
-                minimum = samples[n];
-            }
-
-            if (samples[n] > maximum) {
-                maximum = samples[n];
-            }
-        }
-
-        int16_t top = (int16_t)(80 - (int32_t)maximum * 15 / 12000);
-        int16_t bottom = (int16_t)(80 - (int32_t)minimum * 15 / 12000);
-
-        if (!gfx_fill_rect((uint16_t)(16U + x), (uint16_t)top, 1U, (uint16_t)(bottom - top + 1), UI_ACCENT)) {
-            return false;
-        }
-    }
-
-    return gfx_draw_text(16, 98, "720 MUESTRAS PCM", UI_MUTED);
-}
-
-// =============================================================================
 //  Grafica de los 13 coeficientes MFCC
 // =============================================================================
 
@@ -434,10 +388,6 @@ static bool ui_draw_mfcc_graph(void) {
 
     if (selftest_result.status != VOXID_SELFTEST_OK) {
         return gfx_draw_text(16, 78, "SIN RESULTADOS", UI_WARNING);
-    }
-
-    if (!gfx_draw_text(16, 56, "MORADO:+ CORAL:-", UI_MUTED)) {
-        return false;
     }
 
     float maximum = 0.0f;
@@ -454,21 +404,21 @@ static bool ui_draw_mfcc_graph(void) {
         maximum = 1.0f;
     }
 
-    if (!gfx_fill_rect(16U, 80U, UI_GRAPH_WIDTH, 1U, UI_BORDER)) {
+    if (!gfx_fill_rect(16U, 78U, UI_GRAPH_WIDTH, 1U, UI_BORDER)) {
         return false;
     }
 
     // Escala simetrica alrededor de cero; se normaliza al mayor |MFCC|.
     for (uint8_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
         float value = selftest_result.mfcc[k];
-        uint16_t magnitude = (uint16_t)(fabsf(value) * 15.0f / maximum + 0.5f);
+        uint16_t magnitude = (uint16_t)(fabsf(value) * 19.0f / maximum + 0.5f);
 
         if (magnitude == 0U) {
             continue;
         }
 
         uint16_t x = (uint16_t)(17U + k * 10U);
-        uint16_t y = value >= 0.0f ? (uint16_t)(80U - magnitude) : 81U;
+        uint16_t y = value >= 0.0f ? (uint16_t)(78U - magnitude) : 79U;
         uint16_t color = value >= 0.0f ? UI_ACCENT : UI_WARNING;
 
         if (!gfx_fill_rect(x, y, 6U, magnitude, color)) {
@@ -489,17 +439,13 @@ static bool ui_draw_selftest(void) {
     }
 
     if (test_page == 1U) {
-        return ui_draw_waveform();
-    }
-
-    if (test_page == 2U) {
         return ui_draw_mfcc_graph();
     }
 
-    uint8_t first = test_page == 3U ? 0U : 7U;
-    uint8_t last = test_page == 3U ? 7U : VOXID_MFCC_COUNT;
+    uint8_t first = test_page == 2U ? 0U : 7U;
+    uint8_t last = test_page == 2U ? 7U : VOXID_MFCC_COUNT;
 
-    if (!ui_draw_title(test_page == 3U ? "MFCC C00-C06" : "MFCC C07-C12")) {
+    if (!ui_draw_title(test_page == 2U ? "MFCC C00-C06" : "MFCC C07-C12")) {
         return false;
     }
 

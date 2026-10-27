@@ -1,4 +1,4 @@
-/* 
+/*
  * =============================================================================
  *  Proyecto : VoxID
  *  Archivo  : C0DE/tests/test_frame.c
@@ -26,7 +26,7 @@ static void test_frame_push(void);
  * @brief Verifica la generacion de ventanas sin traslape.
  *
  * Comprueba que cada ventana contenga muestras independientes
- * cuando el desplazamiento es igual al tamaño de ventana.
+ * cuando el desplazamiento es igual al tamano de ventana.
  */
 static void test_frame_no_overlap(void);
 
@@ -54,8 +54,7 @@ static void test_frame_reinit(void);
  */
 static void test_frame_invalid_state(void);
 
-int main(void)
-{
+int main(void) {
     Frame frame = {0};
     int16_t buffer[8] = {0};
 
@@ -92,13 +91,12 @@ int main(void)
     return 0;
 }
 
-/* 
+/*
  * =============================================================================
  *  Prueba de segmentacion y traslape
  * =============================================================================
  */
-static void test_frame_push(void)
-{
+static void test_frame_push(void) {
     Frame frame = {0};
 
     int16_t buffer[4] = {0};
@@ -116,24 +114,20 @@ static void test_frame_push(void)
     size_t windows = 0;
 
     // Introducir las muestras del 1 al 8.
-    for (int16_t sample = 1; sample <= 8; sample++)
-    {
+    for (int16_t sample = 1; sample <= 8; sample++) {
         FrameResult result = frame_push(&frame, sample, output);
 
-        if (sample == 4 || sample == 6 || sample == 8)
-        {
+        if (sample == 4 || sample == 6 || sample == 8) {
             assert(result == FRAME_READY);
 
             // Verificar el contenido de cada ventana.
-            for (size_t i = 0; i < 4; i++)
-            {
+            for (size_t i = 0; i < 4; i++) {
                 assert(output[i] == expected[windows][i]);
             }
 
             windows++;
         }
-        else
-        {
+        else {
             assert(result == FRAME_WAITING);
         }
     }
@@ -148,14 +142,12 @@ static void test_frame_push(void)
     printf("OK: frame_push() funciona correctamente.\n");
 }
 
-
-/* 
+/*
  * =============================================================================
  *  Prueba de segmentacion sin traslape
  * =============================================================================
  */
-static void test_frame_no_overlap(void)
-{
+static void test_frame_no_overlap(void) {
     Frame frame = {0};
 
     int16_t buffer[4] = {0};
@@ -171,23 +163,19 @@ static void test_frame_no_overlap(void)
 
     size_t windows = 0;
 
-    for (int16_t sample = 1; sample <= 8; sample++)
-    {
+    for (int16_t sample = 1; sample <= 8; sample++) {
         FrameResult result = frame_push(&frame, sample, output);
 
-        if (sample == 4 || sample == 8)
-        {
+        if (sample == 4 || sample == 8) {
             assert(result == FRAME_READY);
 
-            for (size_t i = 0; i < 4; i++)
-            {
+            for (size_t i = 0; i < 4; i++) {
                 assert(output[i] == expected[windows][i]);
             }
 
             windows++;
         }
-        else
-        {
+        else {
             assert(result == FRAME_WAITING);
         }
     }
@@ -197,14 +185,12 @@ static void test_frame_no_overlap(void)
     printf("OK: segmentacion sin traslape.\n");
 }
 
-
-/* 
+/*
  * =============================================================================
  *  Prueba de desplazamiento minimo
  * =============================================================================
  */
-static void test_frame_min_hop(void)
-{
+static void test_frame_min_hop(void) {
     Frame frame = {0};
 
     int16_t buffer[4] = {0};
@@ -224,24 +210,20 @@ static void test_frame_min_hop(void)
     size_t windows = 0;
 
     // Introducir ocho muestras consecutivas.
-    for (int16_t sample = 1; sample <= 8; sample++)
-    {
+    for (int16_t sample = 1; sample <= 8; sample++) {
         FrameResult result = frame_push(&frame, sample, output);
 
-        if (sample >= 4)
-        {
+        if (sample >= 4) {
             assert(result == FRAME_READY);
 
             // Verificar el contenido de cada ventana.
-            for (size_t i = 0; i < 4; i++)
-            {
+            for (size_t i = 0; i < 4; i++) {
                 assert(output[i] == expected[windows][i]);
             }
 
             windows++;
         }
-        else
-        {
+        else {
             assert(result == FRAME_WAITING);
         }
     }
@@ -251,14 +233,12 @@ static void test_frame_min_hop(void)
     printf("OK: segmentacion con desplazamiento minimo.\n");
 }
 
-
-/* 
+/*
  * =============================================================================
  *  Prueba de reinicializacion del segmentador
  * =============================================================================
  */
-static void test_frame_reinit(void)
-{
+static void test_frame_reinit(void) {
     Frame frame = {0};
 
     int16_t buffer[4] = {0};
@@ -270,16 +250,13 @@ static void test_frame_reinit(void)
     assert(frame_init(&frame, buffer, 4, 2));
 
     // Recibir cinco muestras.
-    for (int16_t sample = 1; sample <= 5; sample++)
-    {
+    for (int16_t sample = 1; sample <= 5; sample++) {
         FrameResult result = frame_push(&frame, sample, output);
 
-        if (sample == 4)
-        {
+        if (sample == 4) {
             assert(result == FRAME_READY);
         }
-        else
-        {
+        else {
             assert(result == FRAME_WAITING);
         }
     }
@@ -297,37 +274,31 @@ static void test_frame_reinit(void)
     assert(frame.since_last_frame == 0);
 
     // Introducir nuevas muestras.
-    for (int16_t sample = 10; sample <= 12; sample++)
-    {
+    for (int16_t sample = 10; sample <= 12; sample++) {
         FrameResult result = frame_push(&frame, sample, output);
 
-        if (sample == 12)
-        {
+        if (sample == 12) {
             assert(result == FRAME_READY);
         }
-        else
-        {
+        else {
             assert(result == FRAME_WAITING);
         }
     }
 
     // Verificar que la ventana contenga solo muestras nuevas.
-    for (size_t i = 0; i < 3; i++)
-    {
+    for (size_t i = 0; i < 3; i++) {
         assert(output[i] == expected[i]);
     }
 
     printf("OK: reinicializacion del segmentador.\n");
 }
 
-
-/* 
+/*
  * =============================================================================
  *  Prueba de estados invalidos del segmentador
  * =============================================================================
  */
-static void test_frame_invalid_state(void)
-{
+static void test_frame_invalid_state(void) {
     Frame frame = {0};
 
     int16_t buffer[4] = {0};
@@ -348,7 +319,7 @@ static void test_frame_invalid_state(void)
     assert(frame_push(&frame, 1, output) == FRAME_ERROR);
     frame.write_index = 0;
 
-    // Rechazar un contador superior al tamaño de ventana.
+    // Rechazar un contador superior al tamano de ventana.
     frame.count = 5;
     assert(frame_push(&frame, 1, output) == FRAME_ERROR);
     frame.count = 0;

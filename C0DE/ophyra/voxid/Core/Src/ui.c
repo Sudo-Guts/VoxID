@@ -1,7 +1,7 @@
 /*
  * =============================================================================
  *  Proyecto : VoxID
- *  Archivo  : ui.c
+ *  Archivo  : C0DE/ophyra/voxid/Core/Src/ui.c
  *  Autor    : Gustavo Ruiz Luis
  * =============================================================================
  *
@@ -19,6 +19,10 @@
 #include "gfx.h"
 #include "voxid_dsp.h"
 #include "voxid_selftest.h"
+#include "voxid_audio.h"
+#include "voxid_voice.h"
+#include "ui_voice.h"
+#include "main.h"
 
 #include <math.h>
 #include <stdint.h>
@@ -48,19 +52,25 @@
 //  Estado privado
 // -----------------------------------------------------------------------------
 
-static UIState current_state = UI_STATE_MENU;
-static UIState capture_origin = UI_STATE_IDENTIFY;
+static UIState estado_actual = UI_STATE_MENU;
+static UIState origen_captura = UI_STATE_IDENTIFY;
 
-static uint8_t menu_selection = 0U;
-static uint8_t rendered_menu_selection = 0U;
-static uint8_t speaker_slot = 0U;
-static uint8_t test_page = 0U;
-static VoxIDSelfTestResult selftest_result;
+static uint8_t opcion_menu = 0U;
+static uint8_t opcion_dibujada = 0U;
+static uint8_t espacio_locutor = 0U;
+static uint8_t pagina_prueba = 0U;
+static VoxIDAudioState estado_audio_dibujado = VOXID_AUDIO_IDLE;
+static uint8_t fase_circulos = 0U;
+static uint32_t ultimo_tick_circulos = 0U;
+static bool captura_pendiente = false;
+static uint8_t segundos_dibujados = 3U;
+static uint8_t pagina_captura = 0U;
+static VoxIDSelfTestResult resultado_prueba;
 
-static bool ui_ready = false;
-static bool needs_redraw = true;
+static bool interfaz_lista = false;
+static bool redibujar = true;
 
-static const char *const menu_labels[UI_MENU_ITEMS] = {
+static const char *const etiquetas_menu[UI_MENU_ITEMS] = {
     "IDENTIFICAR",
     "REGISTRAR",
     "DIAGNOSTICO"
@@ -88,25 +98,32 @@ static bool ui_draw_footer_button(uint16_t x, const char *label, bool enabled) {
     return gfx_draw_text_aligned((int16_t)(x + 16U), 117, label, UI_TEXT, background, 1U, GFX_ALIGN_CENTER);
 }
 
+static bool ui_capture_is_listening(void) {
+    return estado_actual == UI_STATE_CAPTURE && (captura_pendiente || voxid_audio_status() == VOXID_AUDIO_CAPTURING);
+}
+
 static bool ui_draw_footer(void) {
-    bool can_move = current_state == UI_STATE_MENU || current_state == UI_STATE_ENROLL || current_state == UI_STATE_SELFTEST;
-    bool can_ok = current_state != UI_STATE_CAPTURE;
-    bool can_back = current_state != UI_STATE_MENU;
+    bool escuchando = ui_capture_is_listening();
+    bool can_move = estado_actual == UI_STATE_MENU || estado_actual == UI_STATE_ENROLL || estado_actual == UI_STATE_SELFTEST || (estado_actual == UI_STATE_CAPTURE && voxid_audio_status() == VOXID_AUDIO_READY);
+    bool can_ok = !ui_capture_is_listening();
+    bool can_back = estado_actual != UI_STATE_MENU;
 
     if (!gfx_fill_rect(8U, 112U, 144U, 1U, UI_BORDER)) {
         return false;
     }
 
-    if (!ui_draw_footer_button(4U, "UP", can_move)) {
-        return false;
-    }
+    if (!escuchando) {
+        if (!ui_draw_footer_button(4U, "UP", can_move)) {
+            return false;
+        }
 
-    if (!ui_draw_footer_button(44U, "DN", can_move)) {
-        return false;
-    }
+        if (!ui_draw_footer_button(44U, "DN", can_move)) {
+            return false;
+        }
 
-    if (!ui_draw_footer_button(84U, "OK", can_ok)) {
-        return false;
+        if (!ui_draw_footer_button(84U, "OK", can_ok)) {
+            return false;
+        }
     }
 
     return ui_draw_footer_button(124U, "BACK", can_back);
@@ -169,7 +186,7 @@ static bool ui_draw_menu_item(uint8_t index, bool selected) {
         return false;
     }
 
-    return gfx_draw_text_aligned(80, (int16_t)(top + 5), menu_labels[index], foreground, background, 1U, GFX_ALIGN_CENTER);
+    return gfx_draw_text_aligned(80, (int16_t)(top + 5), etiquetas_menu[index], foreground, background, 1U, GFX_ALIGN_CENTER);
 }
 
 static bool ui_draw_menu(void) {
@@ -178,29 +195,29 @@ static bool ui_draw_menu(void) {
     }
 
     for (uint8_t i = 0U; i < UI_MENU_ITEMS; ++i) {
-        if (!ui_draw_menu_item(i, i == menu_selection)) {
+        if (!ui_draw_menu_item(i, i == opcion_menu)) {
             return false;
         }
     }
 
-    rendered_menu_selection = menu_selection;
+    opcion_dibujada = opcion_menu;
     return true;
 }
 
 static bool ui_update_menu_selection(void) {
-    if (rendered_menu_selection == menu_selection) {
+    if (opcion_dibujada == opcion_menu) {
         return true;
     }
 
-    if (!ui_draw_menu_item(rendered_menu_selection, false)) {
+    if (!ui_draw_menu_item(opcion_dibujada, false)) {
         return false;
     }
 
-    if (!ui_draw_menu_item(menu_selection, true)) {
+    if (!ui_draw_menu_item(opcion_menu, true)) {
         return false;
     }
 
-    rendered_menu_selection = menu_selection;
+    opcion_dibujada = opcion_menu;
     return true;
 }
 
@@ -235,7 +252,7 @@ static bool ui_draw_enroll(void) {
         return false;
     }
 
-    (void)snprintf(slot, sizeof(slot), "LOCUTOR %02u / 04", (unsigned)(speaker_slot + 1U));
+    (void)snprintf(slot, sizeof(slot), "LOCUTOR %02u / 04", (unsigned)(espacio_locutor + 1U));
 
     if (!gfx_draw_text(16, 62, slot, UI_TEXT)) {
         return false;
@@ -248,28 +265,164 @@ static bool ui_draw_enroll(void) {
     return gfx_draw_text(16, 94, "OK: PREPARAR", UI_ACCENT);
 }
 
-static bool ui_draw_capture(void) {
-    char slot[26];
+// =============================================================================
+//  Indicador de captura: circulos pastel
+// =============================================================================
 
-    if (!ui_draw_title("CAPTURA DE VOZ") || !ui_draw_card()) {
+// =============================================================================
+//  Grafica reutilizable de trece coeficientes MFCC
+// =============================================================================
+
+static bool ui_draw_mfcc_bars(const float *values) {
+    if (values == NULL) {
         return false;
     }
 
-    if (capture_origin == UI_STATE_ENROLL) {
-        (void)snprintf(slot, sizeof(slot), "LOCUTOR %02u: SIN VOZ", (unsigned)(speaker_slot + 1U));
+    float maximum = 0.0f;
 
-        if (!gfx_draw_text(16, 62, slot, UI_TEXT)) {
+    for (uint8_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
+        float value = fabsf(values[k]);
+
+        if (value > maximum) {
+            maximum = value;
+        }
+    }
+
+    if (maximum < 1e-10f) {
+        maximum = 1.0f;
+    }
+
+    if (!gfx_fill_rect(16U, 78U, UI_GRAPH_WIDTH, 1U, UI_BORDER)) {
+        return false;
+    }
+
+    // Escala simetrica alrededor de cero; se normaliza al mayor |MFCC|.
+    for (uint8_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
+        float value = values[k];
+        uint16_t magnitude = (uint16_t)(fabsf(value) * 19.0f / maximum + 0.5f);
+
+        if (magnitude == 0U) {
+            continue;
+        }
+
+        uint16_t x = (uint16_t)(17U + k * 10U);
+        uint16_t y = value >= 0.0f ? (uint16_t)(78U - magnitude) : 79U;
+        uint16_t color = value >= 0.0f ? UI_ACCENT : UI_WARNING;
+
+        if (!gfx_fill_rect(x, y, 6U, magnitude, color)) {
             return false;
         }
-    } else if (!gfx_draw_text(16, 62, "IDENTIFICACION", UI_TEXT)) {
+    }
+
+    if (!gfx_draw_text(17, 98, "C00", UI_MUTED)) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 80, "ADC NO VINCULADO", UI_WARNING)) {
+    return gfx_draw_text(122, 98, "C12", UI_MUTED);
+}
+
+static bool ui_draw_capture_hint(uint8_t remaining) {
+    char message[26];
+    (void)snprintf(message, sizeof(message), "ESCUCHANDO: %us", (unsigned)remaining);
+
+    if (!gfx_fill_rect(9U, 101U, 142U, 9U, UI_BG)) {
         return false;
     }
 
-    return gfx_draw_text(16, 94, "SIN CAPTURA REAL", UI_MUTED);
+    return gfx_draw_text_aligned(80, 102, message, UI_ACCENT, UI_BG, 1U, GFX_ALIGN_CENTER);
+}
+
+static bool ui_draw_capture(void) {
+    char line[30];
+    VoxIDAudioState state = captura_pendiente ? VOXID_AUDIO_CAPTURING : voxid_audio_status();
+    estado_audio_dibujado = state;
+
+    if (state == VOXID_AUDIO_READY && pagina_captura == 1U) {
+        (void)snprintf(line, sizeof(line), "MEDIA MFCC / VOZ");
+    } else if (state == VOXID_AUDIO_READY) {
+        (void)snprintf(line, sizeof(line), "3 SEG / MFCC OK");
+    } else if (origen_captura == UI_STATE_ENROLL) {
+        (void)snprintf(line, sizeof(line), "LOCUTOR %02u / MARIPOSA", (unsigned)(espacio_locutor + 1U));
+    } else {
+        (void)snprintf(line, sizeof(line), "MARIPOSA / PA2");
+    }
+
+    if (!ui_draw_title(line)) {
+        return false;
+    }
+
+    // Los resultados y errores son pantallas estaticas: no deben
+    // conservar los circulos ni la cuenta regresiva de la captura.
+    if (state == VOXID_AUDIO_READY || state == VOXID_AUDIO_ERROR) {
+        if (!gfx_fill_rect(8U, 45U, 144U, 65U, UI_BG)) {
+            return false;
+        }
+
+        if (!ui_draw_card()) {
+            return false;
+        }
+
+        if (state == VOXID_AUDIO_ERROR) {
+            if (!gfx_draw_text(16, 75, "ERROR DE CAPTURA", UI_WARNING)) {
+                return false;
+            }
+
+            return gfx_draw_text(16, 93, "OK: REPETIR", UI_MUTED);
+        }
+
+        VoxIDAudioStats adc;
+        VoxIDVoiceStats mfcc;
+
+        if (!voxid_audio_read_stats(&adc) || !voxid_voice_read_stats(&mfcc)) {
+            return gfx_draw_text(16, 77, "ERROR MFCC REAL", UI_WARNING);
+        }
+
+        if (pagina_captura == 1U) {
+            if (mfcc.voiced_frames == 0U) {
+                return gfx_draw_text(16, 75, "SIN VOZ DETECTADA", UI_WARNING);
+            }
+
+            // Media de los frames que superan el umbral de energia.
+            return ui_draw_mfcc_bars(mfcc.mean_mfcc);
+        }
+
+        (void)snprintf(line, sizeof(line), "FRAMES: %lu/%u", (unsigned long)mfcc.frames, (unsigned)VOXID_VOICE_EXPECTED_FRAMES);
+
+        if (!gfx_draw_text(16, 58, line, UI_TEXT)) {
+            return false;
+        }
+
+        (void)snprintf(line, sizeof(line), "CON VOZ: %lu", (unsigned long)mfcc.voiced_frames);
+
+        if (!gfx_draw_text(16, 70, line, mfcc.voiced_frames > 0U ? UI_ACCENT : UI_WARNING)) {
+            return false;
+        }
+
+        (void)snprintf(line, sizeof(line), "MIN:%u MAX:%u", (unsigned)adc.minimum, (unsigned)adc.maximum);
+
+        if (!gfx_draw_text(16, 82, line, UI_MUTED)) {
+            return false;
+        }
+
+        (void)snprintf(line, sizeof(line), "PROMEDIO:%u", (unsigned)adc.average);
+        return gfx_draw_text(16, 94, line, UI_MUTED);
+    }
+
+    // PREPARADO: los circulos se animan desde ui_task().
+    // ESCUCHANDO: se dibujan una sola vez y permanecen inmoviles.
+    // RESULTADO/ERROR: la pantalla no muestra circulos.
+    if (!ui_voice_draw(fase_circulos, UI_BG)) {
+        return false;
+    }
+
+    if (captura_pendiente || state == VOXID_AUDIO_CAPTURING) {
+        uint32_t samples = captura_pendiente ? 0U : voxid_audio_sample_count();
+        uint32_t remain = VOXID_AUDIO_TOTAL_SAMPLES > samples ? VOXID_AUDIO_TOTAL_SAMPLES - samples : 0U;
+        segundos_dibujados = (uint8_t)((remain + VOXID_AUDIO_SAMPLE_RATE - 1U) / VOXID_AUDIO_SAMPLE_RATE);
+        return ui_draw_capture_hint(segundos_dibujados);
+    }
+
+    return gfx_draw_text_aligned(80, 102, "OK: HABLAR 3 SEG", UI_ACCENT, UI_BG, 1U, GFX_ALIGN_CENTER);
 }
 
 // =============================================================================
@@ -343,7 +496,7 @@ static bool ui_draw_test_summary(void) {
         return false;
     }
 
-    (void)snprintf(line, sizeof(line), "%lu", (unsigned long)selftest_result.samples);
+    (void)snprintf(line, sizeof(line), "%lu", (unsigned long)resultado_prueba.samples);
 
     if (!gfx_draw_text_aligned(144, 76, line, UI_TEXT, UI_PANEL, 1U, GFX_ALIGN_RIGHT)) {
         return false;
@@ -353,14 +506,14 @@ static bool ui_draw_test_summary(void) {
         return false;
     }
 
-    bool passed = selftest_result.status == VOXID_SELFTEST_OK;
-    (void)snprintf(line, sizeof(line), "%lu/%u %s", (unsigned long)selftest_result.frames, (unsigned)VOXID_SELFTEST_FRAMES, ui_test_status(selftest_result.status));
+    bool passed = resultado_prueba.status == VOXID_SELFTEST_OK;
+    (void)snprintf(line, sizeof(line), "%lu/%u %s", (unsigned long)resultado_prueba.frames, (unsigned)VOXID_SELFTEST_FRAMES, ui_test_status(resultado_prueba.status));
     return gfx_draw_text_aligned(144, 91, line, passed ? UI_ACCENT : UI_WARNING, UI_PANEL, 1U, GFX_ALIGN_RIGHT);
 }
 
 static bool ui_draw_coefficient(uint8_t index, int16_t y) {
     char line[26];
-    float value = selftest_result.mfcc[index];
+    float value = resultado_prueba.mfcc[index];
     bool negative = value < 0.0f;
 
     if (negative) {
@@ -386,70 +539,30 @@ static bool ui_draw_mfcc_graph(void) {
         return false;
     }
 
-    if (selftest_result.status != VOXID_SELFTEST_OK) {
+    if (resultado_prueba.status != VOXID_SELFTEST_OK) {
         return gfx_draw_text(16, 78, "SIN RESULTADOS", UI_WARNING);
     }
 
-    float maximum = 0.0f;
-
-    for (uint8_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
-        float value = fabsf(selftest_result.mfcc[k]);
-
-        if (value > maximum) {
-            maximum = value;
-        }
-    }
-
-    if (maximum < 1e-10f) {
-        maximum = 1.0f;
-    }
-
-    if (!gfx_fill_rect(16U, 78U, UI_GRAPH_WIDTH, 1U, UI_BORDER)) {
-        return false;
-    }
-
-    // Escala simetrica alrededor de cero; se normaliza al mayor |MFCC|.
-    for (uint8_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
-        float value = selftest_result.mfcc[k];
-        uint16_t magnitude = (uint16_t)(fabsf(value) * 19.0f / maximum + 0.5f);
-
-        if (magnitude == 0U) {
-            continue;
-        }
-
-        uint16_t x = (uint16_t)(17U + k * 10U);
-        uint16_t y = value >= 0.0f ? (uint16_t)(78U - magnitude) : 79U;
-        uint16_t color = value >= 0.0f ? UI_ACCENT : UI_WARNING;
-
-        if (!gfx_fill_rect(x, y, 6U, magnitude, color)) {
-            return false;
-        }
-    }
-
-    if (!gfx_draw_text(17, 98, "C00", UI_MUTED)) {
-        return false;
-    }
-
-    return gfx_draw_text(122, 98, "C12", UI_MUTED);
+    return ui_draw_mfcc_bars(resultado_prueba.mfcc);
 }
 
 static bool ui_draw_selftest(void) {
-    if (test_page == 0U) {
+    if (pagina_prueba == 0U) {
         return ui_draw_test_summary();
     }
 
-    if (test_page == 1U) {
+    if (pagina_prueba == 1U) {
         return ui_draw_mfcc_graph();
     }
 
-    uint8_t first = test_page == 2U ? 0U : 7U;
-    uint8_t last = test_page == 2U ? 7U : VOXID_MFCC_COUNT;
+    uint8_t first = pagina_prueba == 2U ? 0U : 7U;
+    uint8_t last = pagina_prueba == 2U ? 7U : VOXID_MFCC_COUNT;
 
-    if (!ui_draw_title(test_page == 2U ? "MFCC C00-C06" : "MFCC C07-C12")) {
+    if (!ui_draw_title(pagina_prueba == 2U ? "MFCC C00-C06" : "MFCC C07-C12")) {
         return false;
     }
 
-    if (selftest_result.status != VOXID_SELFTEST_OK) {
+    if (resultado_prueba.status != VOXID_SELFTEST_OK) {
         return gfx_draw_text(15, 70, "SIN RESULTADOS", UI_WARNING);
     }
 
@@ -467,7 +580,7 @@ static bool ui_render(void) {
         return false;
     }
 
-    switch (current_state) {
+    switch (estado_actual) {
         case UI_STATE_MENU:
             return ui_draw_menu();
 
@@ -487,7 +600,7 @@ static bool ui_render(void) {
             return ui_draw_selftest();
 
         default:
-            current_state = UI_STATE_MENU;
+            estado_actual = UI_STATE_MENU;
             return ui_draw_menu();
     }
 }
@@ -505,17 +618,17 @@ static void ui_dispatch(ButtonEvent event) {
         return;
     }
 
-    if (current_state == UI_STATE_MENU) {
+    if (estado_actual == UI_STATE_MENU) {
         switch (event) {
             case BUTTON_UP:
-                menu_selection = (uint8_t)((menu_selection + UI_MENU_ITEMS - 1U) % UI_MENU_ITEMS);
+                opcion_menu = (uint8_t)((opcion_menu + UI_MENU_ITEMS - 1U) % UI_MENU_ITEMS);
                 break;
             case BUTTON_DOWN:
-                menu_selection = (uint8_t)((menu_selection + 1U) % UI_MENU_ITEMS);
+                opcion_menu = (uint8_t)((opcion_menu + 1U) % UI_MENU_ITEMS);
                 break;
             case BUTTON_OK:
-                current_state = menu_selection == 0U ? UI_STATE_IDENTIFY : menu_selection == 1U ? UI_STATE_ENROLL : UI_STATE_SYSTEM;
-                needs_redraw = true;
+                estado_actual = opcion_menu == 0U ? UI_STATE_IDENTIFY : opcion_menu == 1U ? UI_STATE_ENROLL : UI_STATE_SYSTEM;
+                redibujar = true;
                 break;
             default:
                 break;
@@ -525,35 +638,51 @@ static void ui_dispatch(ButtonEvent event) {
     }
 
     if (event == BUTTON_BACK) {
-        if (current_state == UI_STATE_CAPTURE) {
-            current_state = capture_origin;
-        } else if (current_state == UI_STATE_SELFTEST) {
-            current_state = UI_STATE_SYSTEM;
+        if (estado_actual == UI_STATE_CAPTURE) {
+            voxid_audio_stop();
+            captura_pendiente = false;
+            estado_actual = origen_captura;
+        } else if (estado_actual == UI_STATE_SELFTEST) {
+            estado_actual = UI_STATE_SYSTEM;
         } else {
-            current_state = UI_STATE_MENU;
+            estado_actual = UI_STATE_MENU;
         }
 
-        needs_redraw = true;
+        redibujar = true;
         return;
     }
 
-    if (current_state == UI_STATE_ENROLL) {
+    // BACK ya fue atendido. Los demas eventos se ignoran tambien mientras
+    // la siguiente toma esta pendiente de arrancar, aunque ADC siga en READY.
+    if (ui_capture_is_listening()) {
+        return;
+    }
+
+    if (estado_actual == UI_STATE_ENROLL) {
         if (event == BUTTON_UP) {
-            speaker_slot = (uint8_t)((speaker_slot + 3U) % 4U);
-            needs_redraw = true;
+            espacio_locutor = (uint8_t)((espacio_locutor + 3U) % 4U);
+            redibujar = true;
         } else if (event == BUTTON_DOWN) {
-            speaker_slot = (uint8_t)((speaker_slot + 1U) % 4U);
-            needs_redraw = true;
+            espacio_locutor = (uint8_t)((espacio_locutor + 1U) % 4U);
+            redibujar = true;
         }
     }
 
-    if (current_state == UI_STATE_SELFTEST) {
+    if (estado_actual == UI_STATE_CAPTURE && voxid_audio_status() == VOXID_AUDIO_READY) {
+        if (event == BUTTON_UP || event == BUTTON_DOWN) {
+            pagina_captura = (uint8_t)(1U - pagina_captura);
+            redibujar = true;
+            return;
+        }
+    }
+
+    if (estado_actual == UI_STATE_SELFTEST) {
         if (event == BUTTON_UP) {
-            test_page = (uint8_t)((test_page + UI_TEST_PAGES - 1U) % UI_TEST_PAGES);
-            needs_redraw = true;
+            pagina_prueba = (uint8_t)((pagina_prueba + UI_TEST_PAGES - 1U) % UI_TEST_PAGES);
+            redibujar = true;
         } else if (event == BUTTON_DOWN) {
-            test_page = (uint8_t)((test_page + 1U) % UI_TEST_PAGES);
-            needs_redraw = true;
+            pagina_prueba = (uint8_t)((pagina_prueba + 1U) % UI_TEST_PAGES);
+            redibujar = true;
         }
     }
 
@@ -561,19 +690,34 @@ static void ui_dispatch(ButtonEvent event) {
         return;
     }
 
-    switch (current_state) {
+    switch (estado_actual) {
         case UI_STATE_IDENTIFY:
         case UI_STATE_ENROLL:
-            capture_origin = current_state;
-            current_state = UI_STATE_CAPTURE;
-            needs_redraw = true;
+            origen_captura = estado_actual;
+            estado_actual = UI_STATE_CAPTURE;
+            pagina_captura = 0U;
+            fase_circulos = 0U;
+            ultimo_tick_circulos = HAL_GetTick();
+            captura_pendiente = false;
+            redibujar = true;
             break;
+        case UI_STATE_CAPTURE:
+            if (!ui_capture_is_listening()) {
+                pagina_captura = 0U;
+                fase_circulos = 0U;
+                ultimo_tick_circulos = HAL_GetTick();
+                captura_pendiente = true;
+                segundos_dibujados = VOXID_AUDIO_DURATION_S;
+                redibujar = true;
+            }
+            break;
+
         case UI_STATE_SYSTEM:
         case UI_STATE_SELFTEST:
-            current_state = UI_STATE_SELFTEST;
-            test_page = 0U;
-            voxid_selftest_run(&selftest_result);
-            needs_redraw = true;
+            estado_actual = UI_STATE_SELFTEST;
+            pagina_prueba = 0U;
+            voxid_selftest_run(&resultado_prueba);
+            redibujar = true;
             break;
         default:
             break;
@@ -581,25 +725,31 @@ static void ui_dispatch(ButtonEvent event) {
 }
 
 bool ui_init(void) {
-    current_state = UI_STATE_MENU;
-    capture_origin = UI_STATE_IDENTIFY;
-    menu_selection = 0U;
-    rendered_menu_selection = 0U;
-    speaker_slot = 0U;
-    test_page = 0U;
-    selftest_result.status = VOXID_SELFTEST_NOT_RUN;
-    selftest_result.samples = 0U;
-    selftest_result.frames = 0U;
-    needs_redraw = true;
+    estado_actual = UI_STATE_MENU;
+    origen_captura = UI_STATE_IDENTIFY;
+    opcion_menu = 0U;
+    opcion_dibujada = 0U;
+    espacio_locutor = 0U;
+    pagina_prueba = 0U;
+    estado_audio_dibujado = VOXID_AUDIO_IDLE;
+    fase_circulos = 0U;
+    ultimo_tick_circulos = HAL_GetTick();
+    captura_pendiente = false;
+    segundos_dibujados = VOXID_AUDIO_DURATION_S;
+    pagina_captura = 0U;
+    resultado_prueba.status = VOXID_SELFTEST_NOT_RUN;
+    resultado_prueba.samples = 0U;
+    resultado_prueba.frames = 0U;
+    redibujar = true;
 
-    ui_ready = ui_render();
-    needs_redraw = !ui_ready;
+    interfaz_lista = ui_render();
+    redibujar = !interfaz_lista;
 
-    return ui_ready;
+    return interfaz_lista;
 }
 
 void ui_task(void) {
-    if (!ui_ready) {
+    if (!interfaz_lista) {
         return;
     }
 
@@ -609,14 +759,70 @@ void ui_task(void) {
         ui_dispatch(event);
     }
 
-    if (needs_redraw) {
-        ui_ready = ui_render();
-        needs_redraw = !ui_ready;
-    } else if (current_state == UI_STATE_MENU && menu_selection != rendered_menu_selection) {
-        ui_ready = ui_update_menu_selection();
+    // Transicion de ESCUCHANDO a RESULTADO/ERROR: renderizar una sola
+    // pantalla nueva y no volver a dibujar anillos tras la captura.
+    if (estado_actual == UI_STATE_CAPTURE && !captura_pendiente && voxid_audio_status() != estado_audio_dibujado) {
+        redibujar = true;
+    }
+
+    if (redibujar) {
+        interfaz_lista = ui_render();
+        redibujar = !interfaz_lista;
+
+        // Pintar la cuenta regresiva y ocultar OK antes de iniciar DMA.
+        // Asi el footer refleja el estado real durante toda la captura.
+        if (interfaz_lista && estado_actual == UI_STATE_CAPTURE && captura_pendiente) {
+            captura_pendiente = false;
+
+            if (voxid_audio_start()) {
+                estado_audio_dibujado = VOXID_AUDIO_CAPTURING;
+            } else {
+                redibujar = true;
+            }
+        }
+
+        return;
+    }
+
+    if (estado_actual == UI_STATE_MENU && opcion_menu != opcion_dibujada) {
+        interfaz_lista = ui_update_menu_selection();
+        return;
+    }
+
+    if (estado_actual != UI_STATE_CAPTURE) {
+        return;
+    }
+
+    VoxIDAudioState state = voxid_audio_status();
+
+    if (state == VOXID_AUDIO_CAPTURING) {
+        // Durante los 3 segundos los anillos no se redibujan.
+        // Unicamente se actualiza el texto al cambiar de segundo.
+        uint32_t samples = voxid_audio_sample_count();
+        uint32_t remain = VOXID_AUDIO_TOTAL_SAMPLES > samples ? VOXID_AUDIO_TOTAL_SAMPLES - samples : 0U;
+        uint8_t seconds = (uint8_t)((remain + VOXID_AUDIO_SAMPLE_RATE - 1U) / VOXID_AUDIO_SAMPLE_RATE);
+
+        if (seconds != segundos_dibujados) {
+            segundos_dibujados = seconds;
+            interfaz_lista = ui_draw_capture_hint(seconds);
+        }
+
+        return;
+    }
+
+    // La animacion de bienvenida solo funciona antes de iniciar la captura.
+    // Los estados READY y ERROR mantienen pantallas estaticas.
+    if (state == VOXID_AUDIO_IDLE && !captura_pendiente) {
+        uint32_t now = HAL_GetTick();
+
+        if ((uint32_t)(now - ultimo_tick_circulos) >= UI_VOICE_TICK_MS) {
+            ultimo_tick_circulos = now;
+            fase_circulos = (uint8_t)((fase_circulos + 1U) % UI_VOICE_PHASES);
+            interfaz_lista = ui_voice_draw(fase_circulos, UI_BG);
+        }
     }
 }
 
 UIState ui_state(void) {
-    return current_state;
+    return estado_actual;
 }

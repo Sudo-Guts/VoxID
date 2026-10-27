@@ -1,4 +1,3 @@
-
 /*
  * =============================================================================
  *  Proyecto : VoxID
@@ -105,8 +104,7 @@ typedef struct {
  * @note fft_size debe ser potencia de dos y >= frame_size.
  * @note La funcion no asigna memoria dinamica.
  */
-bool mfcc_init(MFCC *mfcc, const MFCCConfig *config,
-               const MFCCBuffers *buffers);
+bool mfcc_init(MFCC *mfcc, const MFCCConfig *config, const MFCCBuffers *buffers);
 
 /**
  * @brief Agrega una muestra PCM y procesa un frame cuando esta listo.

@@ -1,4 +1,3 @@
-
 /*
  * =============================================================================
  *  Proyecto : VoxID
@@ -55,8 +54,7 @@ static float mfcc_output[MFCC_COUNT];
 //  Prueba de integracion MFCC
 // =============================================================================
 
-int main(void)
-{
+int main(void) {
     MFCC mfcc = {0};
 
     const MFCCConfig config = {
@@ -95,7 +93,7 @@ int main(void)
     // Generar y procesar muestras PCM.
     for (size_t n = 0; n < TOTAL_SAMPLES; n++) {
         float angle = 2.0f * pi * frequency *
-                      (float)n / (float)SAMPLE_RATE;
+        (float)n / (float)SAMPLE_RATE;
 
         int16_t sample = (int16_t)(12000.0f * sinf(angle));
 
@@ -106,23 +104,21 @@ int main(void)
 
         // Verificar cuando debe generarse un frame.
         bool expected_ready =
-            (n + 1 >= FRAME_SIZE) &&
-            ((n + 1 - FRAME_SIZE) % HOP_SIZE == 0);
+        (n + 1 >= FRAME_SIZE) &&
+        ((n + 1 - FRAME_SIZE) % HOP_SIZE == 0);
 
         assert((result == MFCC_READY) == expected_ready);
 
         if (result == MFCC_READY) {
             frames_ready++;
 
-            printf("\nFrame %zu - Muestra %zu\n",
-                   frames_ready, n + 1);
+            printf("\nFrame %zu - Muestra %zu\n", frames_ready, n + 1);
 
             // Mostrar los coeficientes MFCC.
             for (size_t k = 0; k < MFCC_COUNT; k++) {
                 assert(isfinite(mfcc_output[k]));
 
-                printf("MFCC[%2zu] = %+.6f\n",
-                       k, mfcc_output[k]);
+                printf("MFCC[%2zu] = %+.6f\n", k, mfcc_output[k]);
             }
         }
     }

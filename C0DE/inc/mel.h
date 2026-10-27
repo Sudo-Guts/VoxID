@@ -1,4 +1,3 @@
-
 /*
  * =============================================================================
  *  Proyecto : VoxID
@@ -49,9 +48,7 @@ typedef struct {
  * @note max_hz no debe superar la frecuencia de Nyquist.
  * @note No se realiza asignacion dinamica de memoria.
  */
-bool mel_init(Mel *mel, float *points_hz, size_t fft_size,
-              size_t filter_count, uint32_t sample_rate,
-              float min_hz, float max_hz);
+bool mel_init(Mel *mel, float *points_hz, size_t fft_size, size_t filter_count, uint32_t sample_rate, float min_hz, float max_hz);
 
 /**
  * @brief Aplica el banco de filtros al espectro de potencia.

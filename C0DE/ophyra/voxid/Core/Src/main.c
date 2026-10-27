@@ -25,6 +25,7 @@
 #include "buttons.h"
 #include "ui.h"
 #include "voxid_dsp.h"
+#include "voxid_audio.h"
 
 /* USER CODE END Includes */
 
@@ -45,6 +46,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
+DMA_HandleTypeDef hdma_adc1;
 
 SPI_HandleTypeDef hspi1;
 
@@ -57,6 +59,7 @@ static volatile bool ui_ready = false;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM2_Init(void);
@@ -98,6 +101,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_ADC1_Init();
   MX_SPI1_Init();
   MX_TIM2_Init();
@@ -126,8 +130,9 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
     if (ui_ready) {
+        voxid_audio_task();
         ui_task();
-        HAL_Delay(5U);
+        HAL_Delay(voxid_audio_status() == VOXID_AUDIO_CAPTURING ? 1U : 5U);
     } else {
         HAL_Delay(100U);
     }
@@ -181,6 +186,18 @@ void SystemClock_Config(void)
 }
 
 /**
+  * @brief DMA controller clock and interrupt configuration.
+  * @retval None
+  */
+static void MX_DMA_Init(void)
+{
+  __HAL_RCC_DMA2_CLK_ENABLE();
+
+  HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+}
+
+/**
   * @brief ADC1 Initialization Function
   * @param None
   * @retval None
@@ -210,7 +227,7 @@ static void MX_ADC1_Init(void)
   hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T2_TRGO;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.NbrOfConversion = 1;
-  hadc1.Init.DMAContinuousRequests = DISABLE;
+  hadc1.Init.DMAContinuousRequests = ENABLE;
   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {

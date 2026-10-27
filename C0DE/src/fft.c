@@ -18,16 +18,21 @@
 //  Inicializacion de la FFT
 // =============================================================================
 
-bool fft_init(FFT *fft, FFTComplex *twiddles, size_t fft_size)
-{
+bool fft_init(FFT *fft, FFTComplex *twiddles, size_t fft_size) {
     // Validar punteros.
-    if (fft == NULL || twiddles == NULL) return false;
+    if (fft == NULL || twiddles == NULL) {
+        return false;
+    }
 
-    // Validar el tamaño minimo.
-    if (fft_size < 2) return false;
+    // Validar el tamano minimo.
+    if (fft_size < 2) {
+        return false;
+    }
 
     // Validar que fft_size sea potencia de dos.
-    if ((fft_size & (fft_size - 1)) != 0) return false;
+    if ((fft_size & (fft_size - 1)) != 0) {
+        return false;
+    }
 
     // Configurar almacenamiento y parametros.
     fft->fft_size = fft_size;
@@ -51,18 +56,23 @@ bool fft_init(FFT *fft, FFTComplex *twiddles, size_t fft_size)
 //  Transformada Rapida de Fourier
 // =============================================================================
 
-bool fft_forward(const FFT *fft, const float *input, FFTComplex *output)
-{
+bool fft_forward(const FFT *fft, const float *input, FFTComplex *output) {
     // Validar punteros.
-    if (fft == NULL || input == NULL || output == NULL) return false;
+    if (fft == NULL || input == NULL || output == NULL) {
+        return false;
+    }
 
     // Validar la configuracion.
-    if (fft->twiddles == NULL || fft->fft_size < 2) return false;
+    if (fft->twiddles == NULL || fft->fft_size < 2) {
+        return false;
+    }
 
     size_t n = fft->fft_size;
 
-    // Verificar que el tamaño sea potencia de dos.
-    if ((n & (n - 1)) != 0) return false;
+    // Verificar que el tamano sea potencia de dos.
+    if ((n & (n - 1)) != 0) {
+        return false;
+    }
 
     // Reordenar las muestras mediante inversion de bits.
     size_t reversed = 0;
@@ -112,7 +122,9 @@ bool fft_forward(const FFT *fft, const float *input, FFTComplex *output)
         }
 
         // Evitar desbordamiento al duplicar span.
-        if (span == n) break;
+        if (span == n) {
+            break;
+        }
     }
 
     return true;

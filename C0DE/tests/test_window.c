@@ -24,8 +24,7 @@
  */
 static void test_window_apply(void);
 
-int main(void)
-{
+int main(void) {
     Window window = {0};
     float coefficients[5] = {0};
 
@@ -60,14 +59,12 @@ int main(void)
     return 0;
 }
 
-
 /*
  * =============================================================================
  *  Prueba de aplicacion de la ventana de Hamming
  * =============================================================================
  */
-static void test_window_apply(void)
-{
+static void test_window_apply(void) {
     Window window = {0};
 
     float coefficients[5] = {0};

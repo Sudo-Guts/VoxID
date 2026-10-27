@@ -1,4 +1,3 @@
-
 /*
  * =============================================================================
  *  Proyecto : VoxID
@@ -20,18 +19,22 @@
 //  Transformacion logaritmica de energias Mel
 // =============================================================================
 
-bool log_mel_apply(const float *input, float *output,
-                   size_t count, float epsilon)
-{
+bool log_mel_apply(const float *input, float *output, size_t count, float epsilon) {
     // Validar punteros y dimensiones.
-    if (input == NULL || output == NULL || count == 0) return false;
+    if (input == NULL || output == NULL || count == 0) {
+        return false;
+    }
 
     // Validar el limite inferior del logaritmo.
-    if (!isfinite(epsilon) || epsilon <= 0.0f) return false;
+    if (!isfinite(epsilon) || epsilon <= 0.0f) {
+        return false;
+    }
 
     // Validar que las energias sean finitas y no negativas.
     for (size_t i = 0; i < count; i++) {
-        if (!isfinite(input[i]) || input[i] < 0.0f) return false;
+        if (!isfinite(input[i]) || input[i] < 0.0f) {
+            return false;
+        }
     }
 
     // Aplicar el logaritmo natural a cada energia.

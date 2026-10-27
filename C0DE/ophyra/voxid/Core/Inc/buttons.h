@@ -1,7 +1,7 @@
 /*
  * =============================================================================
  *  Proyecto : VoxID
- *  Archivo  : Core/Inc/buttons.h
+ *  Archivo  : C0DE/ophyra/voxid/Core/Inc/buttons.h
  *  Autor    : Gustavo Ruiz Luis
  * =============================================================================
  *
@@ -25,19 +25,29 @@ typedef enum {
     BUTTON_BACK
 } ButtonEvent;
 
-/* Vaciar la cola y reiniciar el filtro de rebote. */
+/**
+ * @brief Vacia la cola y reinicia el antirrebote antes de habilitar los eventos.
+ */
 void buttons_init(void);
 
-/*
- * Llamar desde HAL_GPIO_EXTI_Callback() con HAL_GetTick().
- * Solo registra pulsaciones validas; no realiza trabajo bloqueante.
+/**
+ * @brief Registra una pulsacion desde el callback EXTI, sin dibujar ni esperar.
+ * @param gpio_pin Pin del pulsador segun main.h.
+ * @param tick_ms Tiempo actual en milisegundos.
  */
 void buttons_on_exti(uint16_t gpio_pin, uint32_t tick_ms);
 
-/* Extraer un evento desde el bucle principal; false si la cola esta vacia. */
+/**
+ * @brief Extrae el siguiente evento desde el bucle principal.
+ * @param event Destino del evento.
+ * @return true si habia un evento; false si el puntero es nulo o la cola esta vacia.
+ */
 bool buttons_next_event(ButtonEvent *event);
 
-/* Numero de eventos descartados por cola llena (diagnostico). */
+/**
+ * @brief Consulta la saturacion de la cola.
+ * @return Cantidad de eventos descartados.
+ */
 uint32_t buttons_dropped(void);
 
 #endif /* VOXID_BUTTONS_H */

@@ -1,4 +1,3 @@
-
 /*
  * =============================================================================
  *  Proyecto : VoxID
@@ -21,13 +20,11 @@
 //  Conversion entre Hz y Mel
 // =============================================================================
 
-static float hz_to_mel(float hz)
-{
+static float hz_to_mel(float hz) {
     return 2595.0f * log10f(1.0f + hz / 700.0f);
 }
 
-static float mel_to_hz(float mel)
-{
+static float mel_to_hz(float mel) {
     return 700.0f * (powf(10.0f, mel / 2595.0f) - 1.0f);
 }
 
@@ -35,19 +32,24 @@ static float mel_to_hz(float mel)
 //  Inicializacion del banco de filtros Mel
 // =============================================================================
 
-bool mel_init(Mel *mel, float *points_hz, size_t fft_size,
-              size_t filter_count, uint32_t sample_rate,
-              float min_hz, float max_hz)
-{
+bool mel_init(Mel *mel, float *points_hz, size_t fft_size, size_t filter_count, uint32_t sample_rate, float min_hz, float max_hz) {
     // Validar punteros.
-    if (mel == NULL || points_hz == NULL) return false;
+    if (mel == NULL || points_hz == NULL) {
+        return false;
+    }
 
     // Validar dimensiones.
-    if (fft_size < 2 || filter_count == 0 || sample_rate == 0) return false;
-    if (filter_count > SIZE_MAX - 2) return false;
+    if (fft_size < 2 || filter_count == 0 || sample_rate == 0) {
+        return false;
+    }
+    if (filter_count > SIZE_MAX - 2) {
+        return false;
+    }
 
     // Validar que la FFT tenga longitud potencia de dos.
-    if ((fft_size & (fft_size - 1)) != 0) return false;
+    if ((fft_size & (fft_size - 1)) != 0) {
+        return false;
+    }
 
     // Validar el intervalo de frecuencias.
     float nyquist = (float)sample_rate / 2.0f;
@@ -86,18 +88,20 @@ bool mel_init(Mel *mel, float *points_hz, size_t fft_size,
 //  Aplicacion del banco de filtros Mel
 // =============================================================================
 
-bool mel_apply(const Mel *mel, const float *power, float *output)
-{
+bool mel_apply(const Mel *mel, const float *power, float *output) {
     // Validar punteros.
-    if (mel == NULL || power == NULL || output == NULL) return false;
-
-    // Validar la configuracion.
-    if (mel->points_hz == NULL || mel->filter_count == 0 ||
-        mel->fft_size < 2 || mel->sample_rate == 0) {
+    if (mel == NULL || power == NULL || output == NULL) {
         return false;
     }
 
-    if ((mel->fft_size & (mel->fft_size - 1)) != 0) return false;
+    // Validar la configuracion.
+    if (mel->points_hz == NULL || mel->filter_count == 0 || mel->fft_size < 2 || mel->sample_rate == 0) {
+        return false;
+    }
+
+    if ((mel->fft_size & (mel->fft_size - 1)) != 0) {
+        return false;
+    }
 
     // Numero de componentes espectrales no redundantes.
     size_t bins = mel->fft_size / 2 + 1;
@@ -112,7 +116,9 @@ bool mel_apply(const Mel *mel, const float *power, float *output)
         float right = mel->points_hz[m + 2];
 
         // Validar los limites del filtro.
-        if (!(left < center && center < right)) return false;
+        if (!(left < center && center < right)) {
+            return false;
+        }
 
         float rise = 1.0f / (center - left);
         float fall = 1.0f / (right - center);

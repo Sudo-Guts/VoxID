@@ -19,8 +19,7 @@
 /**
  * @brief Representacion de un numero complejo.
  */
-typedef struct
-{
+typedef struct {
     float real;
     float imag;
 } FFTComplex;
@@ -28,8 +27,7 @@ typedef struct
 /**
  * @brief Estructura de configuracion de la FFT.
  */
-typedef struct
-{
+typedef struct {
     size_t fft_size;      // Numero de puntos de la FFT.
     FFTComplex *twiddles; // Factores de rotacion precalculados.
 } FFT;

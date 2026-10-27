@@ -1,4 +1,3 @@
-
 /*
  * =============================================================================
  *  Proyecto : VoxID
@@ -22,20 +21,16 @@
 //  Inicializacion del extractor MFCC
 // =============================================================================
 
-bool mfcc_init(MFCC *mfcc, const MFCCConfig *config,
-               const MFCCBuffers *buffers)
-{
+bool mfcc_init(MFCC *mfcc, const MFCCConfig *config, const MFCCBuffers *buffers) {
     // Validar argumentos principales.
-    if (mfcc == NULL || config == NULL || buffers == NULL) return false;
+    if (mfcc == NULL || config == NULL || buffers == NULL) {
+        return false;
+    }
 
     mfcc->initialized = false;
 
     // Validar dimensiones.
-    if (config->frame_size < 2 || config->hop_size == 0 ||
-        config->hop_size > config->frame_size ||
-        config->fft_size < config->frame_size ||
-        config->mel_filters == 0 || config->mfcc_count == 0 ||
-        config->mfcc_count > config->mel_filters) {
+    if (config->frame_size < 2 || config->hop_size == 0 || config->hop_size > config->frame_size || config->fft_size < config->frame_size || config->mel_filters == 0 || config->mfcc_count == 0 || config->mfcc_count > config->mel_filters) {
         return false;
     }
 
@@ -50,44 +45,28 @@ bool mfcc_init(MFCC *mfcc, const MFCCConfig *config,
     }
 
     // Validar almacenamiento proporcionado.
-    if (buffers->ring == NULL ||
-        buffers->frame_samples == NULL ||
-        buffers->window_coefficients == NULL ||
-        buffers->fft_input == NULL ||
-        buffers->twiddles == NULL ||
-        buffers->spectrum == NULL ||
-        buffers->power_spectrum == NULL ||
-        buffers->mel_points == NULL ||
-        buffers->mel_energies == NULL ||
-        buffers->dct_basis == NULL) {
+    if (buffers->ring == NULL || buffers->frame_samples == NULL || buffers->window_coefficients == NULL || buffers->fft_input == NULL || buffers->twiddles == NULL || buffers->spectrum == NULL || buffers->power_spectrum == NULL || buffers->mel_points == NULL || buffers->mel_energies == NULL || buffers->dct_basis == NULL) {
         return false;
     }
 
     // Inicializar las etapas de procesamiento.
-    if (!frame_init(&mfcc->frame, buffers->ring,
-                    config->frame_size, config->hop_size)) {
+    if (!frame_init(&mfcc->frame, buffers->ring, config->frame_size, config->hop_size)) {
         return false;
     }
 
-    if (!window_init(&mfcc->window, buffers->window_coefficients,
-                     config->frame_size)) {
+    if (!window_init(&mfcc->window, buffers->window_coefficients, config->frame_size)) {
         return false;
     }
 
-    if (!fft_init(&mfcc->fft, buffers->twiddles,
-                  config->fft_size)) {
+    if (!fft_init(&mfcc->fft, buffers->twiddles, config->fft_size)) {
         return false;
     }
 
-    if (!mel_init(&mfcc->mel, buffers->mel_points,
-                  config->fft_size, config->mel_filters,
-                  config->sample_rate, config->min_hz,
-                  config->max_hz)) {
+    if (!mel_init(&mfcc->mel, buffers->mel_points, config->fft_size, config->mel_filters, config->sample_rate, config->min_hz, config->max_hz)) {
         return false;
     }
 
-    if (!dct_init(&mfcc->dct, buffers->dct_basis,
-                  config->mel_filters, config->mfcc_count)) {
+    if (!dct_init(&mfcc->dct, buffers->dct_basis, config->mel_filters, config->mfcc_count)) {
         return false;
     }
 
@@ -108,66 +87,57 @@ bool mfcc_init(MFCC *mfcc, const MFCCConfig *config,
 //  Extraccion de coeficientes MFCC
 // =============================================================================
 
-MFCCResult mfcc_push(MFCC *mfcc, int16_t sample, float *output)
-{
+MFCCResult mfcc_push(MFCC *mfcc, int16_t sample, float *output) {
     // Validar el estado y la salida.
-    if (mfcc == NULL || output == NULL) return MFCC_ERROR;
-    if (!mfcc->initialized) return MFCC_ERROR;
+    if (mfcc == NULL || output == NULL) {
+        return MFCC_ERROR;
+    }
+    if (!mfcc->initialized) {
+        return MFCC_ERROR;
+    }
 
     // 1. Recibir la muestra y completar un frame.
-    FrameResult result = frame_push(
-        &mfcc->frame, sample, mfcc->frame_samples
-    );
+    FrameResult result = frame_push(&mfcc->frame, sample, mfcc->frame_samples);
 
-    if (result == FRAME_ERROR) return MFCC_ERROR;
-    if (result == FRAME_WAITING) return MFCC_WAITING;
+    if (result == FRAME_ERROR) {
+        return MFCC_ERROR;
+    }
+    if (result == FRAME_WAITING) {
+        return MFCC_WAITING;
+    }
 
     // 2. Normalizar y aplicar Hamming.
-    if (!window_apply(&mfcc->window,
-                      mfcc->frame_samples,
-                      mfcc->fft_input)) {
+    if (!window_apply(&mfcc->window, mfcc->frame_samples, mfcc->fft_input)) {
         return MFCC_ERROR;
     }
 
     // 3. Completar con ceros hasta fft_size.
-    for (size_t i = mfcc->frame.frame_size;
-         i < mfcc->fft.fft_size; i++) {
+    for (size_t i = mfcc->frame.frame_size; i < mfcc->fft.fft_size; i++) {
         mfcc->fft_input[i] = 0.0f;
     }
 
     // 4. Calcular la FFT.
-    if (!fft_forward(&mfcc->fft,
-                     mfcc->fft_input,
-                     mfcc->spectrum)) {
+    if (!fft_forward(&mfcc->fft, mfcc->fft_input, mfcc->spectrum)) {
         return MFCC_ERROR;
     }
 
     // 5. Obtener el espectro de potencia.
-    if (!power_compute(mfcc->spectrum,
-                       mfcc->power_spectrum,
-                       mfcc->fft.fft_size)) {
+    if (!power_compute(mfcc->spectrum, mfcc->power_spectrum, mfcc->fft.fft_size)) {
         return MFCC_ERROR;
     }
 
     // 6. Aplicar el banco de filtros Mel.
-    if (!mel_apply(&mfcc->mel,
-                   mfcc->power_spectrum,
-                   mfcc->mel_energies)) {
+    if (!mel_apply(&mfcc->mel, mfcc->power_spectrum, mfcc->mel_energies)) {
         return MFCC_ERROR;
     }
 
     // 7. Aplicar el logaritmo en el mismo arreglo.
-    if (!log_mel_apply(mfcc->mel_energies,
-                       mfcc->mel_energies,
-                       mfcc->mel.filter_count,
-                       mfcc->epsilon)) {
+    if (!log_mel_apply(mfcc->mel_energies, mfcc->mel_energies, mfcc->mel.filter_count, mfcc->epsilon)) {
         return MFCC_ERROR;
     }
 
     // 8. Calcular los coeficientes MFCC con DCT-II.
-    if (!dct_apply(&mfcc->dct,
-                   mfcc->mel_energies,
-                   output)) {
+    if (!dct_apply(&mfcc->dct, mfcc->mel_energies, output)) {
         return MFCC_ERROR;
     }
 

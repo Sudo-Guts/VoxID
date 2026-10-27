@@ -1,64 +1,39 @@
-# Animacion pastel de voz — VoxID
+# Indicador de voz pastel — VoxID Ophyra
 
-## Objetivo
+## Comportamiento confirmado y cambios en el firmware
 
-Recrear los **tres circulos concentricos** del concepto visual original en
-la pantalla ST7735 de Ophyra (160 x 128), utilizando el fondo claro del
-proyecto: marfil lavanda, anillo exterior tenue, anillo intermedio violeta
-pastel y anillo interior turquesa suave.
+La pantalla ST7735 (160 x 128) presenta tres circulos concentricos
+sobre un fondo claro marfil-lavanda. Los anillos se dibujan desde
+`Core/Src/ui_voice.c` con `gfx_draw_circle()`, y cada fase se
+actualiza a intervalos de 180 ms desde `ui_task()`.
 
-## Modulos
+### Estados de interfaz
 
-- `Core/Inc/ui_voice.h`: API `ui_voice_draw(phase, background)`.
-- `Core/Src/ui_voice.c`: tres anillos dibujados con `gfx_draw_circle()`.
-- `Core/Src/ui.c`: actualiza una fase cada 180 ms desde `ui_task()`,
-  utilizando `HAL_GetTick()` sin bloquear el firmware.
+- **PREPARADO:** circulos pastel estaticos, texto `OK: HABLAR 3 SEG`.
+  Footer: **OK y BACK**.
+- **ESCUCHANDO:** los circulos laten durante los **3 segundos** de
+  adquisicion ADC1/TIM2/DMA de MARIPOSA. Cuenta regresiva 3, 2, 1.
+  Footer: **BACK habilitado** y **OK oculto/deshabilitado**;
+  su fondo sigue visible, como en el resto de VoxID.
+- **RESULTADO:** se eliminan por completo anillos y cuenta regresiva
+  antes de dibujar el resumen `3 SEGUNDOS: OK`, MIN, MAX y PROMEDIO.
+  La pantalla se mantiene fija hasta la siguiente accion del usuario.
+  Footer: **OK para repetir** o **BACK para regresar**.
+- **ERROR:** tarjeta estatica con mensaje de error, sin circulos;
+  footer con OK para repetir y BACK para regresar.
 
-La animacion redibuja solamente el area **64 x 56 pixeles**, preservando
-la cabecera, el titulo y el footer con sus botones fisicos.
+La UI deja de redibujar circulos al salir del estado ESCUCHANDO.
+Se incluye el estado `voice_capture_pending` en la logica del footer:
+evita mostrar OK activo entre pulsar el boton e iniciar realmente el
+DMA, mientras se prepara la TFT.
 
-## Comportamiento actual
+### Nota tecnica
 
-- Abrir **IDENTIFICAR** o **REGISTRAR**, luego pulsar OK para entrar
-  a la pantalla de captura ADC: los circulos laten en colores pastel.
-- Pulsar OK para la prueba de hardware ADC1 + TIM2 de **720 muestras**.
-- Al terminar, aparecen los valores **MIN / MAX / PROMEDIO** reales del ADC.
-- Si hay error, el indicador permanece y aparece **ERROR ADC/TIM2**.
-- BACK regresa a la pantalla anterior, deteniendo la prueba ADC.
+La animacion y la lectura del ADC no se ejecutan en la misma IRQ.
+El DMA recoge muestras en segundo plano; el bucle principal procesa
+los bloques y actualiza la TFT. BACK cancela una captura activa.
 
-**Importante:** la captura actual dura solo 45 ms. El pulso visual
-en reposo es una animacion de interfaz; no significa que el microfono
-este grabando continuamente ni que este reconociendo a un hablante.
-No se han implementado aun los 3 segundos de identificacion, las
-tres grabaciones de 5 segundos ni el procesamiento de audio real.
-
-## Reutilizacion futura
-
-Cuando exista ADC DMA y la maquina de estados de identificacion, reutilizar
-el mismo modulo grafico en los estados **ESCUCHANDO** y **ANALIZANDO**, y
-detenerlo cuando se muestre el resultado.
-
-## Plan de almacenamiento EEPROM (no implementado)
-
-- Recolectar tres grabaciones de hasta 5 segundos por locutor.
-- Extraer en streaming 13 MFCC, descartar frames sin voz y acumular
-  estadisticas por grabacion: media y varianza por coeficiente.
-- Cada grabacion produce un prototipo de 26 floats (104 bytes).
-- Tres prototipos ocupan 312 bytes por locutor sin metadatos.
-- Definir una estructura versionada y protegida con CRC para guardar
-  los perfiles en M24C32 (4096 bytes, I2C, paginas de 32 bytes).
-- Guardar unicamente despues de que las tres grabaciones sean validas.
-- Calibrar umbrales de identificacion con grabaciones de varias personas;
-  no asumir reconocimiento fiable hasta validar las comparaciones.
-
-Aun NO se ha configurado I2C ni escrito la EEPROM.
-
-
-## Actualizacion: escucha de tres segundos
-
-La misma animacion de circulos pastel se reutiliza durante la captura
-DMA de tres segundos. La UI muestra una cuenta regresiva 3s, 2s, 1s
-conforme avanzan los bloques DMA. La TFT se prepara antes de activar
-autodisparos TIM2. Al finalizar se muestran estadisticas ADC.
-
-No se ha integrado aun MFCC sobre la voz real ni almacenamiento EEPROM.
+**No es aun reconocimiento de hablantes:** la adquisicion real dura
+3 segundos (48 000 muestras), pero todavia no se calcula MFCC con
+ellas ni se almacenan perfiles en EEPROM. La prueba MFCC sintetica
+conserva sus pantallas.

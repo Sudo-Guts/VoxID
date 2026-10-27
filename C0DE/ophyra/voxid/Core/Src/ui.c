@@ -96,9 +96,13 @@ static bool ui_draw_footer_button(uint16_t x, const char *label, bool enabled) {
     return gfx_draw_text_aligned((int16_t)(x + 16U), 117, label, UI_TEXT, background, 1U, GFX_ALIGN_CENTER);
 }
 
+static bool ui_capture_is_listening(void) {
+    return current_state == UI_STATE_CAPTURE && (voice_capture_pending || voxid_audio_status() == VOXID_AUDIO_CAPTURING);
+}
+
 static bool ui_draw_footer(void) {
     bool can_move = current_state == UI_STATE_MENU || current_state == UI_STATE_ENROLL || current_state == UI_STATE_SELFTEST;
-    bool can_ok = current_state != UI_STATE_CAPTURE || voxid_audio_status() != VOXID_AUDIO_CAPTURING;
+    bool can_ok = !ui_capture_is_listening();
     bool can_back = current_state != UI_STATE_MENU;
 
     if (!gfx_fill_rect(8U, 112U, 144U, 1U, UI_BORDER)) {
@@ -286,12 +290,26 @@ static bool ui_draw_capture(void) {
         return false;
     }
 
-    if (state == VOXID_AUDIO_READY) {
-        VoxIDAudioStats stats;
+    // Los resultados y errores son pantallas estaticas: no deben
+    // conservar los circulos ni la cuenta regresiva de la captura.
+    if (state == VOXID_AUDIO_READY || state == VOXID_AUDIO_ERROR) {
+        if (!gfx_fill_rect(8U, 45U, 144U, 65U, UI_BG)) {
+            return false;
+        }
 
         if (!ui_draw_card()) {
             return false;
         }
+
+        if (state == VOXID_AUDIO_ERROR) {
+            if (!gfx_draw_text(16, 75, "ERROR DE CAPTURA", UI_WARNING)) {
+                return false;
+            }
+
+            return gfx_draw_text(16, 93, "OK: REPETIR", UI_MUTED);
+        }
+
+        VoxIDAudioStats stats;
 
         if (!voxid_audio_read_stats(&stats)) {
             return gfx_draw_text(16, 77, "ERROR LECTURA", UI_WARNING);
@@ -311,12 +329,10 @@ static bool ui_draw_capture(void) {
         return gfx_draw_text(16, 95, line, UI_MUTED);
     }
 
+    // En espera: circulos visibles, sin animacion.
+    // Durante la captura: la animacion avanza desde ui_task().
     if (!ui_voice_draw(voice_phase, UI_BG)) {
         return false;
-    }
-
-    if (state == VOXID_AUDIO_ERROR) {
-        return gfx_draw_text_aligned(80, 102, "ERROR DMA / OK", UI_WARNING, UI_BG, 1U, GFX_ALIGN_CENTER);
     }
 
     if (voice_capture_pending || state == VOXID_AUDIO_CAPTURING) {
@@ -631,7 +647,7 @@ static void ui_dispatch(ButtonEvent event) {
             needs_redraw = true;
             break;
         case UI_STATE_CAPTURE:
-            if (voxid_audio_status() != VOXID_AUDIO_CAPTURING && !voice_capture_pending) {
+            if (!ui_capture_is_listening()) {
                 voice_phase = 0U;
                 voice_last_tick = HAL_GetTick();
                 voice_capture_pending = true;
@@ -685,7 +701,9 @@ void ui_task(void) {
         ui_dispatch(event);
     }
 
-    if (current_state == UI_STATE_CAPTURE && voxid_audio_status() != rendered_audio_state && !voice_capture_pending) {
+    // Transicion de ESCUCHANDO a RESULTADO/ERROR: renderizar una sola
+    // pantalla nueva y no volver a dibujar anillos tras la captura.
+    if (current_state == UI_STATE_CAPTURE && !voice_capture_pending && voxid_audio_status() != rendered_audio_state) {
         needs_redraw = true;
     }
 
@@ -693,8 +711,8 @@ void ui_task(void) {
         ui_ready = ui_render();
         needs_redraw = !ui_ready;
 
-        // Dibujar primero la pantalla para no consumir el primer bloque DMA
-        // durante un refresco completo de la TFT.
+        // Pintar la cuenta regresiva y ocultar OK antes de iniciar DMA.
+        // Asi el footer refleja el estado real durante toda la captura.
         if (ui_ready && current_state == UI_STATE_CAPTURE && voice_capture_pending) {
             voice_capture_pending = false;
 
@@ -704,31 +722,38 @@ void ui_task(void) {
                 needs_redraw = true;
             }
         }
-    } else if (current_state == UI_STATE_MENU && menu_selection != rendered_menu_selection) {
+
+        return;
+    }
+
+    if (current_state == UI_STATE_MENU && menu_selection != rendered_menu_selection) {
         ui_ready = ui_update_menu_selection();
-    } else if (current_state == UI_STATE_CAPTURE && voxid_audio_status() != VOXID_AUDIO_READY) {
-        uint32_t now = HAL_GetTick();
+        return;
+    }
 
-        if (voxid_audio_status() == VOXID_AUDIO_CAPTURING) {
-            uint32_t samples = voxid_audio_sample_count();
-            uint32_t remain = VOXID_AUDIO_TOTAL_SAMPLES > samples ? VOXID_AUDIO_TOTAL_SAMPLES - samples : 0U;
-            uint8_t seconds = (uint8_t)((remain + VOXID_AUDIO_SAMPLE_RATE - 1U) / VOXID_AUDIO_SAMPLE_RATE);
+    // Solo animar mientras ADC + DMA estan adquiriendo muestras reales.
+    if (current_state != UI_STATE_CAPTURE || voxid_audio_status() != VOXID_AUDIO_CAPTURING) {
+        return;
+    }
 
-            if (seconds != voice_seconds_rendered) {
-                voice_seconds_rendered = seconds;
-                ui_ready = ui_draw_capture_hint(seconds);
+    uint32_t now = HAL_GetTick();
+    uint32_t samples = voxid_audio_sample_count();
+    uint32_t remain = VOXID_AUDIO_TOTAL_SAMPLES > samples ? VOXID_AUDIO_TOTAL_SAMPLES - samples : 0U;
+    uint8_t seconds = (uint8_t)((remain + VOXID_AUDIO_SAMPLE_RATE - 1U) / VOXID_AUDIO_SAMPLE_RATE);
 
-                if (!ui_ready) {
-                    return;
-                }
-            }
+    if (seconds != voice_seconds_rendered) {
+        voice_seconds_rendered = seconds;
+        ui_ready = ui_draw_capture_hint(seconds);
+
+        if (!ui_ready) {
+            return;
         }
+    }
 
-        if ((uint32_t)(now - voice_last_tick) >= UI_VOICE_TICK_MS) {
-            voice_last_tick = now;
-            voice_phase = (uint8_t)((voice_phase + 1U) % UI_VOICE_PHASES);
-            ui_ready = ui_voice_draw(voice_phase, UI_BG);
-        }
+    if ((uint32_t)(now - voice_last_tick) >= UI_VOICE_TICK_MS && voxid_audio_status() == VOXID_AUDIO_CAPTURING) {
+        voice_last_tick = now;
+        voice_phase = (uint8_t)((voice_phase + 1U) % UI_VOICE_PHASES);
+        ui_ready = ui_voice_draw(voice_phase, UI_BG);
     }
 }
 

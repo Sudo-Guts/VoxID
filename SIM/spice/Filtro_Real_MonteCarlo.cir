@@ -1,55 +1,39 @@
-* VoxID - Monte Carlo, exportado del filtro TL072 de PSIM
-
-
-.ac dec 50 1 100k
-.step param run 1 100 1
-
+* VoxID - filtros con valores de PCB/voxid.kicad_sch, revision 001fb24
+* Ensayo de cuatro secciones en cascada; no modela toda la placa.
 .include "TL072.lib"
+VPLUS VPLUS 0 DC 12
+VMINUS 0 VMINUS DC 12
+* LTspice: 100 iteraciones; R +/-1 %, C +/-5 %, distribucion uniforme.
+VVOICE IN 0 AC 1
 
-* HPF - Primera etapa
-C_C1 1 2 {mc(470n,0.05)}
-C_C2 2 3 {mc(470n,0.05)}
-R_R1 2 4 {mc(1.30k,0.01)}
-R_R2 3 0 {mc(8.87k,0.01)}
+* HPF: valores comerciales de KiCad.
+C_C1 IN HPA {mc(470n,0.05)}
+C_C2 HPA HPB {mc(470n,0.05)}
+R_R1 HPA HP1 {mc(1.2k,0.01)}
+R_R2 HPB 0 {mc(8.2k,0.01)}
+XU1 HPB HP1 VPLUS VMINUS HP1 TL072
+C_C3 HP1 HPC {mc(470n,0.05)}
+C_C4 HPC HPD {mc(470n,0.05)}
+R_R3 HPC HP2 {mc(3.3k,0.01)}
+R_R4 HPD 0 {mc(3.9k,0.01)}
+XU2 HPD HP2 VPLUS VMINUS HP2 TL072
 
-* HPF - Segunda etapa
-C_C3 4 5 {mc(470n,0.05)}
-C_C4 5 6 {mc(470n,0.05)}
-R_R3 5 7 {mc(3.09k,0.01)}
-R_R4 6 0 {mc(3.65k,0.01)}
+* LPF: conexion de ensayo en cascada desde HP2.
+R_R5 HP2 LPA {mc(2.2k,0.01)}
+R_R6 LPA LPB {mc(6.8k,0.01)}
+C_C6 LPA LP1 {mc(22n,0.05)}
+C_C7 LPB 0 {mc(2.2n,0.05)}
+XU3 LPB LP1 VPLUS VMINUS LP1 TL072
+R_R10 LP1 LPC {mc(820,0.01)}
+R_R14 LPC LPD {mc(3.9k,0.01)}
+C_C8 LPC OUT {mc(22n,0.05)}
+C_C9 LPD 0 {mc(10n,0.05)}
+XU4 LPD OUT VPLUS VMINUS OUT TL072
 
-* LPF - Primera etapa
-C_C5 8 0 {mc(2.7n,0.05)}
-C_C6 9 10 {mc(27n,0.05)}
-R_R5 7 9 {mc(1.65k,0.01)}
-R_R6 9 8 {mc(5.90k,0.01)}
-
-* LPF - Segunda etapa
-C_C7 11 0 {mc(20n,0.05)}
-C_C8 12 13 {mc(27n,0.05)}
-R_R7 10 12 {mc(787,0.01)}
-R_R8 12 11 {mc(1.65k,0.01)}
-
-
-V_Vsweep 1 0 ac 1
-.param ACXin = 1
-
-XU1 3 4 14 15 4 TL072
-V_VDC1 0 15 DC 12
-V_VDC2 14 0 DC 12
-XU2 6 7 14 15 7 TL072
-XU3 8 10 14 15 10 TL072
-XU4 11 13 14 15 13 TL072
-.save V(13)
-
-* Matching PSIM probes to SPICE probes *
-* V(V1) 	V(13) *
-
-
-* Mediciones Monte Carlo
-.meas AC GMAX MAX mag(V(13))
-.meas AC FL WHEN mag(V(13))=GMAX/sqrt(2) RISE=1
-.meas AC FH WHEN mag(V(13))=GMAX/sqrt(2) FALL=LAST
+.ac dec 100 1 100k
+.step param run 1 100 1
+.meas AC GMAX MAX mag(V(OUT))
+.meas AC FL WHEN mag(V(OUT))=GMAX/sqrt(2) RISE=1
+.meas AC FH WHEN mag(V(OUT))=GMAX/sqrt(2) FALL=LAST
 .meas AC BW PARAM FH-FL
-
 .end

@@ -19,6 +19,7 @@
 #include "gfx.h"
 #include "voxid_dsp.h"
 #include "voxid_selftest.h"
+#include "voxid_audio.h"
 
 #include <math.h>
 #include <stdint.h>
@@ -55,6 +56,7 @@ static uint8_t menu_selection = 0U;
 static uint8_t rendered_menu_selection = 0U;
 static uint8_t speaker_slot = 0U;
 static uint8_t test_page = 0U;
+static VoxIDAudioState rendered_audio_state = VOXID_AUDIO_IDLE;
 static VoxIDSelfTestResult selftest_result;
 
 static bool ui_ready = false;
@@ -90,7 +92,7 @@ static bool ui_draw_footer_button(uint16_t x, const char *label, bool enabled) {
 
 static bool ui_draw_footer(void) {
     bool can_move = current_state == UI_STATE_MENU || current_state == UI_STATE_ENROLL || current_state == UI_STATE_SELFTEST;
-    bool can_ok = current_state != UI_STATE_CAPTURE;
+    bool can_ok = current_state != UI_STATE_CAPTURE || voxid_audio_status() != VOXID_AUDIO_CAPTURING;
     bool can_back = current_state != UI_STATE_MENU;
 
     if (!gfx_fill_rect(8U, 112U, 144U, 1U, UI_BORDER)) {
@@ -249,27 +251,72 @@ static bool ui_draw_enroll(void) {
 }
 
 static bool ui_draw_capture(void) {
-    char slot[26];
+    char line[28];
+    VoxIDAudioState state = voxid_audio_status();
+    rendered_audio_state = state;
 
-    if (!ui_draw_title("CAPTURA DE VOZ") || !ui_draw_card()) {
+    if (!ui_draw_title("CAPTURA ADC1") || !ui_draw_card()) {
         return false;
     }
 
     if (capture_origin == UI_STATE_ENROLL) {
-        (void)snprintf(slot, sizeof(slot), "LOCUTOR %02u: SIN VOZ", (unsigned)(speaker_slot + 1U));
+        (void)snprintf(line, sizeof(line), "LOCUTOR %02u / PA2", (unsigned)(speaker_slot + 1U));
+    } else {
+        (void)snprintf(line, sizeof(line), "IDENTIFICAR / PA2");
+    }
 
-        if (!gfx_draw_text(16, 62, slot, UI_TEXT)) {
+    if (!gfx_draw_text(16, 59, line, UI_TEXT)) {
+        return false;
+    }
+
+    if (state == VOXID_AUDIO_READY) {
+        VoxIDAudioStats stats;
+
+        if (!voxid_audio_read_stats(&stats)) {
+            return gfx_draw_text(16, 77, "ERROR LECTURA", UI_WARNING);
+        }
+
+        if (!gfx_draw_text(16, 74, "720 MUESTRAS: OK", UI_ACCENT)) {
             return false;
         }
-    } else if (!gfx_draw_text(16, 62, "IDENTIFICACION", UI_TEXT)) {
+
+        (void)snprintf(line, sizeof(line), "MIN:%u MAX:%u", (unsigned)stats.minimum, (unsigned)stats.maximum);
+
+        if (!gfx_draw_text(16, 87, line, UI_MUTED)) {
+            return false;
+        }
+
+        (void)snprintf(line, sizeof(line), "PROMEDIO:%u", (unsigned)stats.average);
+        return gfx_draw_text(16, 98, line, UI_MUTED);
+    }
+
+    if (state == VOXID_AUDIO_CAPTURING) {
+        (void)snprintf(line, sizeof(line), "MUESTRAS:%u/720", (unsigned)voxid_audio_sample_count());
+
+        if (!gfx_draw_text(16, 74, "CAPTURANDO...", UI_ACCENT)) {
+            return false;
+        }
+
+        return gfx_draw_text(16, 90, line, UI_MUTED);
+    }
+
+    if (state == VOXID_AUDIO_ERROR) {
+        if (!gfx_draw_text(16, 76, "ERROR ADC/TIM2", UI_WARNING)) {
+            return false;
+        }
+
+        return gfx_draw_text(16, 94, "OK: REINTENTAR", UI_MUTED);
+    }
+
+    if (!gfx_draw_text(16, 74, "OK: CAPTURAR", UI_ACCENT)) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 80, "ADC NO VINCULADO", UI_WARNING)) {
+    if (!gfx_draw_text(16, 87, "ADC 12BIT / 16KHZ", UI_MUTED)) {
         return false;
     }
 
-    return gfx_draw_text(16, 94, "SIN CAPTURA REAL", UI_MUTED);
+    return gfx_draw_text(16, 98, "NO GUARDA PERFIL", UI_MUTED);
 }
 
 // =============================================================================
@@ -526,6 +573,7 @@ static void ui_dispatch(ButtonEvent event) {
 
     if (event == BUTTON_BACK) {
         if (current_state == UI_STATE_CAPTURE) {
+            voxid_audio_stop();
             current_state = capture_origin;
         } else if (current_state == UI_STATE_SELFTEST) {
             current_state = UI_STATE_SYSTEM;
@@ -568,6 +616,13 @@ static void ui_dispatch(ButtonEvent event) {
             current_state = UI_STATE_CAPTURE;
             needs_redraw = true;
             break;
+        case UI_STATE_CAPTURE:
+            if (voxid_audio_status() != VOXID_AUDIO_CAPTURING) {
+                (void)voxid_audio_start();
+                needs_redraw = true;
+            }
+            break;
+
         case UI_STATE_SYSTEM:
         case UI_STATE_SELFTEST:
             current_state = UI_STATE_SELFTEST;
@@ -587,6 +642,7 @@ bool ui_init(void) {
     rendered_menu_selection = 0U;
     speaker_slot = 0U;
     test_page = 0U;
+    rendered_audio_state = VOXID_AUDIO_IDLE;
     selftest_result.status = VOXID_SELFTEST_NOT_RUN;
     selftest_result.samples = 0U;
     selftest_result.frames = 0U;
@@ -607,6 +663,10 @@ void ui_task(void) {
 
     while (buttons_next_event(&event)) {
         ui_dispatch(event);
+    }
+
+    if (current_state == UI_STATE_CAPTURE && voxid_audio_status() != rendered_audio_state) {
+        needs_redraw = true;
     }
 
     if (needs_redraw) {

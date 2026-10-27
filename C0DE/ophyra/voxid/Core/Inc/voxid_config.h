@@ -24,4 +24,9 @@
 /* RMS normalizado a escala completa; ajustar con voz y ruido medidos en placa. */
 #define VOXID_VOICE_MIN_RMS 0.01f
 
+// Registro en RAM: ajustar el minimo de frames con las tomas de la placa.
+#define VOXID_SPEAKER_COUNT            4U
+#define VOXID_PROTOTYPES_PER_SPEAKER    3U
+#define VOXID_ENROLL_MIN_VOICED_FRAMES 20U
+
 #endif /* VOXID_CONFIG_H */

@@ -4,7 +4,7 @@ Esta revisión deja implementadas adquisición y extracción MFCC. El cierre fí
 
 ## Comprobaciones ya realizadas en PC
 
-- Las ocho pruebas ejecutadas con `-Wall -Wextra -Wpedantic -Werror` pasan: Frame, ventana, FFT, MFCC, voz, audio, interfaz y GFX.
+- Las nueve pruebas ejecutadas con `-Wall -Wextra -Wpedantic -Werror` pasan: Frame, ventana, FFT, MFCC, voz, audio, interfaz, GFX y registro.
 - Las pruebas de voz procesan 48 000 muestras por toma y exigen 298 frames. Cubren silencio centrado, offset constante, señal débil, tono e intermitencia.
 - La simulación de HAL comprueba estadísticas, repetición, cancelación, sobreescritura, errores de callback y fallos de arranque.
 - GFX se comprueba sobre memoria, incluido texto con fondo y coordenadas negativas.
@@ -54,4 +54,4 @@ Un nivel energético suficiente no distingue voz de golpes o ruido fuerte. La me
 
 ## Cierre antes de etapa 3
 
-Registrar versión compilada, condiciones de entrada, capturas repetidas, comportamiento de cancelación y ausencia de errores DMA. Después podrán definirse las tres tomas de registro por locutor.
+Registrar versión compilada, condiciones de entrada, capturas repetidas, comportamiento de cancelación y ausencia de errores DMA. La etapa 3 ya tiene implementación en RAM y su [propia validación](../C0DE/ophyra/voxid/STAGE3_ENROLLMENT.md); el cierre físico de ambas comprobaciones sigue siendo necesario.

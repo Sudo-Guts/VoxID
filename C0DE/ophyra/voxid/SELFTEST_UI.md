@@ -6,7 +6,7 @@ UP/DN recorre resumen, gráfica y dos páginas de coeficientes. OK repite y BACK
 
 El extractor compartido se reinicia al iniciar la autoprueba. La navegación mantiene la captura y esta prueba en pantallas distintas para impedir su ejecución simultánea.
 
-IDENTIFICAR y REGISTRAR ya tienen captura ADC con DMA y MFCC real; los cuatro espacios de registro siguen sin perfiles. Ver STAGE2_REAL_MFCC.md y VOICE_UI.md.
+IDENTIFICAR y REGISTRAR ya tienen captura ADC con DMA y MFCC real; los cuatro espacios de registro admiten tres prototipos por locutor en RAM, como describe STAGE3_ENROLLMENT.md. Ver STAGE2_REAL_MFCC.md y VOICE_UI.md.
 
 Las regresiones de PC comprueban el retorno a esta pantalla tras usar adquisición. La prueba funcional física de la versión actual sigue pendiente.
 

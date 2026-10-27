@@ -4,7 +4,7 @@
 |---|---|---|
 | PREPARADO | Animados cada 180 ms, sin esperas bloqueantes. | OK inicia; BACK regresa. |
 | ESCUCHANDO | Se dibujan una vez y permanecen fijos. | Cuenta de 3 a 1; solo BACK es visible y permite cancelar. |
-| RESULTADO | Se borran. | OK repite; UP/DN cambia entre resumen y media MFCC; BACK regresa. |
+| RESULTADO | Se borran. | UP/DN revisa la toma. OK repite en identificación; en registro acepta una toma válida o repite una insuficiente. BACK cancela. |
 | ERROR | Se borran. | OK reintenta; BACK regresa. |
 
 La solicitud de una toma tiene prioridad sobre el resultado anterior al dibujar. La cuenta se reinicia en tres segundos, se pinta la pantalla de escucha y después se habilita DMA.
@@ -17,3 +17,5 @@ Los botones de la pantalla representan los pulsadores físicos. El firmware cons
 
 Las pruebas en PC comprueban las transiciones y que los círculos no se redibujen durante la captura. La comprobación visual y temporal en Ophyra sigue pendiente.
 
+
+En registro se muestra LOCxx / TOMA n/3. OK acepta cada toma válida; tras las dos primeras inicia la siguiente captura y tras la tercera guarda el perfil en RAM. Una repetición no avanza el contador. BACK descarta la sesión pendiente, conservando cualquier perfil anterior. Ver [etapa 3](STAGE3_ENROLLMENT.md).

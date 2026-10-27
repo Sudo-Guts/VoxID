@@ -7,8 +7,8 @@
  *
  *  Interfaz pastel para la TFT de Ophyra (160 x 128).
  *  Utiliza la API grafica gfx_* y los eventos de buttons.c.
- *  Las pantallas de identificacion/registro permanecen informativas
- *  hasta integrar el procesamiento MFCC en tiempo real.
+ *  Captura de voz y registro de tres prototipos por locutor en RAM.
+ *  La identificacion y la persistencia se reservan para la etapa 4.
  *
  * =============================================================================
  */
@@ -21,6 +21,7 @@
 #include "voxid_selftest.h"
 #include "voxid_audio.h"
 #include "voxid_voice.h"
+#include "voxid_enroll.h"
 #include "ui_voice.h"
 #include "main.h"
 
@@ -247,22 +248,62 @@ static bool ui_draw_identify(void) {
 
 static bool ui_draw_enroll(void) {
     char slot[26];
+    const VoxIDSpeakerProfile *perfil = voxid_enroll_profile(espacio_locutor);
 
     if (!ui_draw_title("REGISTRAR") || !ui_draw_card()) {
         return false;
     }
 
-    (void)snprintf(slot, sizeof(slot), "LOCUTOR %02u / 04", (unsigned)(espacio_locutor + 1U));
+    (void)snprintf(slot, sizeof(slot), "LOCUTOR %02u / %02u", (unsigned)(espacio_locutor + 1U), (unsigned)VOXID_SPEAKER_COUNT);
 
     if (!gfx_draw_text(16, 62, slot, UI_TEXT)) {
         return false;
     }
 
-    if (!gfx_draw_text(16, 80, "UP/DN: ELEGIR", UI_MUTED)) {
+    if (!gfx_draw_text(16, 80, perfil != NULL ? "3 PROTOTIPOS EN RAM" : "ESPACIO VACIO", perfil != NULL ? UI_ACCENT : UI_MUTED)) {
         return false;
     }
 
-    return gfx_draw_text(16, 94, "OK: PREPARAR", UI_ACCENT);
+    return gfx_draw_text(16, 94, perfil != NULL ? "OK: REGRABAR" : "OK: REGISTRAR", UI_ACCENT);
+}
+
+/**
+ * @brief Muestra la toma pendiente; OK la acepta o permite repetirla.
+ * @param toma Resultado completo de la captura actual.
+ * @return true si el resumen se dibuja correctamente.
+ */
+static bool ui_draw_enroll_take(const VoxIDVoiceStats *toma) {
+    char linea[30];
+    bool valida = voxid_enroll_take_valid(toma);
+
+    if (valida) {
+        (void)snprintf(linea, sizeof(linea), "FRAMES: %lu/%u", (unsigned long)toma->frames, (unsigned)VOXID_VOICE_EXPECTED_FRAMES);
+    } else {
+        (void)snprintf(linea, sizeof(linea), "VOZ INSUFICIENTE");
+    }
+
+    if (!gfx_draw_text(16, 58, linea, valida ? UI_TEXT : UI_WARNING)) {
+        return false;
+    }
+
+    (void)snprintf(linea, sizeof(linea), "CON VOZ: %lu", (unsigned long)toma->voiced_frames);
+
+    if (!gfx_draw_text(16, 70, linea, valida ? UI_ACCENT : UI_WARNING)) {
+        return false;
+    }
+
+    const char *accion = "OK: REPETIR VOZ";
+
+    if (valida) {
+        accion = voxid_enroll_count() + 1U == VOXID_PROTOTYPES_PER_SPEAKER ? "OK: GUARDAR RAM" : "OK: SIGUIENTE";
+    }
+
+    if (!gfx_draw_text(16, 82, accion, UI_ACCENT)) {
+        return false;
+    }
+
+    (void)snprintf(linea, sizeof(linea), "EN RAM: %u/%u TOMAS", (unsigned)voxid_enroll_count(), (unsigned)VOXID_PROTOTYPES_PER_SPEAKER);
+    return gfx_draw_text(16, 94, linea, UI_MUTED);
 }
 
 // =============================================================================
@@ -337,12 +378,12 @@ static bool ui_draw_capture(void) {
     VoxIDAudioState state = captura_pendiente ? VOXID_AUDIO_CAPTURING : voxid_audio_status();
     estado_audio_dibujado = state;
 
-    if (state == VOXID_AUDIO_READY && pagina_captura == 1U) {
+    if (origen_captura == UI_STATE_ENROLL) {
+        (void)snprintf(line, sizeof(line), "LOC%02u / TOMA %u/%u", (unsigned)(espacio_locutor + 1U), (unsigned)(voxid_enroll_count() + 1U), (unsigned)VOXID_PROTOTYPES_PER_SPEAKER);
+    } else if (state == VOXID_AUDIO_READY && pagina_captura == 1U) {
         (void)snprintf(line, sizeof(line), "MEDIA MFCC / VOZ");
     } else if (state == VOXID_AUDIO_READY) {
         (void)snprintf(line, sizeof(line), "3 SEG / MFCC OK");
-    } else if (origen_captura == UI_STATE_ENROLL) {
-        (void)snprintf(line, sizeof(line), "LOCUTOR %02u / MARIPOSA", (unsigned)(espacio_locutor + 1U));
     } else {
         (void)snprintf(line, sizeof(line), "MARIPOSA / PA2");
     }
@@ -386,6 +427,10 @@ static bool ui_draw_capture(void) {
             return ui_draw_mfcc_bars(mfcc.mean_mfcc);
         }
 
+        if (origen_captura == UI_STATE_ENROLL) {
+            return ui_draw_enroll_take(&mfcc);
+        }
+
         (void)snprintf(line, sizeof(line), "FRAMES: %lu/%u", (unsigned long)mfcc.frames, (unsigned)VOXID_VOICE_EXPECTED_FRAMES);
 
         if (!gfx_draw_text(16, 58, line, UI_TEXT)) {
@@ -422,7 +467,7 @@ static bool ui_draw_capture(void) {
         return ui_draw_capture_hint(segundos_dibujados);
     }
 
-    return gfx_draw_text_aligned(80, 102, "OK: HABLAR 3 SEG", UI_ACCENT, UI_BG, 1U, GFX_ALIGN_CENTER);
+    return gfx_draw_text_aligned(80, 102, origen_captura == UI_STATE_ENROLL ? "OK: DECIR MARIPOSA" : "OK: HABLAR 3 SEG", UI_ACCENT, UI_BG, 1U, GFX_ALIGN_CENTER);
 }
 
 // =============================================================================
@@ -640,6 +685,11 @@ static void ui_dispatch(ButtonEvent event) {
     if (event == BUTTON_BACK) {
         if (estado_actual == UI_STATE_CAPTURE) {
             voxid_audio_stop();
+
+            if (origen_captura == UI_STATE_ENROLL) {
+                voxid_enroll_cancel();
+            }
+
             captura_pendiente = false;
             estado_actual = origen_captura;
         } else if (estado_actual == UI_STATE_SELFTEST) {
@@ -660,10 +710,10 @@ static void ui_dispatch(ButtonEvent event) {
 
     if (estado_actual == UI_STATE_ENROLL) {
         if (event == BUTTON_UP) {
-            espacio_locutor = (uint8_t)((espacio_locutor + 3U) % 4U);
+            espacio_locutor = (uint8_t)((espacio_locutor + VOXID_SPEAKER_COUNT - 1U) % VOXID_SPEAKER_COUNT);
             redibujar = true;
         } else if (event == BUTTON_DOWN) {
-            espacio_locutor = (uint8_t)((espacio_locutor + 1U) % 4U);
+            espacio_locutor = (uint8_t)((espacio_locutor + 1U) % VOXID_SPEAKER_COUNT);
             redibujar = true;
         }
     }
@@ -693,6 +743,11 @@ static void ui_dispatch(ButtonEvent event) {
     switch (estado_actual) {
         case UI_STATE_IDENTIFY:
         case UI_STATE_ENROLL:
+            if (estado_actual == UI_STATE_ENROLL && !voxid_enroll_begin(espacio_locutor)) {
+                break;
+            }
+
+            voxid_audio_stop();
             origen_captura = estado_actual;
             estado_actual = UI_STATE_CAPTURE;
             pagina_captura = 0U;
@@ -702,14 +757,24 @@ static void ui_dispatch(ButtonEvent event) {
             redibujar = true;
             break;
         case UI_STATE_CAPTURE:
-            if (!ui_capture_is_listening()) {
-                pagina_captura = 0U;
-                fase_circulos = 0U;
-                ultimo_tick_circulos = HAL_GetTick();
-                captura_pendiente = true;
-                segundos_dibujados = VOXID_AUDIO_DURATION_S;
-                redibujar = true;
+            if (origen_captura == UI_STATE_ENROLL && voxid_audio_status() == VOXID_AUDIO_READY) {
+                VoxIDVoiceStats toma;
+
+                if (voxid_voice_read_stats(&toma) && voxid_enroll_add(&toma) == VOXID_ENROLL_COMPLETE) {
+                    voxid_audio_stop();
+                    estado_actual = UI_STATE_ENROLL;
+                    redibujar = true;
+                    break;
+                }
             }
+
+            // Una toma rechazada se repite sin aumentar el contador.
+            pagina_captura = 0U;
+            fase_circulos = 0U;
+            ultimo_tick_circulos = HAL_GetTick();
+            captura_pendiente = true;
+            segundos_dibujados = VOXID_AUDIO_DURATION_S;
+            redibujar = true;
             break;
 
         case UI_STATE_SYSTEM:
@@ -725,6 +790,7 @@ static void ui_dispatch(ButtonEvent event) {
 }
 
 bool ui_init(void) {
+    voxid_enroll_cancel();
     estado_actual = UI_STATE_MENU;
     origen_captura = UI_STATE_IDENTIFY;
     opcion_menu = 0U;

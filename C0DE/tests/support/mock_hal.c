@@ -14,6 +14,7 @@
 #include "voxid_audio.h"
 
 #include <assert.h>
+#include <math.h>
 #include <stddef.h>
 
 ADC_HandleTypeDef hadc1;
@@ -85,14 +86,13 @@ HAL_StatusTypeDef HAL_ADC_Stop_DMA(ADC_HandleTypeDef *adc) {
     return HAL_OK;
 }
 
-void mock_dma_block(uint16_t value) {
+static uint16_t *mock_dma_next_half(void) {
     assert(mock_dma_running && mock_timer_running && buffer_dma != NULL);
     uint32_t offset = (bloques_emitidos % 2U) * VOXID_AUDIO_BLOCK_SAMPLES;
+    return &buffer_dma[offset];
+}
 
-    for (uint32_t i = 0U; i < VOXID_AUDIO_BLOCK_SAMPLES; ++i) {
-        buffer_dma[offset + i] = value;
-    }
-
+static void mock_dma_notify(void) {
     ++bloques_emitidos;
     mock_tick += 40U;
 
@@ -101,4 +101,26 @@ void mock_dma_block(uint16_t value) {
     } else {
         HAL_ADC_ConvCpltCallback(&hadc1);
     }
+}
+
+void mock_dma_block(uint16_t value) {
+    uint16_t *mitad = mock_dma_next_half();
+
+    for (uint32_t i = 0U; i < VOXID_AUDIO_BLOCK_SAMPLES; ++i) {
+        mitad[i] = value;
+    }
+
+    mock_dma_notify();
+}
+
+void mock_dma_tone_block(void) {
+    uint16_t *mitad = mock_dma_next_half();
+
+    for (uint32_t i = 0U; i < VOXID_AUDIO_BLOCK_SAMPLES; ++i) {
+        uint32_t n = bloques_emitidos * VOXID_AUDIO_BLOCK_SAMPLES + i;
+        float fase = 2.0f * 3.14159265358979323846f * 440.0f * (float)n / (float)VOXID_SAMPLE_RATE;
+        mitad[i] = (uint16_t)(2048.0f + 900.0f * sinf(fase));
+    }
+
+    mock_dma_notify();
 }

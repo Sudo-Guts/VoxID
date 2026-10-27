@@ -505,7 +505,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "Microfono.kicad_pro",
+    "filename": "voxid.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -541,7 +541,7 @@
     "last_paths": {
       "idf": "",
       "netlist": "",
-      "plot": "Geber/",
+      "plot": "fabrication/",
       "specctra_dsn": "",
       "step": "",
       "vrml": ""
@@ -691,18 +691,18 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "Microfono.kicad_sch",
-        "name": "Raíz",
+        "filename": "voxid.kicad_sch",
+        "name": "voxid",
         "uuid": "49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
       }
     ],
-    "used_designators": "TP2-6,TP26,#PWR23,#PWR25,J5",
+    "used_designators": "Rlim1,TP2-6,TP26,R1-3,R10-11,R14,R17-21,Cref1,Cref6-7,#PWR22-23,#PWR25-26,#PWR28,#PWR31-32,J5-8,D1-2,C6-11,Caudio1",
     "variants": []
   },
   "sheets": [
     [
       "49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1",
-      "Raíz"
+      "voxid"
     ]
   ],
   "text_variables": {},

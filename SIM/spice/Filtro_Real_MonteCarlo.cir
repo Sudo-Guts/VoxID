@@ -1,0 +1,39 @@
+* VoxID - filtros con valores de PCB/voxid.kicad_sch, revision 001fb24
+* Ensayo de cuatro secciones en cascada; no modela toda la placa.
+.include "TL072.lib"
+VPLUS VPLUS 0 DC 12
+VMINUS 0 VMINUS DC 12
+* LTspice: 100 iteraciones; R +/-1 %, C +/-5 %, distribucion uniforme.
+VVOICE IN 0 AC 1
+
+* HPF: valores comerciales de KiCad.
+C_C1 IN HPA {mc(470n,0.05)}
+C_C2 HPA HPB {mc(470n,0.05)}
+R_R1 HPA HP1 {mc(1.2k,0.01)}
+R_R2 HPB 0 {mc(8.2k,0.01)}
+XU1 HPB HP1 VPLUS VMINUS HP1 TL072
+C_C3 HP1 HPC {mc(470n,0.05)}
+C_C4 HPC HPD {mc(470n,0.05)}
+R_R3 HPC HP2 {mc(3.3k,0.01)}
+R_R4 HPD 0 {mc(3.9k,0.01)}
+XU2 HPD HP2 VPLUS VMINUS HP2 TL072
+
+* LPF: conexion de ensayo en cascada desde HP2.
+R_R5 HP2 LPA {mc(2.2k,0.01)}
+R_R6 LPA LPB {mc(6.8k,0.01)}
+C_C6 LPA LP1 {mc(22n,0.05)}
+C_C7 LPB 0 {mc(2.2n,0.05)}
+XU3 LPB LP1 VPLUS VMINUS LP1 TL072
+R_R10 LP1 LPC {mc(820,0.01)}
+R_R14 LPC LPD {mc(3.9k,0.01)}
+C_C8 LPC OUT {mc(22n,0.05)}
+C_C9 LPD 0 {mc(10n,0.05)}
+XU4 LPD OUT VPLUS VMINUS OUT TL072
+
+.ac dec 100 1 100k
+.step param run 1 100 1
+.meas AC GMAX MAX mag(V(OUT))
+.meas AC FL WHEN mag(V(OUT))=GMAX/sqrt(2) RISE=1
+.meas AC FH WHEN mag(V(OUT))=GMAX/sqrt(2) FALL=LAST
+.meas AC BW PARAM FH-FL
+.end

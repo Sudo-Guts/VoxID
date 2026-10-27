@@ -8,10 +8,10 @@ La plataforma digital es **Ophyra con STM32F407VGT6**, pantalla ST7735 de 160 ×
 
 | Etapa | Alcance | Estado |
 |---|---|---|
-| 1 | ADC1 + TIM2 + DMA y círculos de preparación | Implementada; pendiente de validación física de la versión actual. |
-| 2 | ADC a PCM y extracción MFCC de audio real | Implementada y probada en PC con señales sintéticas y HAL simulada; pendiente de compilación ARM y validación en Ophyra. |
-| 3 | Registro de tres prototipos MFCC por locutor | Implementada en RAM y probada en PC; pendiente de validación física del registro. |
-| 4 | EEPROM M24C32 e identificación por distancia normalizada | Implementada y probada en PC; pendientes compilación ARM, validación en Ophyra y calibración. |
+| 1 | ADC1 + TIM2 + DMA y círculos de preparación | Implementada; funcionamiento general reportado en Ophyra. Mediciones de temporización pendientes. |
+| 2 | ADC a PCM y extracción MFCC de audio real | Implementada y probada en PC; funcionamiento general reportado en Ophyra. Calibración y mediciones pendientes. |
+| 3 | Registro de tres prototipos MFCC por locutor | Implementada y probada en PC; funcionamiento general reportado en Ophyra. Ajustes con varias personas pendientes. |
+| 4 | EEPROM M24C32 e identificación por distancia normalizada | Implementada y probada en PC; funcionamiento general y navegación de locutores confirmados por el usuario. Calibración pendiente. |
 
 La interfaz permite registrar cuatro locutores, con tres prototipos de 13 coeficientes por locutor. Los perfiles se guardan en EEPROM y se recuperan en RAM al arrancar. La identificación compara una toma nueva con los tres prototipos de cada locutor y puede rechazar por distancia o ambigüedad. Los umbrales iniciales requieren calibración; el código no verifica la palabra pronunciada.
 
@@ -65,7 +65,8 @@ Los parámetros y la revisión DSP están en `voxid_config.h`; el [formato y las
 | `C0DE/ophyra/voxid_test` | Benchmark sintético histórico; conserva la biblioteca INTESC que utiliza. |
 | `C0DE/out` | Resultados locales de compilación, excluidos de Git salvo `.gitkeep`. |
 | `DOC` | Seguimiento y validación. |
-| `PCB`, `SIM` | Diseño y simulaciones analógicas; ver la nota de ramas. |
+| `PCB` | Proyecto KiCad `voxid` y archivos de fabricación versionados. |
+| `SIM` | Preparación de grabaciones en MATLAB, antecedentes PSIM y experimentos SPICE; ver [la guía](SIM/README.md). |
 
 ## Compilar y probar en PC
 
@@ -91,13 +92,18 @@ En Windows con MinGW, usar `mingw32-make` en lugar de `make`. La ruta de ejecuci
 
 El Makefile de PC no genera firmware ARM. Si CubeMX regenera código, comprobar la configuración DMA del `.ioc`, la vinculación con ADC1 y el orden GPIO, DMA, ADC1, SPI1, TIM2, I2C1 y los GPIO PB6/PB7 de I2C1.
 
-## Ramas y hardware
+## Hardware y simulaciones
 
-La adquisición y los MFCC reales se desarrollaron en `feature/adc-tim2-acquisition`. La revisión de mantenimiento parte de esa rama.
+`main` integra el firmware de las cuatro etapas, el diseño analógico de `PCB/voxid.kicad_sch` y `PCB/voxid.kicad_pcb`, sus archivos de fabricación y el trabajo de simulación. Se conserva `pcb-sim` para continuar los cambios de hardware y simulación; las ramas de etapas incorporadas se retiran sin borrar sus commits.
 
-El diseño analógico más reciente está en [la rama pcb-sim](https://github.com/Sudo-Guts/VoxID/tree/pcb-sim). Esta rama de firmware todavía conserva una revisión anterior de `PCB` y `SIM`; no usarla como fuente de fabricación. La corrección de simulaciones se prepara sobre `pcb-sim` para conservar el diseño vigente.
+Los tres experimentos SPICE actualizados usan los dieciséis componentes comerciales de las cuatro secciones de filtro de la PCB. Desde la raíz, comprobar su correspondencia con:
 
-Los resultados históricos de filtros usan valores distintos de algunas resistencias y capacitores comerciales de la PCB actual. Deben distinguirse de los nuevos experimentos con valores de placa. Las simulaciones, los Gerbers y los archivos KiCad no acreditan por sí solos mediciones físicas ni aprobación ERC/DRC.
+```bash
+python3 SIM/tests/comprobar_valores.py
+```
 
-Consultar [el seguimiento](DOC/CheckList.txt) para separar implementación, pruebas en PC y validación física.
+Los antecedentes PSIM y los resultados históricos de filtros se conservan por separado en `SIM`. Deben repetirse los análisis AC, Monte Carlo y ruido con los valores vigentes. Las simulaciones, los Gerbers y los archivos KiCad no acreditan por sí solos mediciones físicas ni aprobación ERC/DRC o de fabricación.
 
+La preparación de grabaciones en MATLAB lee archivos o una carpeta, selecciona un canal, retira la media y remuestrea a 16 kHz cuando hace falta. Exporta WAV, CSV y MAT sin modificar los originales. Sus grabaciones y resultados locales quedan fuera de Git. Esta preparación todavía no calcula MFCC ni identifica locutores; la ejecución de sus pruebas en MATLAB y la lectura de un MP4 real siguen pendientes. Consultar [SIM/README.md](SIM/README.md) para requisitos y comandos.
+
+El usuario confirmó el funcionamiento general del firmware y la navegación LOCUTORES. Las mediciones de temporización, la calibración de umbrales y los ensayos de fallos en hardware requieren evidencia específica. Consultar [el seguimiento](DOC/CheckList.txt) para distinguir estos pendientes de la implementación y las pruebas en PC.

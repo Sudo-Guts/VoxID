@@ -38,6 +38,19 @@ _autosave-*
 **/.history/
 **/.history_trim/
 
+# ============================================================
+# PSIM / LTspice - Generated Files
+# ============================================================
+
+SIM/**/*.raw
+SIM/**/*.log
+SIM/**/*.db
+SIM/**/*.alias.ini
+SIM/**/*.fra
+
+# Netlist generado automáticamente por PSIM
+SIM/psim/Filtro_Real.cir
+
 # -----------------------------------------------------------------------------
 #   Archivos Temporales de Editores
 # -----------------------------------------------------------------------------
@@ -72,3 +85,16 @@ _autosave-*
 # Archivos temporales
 *.log
 *.bak
+
+# -----------------------------------------------------------------------------
+#   Grabaciones locales y resultados de MATLAB
+# -----------------------------------------------------------------------------
+
+/SIM/datos/originales/*
+!/SIM/datos/originales/.gitkeep
+/SIM/datos/preparados/*
+!/SIM/datos/preparados/.gitkeep
+/SIM/resultados/*
+!/SIM/resultados/.gitkeep
+/SIM/*.asv
+/SIM/funciones/*.asv

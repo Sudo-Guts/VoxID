@@ -13,6 +13,11 @@ VOXID | Seguimiento de etapas
 [x] Corregir recorte GFX con coordenadas negativas y probarlo sobre memoria.
 [x] Corregir Makefile: dependencias DSP, seleccion de prueba y ejecucion completa.
 [x] Excluir resultados generados de C0DE/out y conservar .gitkeep.
+[x] Integrar firmware, PCB y simulaciones conservando sus historiales.
+[x] Registrar la confirmacion del usuario sobre el funcionamiento general en Ophyra.
+
+Los pendientes siguientes requieren comprobaciones especificas o mediciones;
+no invalidan el reporte de funcionamiento general del usuario.
 
 ==========================================================================
 ETAPA 1 | ADC1 + TIM2 + DMA e interfaz
@@ -78,7 +83,7 @@ ETAPA 4 | EEPROM M24C32 e identificacion
 [x] Dibujar botones inactivos sin texto y con el fondo existente de la paleta.
 [x] Consultar cuatro espacios sin capturar audio ni acceder a EEPROM.
 [x] Verificar barras con vectores conocidos y dibujo mediante UI/GFX reales en PC.
-[ ] Validar la nueva vista LOCUTORES en la pantalla de Ophyra.
+[x] Confirmar con el usuario la nueva navegacion LOCUTORES y sus botones.
 [x] Ejecutar once pruebas de PC, incluidos cortes, CRC y ambiguedad.
 [ ] Compilar y enlazar la etapa 4 con toolchain ARM en STM32CubeIDE.
 [ ] Validar EEPROM real, reinicio, errores I2C y recuperacion de perfiles.
@@ -86,10 +91,15 @@ ETAPA 4 | EEPROM M24C32 e identificacion
 [ ] Validar identificacion con tomas distintas de las usadas en registro.
 
 ==========================================================================
-HARDWARE Y SIMULACIONES | Rama pcb-sim
+HARDWARE Y SIMULACIONES | Integrados en main; desarrollo en pcb-sim
 ==========================================================================
 
-[ ] Integrar la revision de simulaciones con valores de la PCB vigente.
+[x] Integrar la PCB vigente y sus archivos de fabricacion versionados.
+[x] Integrar la revision de simulaciones con valores de la PCB vigente.
+[x] Comprobar los 16 valores comerciales en los tres netlists SPICE.
+[x] Incorporar preparacion de grabaciones MATLAB sin modificar originales.
+[x] Excluir grabaciones y resultados locales conservando sus .gitkeep.
+[ ] Ejecutar probar_preparacion_audio en MATLAB y leer un MP4 real.
 [ ] Ejecutar de nuevo AC, Monte Carlo y ruido con esos valores.
 [ ] Verificar ERC/DRC y correspondencia de archivos de fabricacion.
 [ ] Medir alimentaciones, offset y limites reales antes del acoplamiento ADC.

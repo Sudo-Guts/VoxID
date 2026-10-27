@@ -1,0 +1,55 @@
+* VoxID - HPF Butterworth 4o (100 Hz) + LPF Butterworth 4o (6 kHz)
+* Revision propuesta: resistencias fijas E96, condensadores segun KiCad
+* Modelo externo: TL072.lib del respaldo original SIM/TL072
+* Etapas Sallen-Key no inversoras de ganancia unitaria
+
+.include "TL072.lib"
+
+* 50 mV pico para transitorio; amplitud AC unitaria para Bode
+VVOICE IN 0 DC 0 AC 1 SIN(0 0.05 1000)
+VCC VPLUS 0 DC 12
+VEE VMINUS 0 DC -12
+
+* HPF1: C6 C7, RV4 => 14.7k realimentacion; RV1 => 17.4k a tierra
+C6 IN HPA 100n
+C7 HPA HPB 100n
+R_RV4 HPA HP1 14.7k
+R_RV1 HPB 0 17.4k
+XU1 HPB HP1 VPLUS VMINUS HP1 TL072
+
+* HPF2: C8 C9, RV3 => 6.04k realimentacion; RV2 => 41.2k a tierra
+C8 HP1 HPC 100n
+C9 HPC HPD 100n
+R_RV3 HPC HP2 6.04k
+R_RV2 HPD 0 41.2k
+XU2 HPD HP2 VPLUS VMINUS HP2 TL072
+
+* LPF1: R serie RV5=2.43k RV6=2.43k; C2 realimentacion C3 a tierra
+R_RV5 HP2 LPA 2.43k
+R_RV6 LPA LPB 2.43k
+C2 LPA LP1 12n
+C3 LPB 0 10n
+XU3 LPB LP1 VPLUS VMINUS LP1 TL072
+
+* LPF2: R serie RV7=1.02k RV8=1.02k; C4 realimentacion C5 a tierra
+R_RV7 LP1 LPC 1.02k
+R_RV8 LPC LPD 1.02k
+C4 LPC OUT 68n
+C5 LPD 0 10n
+XU4 LPD OUT VPLUS VMINUS OUT TL072
+
+* Carga de medicion, alta impedancia
+RLOAD OUT 0 100k
+
+* Control SPICE para NGSPICE; probar tambien desde LTspice/PSIM-SPICE
+.control
+set noaskquit
+set wr_singlescale
+set wr_vecnames
+ac dec 100 1 50000
+wrdata VoxID_AC.dat vdb(OUT)
+tran 2u 50m
+wrdata VoxID_TRAN.dat v(IN) v(OUT)
+quit
+.endc
+.end

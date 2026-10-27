@@ -1,0 +1,34 @@
+* VoxID - filtros con valores de PCB/voxid.kicad_sch, revision 001fb24
+* Ensayo de cuatro secciones en cascada; no modela toda la placa.
+.include "TL072.lib"
+VPLUS VPLUS 0 DC 12
+VMINUS 0 VMINUS DC 12
+* Los resultados historicos de ruido no corresponden a estos valores.
+VVOICE IN 0 AC 1
+
+* HPF: valores comerciales de KiCad.
+C_C1 IN HPA 470n
+C_C2 HPA HPB 470n
+R_R1 HPA HP1 1.2k
+R_R2 HPB 0 8.2k
+XU1 HPB HP1 VPLUS VMINUS HP1 TL072
+C_C3 HP1 HPC 470n
+C_C4 HPC HPD 470n
+R_R3 HPC HP2 3.3k
+R_R4 HPD 0 3.9k
+XU2 HPD HP2 VPLUS VMINUS HP2 TL072
+
+* LPF: conexion de ensayo en cascada desde HP2.
+R_R5 HP2 LPA 2.2k
+R_R6 LPA LPB 6.8k
+C_C6 LPA LP1 22n
+C_C7 LPB 0 2.2n
+XU3 LPB LP1 VPLUS VMINUS LP1 TL072
+R_R10 LP1 LPC 820
+R_R14 LPC LPD 3.9k
+C_C8 LPC OUT 22n
+C_C9 LPD 0 10n
+XU4 LPD OUT VPLUS VMINUS OUT TL072
+
+.noise V(OUT) VVOICE dec 100 100 6k
+.end

@@ -103,6 +103,7 @@ static bool ui_capture_is_listening(void) {
 }
 
 static bool ui_draw_footer(void) {
+    bool escuchando = ui_capture_is_listening();
     bool can_move = estado_actual == UI_STATE_MENU || estado_actual == UI_STATE_ENROLL || estado_actual == UI_STATE_SELFTEST || (estado_actual == UI_STATE_CAPTURE && voxid_audio_status() == VOXID_AUDIO_READY);
     bool can_ok = !ui_capture_is_listening();
     bool can_back = estado_actual != UI_STATE_MENU;
@@ -111,16 +112,18 @@ static bool ui_draw_footer(void) {
         return false;
     }
 
-    if (!ui_draw_footer_button(4U, "UP", can_move)) {
-        return false;
-    }
+    if (!escuchando) {
+        if (!ui_draw_footer_button(4U, "UP", can_move)) {
+            return false;
+        }
 
-    if (!ui_draw_footer_button(44U, "DN", can_move)) {
-        return false;
-    }
+        if (!ui_draw_footer_button(44U, "DN", can_move)) {
+            return false;
+        }
 
-    if (!ui_draw_footer_button(84U, "OK", can_ok)) {
-        return false;
+        if (!ui_draw_footer_button(84U, "OK", can_ok)) {
+            return false;
+        }
     }
 
     return ui_draw_footer_button(124U, "BACK", can_back);
@@ -646,6 +649,12 @@ static void ui_dispatch(ButtonEvent event) {
         }
 
         redibujar = true;
+        return;
+    }
+
+    // BACK ya fue atendido. Los demas eventos se ignoran tambien mientras
+    // la siguiente toma esta pendiente de arrancar, aunque ADC siga en READY.
+    if (ui_capture_is_listening()) {
         return;
     }
 

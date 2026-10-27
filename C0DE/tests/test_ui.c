@@ -25,6 +25,7 @@
 
 static char texto_pantalla[4096];
 static uint32_t circulos_dibujados;
+static bool botones_visibles[4];
 
 static bool registrar_texto(const char *texto) {
     size_t disponibles = sizeof(texto_pantalla) - strlen(texto_pantalla) - 1U;
@@ -35,6 +36,11 @@ static bool registrar_texto(const char *texto) {
 bool gfx_fill_screen(uint16_t color) {
     (void)color;
     texto_pantalla[0] = '\0';
+
+    for (uint8_t i = 0U; i < 4U; ++i) {
+        botones_visibles[i] = false;
+    }
+
     return true;
 }
 
@@ -48,6 +54,11 @@ bool gfx_fill_round_rect(int16_t x, int16_t y, uint16_t width, uint16_t height, 
     (void)radius;
     (void)color;
     assert(x >= 0 && y >= 0 && x + width <= 160 && y + height <= 128);
+
+    if (y == 115 && x >= 4 && (x - 4) % 40 == 0) {
+        botones_visibles[(x - 4) / 40] = true;
+    }
+
     return true;
 }
 
@@ -77,9 +88,13 @@ bool gfx_draw_text_aligned(int16_t x, int16_t y, const char *text, uint16_t colo
     return gfx_draw_text(x, y, text, color);
 }
 
-static void pulsar(uint16_t pin) {
+static void encolar(uint16_t pin) {
     mock_tick += 50U;
     buttons_on_exti(pin, mock_tick);
+}
+
+static void pulsar(uint16_t pin) {
+    encolar(pin);
     ui_task();
 }
 
@@ -88,6 +103,7 @@ static void comprobar_escucha(void) {
     assert(strstr(texto_pantalla, "ESCUCHANDO: 3s") != NULL);
     assert(strstr(texto_pantalla, "FRAMES:") == NULL);
     assert(strstr(texto_pantalla, "ERROR DE CAPTURA") == NULL);
+    assert(!botones_visibles[0] && !botones_visibles[1] && !botones_visibles[2] && botones_visibles[3]);
 }
 
 int main(void) {
@@ -109,6 +125,9 @@ int main(void) {
     uint32_t circulos_fijos = circulos_dibujados;
     pulsar(BTN_OK_Pin);
     assert(circulos_dibujados == circulos_fijos);
+    pulsar(BTN_UP_Pin);
+    pulsar(BTN_DOWN_Pin);
+    assert(circulos_dibujados == circulos_fijos);
 
     for (uint32_t b = 0U; b < VOXID_AUDIO_TOTAL_BLOCKS; ++b) {
         mock_dma_block(2048U);
@@ -123,7 +142,10 @@ int main(void) {
     pulsar(BTN_DOWN_Pin);
     assert(strstr(texto_pantalla, "SIN VOZ DETECTADA") != NULL);
 
-    pulsar(BTN_OK_Pin);
+    encolar(BTN_OK_Pin);
+    encolar(BTN_DOWN_Pin);
+    encolar(BTN_UP_Pin);
+    ui_task();
     comprobar_escucha();
     assert(circulos_dibujados == circulos_fijos + 3U);
     pulsar(BTN_BACK_Pin);
@@ -146,6 +168,6 @@ int main(void) {
     pulsar(BTN_OK_Pin);
     assert(ui_state() == UI_STATE_SELFTEST);
 
-    puts("OK: repetir desde resultado/error, silencio, BACK, OK inactivo y circulos fijos.");
+    puts("OK: repetir, solo BACK visible durante captura, eventos inactivos y circulos fijos.");
     return 0;
 }

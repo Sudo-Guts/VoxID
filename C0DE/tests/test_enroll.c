@@ -11,6 +11,8 @@
  */
 
 #include "voxid_enroll.h"
+#include "voxid_storage.h"
+#include "mock_eeprom.h"
 
 #include <assert.h>
 #include <math.h>
@@ -62,6 +64,10 @@ static void completar_registro(uint8_t locutor, unsigned primera_toma) {
 }
 
 int main(void) {
+    mock_hal_reset();
+    mock_eeprom_reset();
+    assert(voxid_storage_init(&hi2c1));
+
     for (uint8_t i = 0U; i < VOXID_SPEAKER_COUNT; ++i) {
         assert(voxid_enroll_profile(i) == NULL);
     }
@@ -73,7 +79,7 @@ int main(void) {
     assert(voxid_enroll_begin(0U));
     assert(voxid_enroll_add(NULL) == VOXID_ENROLL_REJECTED);
 
-    for (unsigned error = 0U; error < 8U; ++error) {
+    for (unsigned error = 0U; error < 9U; ++error) {
         VoxIDVoiceStats invalida = toma;
 
         switch (error) {
@@ -98,8 +104,13 @@ int main(void) {
             case 6U:
                 invalida.rms_max = NAN;
                 break;
-            default:
+            case 7U:
                 invalida.pcm_peak = 0U;
+                break;
+            default:
+                for (uint8_t k = 1U; k < VOXID_MFCC_COUNT; ++k) {
+                    invalida.mean_mfcc[k] = 0.0f;
+                }
                 break;
         }
 
@@ -141,6 +152,24 @@ int main(void) {
     }
 
     assert(voxid_enroll_profile(VOXID_SPEAKER_COUNT) == NULL);
-    puts("OK: tres prototipos independientes, rechazo, cancelacion y cuatro locutores.");
+    assert(!voxid_enroll_profile_valid(NULL));
+    assert(!voxid_enroll_restore(0U, NULL));
+    assert(!voxid_enroll_restore(VOXID_SPEAKER_COUNT, voxid_enroll_profile(0U)));
+
+    assert(voxid_enroll_begin(0U));
+    assert(voxid_enroll_add(&toma) == VOXID_ENROLL_ACCEPTED);
+    assert(voxid_enroll_add(&toma) == VOXID_ENROLL_ACCEPTED);
+    mock_eeprom_protected = true;
+    assert(voxid_enroll_add(&toma) == VOXID_ENROLL_STORAGE_ERROR);
+    assert(voxid_enroll_count() == 2U);
+    comprobar_perfil(0U, 20U);
+    mock_eeprom_protected = false;
+    assert(voxid_enroll_add(&toma) == VOXID_ENROLL_COMPLETE);
+    assert(voxid_enroll_count() == 3U);
+    assert(voxid_storage_init(&hi2c1));
+    const VoxIDSpeakerProfile *recuperado = voxid_enroll_profile(0U);
+    assert(recuperado != NULL && recuperado->mfcc[2][5] == toma.mean_mfcc[5]);
+    comprobar_perfil(1U, 30U);
+    puts("OK: tres prototipos, rechazo, cancelacion, EEPROM y reintento de guardado.");
     return 0;
 }

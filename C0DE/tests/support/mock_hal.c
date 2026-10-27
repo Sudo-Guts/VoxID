@@ -19,6 +19,7 @@
 
 ADC_HandleTypeDef hadc1;
 TIM_HandleTypeDef htim2;
+I2C_HandleTypeDef hi2c1;
 TestRCC test_rcc;
 bool mock_dma_running;
 bool mock_timer_running;
@@ -41,6 +42,7 @@ void mock_hal_reset(void) {
         .DMA_Handle = &dma
     };
     htim2 = (TIM_HandleTypeDef){.Instance = TIM2, .Init = {0U, 5249U}};
+    hi2c1 = (I2C_HandleTypeDef){.Instance = I2C1};
     test_rcc.CFGR = RCC_HCLK_DIV4;
     mock_dma_running = false;
     mock_timer_running = false;
@@ -57,6 +59,10 @@ uint32_t HAL_RCC_GetPCLK1Freq(void) {
 
 uint32_t HAL_GetTick(void) {
     return mock_tick;
+}
+
+void HAL_Delay(uint32_t demora) {
+    mock_tick += demora;
 }
 
 HAL_StatusTypeDef HAL_TIM_Base_Start(TIM_HandleTypeDef *timer) {

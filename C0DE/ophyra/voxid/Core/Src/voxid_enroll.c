@@ -12,6 +12,7 @@
  */
 
 #include "voxid_enroll.h"
+#include "voxid_storage.h"
 
 #include <math.h>
 #include <stddef.h>
@@ -31,6 +32,23 @@ static VoxIDSpeakerProfile registro_pendiente;
 static uint8_t locutor_actual;
 static uint8_t tomas_aceptadas;
 static bool registro_activo;
+
+static bool enroll_vector_valid(const float *mfcc) {
+    float maximo = 0.0f;
+
+    for (uint32_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
+        if (!isfinite(mfcc[k])) {
+            return false;
+        }
+
+        if (k > 0U && fabsf(mfcc[k]) > maximo) {
+            maximo = fabsf(mfcc[k]);
+        }
+    }
+
+    // C00 contiene energia global; C01..C12 deben aportar forma espectral.
+    return maximo > 1e-6f;
+}
 
 bool voxid_enroll_begin(uint8_t locutor) {
     if (locutor >= VOXID_SPEAKER_COUNT) {
@@ -56,13 +74,7 @@ bool voxid_enroll_take_valid(const VoxIDVoiceStats *toma) {
         return false;
     }
 
-    for (uint32_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
-        if (!isfinite(toma->mean_mfcc[k])) {
-            return false;
-        }
-    }
-
-    return true;
+    return enroll_vector_valid(toma->mean_mfcc);
 }
 
 VoxIDEnrollResult voxid_enroll_add(const VoxIDVoiceStats *toma) {
@@ -72,13 +84,19 @@ VoxIDEnrollResult voxid_enroll_add(const VoxIDVoiceStats *toma) {
 
     (void)memcpy(registro_pendiente.mfcc[tomas_aceptadas], toma->mean_mfcc, sizeof(registro_pendiente.mfcc[0]));
     registro_pendiente.frames_con_voz[tomas_aceptadas] = (uint16_t)toma->voiced_frames;
-    ++tomas_aceptadas;
-
-    if (tomas_aceptadas < VOXID_PROTOTYPES_PER_SPEAKER) {
+    if (tomas_aceptadas + 1U < VOXID_PROTOTYPES_PER_SPEAKER) {
+        ++tomas_aceptadas;
         return VOXID_ENROLL_ACCEPTED;
     }
 
     registro_pendiente.completo = true;
+
+    if (!voxid_storage_save(locutor_actual, &registro_pendiente)) {
+        registro_pendiente.completo = false;
+        return VOXID_ENROLL_STORAGE_ERROR;
+    }
+
+    ++tomas_aceptadas;
     perfiles[locutor_actual] = registro_pendiente;
     registro_activo = false;
     return VOXID_ENROLL_COMPLETE;
@@ -100,4 +118,32 @@ void voxid_enroll_cancel(void) {
     registro_activo = false;
     tomas_aceptadas = 0U;
     (void)memset(&registro_pendiente, 0, sizeof(registro_pendiente));
+}
+
+bool voxid_enroll_profile_valid(const VoxIDSpeakerProfile *perfil) {
+    if (perfil == NULL || !perfil->completo) {
+        return false;
+    }
+
+    for (uint8_t p = 0U; p < VOXID_PROTOTYPES_PER_SPEAKER; ++p) {
+        if (perfil->frames_con_voz[p] < VOXID_ENROLL_MIN_VOICED_FRAMES || perfil->frames_con_voz[p] > VOXID_VOICE_EXPECTED_FRAMES || !enroll_vector_valid(perfil->mfcc[p])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool voxid_enroll_restore(uint8_t locutor, const VoxIDSpeakerProfile *perfil) {
+    if (locutor >= VOXID_SPEAKER_COUNT || !voxid_enroll_profile_valid(perfil)) {
+        return false;
+    }
+
+    perfiles[locutor] = *perfil;
+    return true;
+}
+
+void voxid_enroll_reset(void) {
+    voxid_enroll_cancel();
+    (void)memset(perfiles, 0, sizeof(perfiles));
 }

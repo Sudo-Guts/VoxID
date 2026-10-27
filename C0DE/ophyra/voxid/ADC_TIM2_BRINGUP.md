@@ -14,7 +14,7 @@ La etapa 1 implementa una toma de 48 000 conversiones a 16 kHz. La etapa 2 proce
 
 La interfaz se dibuja antes de habilitar DMA. Los círculos se animan en PREPARADO, quedan fijos durante la escucha y desaparecen en RESULTADO/ERROR. OK solo inicia o repite cuando no hay captura en curso.
 
-La configuración C y `voxid.ioc` deben conservar DMA y el orden de inicialización GPIO, DMA, ADC1, SPI1, TIM2.
+La configuración C y `voxid.ioc` deben conservar DMA y el orden de inicialización GPIO, DMA, ADC1, SPI1, TIM2, I2C1. La EEPROM solo se consulta al iniciar y al guardar un perfil, con adquisición detenida.
 
 La validación física de esta versión sigue pendiente. Consultar [la lista de comprobaciones](../../../DOC/Validacion_etapas_1_2.md).
 

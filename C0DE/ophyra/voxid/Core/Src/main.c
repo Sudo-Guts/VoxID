@@ -26,6 +26,7 @@
 #include "ui.h"
 #include "voxid_dsp.h"
 #include "voxid_audio.h"
+#include "voxid_storage.h"
 
 /* USER CODE END Includes */
 
@@ -48,6 +49,8 @@
 ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 
+I2C_HandleTypeDef hi2c1;
+
 SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim2;
@@ -61,6 +64,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADC1_Init(void);
+static void MX_I2C1_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
@@ -105,6 +109,7 @@ int main(void)
   MX_ADC1_Init();
   MX_SPI1_Init();
   MX_TIM2_Init();
+  MX_I2C1_Init();
 
   /* USER CODE BEGIN 2 */
 
@@ -112,6 +117,9 @@ int main(void)
 
   // Preparar el pipeline MFCC antes de capturar muestras reales.
   (void)voxid_dsp_init();
+
+  // Cargar lo recuperable; LOCUTORES informa los fallos de lectura.
+  (void)voxid_storage_init(&hi2c1);
 
   ui_ready = st7735_init(&hspi1);
 
@@ -330,6 +338,36 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 2 */
 
+}
+
+/**
+ * @brief Configura I2C1 a 100 kHz para la EEPROM integrada de Ophyra.
+ * @note PB6 es SCL y PB7 es SDA; los GPIO se preparan en el MSP.
+ */
+static void MX_I2C1_Init(void) {
+    /* USER CODE BEGIN I2C1_Init 0 */
+
+    /* USER CODE END I2C1_Init 0 */
+
+    /* USER CODE BEGIN I2C1_Init 1 */
+
+    /* USER CODE END I2C1_Init 1 */
+    hi2c1.Instance = I2C1;
+    hi2c1.Init.ClockSpeed = 100000U;
+    hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+    hi2c1.Init.OwnAddress1 = 0U;
+    hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+    hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+    hi2c1.Init.OwnAddress2 = 0U;
+    hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+    hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+
+    if (HAL_I2C_Init(&hi2c1) != HAL_OK) {
+        Error_Handler();
+    }
+    /* USER CODE BEGIN I2C1_Init 2 */
+
+    /* USER CODE END I2C1_Init 2 */
 }
 
 /**

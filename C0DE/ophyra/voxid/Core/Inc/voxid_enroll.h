@@ -5,7 +5,7 @@
  *  Autor    : Gustavo Ruiz Luis
  * -----------------------------------------------------------------------------
  *
- *  Registro de tres prototipos MFCC por locutor, exclusivamente en RAM.
+ *  Registro de tres prototipos MFCC por locutor y banco RAM de consulta.
  *  Cada prototipo es la media seleccionada de una toma independiente.
  *
  * =============================================================================
@@ -28,7 +28,8 @@ typedef struct {
 typedef enum {
     VOXID_ENROLL_REJECTED = 0,
     VOXID_ENROLL_ACCEPTED,
-    VOXID_ENROLL_COMPLETE
+    VOXID_ENROLL_COMPLETE,
+    VOXID_ENROLL_STORAGE_ERROR
 } VoxIDEnrollResult;
 
 /**
@@ -40,7 +41,7 @@ typedef enum {
 bool voxid_enroll_begin(uint8_t locutor);
 
 /**
- * @brief Comprueba continuidad, energia suficiente y media MFCC finita.
+ * @brief Comprueba continuidad, energia suficiente y media MFCC utilizable.
  * @param toma Resultado de una captura completa.
  * @return true si puede utilizarse como prototipo.
  * @note El criterio no verifica palabras ni distingue voz de todo tipo de ruido.
@@ -50,10 +51,10 @@ bool voxid_enroll_take_valid(const VoxIDVoiceStats *toma);
 /**
  * @brief Acepta la media de una toma y completa el perfil al recibir la tercera.
  * @param toma Resultado de una grabacion distinta de las anteriores.
- * @return REJECTED sin avanzar, ACCEPTED o COMPLETE con el perfil actualizado.
- * @note COMPLETE reemplaza el perfil anterior de una sola vez. Los perfiles
- *       son estaticos, se pierden al reiniciar y no se escriben en EEPROM.
- *       Invocar una vez por toma aceptada desde el bucle principal.
+ * @return REJECTED sin avanzar, ACCEPTED, COMPLETE o STORAGE_ERROR.
+ * @note COMPLETE confirma EEPROM y luego reemplaza el perfil RAM anterior.
+ *       STORAGE_ERROR conserva las dos primeras tomas y permite reintentar
+ *       la misma tercera toma. Invocar desde el bucle principal, sin captura.
  */
 VoxIDEnrollResult voxid_enroll_add(const VoxIDVoiceStats *toma);
 
@@ -75,5 +76,27 @@ const VoxIDSpeakerProfile *voxid_enroll_profile(uint8_t locutor);
  * @brief Descarta el registro pendiente y conserva los perfiles completos.
  */
 void voxid_enroll_cancel(void);
+
+/**
+ * @brief Valida coeficientes y conteos de un perfil completo.
+ * @param perfil Perfil que se desea verificar.
+ * @return true si sus tres vectores son finitos y no degenerados.
+ */
+bool voxid_enroll_profile_valid(const VoxIDSpeakerProfile *perfil);
+
+/**
+ * @brief Restaura un perfil validado desde la persistencia.
+ * @param locutor Indice del espacio de locutor.
+ * @param perfil Perfil completo que se copiara al banco RAM.
+ * @return false sin modificar el banco si el indice o perfil son invalidos.
+ * @note Utilizar unicamente durante la carga inicial, antes de iniciar la UI.
+ */
+bool voxid_enroll_restore(uint8_t locutor, const VoxIDSpeakerProfile *perfil);
+
+/**
+ * @brief Vacia el banco RAM y la sesion pendiente al cargar la EEPROM.
+ * @note Solo para inicializacion; no borra la memoria no volatil.
+ */
+void voxid_enroll_reset(void);
 
 #endif /* VOXID_ENROLL_H */

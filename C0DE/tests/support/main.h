@@ -32,6 +32,8 @@
 #define RCC_CFGR_PPRE1 0x1C00U
 #define RCC_HCLK_DIV4 0x1400U
 #define TIM_FLAG_UPDATE 1U
+#define I2C1 ((void *)4)
+#define I2C_MEMADD_SIZE_16BIT 2U
 #define BTN_UP_Pin 4U
 #define BTN_DOWN_Pin 32U
 #define BTN_OK_Pin 16U
@@ -75,12 +77,17 @@ typedef struct {
     TestTIMInit Init;
 } TIM_HandleTypeDef;
 
+typedef struct {
+    void *Instance;
+} I2C_HandleTypeDef;
+
 typedef struct { uint32_t CFGR; } TestRCC;
 extern TestRCC test_rcc;
 #define RCC (&test_rcc)
 
 extern ADC_HandleTypeDef hadc1;
 extern TIM_HandleTypeDef htim2;
+extern I2C_HandleTypeDef hi2c1;
 extern bool mock_dma_running;
 extern bool mock_timer_running;
 extern bool mock_fail_adc_start;
@@ -107,6 +114,14 @@ void mock_dma_tone_block(void);
 uint32_t HAL_RCC_GetPCLK1Freq(void);
 /** @brief Tiempo simulado. @return Milisegundos transcurridos. */
 uint32_t HAL_GetTick(void);
+/** @brief Avanza el reloj simulado. @param demora Milisegundos. */
+void HAL_Delay(uint32_t demora);
+/** @brief Consulta ACK simulado. @param bus Handle. @param dispositivo Direccion HAL. @param intentos Sondeos. @param timeout Espera. @return Estado HAL. */
+HAL_StatusTypeDef HAL_I2C_IsDeviceReady(I2C_HandleTypeDef *bus, uint16_t dispositivo, uint32_t intentos, uint32_t timeout);
+/** @brief Lee EEPROM simulada. @param bus Handle. @param dispositivo Direccion HAL. @param direccion Direccion interna. @param ancho Ancho de direccion. @param datos Destino. @param longitud Bytes. @param timeout Espera. @return Estado HAL. */
+HAL_StatusTypeDef HAL_I2C_Mem_Read(I2C_HandleTypeDef *bus, uint16_t dispositivo, uint16_t direccion, uint16_t ancho, uint8_t *datos, uint16_t longitud, uint32_t timeout);
+/** @brief Escribe EEPROM simulada. @param bus Handle. @param dispositivo Direccion HAL. @param direccion Direccion interna. @param ancho Ancho de direccion. @param datos Origen. @param longitud Bytes. @param timeout Espera. @return Estado HAL. */
+HAL_StatusTypeDef HAL_I2C_Mem_Write(I2C_HandleTypeDef *bus, uint16_t dispositivo, uint16_t direccion, uint16_t ancho, uint8_t *datos, uint16_t longitud, uint32_t timeout);
 /** @brief Inicia el temporizador simulado. @param timer Handle. @return Estado HAL. */
 HAL_StatusTypeDef HAL_TIM_Base_Start(TIM_HandleTypeDef *timer);
 /** @brief Detiene el temporizador simulado. @param timer Handle. @return Estado HAL. */

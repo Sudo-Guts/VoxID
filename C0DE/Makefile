@@ -19,11 +19,13 @@ CORE := ophyra/voxid/Core
 FUENTES := $(wildcard $(SRC)/*.c)
 FUENTES_DSP := $(filter-out $(SRC)/voxid.c,$(FUENTES))
 OBJETOS := $(patsubst $(SRC)/%.c,$(OUT)/%.o,$(FUENTES))
-CABECERAS := $(wildcard inc/*.h) $(wildcard $(CORE)/Inc/*.h)
+CABECERAS := $(wildcard inc/*.h) $(wildcard $(CORE)/Inc/*.h) $(wildcard tests/support/*.h)
 FUENTES_VOZ := $(CORE)/Src/voxid_dsp.c $(CORE)/Src/voxid_voice.c
 FUENTES_AUDIO := $(FUENTES_VOZ) $(CORE)/Src/voxid_audio.c tests/support/mock_hal.c
 FUENTES_REGISTRO := $(CORE)/Src/voxid_enroll.c
-FUENTES_UI := $(FUENTES_AUDIO) $(FUENTES_REGISTRO) $(CORE)/Src/ui.c $(CORE)/Src/ui_voice.c $(CORE)/Src/buttons.c $(CORE)/Src/voxid_selftest.c
+FUENTES_PERFILES := $(FUENTES_REGISTRO) $(CORE)/Src/voxid_storage.c $(CORE)/Src/m24c32.c tests/support/mock_eeprom.c
+FUENTES_IDENTIFICAR := $(CORE)/Src/voxid_identify.c
+FUENTES_UI := $(FUENTES_AUDIO) $(FUENTES_PERFILES) $(FUENTES_IDENTIFICAR) $(CORE)/Src/ui.c $(CORE)/Src/ui_voice.c $(CORE)/Src/buttons.c
 INCLUDES_PLACA := -Itests/support -I$(CORE)/Inc
 
 PROGRAMA := $(OUT)/voxid.exe
@@ -83,7 +85,13 @@ $(OUT)/test_gfx.exe: tests/test_gfx.c $(CORE)/Src/gfx.c $(CORE)/Src/font5x7.c $(
 $(OUT)/test_voice.exe: tests/test_voice.c $(FUENTES_DSP) $(FUENTES_VOZ) $(CABECERAS) | $(OUT)
 	$(CC) $(CPPFLAGS) $(INCLUDES_PLACA) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
 
-$(OUT)/test_enroll.exe: tests/test_enroll.c $(FUENTES_REGISTRO) $(CABECERAS) | $(OUT)
+$(OUT)/test_enroll.exe: tests/test_enroll.c $(FUENTES_DSP) $(FUENTES_AUDIO) $(FUENTES_PERFILES) $(CABECERAS) | $(OUT)
+	$(CC) $(CPPFLAGS) $(INCLUDES_PLACA) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
+
+$(OUT)/test_storage.exe: tests/test_storage.c $(FUENTES_DSP) $(FUENTES_AUDIO) $(FUENTES_PERFILES) $(CABECERAS) | $(OUT)
+	$(CC) $(CPPFLAGS) $(INCLUDES_PLACA) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
+
+$(OUT)/test_identify.exe: tests/test_identify.c $(FUENTES_DSP) $(FUENTES_AUDIO) $(FUENTES_PERFILES) $(FUENTES_IDENTIFICAR) $(CABECERAS) | $(OUT)
 	$(CC) $(CPPFLAGS) $(INCLUDES_PLACA) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
 
 $(OUT)/test_audio.exe: tests/test_audio.c $(FUENTES_DSP) $(FUENTES_AUDIO) $(CABECERAS) tests/support/main.h | $(OUT)

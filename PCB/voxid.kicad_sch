@@ -3296,6 +3296,12 @@
 		(uuid "a96768c8-5eb8-4c17-998f-c5b531bb4b7d")
 	)
 	(junction
+		(at 57.15 142.24)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "abc64231-03a0-4e81-a2f8-a83b0e927cc3")
+	)
+	(junction
 		(at 43.18 77.47)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3360,6 +3366,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f32c99ba-cde4-4b4b-a004-894296c4509e")
+	)
+	(junction
+		(at 80.01 33.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f3ab1f46-931c-42e1-bcda-0e837bdf7fda")
 	)
 	(junction
 		(at 95.25 115.57)
@@ -3472,6 +3484,16 @@
 			(type default)
 		)
 		(uuid "0db16b30-234d-4b2d-bf91-16ed0262810b")
+	)
+	(wire
+		(pts
+			(xy 55.88 142.24) (xy 57.15 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0df499ba-73cb-4d91-8c76-77ea74a47456")
 	)
 	(wire
 		(pts
@@ -3885,6 +3907,16 @@
 	)
 	(wire
 		(pts
+			(xy 83.82 29.21) (xy 80.01 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "40a61dc6-7c5d-47d1-bdf7-fb23bb9711e0")
+	)
+	(wire
+		(pts
 			(xy 184.15 133.35) (xy 182.88 133.35)
 		)
 		(stroke
@@ -3905,6 +3937,16 @@
 	)
 	(wire
 		(pts
+			(xy 57.15 139.7) (xy 57.15 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4ab49a43-d66a-438b-a6a2-9a90f2df05c9")
+	)
+	(wire
+		(pts
 			(xy 34.29 130.81) (xy 35.56 130.81)
 		)
 		(stroke
@@ -3922,6 +3964,16 @@
 			(type default)
 		)
 		(uuid "4d4bbabc-e35b-4431-8d3c-d8e45ee6bf20")
+	)
+	(wire
+		(pts
+			(xy 80.01 29.21) (xy 80.01 33.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "52c24709-e5b5-49d2-8507-2d45cb4289f3")
 	)
 	(wire
 		(pts
@@ -4435,6 +4487,16 @@
 	)
 	(wire
 		(pts
+			(xy 57.15 139.7) (xy 55.88 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9afe2219-a3ed-4469-ac0a-58d9dc6874f0")
+	)
+	(wire
+		(pts
 			(xy 50.8 36.83) (xy 38.1 36.83)
 		)
 		(stroke
@@ -4672,6 +4734,16 @@
 			(type default)
 		)
 		(uuid "b92a8e11-e26f-4854-99bc-b076d8f28c38")
+	)
+	(wire
+		(pts
+			(xy 57.15 142.24) (xy 57.15 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ba1c8951-ab2b-4d9c-8ee1-407b5cc5aec5")
 	)
 	(wire
 		(pts
@@ -6875,6 +6947,167 @@
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "TP4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x02_Pin")
+		(at 50.8 139.7 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "2da2fbf8-5f71-45f0-b5fa-957e68a03774")
+		(property "Reference" "J9"
+			(at 49.53 141.986 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "v3.3"
+			(at 52.7049 138.43 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+			(at 50.8 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 50.8 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x02, script generated"
+			(at 50.8 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "6e4219f1-39b2-44b1-be9b-4010c684a30a")
+		)
+		(pin "1"
+			(uuid "30a06ec2-19e4-4b17-8974-ab6c6d141346")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "J9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 57.15 144.78 0)
+		(mirror y)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2efbf0ec-6188-49ba-bff7-c6a4a1ee3fad")
+		(property "Reference" "#PWR034"
+			(at 57.15 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 57.15 149.86 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 57.15 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 57.15 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 57.15 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "0f63742d-f2f8-4c91-a654-a62f9fc7cef4")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
@@ -11959,6 +12192,123 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_Potentiometer")
+		(at 83.82 33.02 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "cf3ce6ea-e2e3-46ab-808b-624cb9f5f0f2")
+		(property "Reference" "RV2"
+			(at 85.852 35.306 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1.05k"
+			(at 86.36 33.02 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
+			(at 83.82 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 83.82 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Potentiometer"
+			(at 83.82 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Device" "R"
+			(at 83.82 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Type" "POT"
+			(at 83.82 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Pins" "1=r0 2=wiper 3=r1"
+			(at 83.82 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d52603b0-b2ed-4ab3-872b-fcdbc0bd7d7c")
+		)
+		(pin "3"
+			(uuid "3d2ffe92-3751-4185-8bee-24d4379ff72b")
+		)
+		(pin "2"
+			(uuid "09a4f6b1-dc2b-4bea-bf73-e5fe948c4fa3")
+		)
+		(instances
+			(project "voxid"
+				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
+					(reference "RV2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Diode:1N5819")
 		(at 213.36 139.7 270)
 		(unit 1)
@@ -12849,87 +13199,6 @@
 			(project "voxid"
 				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
 					(reference "#PWR09")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 83.82 33.02 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "e0822fbc-30a2-4c34-b521-b82e393eabcd")
-		(property "Reference" "R22"
-			(at 82.042 30.988 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "1.05K"
-			(at 81.026 35.052 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
-			(at 83.82 34.798 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 83.82 33.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 83.82 33.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "f06530be-738a-412c-85e0-a2e610c0f371")
-		)
-		(pin "2"
-			(uuid "481bf449-ca50-4067-90ea-9a0375c4e6ea")
-		)
-		(instances
-			(project "voxid"
-				(path "/49bf32c8-55fb-4a8a-99c3-51bbbb5db7c1"
-					(reference "R22")
 					(unit 1)
 				)
 			)

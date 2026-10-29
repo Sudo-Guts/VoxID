@@ -13861,6 +13861,14 @@
 		(uuid "35c92380-b4c4-4a66-9782-9e5e255c8481")
 	)
 	(segment
+		(start 120.890372 27.55845)
+		(end 120.890372 36.672872)
+		(width 1.6)
+		(layer "B.Cu")
+		(net "+12V")
+		(uuid "38de735d-03b6-4a41-96a6-0ae40084e947")
+	)
+	(segment
 		(start 125.1 11.91)
 		(end 120.24 7.05)
 		(width 1.6)
@@ -13891,6 +13899,14 @@
 		(layer "B.Cu")
 		(net "+12V")
 		(uuid "57f8ce96-488d-4d10-ade4-fae5a6404ed2")
+	)
+	(segment
+		(start 120.890372 36.672872)
+		(end 124.9675 40.75)
+		(width 1.6)
+		(layer "B.Cu")
+		(net "+12V")
+		(uuid "6116757b-8ef7-4f98-9e8a-9198b479b7d1")
 	)
 	(segment
 		(start 120.24 7.05)

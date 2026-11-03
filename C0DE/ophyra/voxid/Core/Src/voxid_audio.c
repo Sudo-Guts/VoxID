@@ -5,9 +5,9 @@
  *  Autor    : Gustavo Ruiz Luis
  * -----------------------------------------------------------------------------
  *
- *  Captura finita de 3 segundos mediante ADC1, TIM2 TRGO y DMA circular.
+ *  Captura finita de 2500 ms mediante ADC1, TIM2 TRGO y DMA circular.
  *  Las interrupciones solo notifican bloques completos. El resumen se
- *  calcula en el bucle principal, sin almacenar los 48000 samples en RAM.
+ *  calcula en el bucle principal, sin almacenar los 40000 samples en RAM.
  *
  * =============================================================================
  */
@@ -17,6 +17,11 @@
 #include "voxid_voice.h"
 
 #include <stddef.h>
+
+_Static_assert(VOXID_SAMPLE_RATE * VOXID_CAPTURE_DURATION_MS % 1000U == 0U, "La duracion debe representar muestras enteras");
+_Static_assert(VOXID_AUDIO_TOTAL_SAMPLES >= VOXID_FRAME_SIZE, "La toma requiere al menos un frame");
+_Static_assert(VOXID_AUDIO_TOTAL_SAMPLES % VOXID_AUDIO_BLOCK_SAMPLES == 0U, "La toma requiere bloques DMA completos");
+_Static_assert(VOXID_AUDIO_BLOCK_SAMPLES <= UINT16_MAX, "El bloque debe caber en la API de voz");
 
 // =============================================================================
 //  Perifericos generados por STM32CubeMX
@@ -209,7 +214,7 @@ void voxid_audio_task(void) {
     }
 
     if (bloques_consumidos == VOXID_AUDIO_TOTAL_BLOCKS) {
-        // El ultimo callback detuvo TIM2 al alcanzar 48000 muestras.
+        // El ultimo callback detuvo TIM2 al alcanzar 40000 muestras.
         if (HAL_TIM_Base_Stop(&htim2) != HAL_OK || HAL_ADC_Stop_DMA(&hadc1) != HAL_OK || !voxid_voice_finish()) {
             voxid_audio_fail();
             return;
@@ -256,7 +261,7 @@ static void voxid_audio_block_ready(void) {
     ++bloques_producidos;
 
     if (bloques_producidos == VOXID_AUDIO_TOTAL_BLOCKS) {
-        // 75 eventos de 640 muestras: exactamente 3 segundos a 16 kHz.
+        // 50 eventos de 800 muestras: exactamente 2500 ms a 16 kHz.
         __HAL_TIM_DISABLE(&htim2);
     } else if (bloques_producidos > VOXID_AUDIO_TOTAL_BLOCKS) {
         __HAL_TIM_DISABLE(&htim2);

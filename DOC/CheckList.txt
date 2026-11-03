@@ -24,7 +24,8 @@ ETAPA 1 | ADC1 + TIM2 + DMA e interfaz
 ==========================================================================
 
 [x] Configurar PA2, ADC1 de 12 bits, TIM2 TRGO a 16 kHz y DMA circular.
-[x] Capturar 48000 muestras en 75 mitades de 640 muestras.
+[x] Capturar 40000 muestras en 2500 ms y 50 mitades de 800 muestras.
+[x] Mostrar cuenta regresiva en pasos de medio segundo sin redibujar circulos.
 [x] Mantener el procesamiento fuera de las interrupciones.
 [x] Rechazar capturas con bloques sobrescritos o errores HAL.
 [x] Detener ADC y DMA desde el bucle principal tambien tras un error de IRQ.
@@ -42,7 +43,7 @@ ETAPA 2 | PCM y MFCC de audio real
 
 [x] Convertir ADC sin signo a PCM de 16 bits y eliminar DC.
 [x] Evitar el transitorio inicial de un nivel DC constante.
-[x] Exigir 48000 muestras y 298 frames MFCC con coeficientes finitos.
+[x] Exigir 40000 muestras y 248 frames MFCC con coeficientes finitos.
 [x] Separar frames totales de frames seleccionados por energia.
 [x] Calcular la media solo con los frames seleccionados.
 [x] No mostrar grafica de voz cuando no se seleccionaron frames.
@@ -73,6 +74,7 @@ ETAPA 4 | EEPROM M24C32 e identificacion
 [x] Definir registros little-endian, version, revision DSP y CRC32.
 [x] Configurar I2C1 PB6/PB7, paginas M24C32 y persistencia con dos copias.
 [x] Recuperar perfiles al arrancar sin escribir ni formatear la EEPROM.
+[x] Conservar los perfiles historicos de 298 frames y registrar nuevos de 248 frames.
 [x] Reintentar un fallo de guardado sin volver a capturar la tercera toma.
 [x] Implementar distancia L2 normalizada C01..C12 y promedio de tres prototipos.
 [x] Rechazar por distancia maxima, margen insuficiente y toma invalida.

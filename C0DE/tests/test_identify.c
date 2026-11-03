@@ -36,7 +36,7 @@ static VoxIDVoiceStats crear_toma(float angulo) {
 }
 
 static VoxIDSpeakerProfile crear_perfil(float angulo) {
-    VoxIDSpeakerProfile perfil = {.completo = true};
+    VoxIDSpeakerProfile perfil = {.total_frames = VOXID_VOICE_EXPECTED_FRAMES, .completo = true};
 
     for (uint8_t p = 0U; p < VOXID_PROTOTYPES_PER_SPEAKER; ++p) {
         perfil.frames_con_voz[p] = VOXID_ENROLL_MIN_VOICED_FRAMES;
@@ -57,7 +57,7 @@ static void comprobar_prototipos(void) {
     float valores[VOXID_MFCC_COUNT];
     voxid_enroll_reset();
     assert(!voxid_identify_read_prototype(0U, 0U, valores));
-    VoxIDSpeakerProfile perfil = {.completo = true};
+    VoxIDSpeakerProfile perfil = {.total_frames = VOXID_VOICE_EXPECTED_FRAMES, .completo = true};
 
     for (uint8_t toma = 0U; toma < VOXID_PROTOTYPES_PER_SPEAKER; ++toma) {
         perfil.frames_con_voz[toma] = VOXID_ENROLL_MIN_VOICED_FRAMES;
@@ -217,6 +217,18 @@ int main(void) {
         assert(voxid_identify_run(&toma, &resultado));
         assert(resultado.status == VOXID_IDENTIFY_INVALID_VOICE && resultado.locutor == UINT8_MAX);
     }
+
+    voxid_enroll_reset();
+    VoxIDSpeakerProfile legacy = crear_perfil(0.0f);
+    legacy.total_frames = 298U;
+    for (uint8_t take = 0U; take < VOXID_PROTOTYPES_PER_SPEAKER; ++take) {
+        legacy.frames_con_voz[take] = 298U;
+    }
+    assert(voxid_enroll_restore(0U, &legacy));
+    toma = crear_toma(0.0f);
+    assert(toma.samples == 40000U && toma.frames == 248U);
+    assert(voxid_identify_run(&toma, &resultado));
+    assert(resultado.status == VOXID_IDENTIFY_MATCH && resultado.locutor == 0U);
 
     puts("OK: distancia analitica, C00 excluido, tres prototipos, umbral, margen y cuatro locutores.");
     return 0;

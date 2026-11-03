@@ -27,6 +27,8 @@
 #include <string.h>
 
 static char texto_pantalla[4096];
+static char last_capture_hint[26];
+static uint32_t capture_hint_count;
 static uint32_t circulos_dibujados;
 static bool botones_visibles[4];
 static bool etiquetas_botones[4];
@@ -43,6 +45,11 @@ static BarraPerfil barras_perfil[VOXID_MFCC_COUNT - 1U];
 static uint8_t cantidad_barras;
 
 static bool registrar_texto(const char *texto) {
+    if (strncmp(texto, "ESCUCHANDO: ", 12U) == 0) {
+        (void)snprintf(last_capture_hint, sizeof(last_capture_hint), "%s", texto);
+        ++capture_hint_count;
+    }
+
     size_t disponibles = sizeof(texto_pantalla) - strlen(texto_pantalla) - 1U;
     strncat(texto_pantalla, texto, disponibles);
     return true;
@@ -128,7 +135,7 @@ static void pulsar(uint16_t pin) {
 
 static void comprobar_escucha(void) {
     assert(voxid_audio_status() == VOXID_AUDIO_CAPTURING);
-    assert(strstr(texto_pantalla, "ESCUCHANDO: 3s") != NULL);
+    assert(strstr(texto_pantalla, "ESCUCHANDO: 2.5s") != NULL);
     assert(strstr(texto_pantalla, "FRAMES:") == NULL);
     assert(strstr(texto_pantalla, "ERROR DE CAPTURA") == NULL);
     assert(!botones_visibles[0] && !botones_visibles[1] && !botones_visibles[2] && botones_visibles[3]);
@@ -171,7 +178,7 @@ static void comprobar_identificacion(const char *esperado) {
 static void comprobar_perfiles(void) {
     voxid_audio_stop();
     voxid_enroll_reset();
-    VoxIDSpeakerProfile perfil = {.completo = true};
+    VoxIDSpeakerProfile perfil = {.total_frames = VOXID_VOICE_EXPECTED_FRAMES, .completo = true};
 
     for (uint8_t toma = 0U; toma < VOXID_PROTOTYPES_PER_SPEAKER; ++toma) {
         perfil.frames_con_voz[toma] = (uint16_t)(VOXID_ENROLL_MIN_VOICED_FRAMES + toma);
@@ -371,7 +378,7 @@ int main(void) {
     pulsar(BTN_OK_Pin);
     pulsar(BTN_OK_Pin);
     assert(ui_state() == UI_STATE_CAPTURE);
-    assert(strstr(texto_pantalla, "OK: HABLAR 3 SEG") != NULL);
+    assert(strstr(texto_pantalla, "OK: HABLAR 2.5 SEG") != NULL);
 
     uint32_t antes = circulos_dibujados;
     mock_tick += UI_VOICE_TICK_MS;
@@ -387,10 +394,18 @@ int main(void) {
     pulsar(BTN_DOWN_Pin);
     assert(circulos_dibujados == circulos_fijos);
 
+    const char *expected_hints[] = {"ESCUCHANDO: 2.5s", "ESCUCHANDO: 2.0s", "ESCUCHANDO: 1.5s", "ESCUCHANDO: 1.0s", "ESCUCHANDO: 0.5s"};
+    uint32_t initial_hint_count = capture_hint_count;
     for (uint32_t b = 0U; b < VOXID_AUDIO_TOTAL_BLOCKS; ++b) {
         mock_dma_block(2048U);
         voxid_audio_task();
         ui_task();
+
+        if (b + 1U < VOXID_AUDIO_TOTAL_BLOCKS) {
+            assert(strcmp(last_capture_hint, expected_hints[(b + 1U) / 10U]) == 0);
+            assert(capture_hint_count == initial_hint_count + (b + 1U) / 10U);
+            assert(!botones_visibles[0] && !botones_visibles[1] && !botones_visibles[2] && botones_visibles[3]);
+        }
     }
 
     assert(voxid_audio_status() == VOXID_AUDIO_READY);
@@ -400,7 +415,7 @@ int main(void) {
     pulsar(BTN_DOWN_Pin);
     assert(strstr(texto_pantalla, "SIN VOZ DETECTADA") != NULL);
     pulsar(BTN_DOWN_Pin);
-    assert(strstr(texto_pantalla, "FRAMES: 298/298") != NULL);
+    assert(strstr(texto_pantalla, "FRAMES: 248/248") != NULL);
     assert(strstr(texto_pantalla, "MIN:2048 MAX:2048") != NULL);
 
     encolar(BTN_OK_Pin);

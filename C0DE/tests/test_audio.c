@@ -21,18 +21,23 @@
 static void comprobar_captura(void) {
     VoxIDAudioStats adc;
     VoxIDVoiceStats voz;
+    uint32_t start_tick = mock_tick;
+    assert(VOXID_AUDIO_TOTAL_BLOCKS == 50U && VOXID_AUDIO_BLOCK_SAMPLES == 800U);
     assert(voxid_audio_start());
 
     for (uint32_t b = 0U; b < VOXID_AUDIO_TOTAL_BLOCKS; ++b) {
         mock_dma_block((b % 2U) == 0U ? 2048U : 2058U);
+        assert(mock_timer_running == (b + 1U < VOXID_AUDIO_TOTAL_BLOCKS));
         voxid_audio_task();
+        assert(voxid_audio_status() == (b + 1U < VOXID_AUDIO_TOTAL_BLOCKS ? VOXID_AUDIO_CAPTURING : VOXID_AUDIO_READY));
     }
 
     assert(voxid_audio_status() == VOXID_AUDIO_READY);
     assert(!mock_dma_running && !mock_timer_running);
+    assert((uint32_t)(mock_tick - start_tick) == 2500U);
     assert(voxid_audio_read_stats(&adc));
-    assert(adc.count == 48000U && adc.minimum == 2048U && adc.maximum == 2058U && adc.average == 2053U);
-    assert(voxid_voice_read_stats(&voz) && voz.frames == 298U);
+    assert(adc.count == 40000U && adc.minimum == 2048U && adc.maximum == 2058U && adc.average == 2053U);
+    assert(voxid_voice_read_stats(&voz) && voz.frames == 248U);
 }
 
 static void comprobar_error(void) {

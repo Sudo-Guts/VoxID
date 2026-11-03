@@ -22,9 +22,15 @@ static VoxIDVoiceStats procesar_toma(unsigned caso) {
     VoxIDVoiceStats resultado;
     assert(voxid_voice_begin());
 
-    for (uint32_t b = 0U; b < 75U; ++b) {
-        for (uint32_t i = 0U; i < 640U; ++i) {
-            uint32_t n = b * 640U + i;
+    // El ultimo bloque parcial comprueba que voz no depende del tamano DMA.
+    for (uint32_t sample_offset = 0U; sample_offset < VOXID_VOICE_EXPECTED_SAMPLES;) {
+        uint32_t sample_count = VOXID_VOICE_EXPECTED_SAMPLES - sample_offset;
+        if (sample_count > 640U) {
+            sample_count = 640U;
+        }
+
+        for (uint32_t i = 0U; i < sample_count; ++i) {
+            uint32_t n = sample_offset + i;
             float amplitud = caso == 2U ? 1.0f : 900.0f;
             bool senal_activa = caso >= 2U && (caso != 4U || (n >= 16000U && n < 32000U));
             float valor = caso == 1U ? 2500.0f : 2048.0f;
@@ -36,12 +42,13 @@ static VoxIDVoiceStats procesar_toma(unsigned caso) {
             bloque[i] = (uint16_t)valor;
         }
 
-        assert(voxid_voice_process_block(bloque, 640U));
+        assert(voxid_voice_process_block(bloque, (uint16_t)sample_count));
+        sample_offset += sample_count;
     }
 
     assert(voxid_voice_finish());
     assert(voxid_voice_read_stats(&resultado));
-    assert(resultado.samples == 48000U && resultado.frames == 298U);
+    assert(resultado.samples == 40000U && resultado.frames == 248U);
 
     for (uint32_t k = 0U; k < VOXID_MFCC_COUNT; ++k) {
         assert(isfinite(resultado.last_mfcc[k]));
@@ -62,9 +69,9 @@ int main(void) {
     }
 
     VoxIDVoiceStats tono = procesar_toma(3U);
-    assert(tono.voiced_frames == 298U);
+    assert(tono.voiced_frames == 248U);
     VoxIDVoiceStats intermitente = procesar_toma(4U);
-    assert(intermitente.voiced_frames > 0U && intermitente.voiced_frames < 298U);
+    assert(intermitente.voiced_frames > 0U && intermitente.voiced_frames < 248U);
     VoxIDVoiceStats repetida = procesar_toma(4U);
     assert(repetida.voiced_frames == intermitente.voiced_frames);
 
@@ -85,6 +92,6 @@ int main(void) {
     voxid_voice_cancel();
     assert(!voxid_voice_read_stats(&tono));
 
-    puts("OK: silencio, DC sin transitorio, umbral, 298 frames, repeticion y cancelacion.");
+    puts("OK: silencio, DC sin transitorio, umbral, 248 frames, repeticion y cancelacion.");
     return 0;
 }

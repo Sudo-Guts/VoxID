@@ -14,7 +14,7 @@
 #include <stdint.h>
 #include "voxid_dsp.h"
 
-#define VOXID_VOICE_EXPECTED_SAMPLES (VOXID_SAMPLE_RATE * VOXID_CAPTURE_DURATION_S)
+#define VOXID_VOICE_EXPECTED_SAMPLES VOXID_CAPTURE_TOTAL_SAMPLES
 #define VOXID_VOICE_EXPECTED_FRAMES (1U + (VOXID_VOICE_EXPECTED_SAMPLES - VOXID_FRAME_SIZE) / VOXID_HOP_SIZE)
 
 typedef struct {
@@ -43,7 +43,7 @@ bool voxid_voice_begin(void);
 bool voxid_voice_process_block(const uint16_t *samples, uint16_t count);
 
 /**
- * @brief Verifica las 48000 muestras y 298 frames esperados.
+ * @brief Verifica las 40000 muestras y 248 frames esperados.
  * @return true si se completo la toma.
  */
 bool voxid_voice_finish(void);

@@ -22,6 +22,7 @@
 typedef struct {
     float mfcc[VOXID_PROTOTYPES_PER_SPEAKER][VOXID_MFCC_COUNT];
     uint16_t frames_con_voz[VOXID_PROTOTYPES_PER_SPEAKER];
+    uint16_t total_frames; // Frames originales por toma; 248 actuales o 298 historicos.
     bool completo;
 } VoxIDSpeakerProfile;
 
@@ -81,6 +82,8 @@ void voxid_enroll_cancel(void);
  * @brief Valida coeficientes y conteos de un perfil completo.
  * @param perfil Perfil que se desea verificar.
  * @return true si sus tres vectores son finitos y no degenerados.
+ * @note Acepta perfiles actuales de 248 frames e historicos de 298 frames.
+ *       Conserva total_frames para validar conteos y reescribir su cabecera.
  */
 bool voxid_enroll_profile_valid(const VoxIDSpeakerProfile *perfil);
 

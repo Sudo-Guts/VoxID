@@ -100,7 +100,7 @@ static uint16_t *mock_dma_next_half(void) {
 
 static void mock_dma_notify(void) {
     ++bloques_emitidos;
-    mock_tick += 40U;
+    mock_tick += VOXID_AUDIO_BLOCK_DURATION_MS;
 
     if ((bloques_emitidos % 2U) != 0U) {
         HAL_ADC_ConvHalfCpltCallback(&hadc1);

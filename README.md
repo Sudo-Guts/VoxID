@@ -2,75 +2,75 @@
 
 Sistema embebido para identificar hablantes a partir de la palabra de referencia **MARIPOSA**.
 
-La plataforma digital es **Ophyra con STM32F407VGT6**, pantalla ST7735 de 160 × 128 píxeles y cuatro pulsadores. El firmware principal está en `C0DE/ophyra/voxid`; el núcleo DSP compartido está en `C0DE/src` y `C0DE/inc`.
+La plataforma digital es **Ophyra con STM32F407VGT6**, pantalla ST7735 de 160 x 128 pixeles y cuatro pulsadores. El firmware principal esta en `C0DE/ophyra/voxid`; el nucleo DSP compartido esta en `C0DE/src` y `C0DE/inc`.
 
 ## Etapas y estado
 
 | Etapa | Alcance | Estado |
 |---|---|---|
-| 1 | ADC1 + TIM2 + DMA y círculos de preparación | Implementada; funcionamiento general reportado en Ophyra. Mediciones de temporización pendientes. |
-| 2 | ADC a PCM y extracción MFCC de audio real | Implementada y probada en PC; funcionamiento general reportado en Ophyra. Calibración y mediciones pendientes. |
+| 1 | ADC1 + TIM2 + DMA y circulos de preparacion | Implementada; funcionamiento general reportado en Ophyra. Mediciones de temporizacion pendientes. |
+| 2 | ADC a PCM y extraccion MFCC de audio real | Implementada y probada en PC; funcionamiento general reportado en Ophyra. Calibracion y mediciones pendientes. |
 | 3 | Registro de tres prototipos MFCC por locutor | Implementada y probada en PC; funcionamiento general reportado en Ophyra. Ajustes con varias personas pendientes. |
-| 4 | EEPROM M24C32 e identificación por distancia normalizada | Implementada y probada en PC; funcionamiento general y navegación de locutores confirmados por el usuario. Calibración pendiente. |
+| 4 | EEPROM M24C32 e identificacion por distancia normalizada | Implementada y probada en PC; funcionamiento general y navegacion de locutores confirmados por el usuario. Calibracion pendiente. |
 
-La interfaz permite registrar cuatro locutores, con tres prototipos de 13 coeficientes por locutor. Los perfiles se guardan en EEPROM y se recuperan en RAM al arrancar. La identificación compara una toma nueva con los tres prototipos de cada locutor y puede rechazar por distancia o ambigüedad. Los umbrales iniciales requieren calibración; el código no verifica la palabra pronunciada.
+La interfaz permite registrar cuatro locutores, con tres prototipos de 13 coeficientes por locutor. Los perfiles se guardan en EEPROM y se recuperan en RAM al arrancar. La identificacion compara una toma nueva con los tres prototipos de cada locutor y puede rechazar por distancia o ambiguedad. Los umbrales iniciales requieren calibracion; el codigo no verifica la palabra pronunciada.
 
-## Adquisición y procesamiento
+## Adquisicion y procesamiento
 
-La cadena prevista comprende micrófono electret, preamplificación, filtros pasaaltas y pasabajas, adaptación de nivel al ADC y procesamiento digital.
+La cadena prevista comprende microfono electret, preamplificacion, filtros pasaaltas y pasabajas, adaptacion de nivel al ADC y procesamiento digital.
 
-| Parámetro digital | Configuración |
+| Parametro digital | Configuracion |
 |---|---|
 | Entrada | PA2, ADC1_IN2, 12 bits |
 | Muestreo | 16 kHz, TIM2 TRGO; reloj TIM2 de 84 MHz, PSC 0 y ARR 5249 |
-| Captura | 3 segundos, 48 000 muestras |
-| DMA | DMA2 Stream0 Channel0, circular; dos mitades de 640 muestras |
-| Tiempo entre mitades | 40 ms |
+| Captura | 2500 ms, 40 000 muestras |
+| DMA | DMA2 Stream0 Channel0, circular; dos mitades de 800 muestras |
+| Tiempo entre mitades | 50 ms |
 | Frame y avance | 400 muestras, 25 ms; avance de 160 muestras, 10 ms |
-| Extracción | Hamming, FFT de 512, potencia, 26 filtros Mel, logaritmo y DCT-II |
-| Resultado | 298 vectores de 13 coeficientes por toma |
+| Extraccion | Hamming, FFT de 512, potencia, 26 filtros Mel, logaritmo y DCT-II |
+| Resultado | 248 vectores de 13 coeficientes por toma |
 
-`voxid_config.h` concentra los parámetros compartidos. La ISR notifica bloques; el bucle principal convierte ADC a PCM, elimina DC y procesa MFCC. Se usan buffers estáticos y no se guarda el audio completo.
+`voxid_config.h` concentra los parametros compartidos. La ISR notifica bloques; el bucle principal convierte ADC a PCM, elimina DC y procesa MFCC. Se usan buffers estaticos y no se guarda el audio completo.
 
-La media MFCC utiliza únicamente frames cuya energía supera `VOXID_VOICE_MIN_RMS`. El umbral inicial es RMS 0.01 respecto de la escala completa y necesita calibración con voz y ruido medidos en la placa. Un ruido suficientemente intenso también puede superar este criterio. Si no se selecciona ningún frame, la captura puede ser válida, pero la UI muestra `CON VOZ: 0` y no dibuja una media de voz.
+La media MFCC utiliza unicamente frames cuya energia supera `VOXID_VOICE_MIN_RMS`. El umbral inicial es RMS 0.01 respecto de la escala completa y necesita calibracion con voz y ruido medidos en la placa. Un ruido suficientemente intenso tambien puede superar este criterio. Si no se selecciona ningun frame, la captura puede ser valida, pero la UI muestra `CON VOZ: 0` y no dibuja una media de voz.
 
 ## Registro de locutores
 
-REGISTRAR permite elegir un locutor y capturar tres tomas independientes. OK acepta cada toma válida y empieza la siguiente; en la tercera confirma el guardado verificado en EEPROM. BACK descarta el registro pendiente y conserva el perfil anterior si existía.
+REGISTRAR permite elegir un locutor y capturar tres tomas independientes. OK acepta cada toma valida y empieza la siguiente; en la tercera confirma el guardado verificado en EEPROM. BACK descarta el registro pendiente y conserva el perfil anterior si existia.
 
-El mínimo inicial es de 20 frames seleccionados por toma, configurable en `voxid_config.h` y pendiente de calibración física. Una toma insuficiente o un error se repite sin avanzar. Consultar [el flujo de etapa 3](C0DE/ophyra/voxid/STAGE3_ENROLLMENT.md) y [la persistencia e identificación de etapa 4](C0DE/ophyra/voxid/STAGE4_STORAGE_IDENTIFY.md).
+El minimo inicial es de 20 frames seleccionados por toma, configurable en `voxid_config.h` y pendiente de calibracion fisica. Una toma insuficiente o un error se repite sin avanzar. Consultar [el flujo de etapa 3](C0DE/ophyra/voxid/STAGE3_ENROLLMENT.md) y [la persistencia e identificacion de etapa 4](C0DE/ophyra/voxid/STAGE4_STORAGE_IDENTIFY.md).
 
 ## Consulta de locutores
 
-El menú ofrece IDENTIFICAR, REGISTRAR y LOCUTORES. En LOCUTORES, UP/DN selecciona uno de los cuatro espacios; se muestra su estado, cantidad de tomas y 13 MFCC por toma. OK abre las tomas de un perfil registrado. Dentro, UP/DN recorre TOMA 1/3, 2/3 y 3/3; BACK regresa al mismo locutor y otro BACK al menú. Los botones sin acción quedan sin texto y con el fondo inactivo de la paleta.
+El menu ofrece IDENTIFICAR, REGISTRAR y LOCUTORES. En LOCUTORES, UP/DN selecciona uno de los cuatro espacios; se muestra su estado, cantidad de tomas y 13 MFCC por toma. OK abre las tomas de un perfil registrado. Dentro, UP/DN recorre TOMA 1/3, 2/3 y 3/3; BACK regresa al mismo locutor y otro BACK al menu. Los botones sin accion quedan sin texto y con el fondo inactivo de la paleta.
 
-Cada toma tiene su propia gráfica C01..C12, normalizada a norma L2 unitaria y con escala fija -1..1; C00 queda fuera de la comparación. El identificador promedia las tres distancias, por lo que se conservan las tres referencias. La consulta usa RAM, sin capturar audio, reiniciar el DSP ni escribir EEPROM. Los perfiles ya guardados siguen siendo compatibles.
+Cada toma tiene su propia grafica C01..C12, normalizada a norma L2 unitaria y con escala fija -1..1; C00 queda fuera de la comparacion. El identificador promedia las tres distancias, por lo que se conservan las tres referencias. La consulta usa RAM, sin capturar audio, reiniciar el DSP ni escribir EEPROM. Los perfiles ya guardados siguen siendo compatibles, incluidos los de 3 segundos y 298 frames. Cada perfil conserva su total de frames original en la cabecera existente.
 
-## Identificación y EEPROM
+## Identificacion y EEPROM
 
-I2C1 utiliza PB6/PB7 a 100 kHz para la M24C32 integrada. Cada locutor dispone de dos copias con versión y CRC: el reemplazo conserva la copia vigente hasta verificar la nueva. El arranque lee los perfiles sin formatear ni escribir. Un fallo de guardado permite reintentar la tercera toma sin volver a capturarla.
+I2C1 utiliza PB6/PB7 a 100 kHz para la M24C32 integrada. Cada locutor dispone de dos copias con version y CRC: el reemplazo conserva la copia vigente hasta verificar la nueva. El arranque lee los perfiles sin formatear ni escribir. Un fallo de guardado permite reintentar la tercera toma sin volver a capturarla.
 
-La distancia es el promedio de las tres distancias euclidianas entre vectores C01..C12 normalizados a norma L2 unitaria. Los valores iniciales son distancia máxima 0.35 y margen mínimo 0.05 respecto al segundo candidato. La pantalla muestra LOCUTOR nn, DESCONOCIDO, VOZ AMBIGUA, SIN LOCUTORES o VOZ INSUFICIENTE. UP/DN conserva el acceso a la gráfica MFCC y a las estadísticas ADC.
+La distancia es el promedio de las tres distancias euclidianas entre vectores C01..C12 normalizados a norma L2 unitaria. Los valores iniciales son distancia maxima 0.35 y margen minimo 0.05 respecto al segundo candidato. La pantalla muestra LOCUTOR nn, DESCONOCIDO, VOZ AMBIGUA, SIN LOCUTORES o VOZ INSUFICIENTE. UP/DN conserva el acceso a la grafica MFCC y a las estadisticas ADC.
 
-Los parámetros y la revisión DSP están en `voxid_config.h`; el [formato y las comprobaciones](C0DE/ophyra/voxid/STAGE4_STORAGE_IDENTIFY.md) describen sus límites y la calibración pendiente.
+Los parametros y la revision DSP estan en `voxid_config.h`; el [formato y las comprobaciones](C0DE/ophyra/voxid/STAGE4_STORAGE_IDENTIFY.md) describen sus limites y la calibracion pendiente.
 
-## Organización
+## Organizacion
 
 | Ruta | Responsabilidad |
 |---|---|
 | `C0DE/inc`, `C0DE/src` | Algoritmos DSP portables en C. |
-| `C0DE/tests` | Pruebas numéricas y regresiones de voz, adquisición e interfaz. |
+| `C0DE/tests` | Pruebas numericas y regresiones de voz, adquisicion e interfaz. |
 | `C0DE/tests/support` | HAL simulada, exclusiva para PC. |
 | `C0DE/ophyra/voxid` | Firmware principal de Ophyra. |
-| `C0DE/ophyra/voxid_test` | Benchmark sintético histórico; conserva la biblioteca INTESC que utiliza. |
-| `C0DE/out` | Resultados locales de compilación, excluidos de Git salvo `.gitkeep`. |
-| `DOC` | Seguimiento y validación. |
-| `PCB` | Proyecto KiCad `voxid` y archivos de fabricación versionados. |
-| `SIM` | Preparación de grabaciones en MATLAB, antecedentes PSIM y experimentos SPICE; ver [la guía](SIM/README.md). |
+| `C0DE/ophyra/voxid_test` | Benchmark sintetico historico; conserva la biblioteca INTESC que utiliza. |
+| `C0DE/out` | Resultados locales de compilacion, excluidos de Git salvo `.gitkeep`. |
+| `DOC` | Seguimiento y validacion. |
+| `PCB` | Proyecto KiCad `voxid` y archivos de fabricacion versionados. |
+| `SIM` | Preparacion de grabaciones en MATLAB, antecedentes PSIM y experimentos SPICE; ver [la guia](SIM/README.md). |
 
 ## Compilar y probar en PC
 
-Se necesitan GCC, GNU Make y objdump. Desde la raíz del repositorio:
+Se necesitan GCC, GNU Make y objdump. Desde la raiz del repositorio:
 
 ```bash
 make -C C0DE all
@@ -79,31 +79,31 @@ make -C C0DE test test_voice.c
 make -C C0DE clean
 ```
 
-En Windows con MinGW, usar `mingw32-make` en lugar de `make`. La ruta de ejecución y la limpieza tienen reglas para ambos sistemas; la verificación automatizada de esta revisión se realizó en Linux.
+En Windows con MinGW, usar `mingw32-make` en lugar de `make`. La ruta de ejecucion y la limpieza tienen reglas para ambos sistemas; la verificacion automatizada de esta revision se realizo en Linux.
 
-`all` comprueba la compilación y el enlace del núcleo portable y genera un ejecutable mínimo y su desensamblado. `test` ejecuta once pruebas: Frame, ventana, FFT, MFCC, voz, adquisición, interfaz, GFX, registro, persistencia e identificación. Las pruebas con HAL de PC no sustituyen las mediciones en placa.
+`all` comprueba la compilacion y el enlace del nucleo portable y genera un ejecutable minimo y su desensamblado. `test` ejecuta once pruebas: Frame, ventana, FFT, MFCC, voz, adquisicion, interfaz, GFX, registro, persistencia e identificacion. Las pruebas con HAL de PC no sustituyen las mediciones en placa.
 
 ## Compilar el firmware
 
-1. Mantener el checkout completo del repositorio: el proyecto enlaza los ocho módulos DSP compartidos mediante rutas relativas.
+1. Mantener el checkout completo del repositorio: el proyecto enlaza los ocho modulos DSP compartidos mediante rutas relativas.
 2. Importar `C0DE/ophyra/voxid` en STM32CubeIDE.
 3. Refrescar con F5, ejecutar Clean y Build Debug, y programar Ophyra.
-4. Seguir [la validación de etapas 1 y 2](DOC/Validacion_etapas_1_2.md), [el registro de etapa 3](C0DE/ophyra/voxid/STAGE3_ENROLLMENT.md) y [la validación de etapa 4](C0DE/ophyra/voxid/STAGE4_STORAGE_IDENTIFY.md).
+4. Seguir [la validacion de etapas 1 y 2](DOC/Validacion_etapas_1_2.md), [el registro de etapa 3](C0DE/ophyra/voxid/STAGE3_ENROLLMENT.md) y [la validacion de etapa 4](C0DE/ophyra/voxid/STAGE4_STORAGE_IDENTIFY.md).
 
-El Makefile de PC no genera firmware ARM. Si CubeMX regenera código, comprobar la configuración DMA del `.ioc`, la vinculación con ADC1 y el orden GPIO, DMA, ADC1, SPI1, TIM2, I2C1 y los GPIO PB6/PB7 de I2C1.
+El Makefile de PC no genera firmware ARM. Si CubeMX regenera codigo, comprobar la configuracion DMA del `.ioc`, la vinculacion con ADC1 y el orden GPIO, DMA, ADC1, SPI1, TIM2, I2C1 y los GPIO PB6/PB7 de I2C1.
 
 ## Hardware y simulaciones
 
-`main` integra el firmware de las cuatro etapas, el diseño analógico de `PCB/voxid.kicad_sch` y `PCB/voxid.kicad_pcb`, sus archivos de fabricación y el trabajo de simulación. Se conserva `pcb-sim` para continuar los cambios de hardware y simulación; las ramas de etapas incorporadas se retiran sin borrar sus commits.
+`main` integra el firmware de las cuatro etapas, el diseno analogico de `PCB/voxid.kicad_sch` y `PCB/voxid.kicad_pcb`, sus archivos de fabricacion y el trabajo de simulacion. Se conserva `pcb-sim` para continuar los cambios de hardware y simulacion; las ramas de etapas incorporadas se retiran sin borrar sus commits.
 
-Los tres experimentos SPICE actualizados usan los dieciséis componentes comerciales de las cuatro secciones de filtro de la PCB. Desde la raíz, comprobar su correspondencia con:
+Los tres experimentos SPICE actualizados usan los dieciseis componentes comerciales de las cuatro secciones de filtro de la PCB. Desde la raiz, comprobar su correspondencia con:
 
 ```bash
 python3 SIM/tests/comprobar_valores.py
 ```
 
-Los antecedentes PSIM y los resultados históricos de filtros se conservan por separado en `SIM`. Deben repetirse los análisis AC, Monte Carlo y ruido con los valores vigentes. Las simulaciones, los Gerbers y los archivos KiCad no acreditan por sí solos mediciones físicas ni aprobación ERC/DRC o de fabricación.
+Los antecedentes PSIM y los resultados historicos de filtros se conservan por separado en `SIM`. Deben repetirse los analisis AC, Monte Carlo y ruido con los valores vigentes. Las simulaciones, los Gerbers y los archivos KiCad no acreditan por si solos mediciones fisicas ni aprobacion ERC/DRC o de fabricacion.
 
-La preparación de grabaciones en MATLAB lee archivos o una carpeta, selecciona un canal, retira la media y remuestrea a 16 kHz cuando hace falta. Exporta WAV, CSV y MAT sin modificar los originales. Sus grabaciones y resultados locales quedan fuera de Git. Esta preparación todavía no calcula MFCC ni identifica locutores; la ejecución de sus pruebas en MATLAB y la lectura de un MP4 real siguen pendientes. Consultar [SIM/README.md](SIM/README.md) para requisitos y comandos.
+La preparacion de grabaciones en MATLAB lee archivos o una carpeta, selecciona un canal, retira la media y remuestrea a 16 kHz cuando hace falta. Exporta WAV, CSV y MAT sin modificar los originales. Sus grabaciones y resultados locales quedan fuera de Git. Esta preparacion todavia no calcula MFCC ni identifica locutores; la ejecucion de sus pruebas en MATLAB y la lectura de un MP4 real siguen pendientes. Consultar [SIM/README.md](SIM/README.md) para requisitos y comandos.
 
-El usuario confirmó el funcionamiento general del firmware y la navegación LOCUTORES. Las mediciones de temporización, la calibración de umbrales y los ensayos de fallos en hardware requieren evidencia específica. Consultar [el seguimiento](DOC/CheckList.txt) para distinguir estos pendientes de la implementación y las pruebas en PC.
+El usuario confirmo el funcionamiento general del firmware y la navegacion LOCUTORES. Las mediciones de temporizacion, la calibracion de umbrales y los ensayos de fallos en hardware requieren evidencia especifica. Consultar [el seguimiento](DOC/CheckList.txt) para distinguir estos pendientes de la implementacion y las pruebas en PC.

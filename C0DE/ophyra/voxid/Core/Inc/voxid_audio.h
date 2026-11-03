@@ -22,9 +22,10 @@
 // =============================================================================
 
 #define VOXID_AUDIO_SAMPLE_RATE   VOXID_SAMPLE_RATE
-#define VOXID_AUDIO_DURATION_S    VOXID_CAPTURE_DURATION_S
-#define VOXID_AUDIO_TOTAL_SAMPLES (VOXID_AUDIO_SAMPLE_RATE * VOXID_AUDIO_DURATION_S)
-#define VOXID_AUDIO_BLOCK_SAMPLES 640U
+#define VOXID_AUDIO_DURATION_MS   VOXID_CAPTURE_DURATION_MS
+#define VOXID_AUDIO_TOTAL_SAMPLES VOXID_CAPTURE_TOTAL_SAMPLES
+#define VOXID_AUDIO_BLOCK_SAMPLES 800U
+#define VOXID_AUDIO_BLOCK_DURATION_MS (VOXID_AUDIO_BLOCK_SAMPLES * 1000U / VOXID_AUDIO_SAMPLE_RATE)
 #define VOXID_AUDIO_DMA_SAMPLES   (2U * VOXID_AUDIO_BLOCK_SAMPLES)
 #define VOXID_AUDIO_TOTAL_BLOCKS  (VOXID_AUDIO_TOTAL_SAMPLES / VOXID_AUDIO_BLOCK_SAMPLES)
 
@@ -48,12 +49,12 @@ typedef struct {
 // =============================================================================
 
 /**
- * @brief Inicia tres segundos de captura ADC1 sincronizada por TIM2.
+ * @brief Inicia 2500 ms de captura ADC1 sincronizada por TIM2.
  *
  * @return true si DMA circular y TIM2 iniciaron correctamente.
  * @return false si la configuracion es invalida o existe un fallo de HAL.
  *
- * @note Entrada PA2 (ADC1_IN2), rango de 0 a VDDA; 48000 muestras.
+ * @note Entrada PA2 (ADC1_IN2), rango de 0 a VDDA; 40000 muestras.
  *       Ejecuta MFCC real fuera de IRQ, sin guardar perfiles.
  */
 bool voxid_audio_start(void);
@@ -83,12 +84,12 @@ VoxIDAudioState voxid_audio_status(void);
 /**
  * @brief Consulta el avance de captura validado por el bucle principal.
  *
- * @return Numero de muestras procesadas, entre 0 y 48000.
+ * @return Numero de muestras procesadas, entre 0 y 40000.
  */
 uint32_t voxid_audio_sample_count(void);
 
 /**
- * @brief Devuelve estadisticas ADC de los tres segundos capturados.
+ * @brief Devuelve estadisticas ADC de la toma completa de 2500 ms.
  * @note El resultado MFCC se consulta con voxid_voice_read_stats().
  *
  * @param stats Estructura de salida, en cuentas crudas del ADC de 12 bits.

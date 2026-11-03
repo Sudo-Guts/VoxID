@@ -64,7 +64,7 @@ static VoxIDAudioState estado_audio_dibujado = VOXID_AUDIO_IDLE;
 static uint8_t fase_circulos = 0U;
 static uint32_t ultimo_tick_circulos = 0U;
 static bool captura_pendiente = false;
-static uint8_t segundos_dibujados = 3U;
+static uint8_t remaining_half_seconds_drawn;
 static uint8_t pagina_captura = 0U;
 static bool error_guardado = false;
 
@@ -430,9 +430,19 @@ static bool ui_draw_mfcc_bars(const float *values) {
     return gfx_draw_text(122, 98, "C12", UI_MUTED);
 }
 
-static bool ui_draw_capture_hint(uint8_t remaining) {
+/**
+ * @brief Redondea el tiempo pendiente hacia arriba en pasos de 500 ms.
+ * @param sample_count Muestras procesadas desde el inicio de la captura.
+ * @return Cantidad de medios segundos pendientes, cero al completar la toma.
+ */
+static uint8_t ui_capture_remaining_half_seconds(uint32_t sample_count) {
+    uint32_t remaining_samples = VOXID_AUDIO_TOTAL_SAMPLES > sample_count ? VOXID_AUDIO_TOTAL_SAMPLES - sample_count : 0U;
+    return (uint8_t)((remaining_samples * 2U + VOXID_AUDIO_SAMPLE_RATE - 1U) / VOXID_AUDIO_SAMPLE_RATE);
+}
+
+static bool ui_draw_capture_hint(uint8_t remaining_half_seconds) {
     char message[26];
-    (void)snprintf(message, sizeof(message), "ESCUCHANDO: %us", (unsigned)remaining);
+    (void)snprintf(message, sizeof(message), "ESCUCHANDO: %u.%us", (unsigned)(remaining_half_seconds / 2U), (unsigned)((remaining_half_seconds % 2U) * 5U));
 
     if (!gfx_fill_rect(9U, 101U, 142U, 9U, UI_BG)) {
         return false;
@@ -542,12 +552,12 @@ static bool ui_draw_capture(void) {
 
     if (captura_pendiente || state == VOXID_AUDIO_CAPTURING) {
         uint32_t samples = captura_pendiente ? 0U : voxid_audio_sample_count();
-        uint32_t remain = VOXID_AUDIO_TOTAL_SAMPLES > samples ? VOXID_AUDIO_TOTAL_SAMPLES - samples : 0U;
-        segundos_dibujados = (uint8_t)((remain + VOXID_AUDIO_SAMPLE_RATE - 1U) / VOXID_AUDIO_SAMPLE_RATE);
-        return ui_draw_capture_hint(segundos_dibujados);
+        remaining_half_seconds_drawn = ui_capture_remaining_half_seconds(samples);
+        return ui_draw_capture_hint(remaining_half_seconds_drawn);
     }
 
-    return gfx_draw_text_aligned(80, 102, origen_captura == UI_STATE_ENROLL ? "OK: DECIR MARIPOSA" : "OK: HABLAR 3 SEG", UI_ACCENT, UI_BG, 1U, GFX_ALIGN_CENTER);
+    (void)snprintf(line, sizeof(line), "OK: HABLAR %u.%u SEG", (unsigned)(VOXID_AUDIO_DURATION_MS / 1000U), (unsigned)((VOXID_AUDIO_DURATION_MS % 1000U) / 100U));
+    return gfx_draw_text_aligned(80, 102, origen_captura == UI_STATE_ENROLL ? "OK: DECIR MARIPOSA" : line, UI_ACCENT, UI_BG, 1U, GFX_ALIGN_CENTER);
 }
 
 // =============================================================================
@@ -807,7 +817,7 @@ static void ui_dispatch(ButtonEvent event) {
             ultimo_tick_circulos = HAL_GetTick();
             captura_pendiente = true;
             error_guardado = false;
-            segundos_dibujados = VOXID_AUDIO_DURATION_S;
+            remaining_half_seconds_drawn = ui_capture_remaining_half_seconds(0U);
             redibujar = true;
             break;
 
@@ -828,7 +838,7 @@ bool ui_init(void) {
     fase_circulos = 0U;
     ultimo_tick_circulos = HAL_GetTick();
     captura_pendiente = false;
-    segundos_dibujados = VOXID_AUDIO_DURATION_S;
+    remaining_half_seconds_drawn = ui_capture_remaining_half_seconds(0U);
     pagina_captura = 0U;
     error_guardado = false;
     redibujar = true;
@@ -887,15 +897,14 @@ void ui_task(void) {
     VoxIDAudioState state = voxid_audio_status();
 
     if (state == VOXID_AUDIO_CAPTURING) {
-        // Durante los 3 segundos los anillos no se redibujan.
-        // Unicamente se actualiza el texto al cambiar de segundo.
+        // Los anillos permanecen fijos durante los 2500 ms.
+        // Actualizar solo el texto cada medio segundo limita el trafico SPI.
         uint32_t samples = voxid_audio_sample_count();
-        uint32_t remain = VOXID_AUDIO_TOTAL_SAMPLES > samples ? VOXID_AUDIO_TOTAL_SAMPLES - samples : 0U;
-        uint8_t seconds = (uint8_t)((remain + VOXID_AUDIO_SAMPLE_RATE - 1U) / VOXID_AUDIO_SAMPLE_RATE);
+        uint8_t remaining_half_seconds = ui_capture_remaining_half_seconds(samples);
 
-        if (seconds != segundos_dibujados) {
-            segundos_dibujados = seconds;
-            interfaz_lista = ui_draw_capture_hint(seconds);
+        if (remaining_half_seconds != remaining_half_seconds_drawn) {
+            remaining_half_seconds_drawn = remaining_half_seconds;
+            interfaz_lista = ui_draw_capture_hint(remaining_half_seconds);
         }
 
         return;

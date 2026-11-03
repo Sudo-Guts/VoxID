@@ -92,7 +92,7 @@ static uint16_t storage_address(uint8_t locutor, uint8_t copia) {
 }
 
 static bool storage_profile_equal(const VoxIDSpeakerProfile *a, const VoxIDSpeakerProfile *b) {
-    return memcmp(a->mfcc, b->mfcc, sizeof(a->mfcc)) == 0 && memcmp(a->frames_con_voz, b->frames_con_voz, sizeof(a->frames_con_voz)) == 0;
+    return a->total_frames == b->total_frames && memcmp(a->mfcc, b->mfcc, sizeof(a->mfcc)) == 0 && memcmp(a->frames_con_voz, b->frames_con_voz, sizeof(a->frames_con_voz)) == 0;
 }
 
 /**
@@ -111,7 +111,7 @@ static void storage_encode(uint8_t *registro, uint8_t locutor, uint32_t secuenci
     storage_put_u32(&registro[8], secuencia);
     registro[12] = VOXID_PROTOTYPES_PER_SPEAKER;
     registro[13] = VOXID_PROFILE_DSP_REVISION;
-    storage_put_u16(&registro[14], VOXID_VOICE_EXPECTED_FRAMES);
+    storage_put_u16(&registro[14], perfil->total_frames);
     storage_put_u32(&registro[16], VOXID_SAMPLE_RATE);
     storage_put_u16(&registro[20], VOXID_FRAME_SIZE);
     storage_put_u16(&registro[22], VOXID_HOP_SIZE);
@@ -149,7 +149,7 @@ static bool storage_decode(const uint8_t *registro, uint8_t locutor, VoxIDSpeake
         return false;
     }
 
-    if (registro[6] != locutor || registro[7] != VOXID_MFCC_COUNT || registro[12] != VOXID_PROTOTYPES_PER_SPEAKER || registro[13] != VOXID_PROFILE_DSP_REVISION || storage_get_u16(&registro[14]) != VOXID_VOICE_EXPECTED_FRAMES) {
+    if (registro[6] != locutor || registro[7] != VOXID_MFCC_COUNT || registro[12] != VOXID_PROTOTYPES_PER_SPEAKER || registro[13] != VOXID_PROFILE_DSP_REVISION) {
         return false;
     }
 
@@ -162,6 +162,7 @@ static bool storage_decode(const uint8_t *registro, uint8_t locutor, VoxIDSpeake
     }
 
     (void)memset(perfil, 0, sizeof(*perfil));
+    perfil->total_frames = storage_get_u16(&registro[14]);
     uint16_t posicion = STORAGE_HEADER_SIZE;
 
     for (uint8_t p = 0U; p < VOXID_PROTOTYPES_PER_SPEAKER; ++p) {

@@ -2,7 +2,7 @@
 
 Sistema embebido para identificar hablantes a partir de la palabra de referencia **MARIPOSA**.
 
-La plataforma digital es **Ophyra con STM32F407VGT6**, pantalla ST7735 de 160 x 128 pixeles y cuatro pulsadores. El firmware principal esta en `C0DE/ophyra/voxid`; el nucleo DSP compartido esta en `C0DE/src` y `C0DE/inc`.
+La plataforma digital es **Ophyra con STM32F407VGT6**, pantalla ST7735 de 160 x 128 pixeles y cuatro pulsadores. El firmware principal esta en `C0DE/voxid`; los ocho modulos DSP estan dentro del mismo proyecto, en `C0DE/voxid/Core/Src` y `C0DE/voxid/Core/Inc`.
 
 ## Etapas y estado
 
@@ -38,7 +38,7 @@ La media MFCC utiliza unicamente frames cuya energia supera `VOXID_VOICE_MIN_RMS
 
 REGISTRAR permite elegir un locutor y capturar tres tomas independientes. OK acepta cada toma valida y empieza la siguiente; en la tercera confirma el guardado verificado en EEPROM. BACK descarta el registro pendiente y conserva el perfil anterior si existia.
 
-El minimo inicial es de 20 frames seleccionados por toma, configurable en `voxid_config.h` y pendiente de calibracion fisica. Una toma insuficiente o un error se repite sin avanzar. Consultar [el flujo de etapa 3](C0DE/ophyra/voxid/STAGE3_ENROLLMENT.md) y [la persistencia e identificacion de etapa 4](C0DE/ophyra/voxid/STAGE4_STORAGE_IDENTIFY.md).
+El minimo inicial es de 20 frames seleccionados por toma, configurable en `voxid_config.h` y pendiente de calibracion fisica. Una toma insuficiente o un error se repite sin avanzar. Consultar [el flujo de etapa 3](C0DE/voxid/STAGE3_ENROLLMENT.md) y [la persistencia e identificacion de etapa 4](C0DE/voxid/STAGE4_STORAGE_IDENTIFY.md).
 
 ## Consulta de locutores
 
@@ -52,18 +52,18 @@ I2C1 utiliza PB6/PB7 a 100 kHz para la M24C32 integrada. Cada locutor dispone de
 
 La distancia es el promedio de las tres distancias euclidianas entre vectores C01..C12 normalizados a norma L2 unitaria. Los valores iniciales son distancia maxima 0.35 y margen minimo 0.05 respecto al segundo candidato. La pantalla muestra LOCUTOR nn, DESCONOCIDO, VOZ AMBIGUA, SIN LOCUTORES o VOZ INSUFICIENTE. UP/DN conserva el acceso a la grafica MFCC y a las estadisticas ADC.
 
-Los parametros y la revision DSP estan en `voxid_config.h`; el [formato y las comprobaciones](C0DE/ophyra/voxid/STAGE4_STORAGE_IDENTIFY.md) describen sus limites y la calibracion pendiente.
+Los parametros y la revision DSP estan en `voxid_config.h`; el [formato y las comprobaciones](C0DE/voxid/STAGE4_STORAGE_IDENTIFY.md) describen sus limites y la calibracion pendiente.
 
 ## Organizacion
 
 | Ruta | Responsabilidad |
 |---|---|
-| `C0DE/inc`, `C0DE/src` | Algoritmos DSP portables en C. |
+| `C0DE/voxid/Core/Inc`, `C0DE/voxid/Core/Src` | Firmware y ocho modulos DSP integrados en un solo proyecto CubeIDE. |
 | `C0DE/tests` | Pruebas numericas y regresiones de voz, adquisicion e interfaz. |
 | `C0DE/tests/support` | HAL simulada, exclusiva para PC. |
-| `C0DE/ophyra/voxid` | Firmware principal de Ophyra. |
-| `C0DE/ophyra/voxid_test` | Benchmark sintetico historico; conserva la biblioteca INTESC que utiliza. |
-| `C0DE/out` | Resultados locales de compilacion, excluidos de Git salvo `.gitkeep`. |
+| `C0DE/voxid` | Firmware principal de Ophyra. |
+| `C0DE/ophyra/voxid_test` | Benchmark sintetico historico, conservado temporalmente para la limpieza de fase 3. |
+| `C0DE/inc`, `C0DE/src`, `C0DE/out` | Material historico de PC y benchmark, pendiente de limpieza en fase 3. |
 | `DOC` | Seguimiento y validacion. |
 | `PCB` | Proyecto KiCad `voxid` y archivos de fabricacion versionados. |
 | `SIM` | Preparacion de grabaciones en MATLAB, antecedentes PSIM y experimentos SPICE; ver [la guia](SIM/README.md). |
@@ -85,10 +85,14 @@ En Windows con MinGW, usar `mingw32-make` en lugar de `make`. La ruta de ejecuci
 
 ## Compilar el firmware
 
-1. Mantener el checkout completo del repositorio: el proyecto enlaza los ocho modulos DSP compartidos mediante rutas relativas.
-2. Importar `C0DE/ophyra/voxid` en STM32CubeIDE.
+1. Importar directamente `C0DE/voxid` en STM32CubeIDE: los ocho modulos DSP son archivos fisicos de `Core`, sin enlaces externos.
+2. Confirmar que `Core/Src` contenga frame, window, fft, power, mel, log_mel, dct y mfcc, ademas de los modulos del firmware.
 3. Refrescar con F5, ejecutar Clean y Build Debug, y programar Ophyra.
-4. Seguir [la validacion de etapas 1 y 2](DOC/Validacion_etapas_1_2.md), [el registro de etapa 3](C0DE/ophyra/voxid/STAGE3_ENROLLMENT.md) y [la validacion de etapa 4](C0DE/ophyra/voxid/STAGE4_STORAGE_IDENTIFY.md).
+4. Seguir [la validacion de etapas 1 y 2](DOC/Validacion_etapas_1_2.md), [el registro de etapa 3](C0DE/voxid/STAGE3_ENROLLMENT.md) y [la validacion de etapa 4](C0DE/voxid/STAGE4_STORAGE_IDENTIFY.md).
+
+La fase 1 conserva por compatibilidad temporal las copias `C0DE/src`, `C0DE/inc` y el benchmark `C0DE/ophyra/voxid_test`, asi como el ejecutable PC historico. Las once pruebas de PC compilan ahora el DSP desde el firmware consolidado; esas copias se retiraran durante la fase 3.
+
+Los modulos propios de Core siguen `Estandar_Programacion.md` v2.0: ASCII, cabeceras consistentes, rutas correctas y argumentos de funciones en una linea. Se conservan las APIs y algoritmos; los archivos autogenerados y HAL/CMSIS mantienen su formato original.
 
 El Makefile de PC no genera firmware ARM. Si CubeMX regenera codigo, comprobar la configuracion DMA del `.ioc`, la vinculacion con ADC1 y el orden GPIO, DMA, ADC1, SPI1, TIM2, I2C1 y los GPIO PB6/PB7 de I2C1.
 

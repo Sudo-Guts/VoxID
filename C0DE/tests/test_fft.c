@@ -3,7 +3,7 @@
  *  Proyecto : VoxID
  *  Archivo  : C0DE/tests/test_fft.c
  *  Autor    : Gustavo Ruiz Luis
- * =============================================================================
+ * -----------------------------------------------------------------------------
  *
  *  Pruebas de inicializacion de la Transformada Rapida de Fourier.
  *

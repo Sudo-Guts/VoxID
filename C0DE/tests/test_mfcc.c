@@ -3,7 +3,7 @@
  *  Proyecto : VoxID
  *  Archivo  : C0DE/tests/test_mfcc.c
  *  Autor    : Gustavo Ruiz Luis
- * =============================================================================
+ * -----------------------------------------------------------------------------
  *
  *  Prueba de integracion de la cadena de extraccion MFCC.
  *  Utiliza una senal senoidal sintetica de 440 Hz.

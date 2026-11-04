@@ -9,17 +9,17 @@
 CC = gcc
 OBJDUMP = objdump
 CFLAGS ?= -std=c11 -Wall -Wextra -Wpedantic
-CPPFLAGS += -Iinc
+CPPFLAGS += -I$(CORE)/Inc -Iinc
 LDLIBS += -lm
 
 SRC := src
 OUT := out
-CORE := ophyra/voxid/Core
+CORE := voxid/Core
 
 FUENTES := $(wildcard $(SRC)/*.c)
-FUENTES_DSP := $(filter-out $(SRC)/voxid.c,$(FUENTES))
+FUENTES_DSP := $(addprefix $(CORE)/Src/,frame.c window.c fft.c power.c mel.c log_mel.c dct.c mfcc.c)
 OBJETOS := $(patsubst $(SRC)/%.c,$(OUT)/%.o,$(FUENTES))
-CABECERAS := $(wildcard inc/*.h) $(wildcard $(CORE)/Inc/*.h) $(wildcard tests/support/*.h)
+CABECERAS := $(wildcard $(CORE)/Inc/*.h) $(wildcard tests/support/*.h)
 FUENTES_VOZ := $(CORE)/Src/voxid_dsp.c $(CORE)/Src/voxid_voice.c
 FUENTES_AUDIO := $(FUENTES_VOZ) $(CORE)/Src/voxid_audio.c tests/support/mock_hal.c
 FUENTES_REGISTRO := $(CORE)/Src/voxid_enroll.c
@@ -80,7 +80,7 @@ $(OUT)/test_%.exe: tests/test_%.c $(FUENTES_DSP) $(CABECERAS) | $(OUT)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
 
 $(OUT)/test_gfx.exe: tests/test_gfx.c $(CORE)/Src/gfx.c $(CORE)/Src/font5x7.c $(CABECERAS) tests/support/stm32f4xx_hal.h | $(OUT)
-	$(CC) $(CPPFLAGS) $(INCLUDES_PLACA) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
+	$(CC) $(INCLUDES_PLACA) $(CPPFLAGS) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
 
 $(OUT)/test_voice.exe: tests/test_voice.c $(FUENTES_DSP) $(FUENTES_VOZ) $(CABECERAS) | $(OUT)
 	$(CC) $(CPPFLAGS) $(INCLUDES_PLACA) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)

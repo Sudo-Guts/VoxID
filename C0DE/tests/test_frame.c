@@ -3,7 +3,7 @@
  *  Proyecto : VoxID
  *  Archivo  : C0DE/tests/test_frame.c
  *  Autor    : Gustavo Ruiz Luis
- * =============================================================================
+ * -----------------------------------------------------------------------------
  *
  *  Pruebas de inicializacion del segmentador de audio.
  *

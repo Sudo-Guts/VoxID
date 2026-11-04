@@ -44,7 +44,7 @@ El minimo inicial es de 20 frames seleccionados por toma, configurable en `voxid
 
 El menu ofrece IDENTIFICAR, REGISTRAR y LOCUTORES. En LOCUTORES, UP/DN selecciona uno de los cuatro espacios; se muestra su estado, cantidad de tomas y 13 MFCC por toma. OK abre las tomas de un perfil registrado. Dentro, UP/DN recorre TOMA 1/3, 2/3 y 3/3; BACK regresa al mismo locutor y otro BACK al menu. Los botones sin accion quedan sin texto y con el fondo inactivo de la paleta.
 
-Cada toma tiene su propia grafica C01..C12, normalizada a norma L2 unitaria y con escala fija -1..1; C00 queda fuera de la comparacion. El identificador promedia las tres distancias, por lo que se conservan las tres referencias. La consulta usa RAM, sin capturar audio, reiniciar el DSP ni escribir EEPROM. Los perfiles ya guardados siguen siendo compatibles, incluidos los de 3 segundos y 298 frames. Cada perfil conserva su total de frames original en la cabecera existente.
+Cada toma tiene su propia grafica C01..C12, normalizada a norma L2 unitaria y con escala fija -1..1; C00 queda fuera de la comparacion. El identificador promedia las tres distancias, por lo que se conservan las tres referencias. La consulta usa RAM, sin capturar audio, reiniciar el DSP ni escribir EEPROM. La EEPROM acepta unicamente perfiles de 248 frames. Los perfiles anteriores de 3 segundos deben registrarse de nuevo con tomas de 2.5 segundos.
 
 ## Identificacion y EEPROM
 

@@ -2,7 +2,7 @@
 
 La version actual conserva los tres prototipos MFCC de cada uno de los cuatro locutores en la M24C32 y los recupera al arrancar. IDENTIFICAR compara una toma nueva con los perfiles recuperados en RAM.
 
-El usuario reporto funcional la etapa 4 con tomas de 3 segundos. La captura actual de 2500 ms y la cuenta regresiva se verifican en PC; falta comprobar esta revision en Ophyra y documentar la calibracion con voces reales. Las nuevas capturas duran 2500 ms y producen 248 frames. Los perfiles anteriores de 3 segundos y 298 frames siguen siendo compatibles: total_frames conserva la cantidad original en RAM y en los bytes 14-15 de la cabecera. La duracion no altera el algoritmo ni la revision DSP del vector. No se migra ni escribe la EEPROM al cargar.
+El usuario reporto funcional la etapa 4 con tomas de 3 segundos. La captura actual de 2500 ms y la cuenta regresiva se verifican en PC; falta comprobar esta revision en Ophyra y documentar la calibracion con voces reales. Las nuevas capturas duran 2500 ms y producen 248 frames. Los bytes 14-15 deben indicar los 248 frames actuales. Los perfiles anteriores de 3 segundos se rechazan y deben registrarse de nuevo con tomas de 2.5 segundos. La duracion no altera el algoritmo ni la revision DSP del vector. El arranque no migra ni borra la EEPROM. Un registro incompatible utiliza el estado de datos danados existente; LOCUTORES puede mostrar EEPROM: DATOS DANADOS hasta completar el nuevo registro.
 
 ## Integracion con Ophyra
 
@@ -56,7 +56,7 @@ Cada registro se serializa explicitamente en little-endian, sin copiar el rellen
 | 6-7 | Indice de locutor y cantidad de coeficientes |
 | 8-11 | Secuencia de actualizacion, uint32 |
 | 12-13 | Cantidad de prototipos y revision DSP |
-| 14-19 | Frames originales por toma (248 o 298) y frecuencia de muestreo |
+| 14-19 | Frames esperados por toma (248) y frecuencia de muestreo |
 | 20-27 | Tamano de frame, avance, FFT y filtros Mel |
 | 28-31 | Longitud de datos y dos bytes reservados |
 | 32-193 | Tres grupos de 13 floats y un uint16 de frames seleccionados |

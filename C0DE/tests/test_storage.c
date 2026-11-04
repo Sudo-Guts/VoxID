@@ -20,7 +20,7 @@
 #include <string.h>
 
 static VoxIDSpeakerProfile crear_perfil(float base) {
-    VoxIDSpeakerProfile perfil = {.total_frames = VOXID_VOICE_EXPECTED_FRAMES, .completo = true};
+    VoxIDSpeakerProfile perfil = {.completo = true};
 
     for (uint8_t p = 0U; p < VOXID_PROTOTYPES_PER_SPEAKER; ++p) {
         perfil.frames_con_voz[p] = (uint16_t)(VOXID_ENROLL_MIN_VOICED_FRAMES + p);
@@ -36,7 +36,6 @@ static VoxIDSpeakerProfile crear_perfil(float base) {
 static void comprobar_perfil(uint8_t locutor, const VoxIDSpeakerProfile *esperado) {
     const VoxIDSpeakerProfile *actual = voxid_enroll_profile(locutor);
     assert(actual != NULL && actual->completo);
-    assert(actual->total_frames == esperado->total_frames);
     assert(memcmp(actual->mfcc, esperado->mfcc, sizeof(actual->mfcc)) == 0);
     assert(memcmp(actual->frames_con_voz, esperado->frames_con_voz, sizeof(actual->frames_con_voz)) == 0);
 }
@@ -136,6 +135,25 @@ static void comprobar_formato(void) {
         assert(voxid_storage_status() == VOXID_STORAGE_CORRUPT);
     }
 
+    // Un perfil de 3 s se rechaza incluso con CRC correcto y MFCC validos.
+    (void)memcpy(mock_eeprom_data, registro_valido, sizeof(registro_valido));
+    mock_eeprom_data[14] = 0x2AU;
+    mock_eeprom_data[15] = 0x01U;
+    actualizar_crc(mock_eeprom_data);
+    assert(voxid_storage_init(&hi2c1));
+    assert(voxid_enroll_profile(0U) == NULL);
+    assert(voxid_storage_status() == VOXID_STORAGE_CORRUPT);
+    assert(mock_eeprom_write_calls == escrituras);
+
+    // Ninguna toma del perfil actual puede exceder sus 248 frames.
+    (void)memcpy(mock_eeprom_data, registro_valido, sizeof(registro_valido));
+    mock_eeprom_data[84] = 249U;
+    mock_eeprom_data[85] = 0U;
+    actualizar_crc(mock_eeprom_data);
+    assert(voxid_storage_init(&hi2c1));
+    assert(voxid_enroll_profile(0U) == NULL);
+    assert(mock_eeprom_write_calls == escrituras);
+
     (void)memcpy(mock_eeprom_data, registro_valido, sizeof(registro_valido));
     mock_eeprom_data[40] ^= 0x80U;
     assert(voxid_storage_init(&hi2c1));
@@ -148,56 +166,6 @@ static void comprobar_formato(void) {
     assert(voxid_storage_init(&hi2c1));
     assert(voxid_enroll_profile(0U) == NULL);
     assert(mock_eeprom_write_calls == escrituras);
-    mock_eeprom_reset();
-}
-
-/** @brief Recupera registros anteriores de 3 s y los combina con tomas de 2.5 s. */
-static void test_legacy_capture_profiles(void) {
-    VoxIDSpeakerProfile legacy = crear_perfil(2.0f);
-    VoxIDSpeakerProfile current = crear_perfil(4.0f);
-    assert(voxid_storage_init(&hi2c1));
-    assert(voxid_storage_save(0U, &legacy));
-
-    // El formato anterior ya guardaba 298 en bytes 14..15 y conteos por toma.
-    mock_eeprom_data[14] = 0x2AU;
-    mock_eeprom_data[15] = 0x01U;
-    legacy.total_frames = 298U;
-    for (uint8_t take = 0U; take < VOXID_PROTOTYPES_PER_SPEAKER; ++take) {
-        uint16_t offset = (uint16_t)(84U + (uint16_t)take * 54U);
-        legacy.frames_con_voz[take] = 298U;
-        mock_eeprom_data[offset] = 0x2AU;
-        mock_eeprom_data[offset + 1U] = 0x01U;
-    }
-    actualizar_crc(mock_eeprom_data);
-    uint8_t original[256];
-    (void)memcpy(original, mock_eeprom_data, sizeof(original));
-    mock_eeprom_reboot();
-    assert(voxid_storage_init(&hi2c1));
-    comprobar_perfil(0U, &legacy);
-    assert(mock_eeprom_write_calls == 0U);
-
-    // Reescribir un perfil recuperado conserva su presupuesto original.
-    assert(voxid_storage_save(1U, &legacy));
-    assert(mock_eeprom_data[512U + 14U] == 0x2AU && mock_eeprom_data[512U + 15U] == 0x01U);
-    assert(voxid_storage_save(0U, &current));
-    assert(mock_eeprom_data[256U + 14U] == 248U && mock_eeprom_data[256U + 15U] == 0U);
-    assert(memcmp(original, mock_eeprom_data, sizeof(original)) == 0);
-    mock_eeprom_reboot();
-    assert(voxid_storage_init(&hi2c1));
-    comprobar_perfil(0U, &current);
-    comprobar_perfil(1U, &legacy);
-
-    // Un conteo de 249 no cabe en una toma actual; recupera la copia historica.
-    mock_eeprom_data[256U + 84U] = 249U;
-    mock_eeprom_data[256U + 85U] = 0U;
-    actualizar_crc(&mock_eeprom_data[256U]);
-    assert(voxid_storage_init(&hi2c1));
-    comprobar_perfil(0U, &legacy);
-    mock_eeprom_data[14] = 0x2BU;
-    actualizar_crc(mock_eeprom_data);
-    assert(voxid_storage_init(&hi2c1));
-    assert(voxid_enroll_profile(0U) == NULL);
-    comprobar_perfil(1U, &legacy);
     mock_eeprom_reset();
 }
 
@@ -309,7 +277,6 @@ int main(void) {
     assert(!voxid_storage_save(0U, &perfil));
     comprobar_controlador();
     comprobar_formato();
-    test_legacy_capture_profiles();
     comprobar_reemplazos();
     assert(!voxid_storage_init(NULL));
     assert(!voxid_storage_save(0U, &perfil));

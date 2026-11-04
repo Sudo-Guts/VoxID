@@ -18,9 +18,6 @@
 #include <stddef.h>
 #include <string.h>
 
-// La duracion cambia, pero el extractor y el vector persistido siguen iguales.
-#define ENROLL_LEGACY_FRAME_COUNT 298U
-
 _Static_assert(VOXID_SPEAKER_COUNT > 0U && VOXID_SPEAKER_COUNT <= UINT8_MAX, "Cantidad de locutores fuera de rango");
 _Static_assert(VOXID_PROTOTYPES_PER_SPEAKER == 3U, "La etapa 3 requiere tres prototipos por locutor");
 _Static_assert(VOXID_ENROLL_MIN_VOICED_FRAMES > 0U && VOXID_ENROLL_MIN_VOICED_FRAMES <= VOXID_VOICE_EXPECTED_FRAMES, "Minimo de frames fuera de rango");
@@ -85,7 +82,6 @@ VoxIDEnrollResult voxid_enroll_add(const VoxIDVoiceStats *toma) {
         return VOXID_ENROLL_REJECTED;
     }
 
-    registro_pendiente.total_frames = (uint16_t)toma->frames;
     (void)memcpy(registro_pendiente.mfcc[tomas_aceptadas], toma->mean_mfcc, sizeof(registro_pendiente.mfcc[0]));
     registro_pendiente.frames_con_voz[tomas_aceptadas] = (uint16_t)toma->voiced_frames;
     if (tomas_aceptadas + 1U < VOXID_PROTOTYPES_PER_SPEAKER) {
@@ -129,12 +125,8 @@ bool voxid_enroll_profile_valid(const VoxIDSpeakerProfile *perfil) {
         return false;
     }
 
-    if (perfil->total_frames != VOXID_VOICE_EXPECTED_FRAMES && perfil->total_frames != ENROLL_LEGACY_FRAME_COUNT) {
-        return false;
-    }
-
     for (uint8_t p = 0U; p < VOXID_PROTOTYPES_PER_SPEAKER; ++p) {
-        if (perfil->frames_con_voz[p] < VOXID_ENROLL_MIN_VOICED_FRAMES || perfil->frames_con_voz[p] > perfil->total_frames || !enroll_vector_valid(perfil->mfcc[p])) {
+        if (perfil->frames_con_voz[p] < VOXID_ENROLL_MIN_VOICED_FRAMES || perfil->frames_con_voz[p] > VOXID_VOICE_EXPECTED_FRAMES || !enroll_vector_valid(perfil->mfcc[p])) {
             return false;
         }
     }

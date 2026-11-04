@@ -178,7 +178,7 @@ static void comprobar_identificacion(const char *esperado) {
 static void comprobar_perfiles(void) {
     voxid_audio_stop();
     voxid_enroll_reset();
-    VoxIDSpeakerProfile perfil = {.total_frames = VOXID_VOICE_EXPECTED_FRAMES, .completo = true};
+    VoxIDSpeakerProfile perfil = {.completo = true};
 
     for (uint8_t toma = 0U; toma < VOXID_PROTOTYPES_PER_SPEAKER; ++toma) {
         perfil.frames_con_voz[toma] = (uint16_t)(VOXID_ENROLL_MIN_VOICED_FRAMES + toma);

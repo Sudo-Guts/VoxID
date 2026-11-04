@@ -74,7 +74,7 @@ ETAPA 4 | EEPROM M24C32 e identificacion
 [x] Definir registros little-endian, version, revision DSP y CRC32.
 [x] Configurar I2C1 PB6/PB7, paginas M24C32 y persistencia con dos copias.
 [x] Recuperar perfiles al arrancar sin escribir ni formatear la EEPROM.
-[x] Conservar los perfiles historicos de 298 frames y registrar nuevos de 248 frames.
+[x] Aceptar unicamente perfiles de 248 frames y rechazar los anteriores de 3 s.
 [x] Reintentar un fallo de guardado sin volver a capturar la tercera toma.
 [x] Implementar distancia L2 normalizada C01..C12 y promedio de tres prototipos.
 [x] Rechazar por distancia maxima, margen insuficiente y toma invalida.

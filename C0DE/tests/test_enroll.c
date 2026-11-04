@@ -38,7 +38,6 @@ static VoxIDVoiceStats crear_toma(unsigned numero) {
 static void comprobar_perfil(uint8_t locutor, unsigned primera_toma) {
     const VoxIDSpeakerProfile *perfil = voxid_enroll_profile(locutor);
     assert(perfil != NULL && perfil->completo);
-    assert(perfil->total_frames == 248U);
 
     for (uint32_t i = 0U; i < VOXID_PROTOTYPES_PER_SPEAKER; ++i) {
         VoxIDVoiceStats esperada = crear_toma(primera_toma + i);

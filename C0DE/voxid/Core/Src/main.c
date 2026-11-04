@@ -24,7 +24,7 @@
 #include "st7735.h"
 #include "buttons.h"
 #include "ui.h"
-#include "voxid_dsp.h"
+#include "voxid_voice.h"
 #include "voxid_audio.h"
 #include "voxid_storage.h"
 

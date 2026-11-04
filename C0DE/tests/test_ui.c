@@ -17,7 +17,7 @@
 #include "ui.h"
 #include "ui_voice.h"
 #include "voxid_audio.h"
-#include "voxid_dsp.h"
+#include "voxid_voice.h"
 #include "voxid_enroll.h"
 #include "voxid_storage.h"
 #include "mock_eeprom.h"

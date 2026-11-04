@@ -5,8 +5,8 @@
  *  Autor    : Gustavo Ruiz Luis
  * -----------------------------------------------------------------------------
  *
- *  Conversion ADC a PCM, filtro DC y media MFCC de frames seleccionados
- *  por energia. No almacena la grabacion completa ni perfiles de locutor.
+ *  Conversion ADC a PCM, filtro DC, extractor MFCC con buffers estaticos
+ *  y media de frames seleccionados por energia. No almacena el audio completo.
  *
  * =============================================================================
  */
@@ -16,6 +16,25 @@
 #include <math.h>
 #include <stddef.h>
 #include <string.h>
+
+// =============================================================================
+//  Almacenamiento del extractor MFCC
+// =============================================================================
+
+static MFCC extractor;
+static bool dsp_ready = false;
+
+static int16_t ring[VOXID_FRAME_SIZE];
+static int16_t frame_samples[VOXID_FRAME_SIZE];
+static float window_coefficients[VOXID_FRAME_SIZE];
+static float fft_input[VOXID_FFT_SIZE];
+static FFTComplex twiddles[VOXID_FFT_SIZE / 2U];
+static FFTComplex spectrum[VOXID_FFT_SIZE];
+static float power_spectrum[VOXID_FFT_SIZE / 2U + 1U];
+static float mel_points[VOXID_MEL_FILTERS + 2U];
+static float mel_energies[VOXID_MEL_FILTERS];
+static float dct_basis[VOXID_MEL_FILTERS * VOXID_MFCC_COUNT];
+static float coefficients[VOXID_MFCC_COUNT];
 
 // =============================================================================
 //  Estado de una toma
@@ -35,6 +54,68 @@ static float ultimo_mfcc[VOXID_MFCC_COUNT];
 static float suma_mfcc[VOXID_MFCC_COUNT];
 static bool toma_activa;
 static bool toma_completa;
+
+// =============================================================================
+//  Inicializacion y procesamiento MFCC
+// =============================================================================
+
+bool voxid_dsp_init(void) {
+    const MFCCConfig config = {
+        .frame_size = VOXID_FRAME_SIZE,
+        .hop_size = VOXID_HOP_SIZE,
+        .fft_size = VOXID_FFT_SIZE,
+        .mel_filters = VOXID_MEL_FILTERS,
+        .mfcc_count = VOXID_MFCC_COUNT,
+        .sample_rate = VOXID_SAMPLE_RATE,
+        .min_hz = 0.0f,
+        .max_hz = 8000.0f,
+        .epsilon = 1e-10f
+    };
+
+    const MFCCBuffers buffers = {
+        .ring = ring,
+        .frame_samples = frame_samples,
+        .window_coefficients = window_coefficients,
+        .fft_input = fft_input,
+        .twiddles = twiddles,
+        .spectrum = spectrum,
+        .power_spectrum = power_spectrum,
+        .mel_points = mel_points,
+        .mel_energies = mel_energies,
+        .dct_basis = dct_basis
+    };
+
+    dsp_ready = false;
+    dsp_ready = mfcc_init(&extractor, &config, &buffers);
+    return dsp_ready;
+}
+
+MFCCResult voxid_dsp_push(int16_t sample) {
+    return dsp_ready ? mfcc_push(&extractor, sample, coefficients) : MFCC_ERROR;
+}
+
+const float *voxid_dsp_coefficients(void) {
+    return coefficients;
+}
+
+bool voxid_dsp_is_ready(void) {
+    return dsp_ready;
+}
+
+float voxid_dsp_frame_energy(void) {
+    float energia = 0.0f;
+
+    for (uint32_t i = 0U; i < VOXID_FRAME_SIZE; ++i) {
+        float muestra = (float)frame_samples[i] / 32768.0f;
+        energia += muestra * muestra;
+    }
+
+    return energia / (float)VOXID_FRAME_SIZE;
+}
+
+// =============================================================================
+//  Conversion y seleccion de frames
+// =============================================================================
 
 /**
  * @brief Centra el ADC y elimina DC sin introducir un escalon al iniciar.

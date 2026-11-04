@@ -32,6 +32,8 @@ La cadena prevista comprende microfono electret, preamplificacion, filtros pasaa
 
 `voxid_config.h` concentra los parametros compartidos. La ISR notifica bloques; el bucle principal convierte ADC a PCM, elimina DC y procesa MFCC. Se usan buffers estaticos y no se guarda el audio completo.
 
+La fase 2 de reorganizacion integra el adaptador MFCC en `voxid_voice.c` y declara sus funciones existentes en `voxid_voice.h`. Se retiran los dos archivos separados `voxid_dsp.c` y `voxid_dsp.h` del firmware principal, conservando las APIs y el procesamiento de tomas de 2.5 segundos.
+
 La media MFCC utiliza unicamente frames cuya energia supera `VOXID_VOICE_MIN_RMS`. El umbral inicial es RMS 0.01 respecto de la escala completa y necesita calibracion con voz y ruido medidos en la placa. Un ruido suficientemente intenso tambien puede superar este criterio. Si no se selecciona ningun frame, la captura puede ser valida, pero la UI muestra `CON VOZ: 0` y no dibuja una media de voz.
 
 ## Registro de locutores
@@ -82,6 +84,8 @@ make -C C0DE clean
 En Windows con MinGW, usar `mingw32-make` en lugar de `make`. La ruta de ejecucion y la limpieza tienen reglas para ambos sistemas; la verificacion automatizada de esta revision se realizo en Linux.
 
 `all` comprueba la compilacion y el enlace del nucleo portable y genera un ejecutable minimo y su desensamblado. `test` ejecuta once pruebas: Frame, ventana, FFT, MFCC, voz, adquisicion, interfaz, GFX, registro, persistencia e identificacion. Las pruebas con HAL de PC no sustituyen las mediciones en placa.
+
+Las pruebas que usan HAL simulada buscan primero las cabeceras de `tests/support`, para evitar mezclar `main.h` de la placa con su sustituto de PC.
 
 ## Compilar el firmware
 

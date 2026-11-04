@@ -4,7 +4,7 @@ Los ocho modulos compartidos son `frame`, `window`, `fft`, `power`, `mel`, `log_
 
 `C0DE/src/voxid.c` es un ejecutable historico de PC y no se enlaza en el firmware. Su retiro se reserva para la fase 3.
 
-El adaptador `voxid_dsp.c` reserva buffers estaticos y ofrece inicializacion, alimentacion PCM, consulta de coeficientes y energia del ultimo frame. La energia se consulta inmediatamente despues de MFCC_READY y usa el mismo frame PCM.
+`voxid_voice.c` integra el adaptador MFCC, sus buffers estaticos, la conversion ADC a PCM y la media de frames seleccionados por energia. `voxid_voice.h` declara tanto las funciones de captura como las funciones existentes `voxid_dsp_*`; sus nombres y contratos se conservan. La energia se consulta inmediatamente despues de MFCC_READY y usa el mismo frame PCM. La fase 2 retira los archivos separados `voxid_dsp.c` y `voxid_dsp.h` del firmware principal.
 
 `voxid_config.h` concentra 16 kHz, captura de 2.5 segundos, frame 400, avance 160, FFT 512, 26 filtros Mel, 13 MFCC y umbral RMS de seleccion.
 

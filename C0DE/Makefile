@@ -20,7 +20,7 @@ FUENTES := $(wildcard $(SRC)/*.c)
 FUENTES_DSP := $(addprefix $(CORE)/Src/,frame.c window.c fft.c power.c mel.c log_mel.c dct.c mfcc.c)
 OBJETOS := $(patsubst $(SRC)/%.c,$(OUT)/%.o,$(FUENTES))
 CABECERAS := $(wildcard $(CORE)/Inc/*.h) $(wildcard tests/support/*.h)
-FUENTES_VOZ := $(CORE)/Src/voxid_dsp.c $(CORE)/Src/voxid_voice.c
+FUENTES_VOZ := $(CORE)/Src/voxid_voice.c
 FUENTES_AUDIO := $(FUENTES_VOZ) $(CORE)/Src/voxid_audio.c tests/support/mock_hal.c
 FUENTES_REGISTRO := $(CORE)/Src/voxid_enroll.c
 FUENTES_PERFILES := $(FUENTES_REGISTRO) $(CORE)/Src/voxid_storage.c $(CORE)/Src/m24c32.c tests/support/mock_eeprom.c
@@ -83,22 +83,22 @@ $(OUT)/test_gfx.exe: tests/test_gfx.c $(CORE)/Src/gfx.c $(CORE)/Src/font5x7.c $(
 	$(CC) $(INCLUDES_PLACA) $(CPPFLAGS) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
 
 $(OUT)/test_voice.exe: tests/test_voice.c $(FUENTES_DSP) $(FUENTES_VOZ) $(CABECERAS) | $(OUT)
-	$(CC) $(CPPFLAGS) $(INCLUDES_PLACA) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
+	$(CC) $(INCLUDES_PLACA) $(CPPFLAGS) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
 
 $(OUT)/test_enroll.exe: tests/test_enroll.c $(FUENTES_DSP) $(FUENTES_AUDIO) $(FUENTES_PERFILES) $(CABECERAS) | $(OUT)
-	$(CC) $(CPPFLAGS) $(INCLUDES_PLACA) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
+	$(CC) $(INCLUDES_PLACA) $(CPPFLAGS) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
 
 $(OUT)/test_storage.exe: tests/test_storage.c $(FUENTES_DSP) $(FUENTES_AUDIO) $(FUENTES_PERFILES) $(CABECERAS) | $(OUT)
-	$(CC) $(CPPFLAGS) $(INCLUDES_PLACA) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
+	$(CC) $(INCLUDES_PLACA) $(CPPFLAGS) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
 
 $(OUT)/test_identify.exe: tests/test_identify.c $(FUENTES_DSP) $(FUENTES_AUDIO) $(FUENTES_PERFILES) $(FUENTES_IDENTIFICAR) $(CABECERAS) | $(OUT)
-	$(CC) $(CPPFLAGS) $(INCLUDES_PLACA) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
+	$(CC) $(INCLUDES_PLACA) $(CPPFLAGS) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
 
 $(OUT)/test_audio.exe: tests/test_audio.c $(FUENTES_DSP) $(FUENTES_AUDIO) $(CABECERAS) tests/support/main.h | $(OUT)
-	$(CC) $(CPPFLAGS) $(INCLUDES_PLACA) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
+	$(CC) $(INCLUDES_PLACA) $(CPPFLAGS) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
 
 $(OUT)/test_ui.exe: tests/test_ui.c $(FUENTES_DSP) $(FUENTES_UI) $(CABECERAS) tests/support/main.h | $(OUT)
-	$(CC) $(CPPFLAGS) $(INCLUDES_PLACA) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
+	$(CC) $(INCLUDES_PLACA) $(CPPFLAGS) $(CFLAGS) $(filter %.c,$^) -o $@ $(LDLIBS)
 
 test: $(EJECUTAR_PRUEBAS)
 

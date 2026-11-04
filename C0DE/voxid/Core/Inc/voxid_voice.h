@@ -4,7 +4,7 @@
  *  Archivo  : C0DE/voxid/Core/Inc/voxid_voice.h
  *  Autor    : Gustavo Ruiz Luis
  * -----------------------------------------------------------------------------
- *  ADC 12 bits -> PCM con signo -> MFCC en streaming.
+ *  ADC 12 bits -> PCM con signo -> MFCC en streaming con buffers estaticos.
  * =============================================================================
  */
 #ifndef VOXID_VOICE_H
@@ -12,7 +12,8 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "voxid_dsp.h"
+#include "mfcc.h"
+#include "voxid_config.h"
 
 #define VOXID_VOICE_EXPECTED_SAMPLES VOXID_CAPTURE_TOTAL_SAMPLES
 #define VOXID_VOICE_EXPECTED_FRAMES (1U + (VOXID_VOICE_EXPECTED_SAMPLES - VOXID_FRAME_SIZE) / VOXID_HOP_SIZE)
@@ -26,6 +27,38 @@ typedef struct {
     float last_mfcc[VOXID_MFCC_COUNT];
     float mean_mfcc[VOXID_MFCC_COUNT];
 } VoxIDVoiceStats;
+
+/**
+ * @brief Inicializa el extractor y sus buffers estaticos.
+ * @return true si esta listo.
+ */
+bool voxid_dsp_init(void);
+
+/**
+ * @brief Alimenta el extractor con una muestra PCM de 16 bits.
+ * @param sample Muestra con signo.
+ * @return MFCC_READY, MFCC_WAITING o MFCC_ERROR.
+ */
+MFCCResult voxid_dsp_push(int16_t sample);
+
+/**
+ * @brief Consulta la inicializacion.
+ * @return true si el extractor esta listo.
+ */
+bool voxid_dsp_is_ready(void);
+
+/**
+ * @brief Consulta el vector mas reciente.
+ * @return Arreglo de 13 coeficientes; leerlo solamente tras MFCC_READY.
+ */
+const float *voxid_dsp_coefficients(void);
+
+/**
+ * @brief Calcula la energia media del frame PCM que produjo los ultimos MFCC.
+ * @return Energia normalizada a escala completa, entre cero y uno.
+ * @note Consultar inmediatamente despues de MFCC_READY, antes de otra muestra.
+ */
+float voxid_dsp_frame_energy(void);
 
 /**
  * @brief Reinicia el filtro DC y el extractor MFCC.

@@ -5,14 +5,16 @@ VOXID | Seguimiento de etapas
 [x] Confirmar plataforma digital: Ophyra, STM32F407VGT6 y TFT ST7735.
 [x] Implementar DSP portable: Frame, Hamming, FFT, potencia, Mel, log-Mel y DCT.
 [x] Integrar los ocho modulos compartidos sin duplicarlos en el firmware.
-[x] Conservar el benchmark sintetico en voxid_test y sus dependencias.
-[x] Mantener la prueba MFCC sintetica en PC y el benchmark de voxid_test.
+[x] Retirar el benchmark separado y las copias externas del DSP en fase 3.
+[x] Conservar la prueba MFCC sintetica y las otras diez pruebas dentro de voxid/tests.
 [x] Unificar parametros digitales en voxid_config.h.
 [x] Normalizar el codigo propio: ASCII, cuatro espacios y firmas en una linea.
 [x] Documentar APIs propias y conservar bloques USER CODE del firmware generado.
 [x] Corregir recorte GFX con coordenadas negativas y probarlo sobre memoria.
 [x] Corregir Makefile: dependencias DSP, seleccion de prueba y ejecucion completa.
-[x] Excluir resultados generados de C0DE/out y conservar .gitkeep.
+[x] Generar ejecutables solo en C0DE/voxid/tests/build, excluido de Git.
+[x] Dejar unicamente voxid dentro de C0DE y concentrar las guias en DOC.
+[x] Retirar el ejecutable minimo de PC, su mapa y su desensamblado.
 [x] Integrar firmware, PCB y simulaciones conservando sus historiales.
 [x] Registrar la confirmacion del usuario sobre el funcionamiento general en Ophyra.
 

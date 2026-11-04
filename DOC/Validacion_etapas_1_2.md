@@ -11,13 +11,13 @@ Esta revision deja implementadas adquisicion y extraccion MFCC. El cierre fisico
 - La UI real se ejercita con dibujo simulado: repetir desde resultado/error, OK inactivo, BACK y circulos fijos.
 - La comprobacion de sintaxis con cabeceras STM32 del repositorio no produce un binario ARM ni valida enlazado o tiempos.
 
-El criterio de energia selecciona candidatos a voz y no reconoce MARIPOSA. La comparacion de perfiles de la version actual se describe en [etapa 4](../C0DE/voxid/STAGE4_STORAGE_IDENTIFY.md).
+El criterio de energia selecciona candidatos a voz y no reconoce MARIPOSA. La comparacion de perfiles de la version actual se describe en [etapa 4](STAGE4_STORAGE_IDENTIFY.md).
 
 ## Preparacion en STM32CubeIDE
 
 1. Importar `C0DE/voxid` directamente; no requiere enlaces de codigo hacia carpetas externas.
 2. F5, Clean y Build Debug. Confirmar que se compilan `voxid_audio.c`, `voxid_voice.c` y los ocho modulos DSP.
-3. Programar la placa y comprobar el acceso a IDENTIFICAR, REGISTRAR y LOCUTORES. La integracion sintetica de tres frames se comprueba en PC con `make -C C0DE test test_mfcc.c`.
+3. Programar la placa y comprobar el acceso a IDENTIFICAR, REGISTRAR y LOCUTORES. La integracion sintetica de tres frames se comprueba en PC con `make -C C0DE/voxid test test_mfcc.c`.
 
 Si se regenera con CubeMX, revisar `MX_DMA_Init` antes de `MX_ADC1_Init`, DMA2 Stream0 Channel0 circular y el enlace `__HAL_LINKDMA`.
 
@@ -28,7 +28,7 @@ Aplicar a PA2 un nivel conocido dentro de 0 a VDDA, por ejemplo cercano a 1.65 V
 | Comprobacion | Resultado esperado |
 |---|---|
 | Preparado | Circulos animados, OK y BACK disponibles. |
-| Captura | Circulos fijos, cuenta de 3 a 1, OK inactivo y BACK disponible. |
+| Captura | Circulos fijos, cuenta de 2.5 a 0.5 segundos, OK inactivo y BACK disponible. |
 | Resultado | En IDENTIFICAR, UP/DN recorre comparacion, grafica y estadisticas ADC. La tercera pagina muestra 248/248 frames, minimo, maximo y promedio. |
 | Seleccion | CON VOZ cercano a cero en una entrada DC estable y con poco ruido. |
 | Grafica | Si CON VOZ es cero, mensaje SIN VOZ DETECTADA. |
@@ -54,6 +54,6 @@ Un nivel energetico suficiente no distingue voz de golpes o ruido fuerte. Una to
 
 ## Cierre antes de etapa 3
 
-Registrar version compilada, condiciones de entrada, capturas repetidas, comportamiento de cancelacion y ausencia de errores DMA. La etapa 3 ya tiene implementacion de registro y su [propia validacion](../C0DE/voxid/STAGE3_ENROLLMENT.md); el cierre fisico de ambas comprobaciones sigue siendo necesario.
+Registrar version compilada, condiciones de entrada, capturas repetidas, comportamiento de cancelacion y ausencia de errores DMA. La etapa 3 ya tiene implementacion de registro y su [propia validacion](STAGE3_ENROLLMENT.md); el cierre fisico de ambas comprobaciones sigue siendo necesario.
 
-La persistencia, identificacion y sus comprobaciones fisicas pendientes se detallan en [etapa 4](../C0DE/voxid/STAGE4_STORAGE_IDENTIFY.md).
+La persistencia, identificacion y sus comprobaciones fisicas pendientes se detallan en [etapa 4](STAGE4_STORAGE_IDENTIFY.md).

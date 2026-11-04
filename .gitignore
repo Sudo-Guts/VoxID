@@ -8,7 +8,7 @@
 #   almacenar resultados de compilacion, respaldos automaticos y archivos
 #   temporales generados por KiCad y los editores de codigo.
 #
-#   Los archivos fuente, esquematicos, diseños de PCB, simulaciones y
+#   Los archivos fuente, esquematicos, disenos de PCB, simulaciones y
 #   documentacion del proyecto se mantienen bajo control de versiones.
 #
 # =============================================================================
@@ -17,8 +17,7 @@
 #   Archivos Generados por la Compilacion
 # -----------------------------------------------------------------------------
 
-/C0DE/out/*
-!/C0DE/out/.gitkeep
+/C0DE/voxid/tests/build/
 
 # -----------------------------------------------------------------------------
 #   Archivos Locales y Temporales de KiCad
@@ -48,7 +47,7 @@ SIM/**/*.db
 SIM/**/*.alias.ini
 SIM/**/*.fra
 
-# Netlist generado automáticamente por PSIM
+# Netlist generado automaticamente por PSIM
 SIM/psim/Filtro_Real.cir
 
 # -----------------------------------------------------------------------------

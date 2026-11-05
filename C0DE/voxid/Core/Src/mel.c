@@ -67,7 +67,8 @@ bool mel_init(Mel *mel, float *points_hz, size_t fft_size, size_t filter_count, 
         float position = (float)i / (float)(filter_count + 1);
         float mel_value = mel_min + position * (mel_max - mel_min);
 
-        points_hz[i] = mel_to_hz(mel_value);
+        // Fijar los extremos evita incluir Nyquist por redondeo de Mel a Hz.
+        points_hz[i] = i == 0U ? min_hz : i == filter_count + 1U ? max_hz : mel_to_hz(mel_value);
 
         // Evitar filtros degenerados por precision numerica.
         if (i > 0 && !(points_hz[i] > points_hz[i - 1])) {

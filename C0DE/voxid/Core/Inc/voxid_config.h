@@ -36,7 +36,7 @@
 #define VOXID_EEPROM_WRITE_WAIT_MS    10U
 
 // Cambiar la revision si cambia la definicion del vector MFCC persistido.
-#define VOXID_PROFILE_DSP_REVISION     1U
+#define VOXID_PROFILE_DSP_REVISION     2U
 
 // Distancia euclidiana entre vectores unitarios C01..C12: rango 0..2.
 // Son valores iniciales, pendientes de calibracion con tomas nuevas.

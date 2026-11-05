@@ -46,6 +46,7 @@ typedef struct {
  * @note points_hz debe tener capacidad para filter_count + 2
  *       elementos y permanecer valido durante el uso del modulo.
  * @note max_hz no debe superar la frecuencia de Nyquist.
+ * @note Los puntos extremos coinciden exactamente con min_hz y max_hz.
  * @note No se realiza asignacion dinamica de memoria.
  */
 bool mel_init(Mel *mel, float *points_hz, size_t fft_size, size_t filter_count, uint32_t sample_rate, float min_hz, float max_hz);

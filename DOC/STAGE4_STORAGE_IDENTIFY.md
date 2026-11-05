@@ -2,7 +2,7 @@
 
 La version actual conserva los tres prototipos MFCC de cada uno de los cuatro locutores en la M24C32 y los recupera al arrancar. IDENTIFICAR compara una toma nueva con los perfiles recuperados en RAM.
 
-El usuario reporto reconocimiento funcional con tomas de 3 segundos y fallos al usar 2.5 segundos. Los conteos actuales son coherentes, pero falta determinar en Ophyra la causa de esos fallos y calibrar con voces reales. Las nuevas capturas duran 2500 ms y producen 248 frames. Los bytes 14-15 deben indicar los 248 frames actuales. Los perfiles anteriores de 3 segundos se rechazan y deben registrarse de nuevo con tomas de 2.5 segundos. La duracion no altera el algoritmo ni la revision DSP del vector. El arranque no migra ni borra la EEPROM. Un registro incompatible queda sin perfil utilizable; LOCUTORES muestra PERFIL NO UTILIZABLE y REGISTRA TRES TOMAS hasta reemplazarlo. No se anade una ruta de migracion ni se cambia la revision DSP, porque la definicion del vector se conserva.
+El usuario reporto reconocimiento funcional con tomas de 3 segundos y fallos al usar 2.5 segundos. Los conteos actuales son coherentes, pero falta determinar en Ophyra la causa de esos fallos y calibrar con voces reales. Las nuevas capturas duran 2500 ms y producen 248 frames. Los bytes 14-15 deben indicar los 248 frames actuales. Se aceptan unicamente perfiles de 248 frames y revision DSP 2. La revision 2 fija los extremos del banco Mel a las frecuencias solicitadas. Los perfiles anteriores, incluidos los de revision 1 con 2.5 segundos, se rechazan y deben registrarse de nuevo. El arranque no migra ni borra la EEPROM. Un registro incompatible queda sin perfil utilizable; LOCUTORES muestra PERFIL NO UTILIZABLE y REGISTRA TRES TOMAS hasta reemplazarlo. No se anade una ruta de migracion; los perfiles nuevos se obtienen con la misma revision DSP del firmware.
 
 ## Integracion con Ophyra
 
@@ -55,7 +55,7 @@ Cada registro se serializa explicitamente en little-endian, sin copiar el rellen
 | 4-5 | Version del formato: 1 |
 | 6-7 | Indice de locutor y cantidad de coeficientes |
 | 8-11 | Secuencia de actualizacion, uint32 |
-| 12-13 | Cantidad de prototipos y revision DSP |
+| 12-13 | Cantidad de prototipos (3) y revision DSP (2) |
 | 14-19 | Frames esperados por toma (248) y frecuencia de muestreo |
 | 20-27 | Tamano de frame, avance, FFT y filtros Mel |
 | 28-31 | Longitud de datos y dos bytes reservados |

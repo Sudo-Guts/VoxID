@@ -51,6 +51,9 @@ ETAPA 2 | PCM y MFCC de audio real
 [x] No mostrar grafica de voz cuando no se seleccionaron frames.
 [x] Probar silencio, offset DC, senal debil, tono e intermitencia en PC.
 [x] Probar reinicio, cancelacion, fallos de ADC/DMA y repeticion.
+[x] Contrastar todas las etapas MFCC y sus medias con una referencia independiente.
+[x] Fijar los extremos Mel solicitados y comprobar aporte cero en Nyquist.
+[x] Actualizar revision DSP a 2 y rechazar revision 1 con CRC valido, sin migrar.
 [ ] Calibrar el umbral RMS con ruido y voz de la etapa analogica real.
 [ ] Confirmar ausencia de perdida de bloques con DSP y TFT activos.
 [ ] Verificar capturas repetibles de MARIPOSA en Ophyra.

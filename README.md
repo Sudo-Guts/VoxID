@@ -48,7 +48,7 @@ El menu ofrece IDENTIFICAR, REGISTRAR y LOCUTORES. En LOCUTORES, UP/DN seleccion
 
 El estado de lectura o guardado pertenece a cada locutor: un error de otro espacio no modifica el mostrado para el seleccionado. Un registro no utilizable se muestra como `PERFIL NO UTILIZABLE` y pide `REGISTRA TRES TOMAS`.
 
-Cada toma tiene su propia grafica C01..C12, normalizada a norma L2 unitaria y con escala fija -1..1; C00 queda fuera de la comparacion. El identificador promedia las tres distancias, por lo que se conservan las tres referencias. La consulta usa RAM, sin capturar audio, reiniciar el DSP ni escribir EEPROM. La EEPROM acepta unicamente perfiles de 248 frames. Los perfiles anteriores de 3 segundos deben registrarse de nuevo con tomas de 2.5 segundos.
+Cada toma tiene su propia grafica C01..C12, normalizada a norma L2 unitaria y con escala fija -1..1; C00 queda fuera de la comparacion. El identificador promedia las tres distancias, por lo que se conservan las tres referencias. La consulta usa RAM, sin capturar audio, reiniciar el DSP ni escribir EEPROM. La EEPROM acepta unicamente perfiles de 248 frames y revision DSP 2. Todos los perfiles de revision 1, incluidos los de 2.5 segundos, deben registrarse de nuevo. La revision 2 fija los extremos del banco Mel a las frecuencias solicitadas; ver [la validacion numerica](DOC/STAGE2_REAL_MFCC.md).
 
 ## Identificacion y EEPROM
 

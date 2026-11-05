@@ -5,26 +5,29 @@ VOXID | Seguimiento de etapas
 [x] Confirmar plataforma digital: Ophyra, STM32F407VGT6 y TFT ST7735.
 [x] Implementar DSP portable: Frame, Hamming, FFT, potencia, Mel, log-Mel y DCT.
 [x] Integrar los ocho modulos compartidos sin duplicarlos en el firmware.
-[x] Conservar el benchmark sintetico en voxid_test y sus dependencias.
-[x] Mantener la prueba MFCC sintetica en PC y el benchmark de voxid_test.
+[x] Retirar el benchmark separado y las copias externas del DSP en fase 3.
+[x] Retirar las pruebas de PC y los sustitutos HAL de la entrega de firmware.
 [x] Unificar parametros digitales en voxid_config.h.
 [x] Normalizar el codigo propio: ASCII, cuatro espacios y firmas en una linea.
 [x] Documentar APIs propias y conservar bloques USER CODE del firmware generado.
 [x] Corregir recorte GFX con coordenadas negativas y probarlo sobre memoria.
-[x] Corregir Makefile: dependencias DSP, seleccion de prueba y ejecucion completa.
-[x] Excluir resultados generados de C0DE/out y conservar .gitkeep.
+[x] Retirar el Makefile de PC y las reglas asociadas a sus ejecutables.
+[x] Dejar unicamente voxid dentro de C0DE y concentrar las guias en DOC.
+[x] Retirar el ejecutable minimo de PC, su mapa y su desensamblado.
 [x] Integrar firmware, PCB y simulaciones conservando sus historiales.
 [x] Registrar la confirmacion del usuario sobre el funcionamiento general en Ophyra.
 
-Los pendientes siguientes requieren comprobaciones especificas o mediciones;
-no invalidan el reporte de funcionamiento general del usuario.
+Las comprobaciones de PC registradas se realizaron fuera de la entrega actual.
+El usuario reporto reconocimiento con 3 s y fallos al usar 2.5 s.
+La causa de esos fallos y la precision requieren comprobacion en Ophyra.
 
 ==========================================================================
 ETAPA 1 | ADC1 + TIM2 + DMA e interfaz
 ==========================================================================
 
 [x] Configurar PA2, ADC1 de 12 bits, TIM2 TRGO a 16 kHz y DMA circular.
-[x] Capturar 48000 muestras en 75 mitades de 640 muestras.
+[x] Capturar 40000 muestras en 2500 ms y 50 mitades de 800 muestras.
+[x] Mostrar cuenta regresiva en pasos de medio segundo sin redibujar circulos.
 [x] Mantener el procesamiento fuera de las interrupciones.
 [x] Rechazar capturas con bloques sobrescritos o errores HAL.
 [x] Detener ADC y DMA desde el bucle principal tambien tras un error de IRQ.
@@ -42,12 +45,15 @@ ETAPA 2 | PCM y MFCC de audio real
 
 [x] Convertir ADC sin signo a PCM de 16 bits y eliminar DC.
 [x] Evitar el transitorio inicial de un nivel DC constante.
-[x] Exigir 48000 muestras y 298 frames MFCC con coeficientes finitos.
+[x] Exigir 40000 muestras y 248 frames MFCC con coeficientes finitos.
 [x] Separar frames totales de frames seleccionados por energia.
 [x] Calcular la media solo con los frames seleccionados.
 [x] No mostrar grafica de voz cuando no se seleccionaron frames.
 [x] Probar silencio, offset DC, senal debil, tono e intermitencia en PC.
 [x] Probar reinicio, cancelacion, fallos de ADC/DMA y repeticion.
+[x] Contrastar todas las etapas MFCC y sus medias con una referencia independiente.
+[x] Fijar los extremos Mel solicitados y comprobar aporte cero en Nyquist.
+[x] Actualizar revision DSP a 2 y rechazar revision 1 con CRC valido, sin migrar.
 [ ] Calibrar el umbral RMS con ruido y voz de la etapa analogica real.
 [ ] Confirmar ausencia de perdida de bloques con DSP y TFT activos.
 [ ] Verificar capturas repetibles de MARIPOSA en Ophyra.
@@ -73,6 +79,7 @@ ETAPA 4 | EEPROM M24C32 e identificacion
 [x] Definir registros little-endian, version, revision DSP y CRC32.
 [x] Configurar I2C1 PB6/PB7, paginas M24C32 y persistencia con dos copias.
 [x] Recuperar perfiles al arrancar sin escribir ni formatear la EEPROM.
+[x] Aceptar unicamente perfiles de 248 frames y rechazar los anteriores de 3 s.
 [x] Reintentar un fallo de guardado sin volver a capturar la tercera toma.
 [x] Implementar distancia L2 normalizada C01..C12 y promedio de tres prototipos.
 [x] Rechazar por distancia maxima, margen insuficiente y toma invalida.
@@ -84,6 +91,11 @@ ETAPA 4 | EEPROM M24C32 e identificacion
 [x] Consultar cuatro espacios sin capturar audio ni acceder a EEPROM.
 [x] Verificar barras con vectores conocidos y dibujo mediante UI/GFX reales en PC.
 [x] Confirmar con el usuario la nueva navegacion LOCUTORES y sus botones.
+[x] Conservar el estado de EEPROM por locutor, sin propagar errores a otros espacios.
+[x] Pedir nuevo registro para perfiles no utilizables, sin agregar migraciones.
+[x] Corregir la inclusion de stddef.h requerida por sysmem.c.
+[x] Revisar sintaxis de los 26 fuentes Core con cabeceras STM32/HAL reales.
+[x] Comprobar invariancia del DSP al usar bloques de 160, 400, 640 y 800 muestras.
 [x] Ejecutar once pruebas de PC, incluidos cortes, CRC y ambiguedad.
 [ ] Compilar y enlazar la etapa 4 con toolchain ARM en STM32CubeIDE.
 [ ] Validar EEPROM real, reinicio, errores I2C y recuperacion de perfiles.

@@ -41,20 +41,6 @@ El modulo usa memoria estatica y delega la persistencia a `voxid_storage`; la co
 
 La UI acepta una toma una sola vez por pulsacion valida. Mientras la proxima captura esta pendiente o activa, se ocultan e ignoran UP, DN y OK; BACK permite cancelar. Esto tambien cubre el instante en que ADC aun conserva READY del resultado anterior.
 
-## Verificacion en PC
-
-```bash
-make -C C0DE/voxid test
-make -C C0DE/voxid test test_enroll.c
-make -C C0DE/voxid test test_ui.c
-```
-
-Las pruebas de registro comprueban tres vectores distintos, copia de sus datos, rechazo de entradas incompletas/no finitas, cancelacion, reemplazo y cuatro locutores independientes.
-
-Un fallo de guardado conserva las dos tomas aceptadas y el resultado de la tercera, con OK: REINTENTAR sin recaptura. Las pruebas tambien verifican recuperacion de perfiles tras cargar EEPROM.
-
-La prueba de UI utiliza el procesamiento real con ADC/DMA simulados y una senal sintetica. Comprueba las tres tomas, repeticion por silencio y error, contador, aceptacion explicita, ocultamiento de controles y conservacion del perfil previo.
-
 ## Verificacion fisica pendiente
 
 1. Refrescar con F5, Clean y Build Debug en STM32CubeIDE. Comprobar que se compila `voxid_enroll.c`.

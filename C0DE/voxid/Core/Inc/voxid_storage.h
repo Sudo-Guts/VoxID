@@ -44,9 +44,11 @@ bool voxid_storage_init(I2C_HandleTypeDef *bus);
 bool voxid_storage_save(uint8_t locutor, const VoxIDSpeakerProfile *perfil);
 
 /**
- * @brief Consulta el resultado del arranque o del ultimo guardado.
- * @return Estado de memoria; CORRUPT indica espacios sin una copia valida.
+ * @brief Consulta el resultado de carga o guardado de un solo locutor.
+ * @param speaker Indice del espacio de locutor.
+ * @return Estado del espacio; NOT_INITIALIZED si el indice es invalido.
+ * @note CORRUPT indica que no hay una copia valida para el firmware actual.
  */
-VoxIDStorageStatus voxid_storage_status(void);
+VoxIDStorageStatus voxid_storage_status(uint8_t speaker);
 
 #endif /* VOXID_STORAGE_H */

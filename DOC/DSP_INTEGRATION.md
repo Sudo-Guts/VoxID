@@ -2,7 +2,7 @@
 
 Los ocho modulos compartidos son `frame`, `window`, `fft`, `power`, `mel`, `log_mel`, `dct` y `mfcc`. STM32CubeIDE los compila como archivos fisicos dentro de `Core/Src` y `Core/Inc`, sin recursos enlazados.
 
-`C0DE/voxid` contiene el firmware y las pruebas de PC. La fase 3 retira las copias externas del DSP, el proyecto de benchmark sintetico y el ejecutable minimo historico; el historial Git conserva esas versiones.
+`C0DE/voxid` contiene unicamente el proyecto de firmware. Las versiones anteriores quedan en el historial Git.
 
 `voxid_voice.c` integra el adaptador MFCC, sus buffers estaticos, la conversion ADC a PCM y la media de frames seleccionados por energia. `voxid_voice.h` declara tanto las funciones de captura como las funciones existentes `voxid_dsp_*`; sus nombres y contratos se conservan. La energia se consulta inmediatamente despues de MFCC_READY y usa el mismo frame PCM. La fase 2 retira los archivos separados `voxid_dsp.c` y `voxid_dsp.h` del firmware principal.
 
@@ -14,7 +14,7 @@ El firmware integra estos caminos:
 - IDENTIFICAR adquiere audio, calcula MFCC y compara los perfiles con distancia normalizada y rechazo por margen.
 - REGISTRAR acepta tres tomas por locutor y guarda sus prototipos mediante voxid_enroll y voxid_storage. El arranque recupera los perfiles EEPROM en RAM.
 
-La prueba sintetica `C0DE/voxid/tests/test_mfcc.c` conserva la comprobacion portable de la cadena DSP. Las demas pruebas se encuentran en ese mismo directorio, junto con los sustitutos HAL de PC en `tests/support`. Los ejecutables se generan en `tests/build`, excluido de Git. CubeIDE compila solo `Core` y `Drivers` en Debug y Release.
+CubeIDE compila `Core` y `Drivers` tanto en Debug como en Release. La entrega no incluye infraestructura de pruebas de PC.
 
 Importar `C0DE/voxid`, refrescar con F5 y ejecutar Clean/Build en STM32CubeIDE. La compilacion ARM y la captura fisica de la version de mantenimiento quedan pendientes.
 

@@ -2,7 +2,7 @@
 
 La version actual conserva los tres prototipos MFCC de cada uno de los cuatro locutores en la M24C32 y los recupera al arrancar. IDENTIFICAR compara una toma nueva con los perfiles recuperados en RAM.
 
-El usuario reporto funcional la etapa 4 con tomas de 3 segundos. La captura actual de 2500 ms y la cuenta regresiva se verifican en PC; falta comprobar esta revision en Ophyra y documentar la calibracion con voces reales. Las nuevas capturas duran 2500 ms y producen 248 frames. Los bytes 14-15 deben indicar los 248 frames actuales. Los perfiles anteriores de 3 segundos se rechazan y deben registrarse de nuevo con tomas de 2.5 segundos. La duracion no altera el algoritmo ni la revision DSP del vector. El arranque no migra ni borra la EEPROM. Un registro incompatible utiliza el estado de datos danados existente; LOCUTORES puede mostrar EEPROM: DATOS DANADOS hasta completar el nuevo registro.
+El usuario reporto reconocimiento funcional con tomas de 3 segundos y fallos al usar 2.5 segundos. Los conteos actuales son coherentes, pero falta determinar en Ophyra la causa de esos fallos y calibrar con voces reales. Las nuevas capturas duran 2500 ms y producen 248 frames. Los bytes 14-15 deben indicar los 248 frames actuales. Los perfiles anteriores de 3 segundos se rechazan y deben registrarse de nuevo con tomas de 2.5 segundos. La duracion no altera el algoritmo ni la revision DSP del vector. El arranque no migra ni borra la EEPROM. Un registro incompatible queda sin perfil utilizable; LOCUTORES muestra PERFIL NO UTILIZABLE y REGISTRA TRES TOMAS hasta reemplazarlo. No se anade una ruta de migracion ni se cambia la revision DSP, porque la definicion del vector se conserva.
 
 ## Integracion con Ophyra
 
@@ -71,7 +71,7 @@ El lector exige firma, version, parametros DSP compatibles, confirmacion, CRC, c
 
 Al actualizar se elige la copia que no contiene la ultima version valida. Primero se invalida su confirmacion y se comprueba; despues se escribe y relee el cuerpo; al final se escribe la confirmacion y se valida el registro completo. La copia vigente queda intacta. La secuencia se compara con aritmetica modular, incluido el paso de UINT32_MAX a cero.
 
-El arranque recupera la copia valida mas reciente de cada locutor. Si una esta danada, utiliza la otra. Sin copias validas, el espacio queda vacio. Un fallo de lectura no se interpreta como memoria vacia; los otros espacios que si pudieron leerse se conservan. LOCUTORES consulta los espacios cargados y sus referencias. Si un espacio no tiene perfil y el estado de persistencia indica datos danados o error I2C, muestra ese estado. El estado tambien refleja el resultado del ultimo guardado; la vista no vuelve a consultar el bus.
+El arranque recupera la copia valida mas reciente de cada locutor. Si una esta danada, utiliza la otra. Sin copias validas, el espacio queda vacio. Un fallo de lectura no se interpreta como memoria vacia; los otros espacios que si pudieron leerse se conservan. LOCUTORES consulta los espacios cargados y sus referencias. Cada espacio conserva su propio estado de carga o guardado. Si no tiene un perfil utilizable, LOCUTORES distingue espacio vacio, perfil no utilizable, error I2C y memoria no inicializada. Un fallo no modifica el estado de los otros locutores; la vista no vuelve a consultar el bus.
 
 ## Distancia normalizada
 
@@ -106,7 +106,7 @@ El menu LOCUTORES sustituye a DIAGNOSTICO. En la seleccion, UP/DN cambia de locu
 
 Cada pantalla de toma muestra sus frames seleccionados y una grafica C01..C12 con escala fija -1..1. OK no tiene accion y conserva su recuadro sin texto con el fondo inactivo, igual que en un locutor sin perfil. `voxid_identify_read_prototype()` obtiene cada referencia mediante el mismo normalizador utilizado por la comparacion. Cada prototipo ya representa la media seleccionada de una toma; se conservan tres porque el criterio promedia sus distancias. La consulta no captura audio, no reinicia DSP ni escribe EEPROM. La grafica de captura conserva sus 13 MFCC crudos y su escala relativa.
 
-## Codigo y pruebas
+## Modulos
 
 | Modulo | Responsabilidad |
 |---|---|
@@ -117,19 +117,6 @@ Cada pantalla de toma muestra sus frames seleccionados y una grafica C01..C12 co
 | `ui.c` | Registro, reintento de guardado, resultado y consulta de locutores |
 
 No se reserva memoria dinamica ni se conserva la grabacion completa.
-
-```bash
-make -C C0DE/voxid all test CFLAGS='-std=c11 -Wall -Wextra -Wpedantic -Werror'
-make -C C0DE/voxid test test_storage.c
-make -C C0DE/voxid test test_identify.c
-make -C C0DE/voxid test test_ui.c
-```
-
-Pasan las once pruebas de PC. La prueba EEPROM cubre paginas, limites, ACK, formato incompatible con CRC correcto, corrupcion de datos, cuatro espacios, reinicio, copia anterior y desbordamiento de secuencia. Inyecta 233 puntos de corte entre bytes de una actualizacion y 32 fallos de lectura. Ese modelo comprueba el protocolo del codigo, no todos los efectos electricos de una caida de tension real.
-
-La identificacion se contrasta con distancias analiticas, cambio de C00, escalado, promedio de los tres prototipos, umbrales, empates y cuatro locutores. La UI usa ADC->PCM->MFCC reales con HAL de prueba: comprueba reintento sin recaptura, identificacion tras recargar EEPROM, ambiguedad y controles ocultos durante captura.
-
-Registro, persistencia, identificacion y UI se comprobaron ademas con AddressSanitizer y UndefinedBehaviorSanitizer, sin comprobacion de fugas. Se reviso sintaxis de 18 archivos con cabeceras reales STM32 y HAL I2C. Estas comprobaciones no generan un binario ARM ni validan el enlace, la memoria o los tiempos en placa.
 
 ## Validacion pendiente en Ophyra
 

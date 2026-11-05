@@ -36,7 +36,7 @@ static VoxIDSpeakerProfile perfiles_leidos[2];
 static uint32_t secuencias[2];
 static bool validos[2];
 static bool bus_vinculado;
-static VoxIDStorageStatus estado_memoria = VOXID_STORAGE_NOT_INITIALIZED;
+static VoxIDStorageStatus speaker_status[VOXID_SPEAKER_COUNT];
 
 // -----------------------------------------------------------------------------
 //  Formato independiente del relleno y alineacion de estructuras C
@@ -229,32 +229,30 @@ static bool storage_pair_erased(void) {
 bool voxid_storage_init(I2C_HandleTypeDef *bus) {
     voxid_enroll_reset();
     bus_vinculado = bus != NULL;
-    estado_memoria = VOXID_STORAGE_IO_ERROR;
+
+    for (uint8_t speaker = 0U; speaker < VOXID_SPEAKER_COUNT; ++speaker) {
+        speaker_status[speaker] = VOXID_STORAGE_IO_ERROR;
+    }
 
     if (!m24c32_init(bus)) {
         return false;
     }
 
-    bool fallo_io = false;
-    bool hay_danados = false;
-    uint8_t cargados = 0U;
+    bool all_reads_ok = true;
 
     for (uint8_t locutor = 0U; locutor < VOXID_SPEAKER_COUNT; ++locutor) {
         int activa;
 
         if (!storage_read_pair(locutor, &activa)) {
-            fallo_io = true;
-        } else if (activa >= 0) {
-            if (voxid_enroll_restore(locutor, &perfiles_leidos[activa])) {
-                ++cargados;
-            }
-        } else if (!storage_pair_erased()) {
-            hay_danados = true;
+            all_reads_ok = false;
+        } else if (activa >= 0 && voxid_enroll_restore(locutor, &perfiles_leidos[activa])) {
+            speaker_status[locutor] = VOXID_STORAGE_READY;
+        } else {
+            speaker_status[locutor] = storage_pair_erased() ? VOXID_STORAGE_EMPTY : VOXID_STORAGE_CORRUPT;
         }
     }
 
-    estado_memoria = fallo_io ? VOXID_STORAGE_IO_ERROR : hay_danados ? VOXID_STORAGE_CORRUPT : cargados > 0U ? VOXID_STORAGE_READY : VOXID_STORAGE_EMPTY;
-    return !fallo_io;
+    return all_reads_ok;
 }
 
 bool voxid_storage_save(uint8_t locutor, const VoxIDSpeakerProfile *perfil) {
@@ -263,15 +261,15 @@ bool voxid_storage_save(uint8_t locutor, const VoxIDSpeakerProfile *perfil) {
     }
 
     int activa;
+    speaker_status[locutor] = VOXID_STORAGE_IO_ERROR;
 
     if (!storage_read_pair(locutor, &activa)) {
-        estado_memoria = VOXID_STORAGE_IO_ERROR;
         return false;
     }
 
     // Tambien resuelve un reintento cuyo commit anterior si llego a escribirse.
     if (activa >= 0 && storage_profile_equal(perfil, &perfiles_leidos[activa])) {
-        estado_memoria = VOXID_STORAGE_READY;
+        speaker_status[locutor] = VOXID_STORAGE_READY;
         return true;
     }
 
@@ -281,7 +279,6 @@ bool voxid_storage_save(uint8_t locutor, const VoxIDSpeakerProfile *perfil) {
     uint16_t direccion = storage_address(locutor, destino);
     uint8_t invalidacion[4] = {0U, 0U, 0U, 0U};
     storage_encode(registros[destino], locutor, secuencia, perfil);
-    estado_memoria = VOXID_STORAGE_IO_ERROR;
 
     // Invalidar y comprobar primero: una copia antigua no debe parecer nueva
     // mientras se escriben su cabecera, prototipos y CRC.
@@ -302,10 +299,10 @@ bool voxid_storage_save(uint8_t locutor, const VoxIDSpeakerProfile *perfil) {
         return false;
     }
 
-    estado_memoria = VOXID_STORAGE_READY;
+    speaker_status[locutor] = VOXID_STORAGE_READY;
     return true;
 }
 
-VoxIDStorageStatus voxid_storage_status(void) {
-    return estado_memoria;
+VoxIDStorageStatus voxid_storage_status(uint8_t speaker) {
+    return speaker < VOXID_SPEAKER_COUNT ? speaker_status[speaker] : VOXID_STORAGE_NOT_INITIALIZED;
 }

@@ -26,7 +26,5 @@ En IDENTIFICAR, la UI muestra primero el resultado de comparacion; UP/DN permite
 
 ## Validacion
 
-Las regresiones en PC cubren silencio, DC desplazada, tono, senal debil, intermitencia, reinicio y errores. El camino ADC y DMA se prueba con HAL simulada.
-
 Quedan pendientes compilacion ARM, captura fisica, calibracion y consumo real frente a los 50 ms de cada mitad. Seguir [la validacion de etapas 1 y 2](Validacion_etapas_1_2.md).
 

@@ -16,7 +16,7 @@ La grafica representa la media de frames seleccionados por energia. Si no se sel
 
 Los botones de la pantalla representan los pulsadores fisicos. El menu principal ofrece IDENTIFICAR, REGISTRAR y LOCUTORES.
 
-Las pruebas en PC comprueban las transiciones y que los circulos no se redibujen durante la captura. La comprobacion visual y temporal en Ophyra sigue pendiente.
+La comprobacion visual y temporal de esta revision en Ophyra sigue pendiente.
 
 
 En registro se muestra LOCxx / TOMA n/3. OK acepta cada toma valida; tras las dos primeras inicia la siguiente captura y tras la tercera verifica el guardado en EEPROM y actualiza el perfil RAM. Una repeticion no avanza el contador. BACK descarta la sesion pendiente, conservando cualquier perfil anterior. Ver [etapa 3](STAGE3_ENROLLMENT.md).
@@ -32,10 +32,10 @@ LOCUTORES sustituye a DIAGNOSTICO y tiene dos niveles:
 | Seleccion de locutor | Cambia entre los cuatro espacios, con retorno circular. | Abre TOMA 1/3 si el perfil esta registrado; inactivo si no hay perfil. | Regresa al menu principal. |
 | Consulta de tomas | Cambia entre TOMA 1/3, 2/3 y 3/3, con retorno circular. | Inactivo. | Regresa al mismo locutor en la seleccion. |
 
-La seleccion muestra estado, cantidad de tomas y 13 MFCC por toma. Un espacio sin perfil muestra SIN REGISTRAR y TOMAS: 0/3. Si el estado de persistencia informa un fallo de lectura, datos danados o falta de inicializacion, se muestra ese estado. La consulta no verifica de nuevo el bus I2C.
+La seleccion muestra estado, cantidad de tomas y 13 MFCC por toma. Un espacio sin perfil muestra SIN REGISTRAR y TOMAS: 0/3. El estado de persistencia pertenece solo al locutor seleccionado. Si sus registros son incompatibles o invalidos, muestra PERFIL NO UTILIZABLE y REGISTRA TRES TOMAS; un fallo I2C se informa por separado. La consulta no verifica de nuevo el bus I2C.
 
 Al abrir un perfil se muestra una sola referencia por pantalla, identificada por locutor y numero de toma. Se informa la cantidad de frames seleccionados por energia que la originaron. La grafica presenta C01..C12 normalizados, con escala fija -1..1, barras positivas moradas y negativas coral. Los datos se obtienen mediante `voxid_identify_read_prototype()`, que usa el mismo normalizador de la comparacion.
 
 Los botones sin accion conservan su recuadro, sin texto y con el fondo inactivo `UI_PANEL` de la paleta existente. En particular, OK queda inactivo en espacios vacios y al consultar las tomas. Durante la captura se conserva la regla previa: solo aparece BACK.
 
-Las pruebas comprueban ambos niveles, navegacion circular, BACK sin perder el locutor, apertura desde TOMA 1/3, bloqueo de OK inactivo, colores de botones, barras con vectores conocidos y ausencia de I2C al consultar. El dibujo se reviso con UI y GFX reales sobre memoria de PC; falta revisar esta disposicion en la pantalla fisica.
+En la placa se deben comprobar ambos niveles, navegacion circular, BACK sin perder el locutor, apertura desde TOMA 1/3 y bloqueo de OK inactivo.

@@ -46,6 +46,8 @@ El minimo inicial es de 20 frames seleccionados por toma, configurable en `voxid
 
 El menu ofrece IDENTIFICAR, REGISTRAR y LOCUTORES. En LOCUTORES, UP/DN selecciona uno de los cuatro espacios; se muestra su estado, cantidad de tomas y 13 MFCC por toma. OK abre las tomas de un perfil registrado. Dentro, UP/DN recorre TOMA 1/3, 2/3 y 3/3; BACK regresa al mismo locutor y otro BACK al menu. Los botones sin accion quedan sin texto y con el fondo inactivo de la paleta.
 
+El estado de lectura o guardado pertenece a cada locutor: un error de otro espacio no modifica el mostrado para el seleccionado. Un registro no utilizable se muestra como `PERFIL NO UTILIZABLE` y pide `REGISTRA TRES TOMAS`.
+
 Cada toma tiene su propia grafica C01..C12, normalizada a norma L2 unitaria y con escala fija -1..1; C00 queda fuera de la comparacion. El identificador promedia las tres distancias, por lo que se conservan las tres referencias. La consulta usa RAM, sin capturar audio, reiniciar el DSP ni escribir EEPROM. La EEPROM acepta unicamente perfiles de 248 frames. Los perfiles anteriores de 3 segundos deben registrarse de nuevo con tomas de 2.5 segundos.
 
 ## Identificacion y EEPROM
@@ -60,32 +62,12 @@ Los parametros y la revision DSP estan en `voxid_config.h`; el [formato y las co
 
 | Ruta | Responsabilidad |
 |---|---|
-| `C0DE/voxid` | Unico proyecto de codigo; incluye configuracion CubeIDE y Makefile de pruebas. |
+| `C0DE/voxid` | Unico proyecto de firmware para STM32CubeIDE. |
 | `C0DE/voxid/Core/Inc`, `C0DE/voxid/Core/Src` | Firmware y ocho modulos DSP integrados. |
 | `C0DE/voxid/Drivers` | HAL y CMSIS del fabricante. |
-| `C0DE/voxid/tests` | Once pruebas numericas y regresiones de voz, adquisicion e interfaz. |
-| `C0DE/voxid/tests/support` | HAL simulada, exclusiva para PC. |
-| `C0DE/voxid/tests/build` | Ejecutables de pruebas generados y excluidos de Git. |
 | `DOC` | Seguimiento y validacion. |
 | `PCB` | Proyecto KiCad `voxid` y archivos de fabricacion versionados. |
 | `SIM` | Preparacion de grabaciones en MATLAB, antecedentes PSIM y experimentos SPICE; ver [la guia](SIM/README.md). |
-
-## Compilar y probar en PC
-
-Se necesitan GCC y GNU Make. Desde la raiz del repositorio:
-
-```bash
-make -C C0DE/voxid all
-make -C C0DE/voxid test
-make -C C0DE/voxid test test_voice.c
-make -C C0DE/voxid clean
-```
-
-En Windows con MinGW, usar `mingw32-make` en lugar de `make`. La ruta de ejecucion y la limpieza tienen reglas para ambos sistemas; la verificacion automatizada de esta revision se realizo en Linux.
-
-`all` compila las once pruebas sin ejecutarlas. `test` compila lo necesario y ejecuta Frame, ventana, FFT, MFCC, voz, adquisicion, interfaz, GFX, registro, persistencia e identificacion. Los ejecutables se generan en `C0DE/voxid/tests/build`; `clean` elimina solo ese directorio. La creacion del directorio admite reconstruccion forzada con `make -B`. Las pruebas con HAL de PC no sustituyen las mediciones en placa.
-
-El Makefile busca primero las cabeceras de `tests/support`, para evitar mezclar `main.h` de la placa con su sustituto de PC. Las configuraciones Debug y Release de CubeIDE incluyen fuentes solo de `Core` y `Drivers`, por lo que no compilan las pruebas ni sus sustitutos HAL.
 
 ## Compilar el firmware
 
@@ -94,11 +76,11 @@ El Makefile busca primero las cabeceras de `tests/support`, para evitar mezclar 
 3. Refrescar con F5, ejecutar Clean y Build Debug, y programar Ophyra.
 4. Seguir [la validacion de etapas 1 y 2](DOC/Validacion_etapas_1_2.md), [el registro de etapa 3](DOC/STAGE3_ENROLLMENT.md) y [la validacion de etapa 4](DOC/STAGE4_STORAGE_IDENTIFY.md).
 
-La fase 3 de reorganizacion deja unicamente `voxid` dentro de `C0DE`. Retira las copias externas del DSP, el benchmark sintetico separado y el ejecutable minimo de PC con su desensamblado. Las once pruebas utilizan las fuentes de `Core`; las seis guias del firmware se concentran en `DOC`. Los fuentes, parametros y configuracion ARM del firmware se conservan.
+Dentro de `C0DE` queda unicamente `voxid`, con las fuentes del firmware y los archivos de STM32CubeIDE. Las guias se concentran en `DOC`. El proyecto de firmware no incluye ejecutables de PC, pruebas, sustitutos HAL ni un Makefile de PC.
 
 Los modulos propios de Core siguen `Estandar_Programacion.md` v2.0: ASCII, cabeceras consistentes, rutas correctas y argumentos de funciones en una linea. Se conservan las APIs y algoritmos; los archivos autogenerados y HAL/CMSIS mantienen su formato original.
 
-El Makefile de PC no genera firmware ARM. Si CubeMX regenera codigo, comprobar la configuracion DMA del `.ioc`, la vinculacion con ADC1 y el orden GPIO, DMA, ADC1, SPI1, TIM2, I2C1 y los GPIO PB6/PB7 de I2C1.
+Si CubeMX regenera codigo, comprobar la configuracion DMA del `.ioc`, la vinculacion con ADC1 y el orden GPIO, DMA, ADC1, SPI1, TIM2, I2C1 y los GPIO PB6/PB7 de I2C1.
 
 ## Hardware y simulaciones
 
@@ -114,4 +96,4 @@ Los antecedentes PSIM y los resultados historicos de filtros se conservan por se
 
 La preparacion de grabaciones en MATLAB lee archivos o una carpeta, selecciona un canal, retira la media y remuestrea a 16 kHz cuando hace falta. Exporta WAV, CSV y MAT sin modificar los originales. Sus grabaciones y resultados locales quedan fuera de Git. Esta preparacion todavia no calcula MFCC ni identifica locutores; la ejecucion de sus pruebas en MATLAB y la lectura de un MP4 real siguen pendientes. Consultar [SIM/README.md](SIM/README.md) para requisitos y comandos.
 
-El usuario confirmo el funcionamiento general del firmware y la navegacion LOCUTORES. Las mediciones de temporizacion, la calibracion de umbrales y los ensayos de fallos en hardware requieren evidencia especifica. Consultar [el seguimiento](DOC/CheckList.txt) para distinguir estos pendientes de la implementacion y las pruebas en PC.
+El usuario reporto reconocimiento funcional con tomas de tres segundos y fallos al usar 2.5 segundos. La configuracion actual mantiene 16 kHz, 40 000 muestras y 248 frames; el algoritmo de comparacion y sus umbrales no se cambian sin mediciones. Falta comprobar en Ophyra la causa de los fallos, la temporizacion y la calibracion. Consultar [el seguimiento](DOC/CheckList.txt).

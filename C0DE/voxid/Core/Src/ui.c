@@ -578,19 +578,19 @@ static bool ui_draw_profiles(void) {
     }
 
     if (!voxid_enroll_profile_valid(perfil)) {
-        VoxIDStorageStatus memoria = voxid_storage_status();
+        VoxIDStorageStatus memoria = voxid_storage_status(espacio_locutor);
         const char *mensaje = "SIN REGISTRAR";
         bool error_memoria = memoria == VOXID_STORAGE_IO_ERROR || memoria == VOXID_STORAGE_CORRUPT || memoria == VOXID_STORAGE_NOT_INITIALIZED;
 
         if (memoria == VOXID_STORAGE_IO_ERROR) {
             mensaje = "ERROR EEPROM / I2C";
         } else if (memoria == VOXID_STORAGE_CORRUPT) {
-            mensaje = "EEPROM: DATOS DANADOS";
+            mensaje = "PERFIL NO UTILIZABLE";
         } else if (memoria == VOXID_STORAGE_NOT_INITIALIZED) {
             mensaje = "EEPROM NO INICIADA";
         }
 
-        return gfx_draw_text(16, 58, mensaje, error_memoria ? UI_WARNING : UI_MUTED) && gfx_draw_text(16, 70, "TOMAS: 0/3", UI_MUTED) && gfx_draw_text(16, 82, "SIN REFERENCIAS", UI_MUTED) && gfx_draw_text(16, 94, error_memoria ? "REVISA LA MEMORIA" : "REGISTRA TRES TOMAS", UI_MUTED);
+        return gfx_draw_text(16, 58, mensaje, error_memoria ? UI_WARNING : UI_MUTED) && gfx_draw_text(16, 70, "TOMAS: 0/3", UI_MUTED) && gfx_draw_text(16, 82, "SIN REFERENCIAS", UI_MUTED) && gfx_draw_text(16, 94, error_memoria && memoria != VOXID_STORAGE_CORRUPT ? "REVISA LA MEMORIA" : "REGISTRA TRES TOMAS", UI_MUTED);
     }
 
     (void)snprintf(linea, sizeof(linea), "TOMAS: %u/%u", (unsigned)VOXID_PROTOTYPES_PER_SPEAKER, (unsigned)VOXID_PROTOTYPES_PER_SPEAKER);

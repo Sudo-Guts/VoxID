@@ -2,22 +2,13 @@
 
 Esta revision deja implementadas adquisicion y extraccion MFCC. El cierre fisico requiere compilar con el toolchain ARM y medir en Ophyra.
 
-## Comprobaciones ya realizadas en PC
-
-- Las once pruebas ejecutadas con `-Wall -Wextra -Wpedantic -Werror` pasan: Frame, ventana, FFT, MFCC, voz, audio, interfaz, GFX, registro, persistencia e identificacion.
-- Las pruebas de voz procesan 40 000 muestras por toma y exigen 248 frames. Cubren silencio centrado, offset constante, senal debil, tono e intermitencia.
-- La simulacion de HAL comprueba estadisticas, repeticion, cancelacion, sobreescritura, errores de callback y fallos de arranque.
-- GFX se comprueba sobre memoria, incluido texto con fondo y coordenadas negativas.
-- La UI real se ejercita con dibujo simulado: repetir desde resultado/error, OK inactivo, BACK y circulos fijos.
-- La comprobacion de sintaxis con cabeceras STM32 del repositorio no produce un binario ARM ni valida enlazado o tiempos.
-
 El criterio de energia selecciona candidatos a voz y no reconoce MARIPOSA. La comparacion de perfiles de la version actual se describe en [etapa 4](STAGE4_STORAGE_IDENTIFY.md).
 
 ## Preparacion en STM32CubeIDE
 
 1. Importar `C0DE/voxid` directamente; no requiere enlaces de codigo hacia carpetas externas.
 2. F5, Clean y Build Debug. Confirmar que se compilan `voxid_audio.c`, `voxid_voice.c` y los ocho modulos DSP.
-3. Programar la placa y comprobar el acceso a IDENTIFICAR, REGISTRAR y LOCUTORES. La integracion sintetica de tres frames se comprueba en PC con `make -C C0DE/voxid test test_mfcc.c`.
+3. Programar la placa y comprobar el acceso a IDENTIFICAR, REGISTRAR y LOCUTORES.
 
 Si se regenera con CubeMX, revisar `MX_DMA_Init` antes de `MX_ADC1_Init`, DMA2 Stream0 Channel0 circular y el enlace `__HAL_LINKDMA`.
 
@@ -34,7 +25,7 @@ Aplicar a PA2 un nivel conocido dentro de 0 a VDDA, por ejemplo cercano a 1.65 V
 | Grafica | Si CON VOZ es cero, mensaje SIN VOZ DETECTADA. |
 | Repetir | Nuevos circulos fijos y cuenta inicial de 2.5 segundos, sin tarjeta anterior. |
 
-En la prueba sintetica de PC, una entrada DC ideal produce cero frames seleccionados. En la placa puede haber ruido, variacion de referencia o interferencia; registrar lo observado.
+Una entrada DC ideal produce cero frames seleccionados. En la placa puede haber ruido, variacion de referencia o interferencia; registrar lo observado.
 
 ## Captura con la etapa analogica
 
